@@ -1,5 +1,5 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
-import 'package:bettymeals/ui/screens/homepage.dart';
+import 'package:bettymeals/ui/screens/index.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/screens/addcategory.dart';

@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../widgets/timetable.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class FoodScreen extends StatefulWidget {
+  const FoodScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<FoodScreen> createState() => _FoodScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _FoodScreenState extends State<FoodScreen> {
   late final TimetableCubit _timetableCubit;
 
   @override

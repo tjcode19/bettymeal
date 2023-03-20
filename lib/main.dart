@@ -1,4 +1,4 @@
-import 'package:bettymeals/ui/screens/homepage.dart';
+import 'package:bettymeals/ui/screens/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: Routes.home,
         onGenerateRoute: Routes.generateRoute,
+        
       ),
     );
   }
