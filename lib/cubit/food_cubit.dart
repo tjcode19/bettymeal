@@ -25,7 +25,7 @@ class FoodCubit extends Cubit<FoodState> {
     }
   }
 
-  Future<void> addFood(Food food) async {
+  Future<void> addFood(FoodModel food) async {
     try {
       await _foodRepository.addMeal(food);
       emit(FoodAdded());

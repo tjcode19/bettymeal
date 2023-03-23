@@ -18,25 +18,25 @@ class TimetableDao {
 
   TimetableDao(this._database);
 
-  Future<int> insert(Timetable timetable) async {
+  Future<int> insert(TimetableModel timetable) async {
     return await _database.insert(tableName, timetable.toMap());
   }
 
-  Future<int> update(Timetable timetable) async {
+  Future<int> update(TimetableModel timetable) async {
     return await _database.update(tableName, timetable.toMap(),
         where: 'id = ?', whereArgs: [timetable.id]);
   }
 
-  Future<int> delete(Timetable timetable) async {
+  Future<int> delete(TimetableModel timetable) async {
     return await _database
         .delete(tableName, where: 'id = ?', whereArgs: [timetable.id]);
   }
 
-  Future<List<Timetable>> getAll() async {
+  Future<List<TimetableModel>> getAll() async {
     final List<Map<String, dynamic>> maps = await _database.query(tableName);
 
     return List.generate(maps.length, (i) {
-      return Timetable.fromMap(maps[i]);
+      return TimetableModel.fromMap(maps[i]);
     });
   }
 }

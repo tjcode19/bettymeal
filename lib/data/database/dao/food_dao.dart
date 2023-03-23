@@ -18,25 +18,25 @@ class FoodDao {
 
   FoodDao(this._database);
 
-  Future<int> insert(Food food) async {
+  Future<int> insert(FoodModel food) async {
     return await _database.insert(tableName, food.toMap());
   }
 
-  Future<int> update(Food food) async {
+  Future<int> update(FoodModel food) async {
     return await _database
         .update(tableName, food.toMap(), where: 'id = ?', whereArgs: [food.id]);
   }
 
-  Future<int> delete(Food food) async {
+  Future<int> delete(FoodModel food) async {
     return await _database
         .delete(tableName, where: 'id = ?', whereArgs: [food.id]);
   }
 
-  Future<List<Food>> getAll() async {
+  Future<List<FoodModel>> getAll() async {
     final List<Map<String, dynamic>> maps = await _database.query(tableName);
 
     return List.generate(maps.length, (i) {
-      return Food.fromMap(maps[i]);
+      return FoodModel.fromMap(maps[i]);
     });
   }
 }

@@ -36,10 +36,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          useMaterial3: true,
         ),
         initialRoute: Routes.home,
         onGenerateRoute: Routes.generateRoute,
-        
       ),
     );
   }

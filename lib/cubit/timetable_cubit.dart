@@ -22,7 +22,7 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
-  Future<void> addMeal(Timetable meal) async {
+  Future<void> addMeal(TimetableModel meal) async {
     try {
       await _repository.addMeal(meal);
       final meals = await _repository.getAllMeals();

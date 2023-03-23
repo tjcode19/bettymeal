@@ -10,13 +10,16 @@ class CommonUtils {
 
   static double xmargin = 20;
 
-  static sw(BuildContext context) {
-    return MediaQuery.of(context).size.width;
+  static sw(BuildContext context, {double s = 1.0}) {
+    return MediaQuery.of(context).size.width * s;
   }
 
   static sh(BuildContext context, {double s = 1.0}) {
-
-    print('We are looking ${MediaQuery.of(context).size.height * s}');
     return MediaQuery.of(context).size.height * s;
+  }
+
+
+  static topPadding(BuildContext context, {double s = 1.0}) {
+    return MediaQuery.of(context).padding.top * s;
   }
 }

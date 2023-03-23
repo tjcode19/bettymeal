@@ -4,7 +4,7 @@ import '../../data/models/food.dart';
 import '../../data/models/timetable.dart';
 
 class TimetableItemWidget extends StatelessWidget {
-  final Timetable timetable;
+  final TimetableModel timetable;
 
   TimetableItemWidget({required this.timetable});
 
@@ -15,7 +15,7 @@ class TimetableItemWidget extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (Food food in timetable.foods) ...[
+          for (FoodModel food in timetable.foods) ...[
             Text(food.name),
             SizedBox(height: 4),
           ],

@@ -86,6 +86,14 @@ class _HomePageState extends State<HomePage> {
             image: Svg('assets/icons/table.svg'),
           ),
           label: 'Timetable',
+        ),
+        BottomNavigationBarItem(
+          icon: Image(
+            width: 24,
+            height: 24,
+            image: Svg('assets/icons/table.svg'),
+          ),
+          label: 'Food',
         )
       ],
       selectedItemColor: Colors.white,

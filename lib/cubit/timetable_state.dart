@@ -12,7 +12,7 @@ class TimetableInitial extends TimetableState {}
 class TimetableLoading extends TimetableState {}
 
 class TimetableLoaded extends TimetableState {
-  final List<Timetable> timetable;
+  final List<TimetableModel> timetable;
 
   const TimetableLoaded({required this.timetable});
 
