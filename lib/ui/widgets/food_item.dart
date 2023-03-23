@@ -1,4 +1,5 @@
 import 'package:bettymeals/data/models/timetable.dart';
+import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -9,7 +10,7 @@ class FoodItem extends StatelessWidget {
       {super.key,
       required this.timetable,
       required this.foodType,
-      this.sizeW = 1,
+      this.sizeW = 25.0,
       required this.mealType});
 
   final TimetableModel timetable;
@@ -19,18 +20,28 @@ class FoodItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: SizedBox(
-        width: CommonUtils.sw(context, s: sizeW),
-        child: Column(
-          children: [
-            Text(mealType),
-            const Image(
-              image: Svg('assets/icons/meal.svg'),
-            ),
-            Text(timetable.foods[foodType].name),
-          ],
-        ),
+    return Container(
+      // width: CommonUtils.sw(context),
+      padding: EdgeInsets.all(sizeW != 25.0 ? 30 : 20),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle, color: AppColour(context).primaryColour),
+      child: Column(
+        children: [
+          Text(mealType,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: AppColour(context).onPrimaryColour)),
+          Image(
+            image: Svg('assets/icons/meal.svg',
+                color: Colors.white, size: Size(sizeW, sizeW)),
+          ),
+          Text(timetable.foods[foodType].name,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: AppColour(context).onPrimaryColour)),
+        ],
       ),
     );
   }

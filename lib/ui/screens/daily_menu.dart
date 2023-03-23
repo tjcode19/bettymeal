@@ -44,6 +44,18 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     });
   }
 
+  String periodOfTheDay() {
+    var time = DateTime.now();
+
+    if (time.hour < 12) {
+      return "Breakfast";
+    } else if (time.hour > 12 && time.hour < 15) {
+      return "Lunch";
+    } else {
+      return "Dinner";
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -85,6 +97,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                   left: CommonUtils.padding),
               width: double.infinity,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     HelperMethod.formatDate(
@@ -95,7 +108,13 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         .displaySmall!
                         .copyWith(color: AppColour(context).onPrimaryColour),
                   ),
-                  Text('Breakfast'),
+                  Text(
+                    periodOfTheDay(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: AppColour(context).onPrimaryColour.withOpacity(0.7)),
+                  ),
                   Text(HelperMethod.formatDate(
                       timetable[2].date.toIso8601String(),
                       pattern: 'HH:mm:ss')),
@@ -105,7 +124,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             Positioned(
               top: CommonUtils.sh(context, s: 0.2),
               child: SizedBox(
-                height: CommonUtils.sh(context, s: 0.4),
+                height: CommonUtils.sh(context, s: 0.5),
                 width: CommonUtils.sw(context, s: 1),
                 child: ListView.builder(
                   controller: _scrollController,

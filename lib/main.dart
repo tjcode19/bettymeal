@@ -38,14 +38,15 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
             fontFamily: "Roboto",
             textTheme: const TextTheme(
-              // displayLarge:
-              //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              // titleLarge:
-              //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
-            )),
+                // displayLarge:
+                //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+                // titleLarge:
+                //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+                )),
         darkTheme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(),
+          colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.teal, brightness: Brightness.dark),
         ),
         themeMode: ThemeMode.light,
         initialRoute: Routes.home,

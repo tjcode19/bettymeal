@@ -3,6 +3,8 @@ import 'package:bettymeals/ui/widgets/food_item.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/colours.dart';
+
 class FoodCard extends StatelessWidget {
   const FoodCard({super.key, required this.timetable});
 
@@ -12,11 +14,18 @@ class FoodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FoodItem(
-          timetable: timetable,
-          foodType: 0,
-          mealType: 'Breakfast',
-          sizeW: 2.0,
+        Theme(
+          data: Theme.of(context).copyWith(
+            textTheme: Theme.of(context)
+                .textTheme
+                .apply(displayColor: Colors.white, bodyColor: Colors.white),
+          ),
+          child: FoodItem(
+            timetable: timetable,
+            foodType: 0,
+            mealType: 'Breakfast',
+            sizeW: 50,
+          ),
         ),
         Expanded(
           child: Padding(
@@ -27,13 +36,11 @@ class FoodCard extends StatelessWidget {
                 FoodItem(
                   timetable: timetable,
                   foodType: 1,
-                  sizeW: 0.15,
                   mealType: 'Lunch',
                 ),
                 FoodItem(
                   timetable: timetable,
                   foodType: 2,
-                  sizeW: 0.15,
                   mealType: 'Dinner',
                 ),
               ],
