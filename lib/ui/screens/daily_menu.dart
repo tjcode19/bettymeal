@@ -1,6 +1,7 @@
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
 import 'package:bettymeals/ui/widgets/time_table.dart';
+import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -70,78 +71,62 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Today\'s Menu'),
-      // ),
-      body: Container(
-        // padding: EdgeInsets.all(CommonUtils.padding),
-        child: BlocBuilder<TimetableCubit, TimetableState>(
-          builder: (context, state) {
-            if (state is TimetableLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is TimetableLoaded) {
-              return Column(
+      body: SizedBox(
+        height: CommonUtils.sh(context),
+        child: Stack(
+          children: [
+            Container(
+              color: AppColour(context).primaryColour,
+              height: CommonUtils.sh(context, s: 0.4),
+              padding: EdgeInsets.only(
+                  top: CommonUtils.topPadding(context, s: 1.4),
+                  bottom: CommonUtils.padding,
+                  right: CommonUtils.padding,
+                  left: CommonUtils.padding),
+              width: double.infinity,
+              child: Column(
                 children: [
-                  Container(
-                    color: Colors.orange,
-                    padding: EdgeInsets.only(
-                        top: CommonUtils.topPadding(context, s: 1.4),
-                        bottom: CommonUtils.padding,
-                        right: CommonUtils.padding,
-                        left: CommonUtils.padding),
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        Text(HelperMethod.formatDate(
-                            timetable[_scrollPosition].date.toIso8601String(),
-                            pattern: 'EEE, dd MMM, yy')),
-                        Text(HelperMethod.formatDate(
-                            timetable[2].date.toIso8601String(),
-                            pattern: 'Breakfast')),
-                        Text(HelperMethod.formatDate(
-                            timetable[2].date.toIso8601String(),
-                            pattern: '13:36')),
-                      ],
-                    ),
+                  Text(
+                    HelperMethod.formatDate(
+                        timetable[_scrollPosition].date.toIso8601String(),
+                        pattern: 'EEE, dd MMM, yy'),
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall!
+                        .copyWith(color: AppColour(context).onPrimaryColour),
                   ),
-                  SizedBox(
-                    height: CommonUtils.sh(context, s: 0.4),
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: timetable.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                            width:
-                                CommonUtils.sw(context) - (CommonUtils.padding),
-                            height: 100,
-                            child: Card(
-                              child: FoodCard(
-                                timetable: timetable[index],
-                              ),
-                            ));
-                      },
-                    ),
-                  ),
+                  Text('Breakfast'),
+                  Text(HelperMethod.formatDate(
+                      timetable[2].date.toIso8601String(),
+                      pattern: 'HH:mm:ss')),
                 ],
-              );
-            } else {
-              return const Center(
-                child: Text('Failed to load meals.'),
-              );
-            }
-          },
+              ),
+            ),
+            Positioned(
+              top: CommonUtils.sh(context, s: 0.2),
+              child: SizedBox(
+                height: CommonUtils.sh(context, s: 0.4),
+                width: CommonUtils.sw(context, s: 1),
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: timetable.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                        width: CommonUtils.sw(context) -
+                            (CommonUtils.padding * 0.6),
+                        child: Card(
+                          child: FoodCard(
+                            timetable: timetable[index],
+                          ),
+                        ));
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // TODO: Add new meal item
-      //     Navigator.pushNamed(context, Routes.addFood);
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
     );
   }
 }

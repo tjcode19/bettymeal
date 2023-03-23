@@ -15,6 +15,8 @@ class FoodCard extends StatelessWidget {
         FoodItem(
           timetable: timetable,
           foodType: 0,
+          mealType: 'Breakfast',
+          sizeW: 2.0,
         ),
         Expanded(
           child: Padding(
@@ -26,11 +28,13 @@ class FoodCard extends StatelessWidget {
                   timetable: timetable,
                   foodType: 1,
                   sizeW: 0.15,
+                  mealType: 'Lunch',
                 ),
                 FoodItem(
                   timetable: timetable,
                   foodType: 2,
                   sizeW: 0.15,
+                  mealType: 'Dinner',
                 ),
               ],
             ),

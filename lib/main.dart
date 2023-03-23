@@ -1,4 +1,3 @@
-import 'package:bettymeals/ui/screens/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,9 +34,20 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
+            fontFamily: "Roboto",
+            textTheme: const TextTheme(
+              // displayLarge:
+              //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              // titleLarge:
+              //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+            )),
+        darkTheme: ThemeData(
           useMaterial3: true,
+          colorScheme: ColorScheme.fromSwatch(),
         ),
+        themeMode: ThemeMode.light,
         initialRoute: Routes.home,
         onGenerateRoute: Routes.generateRoute,
       ),

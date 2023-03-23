@@ -9,11 +9,13 @@ class FoodItem extends StatelessWidget {
       {super.key,
       required this.timetable,
       required this.foodType,
-      this.sizeW = 1});
+      this.sizeW = 1,
+      required this.mealType});
 
   final TimetableModel timetable;
   final int foodType;
   final double sizeW;
+  final String mealType;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class FoodItem extends StatelessWidget {
         width: CommonUtils.sw(context, s: sizeW),
         child: Column(
           children: [
+            Text(mealType),
             const Image(
               image: Svg('assets/icons/meal.svg'),
             ),
