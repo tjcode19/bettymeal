@@ -33,4 +33,10 @@ class FoodCubit extends Cubit<FoodState> {
       emit(FoodError(errorMessage: e.toString()));
     }
   }
+
+  selectedFood(int currentMeal){
+
+    
+
+  }
 }

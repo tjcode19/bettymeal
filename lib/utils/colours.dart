@@ -10,4 +10,6 @@ class AppColour {
 
   Color get secondaryColour => Theme.of(context).colorScheme.secondary;
   Color get onSecondaryColour => Theme.of(context).colorScheme.onSecondary;
+
+  Color get cardColor => Theme.of(context).colorScheme.secondaryContainer;
 }

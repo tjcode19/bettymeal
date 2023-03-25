@@ -1,5 +1,6 @@
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
+import 'package:bettymeals/ui/widgets/section_title.dart';
 import 'package:bettymeals/ui/widgets/time_table.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../data/models/food.dart';
 import '../../data/models/timetable.dart';
+import '../widgets/food_item_sub.dart';
 import '../widgets/timetable.dart';
 
 class DailyMenuScreen extends StatefulWidget {
@@ -122,6 +124,52 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               ),
             ),
             Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              child: SizedBox(
+                height: CommonUtils.sh(context, s: 0.3),
+                child: SingleChildScrollView(
+                  physics: const PageScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        child: SectionTitle(text: 'What\'s new?'),
+                      ),
+                      Container(
+                        // height: CommonUtils.sh(context, s: 0.3),
+                        width: CommonUtils.sw(context),
+                        padding: EdgeInsets.all(CommonUtils.padding),
+                        decoration:
+                            BoxDecoration(color: AppColour(context).cardColor),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(0.0),
+                          title: const Text('Effect of Carbs'),
+                          subtitle: Text('Lorem ipsum fd sum' * 8),
+                        ),
+                      ),
+                      const SectionTitle(text: 'Popular meals'),
+                      // _buildSelectionRing(50),
+                      SizedBox(
+                        height: CommonUtils.sh(context, s: 0.1),
+                        width: CommonUtils.sw(context, s: 1),
+                        child: ListView.builder(
+                            itemCount: 5,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return FoodItemSub(
+                                timetable: timetable[index],
+                                foodType: 1,
+                                mealType: 'Lunch',
+                              );
+                            }),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
               top: CommonUtils.sh(context, s: 0.2),
               child: SizedBox(
                 height: CommonUtils.sh(context, s: 0.4),
@@ -147,6 +195,28 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectionRing(double itemSize) {
+    return IgnorePointer(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: itemSize,
+          height: itemSize,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColour(context).primaryColour,
+              border: Border.fromBorderSide(
+                BorderSide(width: 6.0, color: Colors.red),
+              ),
+            ),
+            
+          ),
         ),
       ),
     );

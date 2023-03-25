@@ -14,7 +14,7 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Theme(
           data: Theme.of(context).copyWith(
@@ -59,4 +59,6 @@ class FoodCard extends StatelessWidget {
       ],
     );
   }
+
+  
 }
