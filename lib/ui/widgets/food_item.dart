@@ -22,7 +22,7 @@ class FoodItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // width: CommonUtils.sw(context),
-      padding: EdgeInsets.all(sizeW != 25.0 ? 30 : 20),
+      padding: const EdgeInsets.all(30),
       decoration: BoxDecoration(
           shape: BoxShape.circle, color: AppColour(context).primaryColour),
       child: Column(

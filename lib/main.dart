@@ -34,15 +34,21 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
-            fontFamily: "Roboto",
-            textTheme: const TextTheme(
-                // displayLarge:
-                //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-                // titleLarge:
-                //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
-                )),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+              .copyWith(
+                  secondary: const Color(0xff576F72),
+                  secondaryContainer: const Color(0xffCBE4DE),
+                  background: Colors.white,
+                  onBackground: Colors.black),
+          fontFamily: "Roboto",
+          // textTheme: const TextTheme(
+          //     // displayLarge:
+          //     //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          //     // titleLarge:
+          //     //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
+          //     ),
+        ),
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(

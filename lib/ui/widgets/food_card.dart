@@ -4,6 +4,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colours.dart';
+import 'food_item_sub.dart';
 
 class FoodCard extends StatelessWidget {
   const FoodCard({super.key, required this.timetable});
@@ -13,6 +14,7 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Theme(
           data: Theme.of(context).copyWith(
@@ -27,23 +29,30 @@ class FoodCard extends StatelessWidget {
             sizeW: 50,
           ),
         ),
-        Expanded(
+        Flexible(
           child: Padding(
             padding: EdgeInsets.all(CommonUtils.padding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FoodItem(
-                  timetable: timetable,
-                  foodType: 1,
-                  mealType: 'Lunch',
-                ),
-                FoodItem(
-                  timetable: timetable,
-                  foodType: 2,
-                  mealType: 'Dinner',
-                ),
-              ],
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                textTheme: Theme.of(context).textTheme.apply(
+                    displayColor: AppColour(context).onSecondaryColour,
+                    bodyColor: AppColour(context).onSecondaryColour),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FoodItemSub(
+                    timetable: timetable,
+                    foodType: 1,
+                    mealType: 'Lunch',
+                  ),
+                  FoodItemSub(
+                    timetable: timetable,
+                    foodType: 2,
+                    mealType: 'Dinner',
+                  ),
+                ],
+              ),
             ),
           ),
         )

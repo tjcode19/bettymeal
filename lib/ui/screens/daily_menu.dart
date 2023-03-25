@@ -110,10 +110,10 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                   ),
                   Text(
                     periodOfTheDay(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: AppColour(context).onPrimaryColour.withOpacity(0.7)),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: AppColour(context)
+                            .onPrimaryColour
+                            .withOpacity(0.7)),
                   ),
                   Text(HelperMethod.formatDate(
                       timetable[2].date.toIso8601String(),
@@ -124,7 +124,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             Positioned(
               top: CommonUtils.sh(context, s: 0.2),
               child: SizedBox(
-                height: CommonUtils.sh(context, s: 0.5),
+                height: CommonUtils.sh(context, s: 0.4),
                 width: CommonUtils.sw(context, s: 1),
                 child: ListView.builder(
                   controller: _scrollController,
@@ -135,6 +135,9 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         width: CommonUtils.sw(context) -
                             (CommonUtils.padding * 0.6),
                         child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           child: FoodCard(
                             timetable: timetable[index],
                           ),
