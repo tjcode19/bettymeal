@@ -22,5 +22,5 @@ class HelperMethod {
     return formattedDate;
   }
 
-  static const String apiKey = "AIzaSyCihd5llNTsip2H1TwjjPCZ-90d0lEdJgA";
+  // static const String apiKey = "AIzaSyCihd5llNTsip2H1TwjjPCZ-90d0lEdJgA";
 }
