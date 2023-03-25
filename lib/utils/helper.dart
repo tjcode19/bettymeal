@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 class HelperMethod {
+  //Just format money here
   static formatMoneyTextField(double amt) {
     ArgumentError.checkNotNull(amt, 'value');
     amt = amt / 100;
