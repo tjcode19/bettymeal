@@ -1,5 +1,6 @@
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
+import 'package:bettymeals/ui/screens/dishes.dart';
 import 'package:bettymeals/ui/screens/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../widgets/timetable.dart';
 import 'food.dart';
+import 'setting.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,84 +60,91 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [DailyMenuScreen(), TimetableScreen(), FoodScreen()],
+        children: const [
+          DailyMenuScreen(),
+          DishesScreen(),
+          FoodScreen(),
+          TimetableScreen(),
+          SettingScreen()
+        ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'homeScreen',
         onPressed: () {
-          // TODO: Add new meal item
-          Navigator.pushNamed(context, Routes.addFood);
+          // Navigator.pushNamed(context, Routes.addFood);
+          onTabTapped(0);
         },
-        child: Icon(Icons.add),
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
+        child: const Image(
+          width: 24,
+          height: 24,
+          image: Svg(
+            'assets/icons/meal.svg',
+            color: Colors.white,
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: AutomaticNotchedShape(RoundedRectangleBorder(), StadiumBorder()),
+        shape: const AutomaticNotchedShape(
+            RoundedRectangleBorder(), StadiumBorder()),
         notchMargin: 10.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              onPressed: () {
-                // TODO: Navigate to home screen
-              },
-              icon: Icon(Icons.home),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    onTabTapped(1);
+                  },
+                  icon: Column(
+                    children: const [
+                      Image(
+                        width: 20,
+                        height: 20,
+                        image: Svg(
+                          'assets/icons/table.svg',
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text('Dishes')
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    onTabTapped(2);
+                  },
+                  icon: Column(
+                    children: const [Icon(Icons.home), Text('Foods')],
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              onPressed: () {
-                // TODO: Navigate to settings screen
-              },
-              icon: Icon(Icons.settings),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    onTabTapped(3);
+                  },
+                  icon: Column(
+                    children: const [Icon(Icons.settings), Text('Meal Table')],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    onTabTapped(4);
+                  },
+                  icon: Column(
+                    children: const [Icon(Icons.settings), Text('Settings')],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _bottom() {
-    return BottomNavigationBar(
-      onTap: onTabTapped,
-      currentIndex: _currentIndex,
-      type: BottomNavigationBarType.fixed,
-      showUnselectedLabels: true,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Image(
-            width: 24,
-            height: 24,
-            image: Svg('assets/icons/meal.svg'),
-          ),
-          label: 'Meal',
-        ),
-        BottomNavigationBarItem(
-          icon: Image(
-            width: 24,
-            height: 24,
-            image: Svg('assets/icons/table.svg'),
-          ),
-          label: 'Timetable',
-        ),
-        BottomNavigationBarItem(
-          icon: Image(
-            width: 24,
-            height: 24,
-            image: Svg('assets/icons/table.svg'),
-          ),
-          label: 'Food',
-        )
-      ],
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
-      // selectedLabelStyle: TextStyle(
-      //   color: Colors.transparent, // Step 2 SEE HERE
-      //   shadows: [
-      //     Shadow(offset: Offset(0, -20), color: Colors.white)
-      //   ], // Step 3 SEE HERE
-      //   decoration: TextDecoration.underline,
-      //   decorationStyle: TextDecorationStyle.dashed,
-      //   decorationColor: Colors.redAccent,
-      // ),
     );
   }
 }
