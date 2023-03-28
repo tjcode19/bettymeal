@@ -10,6 +10,8 @@ class CommonUtils {
 
   static double xmargin = 20;
 
+  static get spaceH => const SizedBox(height: 20);
+
   static sw(BuildContext context, {double s = 1.0}) {
     return MediaQuery.of(context).size.width * s;
   }
@@ -17,7 +19,6 @@ class CommonUtils {
   static sh(BuildContext context, {double s = 1.0}) {
     return MediaQuery.of(context).size.height * s;
   }
-
 
   static topPadding(BuildContext context, {double s = 1.0}) {
     return MediaQuery.of(context).padding.top * s;

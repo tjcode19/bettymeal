@@ -60,7 +60,36 @@ class _HomePageState extends State<HomePage> {
         index: _currentIndex,
         children: const [DailyMenuScreen(), TimetableScreen(), FoodScreen()],
       ),
-      bottomNavigationBar: _bottom(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Add new meal item
+          Navigator.pushNamed(context, Routes.addFood);
+        },
+        child: Icon(Icons.add),
+        shape: CircleBorder(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: AutomaticNotchedShape(RoundedRectangleBorder(), StadiumBorder()),
+        notchMargin: 10.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                // TODO: Navigate to home screen
+              },
+              icon: Icon(Icons.home),
+            ),
+            IconButton(
+              onPressed: () {
+                // TODO: Navigate to settings screen
+              },
+              icon: Icon(Icons.settings),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

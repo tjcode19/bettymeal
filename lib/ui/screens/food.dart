@@ -12,14 +12,24 @@ class FoodScreen extends StatefulWidget {
   State<FoodScreen> createState() => _FoodScreenState();
 }
 
-class _FoodScreenState extends State<FoodScreen> {
+class _FoodScreenState extends State<FoodScreen>
+    with SingleTickerProviderStateMixin {
   late final TimetableCubit _timetableCubit;
+
+  late TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
     _timetableCubit = context.read<TimetableCubit>();
     _timetableCubit.loadMeals();
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -27,28 +37,37 @@ class _FoodScreenState extends State<FoodScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Meal Timetable'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(
+              icon: Icon(Icons.favorite),
+              text: 'Breakfast',
+            ),
+            Tab(
+              icon: Icon(Icons.star),
+              text: 'Lunch',
+            ),
+            Tab(
+              icon: Icon(Icons.star),
+              text: 'Dinner',
+            ),
+          ],
+        ),
       ),
-      body: BlocBuilder<TimetableCubit, TimetableState>(
-        builder: (context, state) {
-          if (state is TimetableLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is TimetableLoaded) {
-            print('welcome herr');
-            return ListView.builder(
-              itemCount: state.timetable.length,
-              itemBuilder: (context, index) {
-                final meal = state.timetable[index];
-                return TimetableItemWidget(timetable: meal);
-              },
-            );
-          } else {
-            return Center(
-              child: Text('Failed to load meals.'),
-            );
-          }
-        },
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          Center(
+            child: Text('Tab 1'),
+          ),
+          Center(
+            child: Text('Tab 2'),
+          ),
+          Center(
+            child: Text('Dinner'),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -39,15 +39,18 @@ class MyApp extends StatelessWidget {
               .copyWith(
                   secondary: const Color(0xff576F72),
                   secondaryContainer: const Color(0xffCBE4DE),
-                  background: Colors.white,
-                  onBackground: Colors.black),
+                  onSurface: Colors.black,
+                  onBackground: Colors.black,
+                  background: Colors.grey[300]),
           fontFamily: "Roboto",
-          // textTheme: const TextTheme(
-          //     // displayLarge:
-          //     //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          //     // titleLarge:
-          //     //     TextStyle(fontSize: 42.0, fontWeight: FontWeight.bold),
-          //     ),
+          textTheme: TextTheme(
+            // displayLarge:
+            //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            titleLarge: const TextStyle(fontWeight: FontWeight.bold),
+            bodySmall: TextStyle(color: Colors.white.withOpacity(0.7)),
+            bodyMedium: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
         darkTheme: ThemeData(
           useMaterial3: true,

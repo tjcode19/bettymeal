@@ -5,9 +5,11 @@ import 'package:bettymeals/ui/widgets/time_table.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
+import 'package:bettymeals/utils/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:intl/intl.dart';
 
 import '../../cubit/timetable_cubit.dart';
 import '../../data/models/food.dart';
@@ -38,6 +40,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   late ScrollController _scrollController;
   int _scrollPosition = 0;
+  int _selected = 0;
 
   _scrollListener() {
     setState(() {
@@ -85,52 +88,133 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: CommonUtils.sh(context),
-        child: Stack(
-          children: [
-            Container(
-              color: AppColour(context).primaryColour,
-              height: CommonUtils.sh(context, s: 0.4),
-              padding: EdgeInsets.only(
-                  top: CommonUtils.topPadding(context, s: 1.4),
-                  bottom: CommonUtils.padding,
-                  right: CommonUtils.padding,
-                  left: CommonUtils.padding),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    HelperMethod.formatDate(
-                        timetable[_scrollPosition].date.toIso8601String(),
-                        pattern: 'EEE, dd MMM, yy'),
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(color: AppColour(context).onPrimaryColour),
-                  ),
-                  Text(
-                    periodOfTheDay(),
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: AppColour(context)
-                            .onPrimaryColour
-                            .withOpacity(0.7)),
-                  ),
-                  Text(HelperMethod.formatDate(
-                      timetable[2].date.toIso8601String(),
-                      pattern: 'HH:mm:ss')),
-                ],
-              ),
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              top: CommonUtils.topPadding(context, s: 1.4),
+              bottom: CommonUtils.padding,
             ),
-            Positioned(
-              bottom: 0.0,
-              left: 0.0,
-              child: SizedBox(
-                height: CommonUtils.sh(context, s: 0.3),
-                child: SingleChildScrollView(
-                  physics: const PageScrollPhysics(),
-                  child: Column(
+            decoration: BoxDecoration(
+                color: AppColour(context).primaryColour,
+                borderRadius:
+                    BorderRadius.only(bottomLeft: Radius.circular(35))),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: CommonUtils.padding),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Hey, Betty \n',
+                      children: [
+                        TextSpan(
+                          text: 'Meal is ready!',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: AppColour(context)
+                                        .onPrimaryColour
+                                        .withOpacity(0.7),
+                                  ),
+                        )
+                      ],
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          CommonUtils.spaceH,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    // height: 100,
+                    constraints: BoxConstraints(
+                      minHeight: 50.0,
+                      maxHeight: 80.0,
+                    ),
+                    color: Colors.white,
+                    padding: EdgeInsets.only(
+                        top: 8, bottom: 8, left: CommonUtils.padding),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: timetable.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selected = index;
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: CommonUtils.mpadding),
+                            margin:
+                                EdgeInsets.only(right: CommonUtils.xspadding),
+                            decoration: BoxDecoration(
+                              // shape: BoxShape.circle,
+                              color: _selected != index
+                                  ? AppColour(context).primaryColour
+                                  : AppColour(context).secondaryColour,
+                              border: Border.all(
+                                  width: 1.0,
+                                  color: AppColour(context).onPrimaryColour),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateWay(timetable[index].date).tDay,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                Text(
+                                  DateWay(timetable[index].date).tDate,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Text(
+                                  DateWay(timetable[index].date).tMon,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: CommonUtils.sh(context, s: 0.4),
+                    width: CommonUtils.sw(context, s: 1),
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: timetable[_selected].foods.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                            width: CommonUtils.sw(context) -
+                                (CommonUtils.padding * 0.6),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: FoodCard(
+                                timetable: timetable[index],
+                              ),
+                            ));
+                      },
+                    ),
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
@@ -166,36 +250,11 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                       )
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-            Positioned(
-              top: CommonUtils.sh(context, s: 0.2),
-              child: SizedBox(
-                height: CommonUtils.sh(context, s: 0.4),
-                width: CommonUtils.sw(context, s: 1),
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: timetable.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        width: CommonUtils.sw(context) -
-                            (CommonUtils.padding * 0.6),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: FoodCard(
-                            timetable: timetable[index],
-                          ),
-                        ));
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -215,7 +274,6 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 BorderSide(width: 6.0, color: Colors.red),
               ),
             ),
-            
           ),
         ),
       ),

@@ -20,48 +20,76 @@ class FoodItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        child: DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: [
-            Color.fromARGB(255, 5, 79, 116),
-            Colors.white,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('$mealType : ${timetable.foods[foodType].name}'),
+              content: Text('Message'),
+              actions: [
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    // do something
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: SizedBox(
+          child: DecoratedBox(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 5, 79, 116),
+              Colors.white,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          // border: Border.fromBorderSide(
+          //   BorderSide(width: 4.0, color: AppColour(context).primaryColour),
+          // ),
         ),
-        // border: Border.fromBorderSide(
-        //   BorderSide(width: 4.0, color: AppColour(context).primaryColour),
-        // ),
-      ),
-      child: Container(
-        // width: CommonUtils.sw(context),
-        padding: const EdgeInsets.all(30),
-        margin: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColour(context).primaryColour.withOpacity(0.8)),
-        child: Column(
-          children: [
-            Text(mealType,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: AppColour(context).onPrimaryColour)),
-            Image(
-              image: Svg('assets/icons/meal.svg',
-                  color: Colors.white, size: Size(sizeW, sizeW)),
-            ),
-            Text(timetable.foods[foodType].name,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: AppColour(context).onPrimaryColour)),
-          ],
+        child: Container(
+          // width: CommonUtils.sw(context),
+          padding: const EdgeInsets.all(30),
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColour(context).primaryColour.withOpacity(0.8)),
+          child: Column(
+            children: [
+              Text(mealType,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: AppColour(context).onPrimaryColour)),
+              Image(
+                image: Svg('assets/icons/meal.svg',
+                    color: Colors.white, size: Size(sizeW, sizeW)),
+              ),
+              Text(timetable.foods[foodType].name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: AppColour(context).onPrimaryColour)),
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }
