@@ -1,5 +1,7 @@
 import 'package:bettymeals/data/models/food.dart';
 import 'package:bettymeals/data/repositories/food_repository.dart';
+import 'package:bettymeals/utils/colours.dart';
+import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +17,12 @@ class AddMealScreen extends StatefulWidget {
 class _AddMealScreenState extends State<AddMealScreen> {
   final _formKey = GlobalKey<FormState>();
   final _foodNameController = TextEditingController();
-  final _foodCaloriesController = TextEditingController();
-  final _foodCategoryController = TextEditingController();
+  final _foodDescriptionController = TextEditingController();
+  final _foodImageController = TextEditingController();
   late FoodCubit _foodCubit;
+
+  List<String> category = ['Breakfast', 'Lunch', 'Dinner'];
+  List<int> items = [];
 
   @override
   void initState() {
@@ -30,8 +35,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
   @override
   void dispose() {
     _foodNameController.dispose();
-    _foodCaloriesController.dispose();
-    _foodCategoryController.dispose();
+    _foodDescriptionController.dispose();
+    _foodImageController.dispose();
     super.dispose();
   }
 
@@ -64,11 +69,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       },
                     ),
                     TextFormField(
-                      controller: _foodCaloriesController,
+                      controller: _foodDescriptionController,
                       decoration: const InputDecoration(
-                        labelText: 'Calories',
+                        labelText: 'Description',
                       ),
-                      keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a valid number';
@@ -77,30 +81,37 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       },
                     ),
                     TextFormField(
-                      controller: _foodCategoryController,
+                      controller: _foodImageController,
                       decoration: const InputDecoration(
-                        labelText: 'Category',
+                        labelText: 'Image',
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a category';
-                        }
-                        return null;
-                      },
                     ),
                     const SizedBox(height: 32.0),
+                    Row(
+                      children: [
+                        ...category.map((e) {
+                          int pos = category.indexOf(e);
+                          return chips(name: e, index: pos);
+                        })
+                      ],
+                    ),
+                    CommonUtils.spaceHm,
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          final food = FoodModel(
-                              name: _foodNameController.text,
-                              // calories: int.parse(_foodCaloriesController.text),
-                              // category: _foodCategoryController.text,
-                              description: '',
-                              id: 1,
-                              image: '',
-                              extra: []);
-                          // await FoodRepository().insertFood(food);
+                          List<FoodModel> food = [];
+
+                          for (int f in items) {
+                            food.add(
+                              FoodModel(
+                                name: _foodNameController.text,
+                                description: '',
+                                type: f,
+                                image: '',
+                                extra: [],
+                              ),
+                            );
+                          }
 
                           _foodCubit.addFood(food);
                           _foodCubit.getAllMeals();
@@ -122,7 +133,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is FoodLoaded) {
-                    print('welcome herr ${state.foods.length}');
                     return ListView.builder(
                       itemCount: state.foods.length,
                       itemBuilder: (context, index) {
@@ -139,6 +149,39 @@ class _AddMealScreenState extends State<AddMealScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget chips({index, name}) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (items.contains(index)) {
+            items.remove(index);
+          } else {
+            items.add(index);
+          }
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: CommonUtils.xspadding, horizontal: CommonUtils.spadding),
+        margin: EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+            color: AppColour(context).onPrimaryColour,
+            border: items.contains(index)
+                ? Border.all(
+                    width: 2.0, color: AppColour(context).secondaryColour)
+                : Border(),
+            borderRadius: BorderRadius.all(Radius.circular(15))),
+        child: Text(
+          name,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColour(context).secondaryColour),
         ),
       ),
     );

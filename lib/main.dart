@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
               // displayLarge:
               //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
               titleLarge: const TextStyle(fontWeight: FontWeight.bold),
-              bodySmall: TextStyle(color: Colors.white.withOpacity(0.7)),
+              bodySmall: TextStyle(color: Colors.white.withOpacity(0.8)),
               bodyMedium: const TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
