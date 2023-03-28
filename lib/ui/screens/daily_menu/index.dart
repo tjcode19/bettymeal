@@ -1,21 +1,14 @@
-import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
 import 'package:bettymeals/ui/widgets/section_title.dart';
-import 'package:bettymeals/ui/widgets/time_table.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
-import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:intl/intl.dart';
-
-import '../../cubit/timetable_cubit.dart';
-import '../../data/models/food.dart';
-import '../../data/models/timetable.dart';
-import '../widgets/food_item_sub.dart';
-import '../widgets/timetable.dart';
+import '../../../cubit/timetable_cubit.dart';
+import '../../../data/models/food.dart';
+import '../../../data/models/timetable.dart';
+import '../../widgets/food_item_sub.dart';
 
 class DailyMenuScreen extends StatefulWidget {
   const DailyMenuScreen({super.key});
@@ -32,10 +25,29 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   final List<TimetableModel> timetable = [
     TimetableModel(date: DateTime.now(), foods: [
-      FoodModel(description: 'Light food', image: '', name: 'Koko', extra: []),
       FoodModel(
-          description: 'Light food', image: '', name: 'Laagba', extra: []),
-      FoodModel(description: 'Light food', image: '', name: 'Rice', extra: [])
+          description: 'Good as breakfast because it is very light',
+          image:
+              'https://www.thespruceeats.com/thmb/D5lsBYYAz2NiIup3evaCXteK8hM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hausa-koko-spicy-millet-porridge-39547-hero-01-edb486a34d6a4ee3b8b347430838d1f7.jpg',
+          name: 'Koko',
+          extra: [
+            'Kose',
+            'Bofloat',
+            'Kose Bread',
+            'Sugar bread/Tea bread/Butter bread'
+          ]),
+      FoodModel(
+          description: 'Laagba good for luch',
+          image:
+              'https://images.pexels.com/photos/1660030/pexels-photo-1660030.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          name: 'Laagba',
+          extra: ['Beef/Salmon/Chicken', 'Ademe/Okro/Stew']),
+      FoodModel(
+          description: 'Suitable for dinner',
+          image:
+              'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          name: 'Rice',
+          extra: ['Vegetables/Eggs/Salmon', 'Stew', 'Fruit Juice'])
     ])
   ];
 
@@ -71,22 +83,22 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     _timetableCubit = context.read<TimetableCubit>();
     _timetableCubit.loadMeals();
 
-    int a = 0;
-    while (a < 6) {
-      currentDate = currentDate.add(const Duration(days: 1));
-      timetable.add(
-        TimetableModel(date: currentDate, foods: [
-          FoodModel(
-              description: 'Light food', image: '', name: 'Koko', extra: []),
-          FoodModel(
-              description: 'Light food', image: '', name: 'Laagba', extra: []),
-          FoodModel(
-              description: 'Light food', image: '', name: 'Rice', extra: [])
-        ]),
-      );
+    // int a = 0;
+    // while (a < 6) {
+    //   currentDate = currentDate.add(const Duration(days: 1));
+    //   timetable.add(
+    //     TimetableModel(date: currentDate, foods: [
+    //       FoodModel(
+    //           description: 'Light food', image: '', name: 'Koko', extra: []),
+    //       FoodModel(
+    //           description: 'Light food', image: '', name: 'Laagba', extra: []),
+    //       FoodModel(
+    //           description: 'Light food', image: '', name: 'Rice', extra: [])
+    //     ]),
+    //   );
 
-      a++;
-    }
+    //   a++;
+    // }
   }
 
   @override
@@ -139,7 +151,6 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               child: Column(
                 children: [
                   Container(
-                    // height: 100,
                     constraints: BoxConstraints(
                       minHeight: 50.0,
                       maxHeight: 80.0,
@@ -196,14 +207,17 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                       },
                     ),
                   ),
+                  CommonUtils.spaceH,
+                  //The card listview implemetation starts here
                   SizedBox(
                     height: CommonUtils.sh(context, s: 0.4),
                     width: CommonUtils.sw(context, s: 1),
                     child: ListView.builder(
                       controller: _scrollController,
-                      itemCount: period.length,
+                      itemCount: timetable[_selected].foods.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
+                        List<FoodModel> t = timetable[_selected].foods;
                         return SizedBox(
                             width: CommonUtils.sw(context) -
                                 (CommonUtils.padding * 0.8),
@@ -212,14 +226,14 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: FoodCard(
-                                timetable: timetable[index],
+                                food: t[index],
                                 period: period[index],
-                                img: 'assets/images/bf.jpg',
                               ),
                             ));
                       },
                     ),
                   ),
+                  //The card listview implemetation ends here
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -244,7 +258,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         height: CommonUtils.sh(context, s: 0.1),
                         width: CommonUtils.sw(context, s: 1),
                         child: ListView.builder(
-                            itemCount: 5,
+                            itemCount: timetable.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return FoodItemSub(

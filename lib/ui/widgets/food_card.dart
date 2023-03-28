@@ -1,21 +1,16 @@
-import 'package:bettymeals/data/models/timetable.dart';
 import 'package:bettymeals/ui/widgets/food_card_footer.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/models/food.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
 
 class FoodCard extends StatelessWidget {
-  const FoodCard(
-      {super.key,
-      required this.timetable,
-      required this.period,
-      required this.img});
+  const FoodCard({super.key, required this.food, required this.period});
 
-  final TimetableModel timetable;
+  final FoodModel food;
   final String period;
-  final String img;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +23,13 @@ class FoodCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black,
             image: DecorationImage(
-                image: AssetImage(img), fit: BoxFit.cover, opacity: 0.4),
+                image: NetworkImage(food.image),
+                fit: BoxFit.cover,
+                opacity: 0.4),
             borderRadius: BorderRadius.vertical(
-                bottom:
-                    Radius.elliptical(MediaQuery.of(context).size.width, 50.0)),
+              top: const Radius.circular(20),
+              bottom: Radius.elliptical(CommonUtils.sw(context), 50.0),
+            ),
           ),
           child: Theme(
             data: Theme.of(context).copyWith(
@@ -40,7 +38,7 @@ class FoodCard extends StatelessWidget {
                   .apply(displayColor: Colors.white, bodyColor: Colors.white),
             ),
             child: FoodCardHead(
-              timetable: timetable,
+              food: food,
               foodType: 0,
               mealType: period,
             ),
@@ -50,18 +48,18 @@ class FoodCard extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(CommonUtils.padding),
             child: Theme(
-              data: Theme.of(context).copyWith(
-                textTheme: Theme.of(context).textTheme.apply(
-                    displayColor: AppColour(context).onSecondaryColour,
-                    bodyColor: AppColour(context).onSecondaryColour),
-              ),
-              child: FoodCardFooter()
-            ),
+                data: Theme.of(context).copyWith(
+                  textTheme: Theme.of(context).textTheme.apply(
+                      displayColor: AppColour(context).onSecondaryColour,
+                      bodyColor: AppColour(context).onSecondaryColour),
+                ),
+                child: FoodCardFooter(
+                  name: food.name,
+                  extra: food.extra,
+                )),
           ),
         )
       ],
     );
   }
-
- 
 }

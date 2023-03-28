@@ -1,44 +1,39 @@
 import 'package:sqflite/sqflite.dart';
+import '../../models/food_extra.dart';
 
-import '../../models/food.dart';
-
-class FoodDao {
-  static const String tableName = 'food';
+class FoodExtraDao {
+  static const String tableName = 'foodextra';
 
   static const String createTableQuery = '''
     CREATE TABLE $tableName (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
-      description TEXT,
-      image TEXT,
-      foodextra_id INTEGER,
-      FOREIGN KEY (foodextra_id) REFERENCES foodextra (id)
+      name TEXT
     )
   ''';
 
   final Database _database;
 
-  FoodDao(this._database);
+  FoodExtraDao(this._database);
 
-  Future<int> insert(FoodModel food) async {
+  Future<int> insert(FoodExtraModel food) async {
     return await _database.insert(tableName, food.toMap());
   }
 
-  Future<int> update(FoodModel food) async {
+  Future<int> update(FoodExtraModel food) async {
     return await _database
         .update(tableName, food.toMap(), where: 'id = ?', whereArgs: [food.id]);
   }
 
-  Future<int> delete(FoodModel food) async {
+  Future<int> delete(FoodExtraModel food) async {
     return await _database
         .delete(tableName, where: 'id = ?', whereArgs: [food.id]);
   }
 
-  Future<List<FoodModel>> getAll() async {
+  Future<List<FoodExtraModel>> getAll() async {
     final List<Map<String, dynamic>> maps = await _database.query(tableName);
 
     return List.generate(maps.length, (i) {
-      return FoodModel.fromMap(maps[i]);
+      return FoodExtraModel.fromMap(maps[i]);
     });
   }
 }

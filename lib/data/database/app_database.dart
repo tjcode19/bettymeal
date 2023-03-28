@@ -2,6 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'dao/category_dao.dart';
 import 'dao/food_dao.dart';
+import 'dao/food_extra_dao.dart';
 import 'dao/timetable_dao.dart';
 import 'package:path/path.dart';
 
@@ -14,6 +15,7 @@ class AppDatabase {
   Database? _database;
 
   late final FoodDao foodDao;
+  late final FoodExtraDao foodExtraDao;
   late final CategoryDao categoryDao;
   late final TimetableDao timetableDao;
 
@@ -30,6 +32,7 @@ class AppDatabase {
     _database = await openDatabase(path, version: DB_VERSION,
         onCreate: (db, version) async {
       // Create the tables.
+      await db.execute(FoodExtraDao.createTableQuery);
       await db.execute(FoodDao.createTableQuery);
       await db.execute(CategoryDao.createTableQuery);
       await db.execute(TimetableDao.createTableQuery);
@@ -42,11 +45,7 @@ class AppDatabase {
   }
 
   factory AppDatabase() {
-    // if (AppDatabase.instance == null) {
-      print('hereeeee');
-      AppDatabase.instance = AppDatabase._();
-      // AppDatabase.instance.init();
-    // }
+    AppDatabase.instance = AppDatabase._();
     return AppDatabase.instance;
   }
 

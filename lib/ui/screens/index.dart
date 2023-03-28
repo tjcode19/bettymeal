@@ -1,5 +1,5 @@
 import 'package:bettymeals/routes.dart';
-import 'package:bettymeals/ui/screens/daily_menu.dart';
+import 'package:bettymeals/ui/screens/daily_menu/index.dart';
 import 'package:bettymeals/ui/screens/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

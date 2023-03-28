@@ -9,7 +9,7 @@ class TimetableDao {
     CREATE TABLE $tableName (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       food_id INTEGER,
-      day_of_week INTEGER,
+      date INTEGER,
       FOREIGN KEY (food_id) REFERENCES food (id)
     )
   ''';

@@ -1,3 +1,4 @@
+import 'package:bettymeals/data/models/food.dart';
 import 'package:bettymeals/data/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,12 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 class FoodCardHead extends StatelessWidget {
   const FoodCardHead(
       {super.key,
-      required this.timetable,
+      required this.food,
       required this.foodType,
       this.sizeW = 70.0,
       required this.mealType});
 
-  final TimetableModel timetable;
+  final FoodModel food;
   final int foodType;
   final double sizeW;
   final String mealType;
@@ -24,7 +25,7 @@ class FoodCardHead extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('$mealType : ${timetable.foods[foodType].name}'),
+              title: Text('$mealType : ${food.name}'),
               content: Text('Message'),
               actions: [
                 TextButton(
