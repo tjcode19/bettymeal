@@ -10,6 +10,10 @@ class CommonUtils {
 
   static double xmargin = 20;
 
+  static get spaceWm => const SizedBox(width: 5);
+  static get spaceW => const SizedBox(width: 10);
+
+  static get spaceHm => const SizedBox(height: 10);
   static get spaceH => const SizedBox(height: 20);
 
   static sw(BuildContext context, {double s = 1.0}) {

@@ -34,24 +34,26 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
-              .copyWith(
-                  secondary: const Color(0xff576F72),
-                  secondaryContainer: const Color(0xffCBE4DE),
-                  onSurface: Colors.black,
-                  onBackground: Colors.black,
-                  background: Colors.grey[300]),
-          fontFamily: "Roboto",
-          textTheme: TextTheme(
-            // displayLarge:
-            //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            titleLarge: const TextStyle(fontWeight: FontWeight.bold),
-            bodySmall: TextStyle(color: Colors.white.withOpacity(0.7)),
-            bodyMedium: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+                .copyWith(
+                    secondary: const Color(0xff576F72),
+                    secondaryContainer: const Color(0xffCBE4DE),
+                    onSecondary: Colors.black,
+                    tertiary: Color.fromARGB(255, 5, 79, 116),
+                    onSurface: Colors.black,
+                    onBackground: Colors.black,
+                    background: Colors.grey[300]),
+            fontFamily: "Roboto",
+            textTheme: TextTheme(
+              // displayLarge:
+              //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              titleLarge: const TextStyle(fontWeight: FontWeight.bold),
+              bodySmall: TextStyle(color: Colors.white.withOpacity(0.7)),
+              bodyMedium: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            iconTheme: IconThemeData(color: Colors.teal, size: 20)),
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(

@@ -32,9 +32,10 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   final List<TimetableModel> timetable = [
     TimetableModel(date: DateTime.now(), foods: [
-      FoodModel(description: 'Light food', image: '', name: 'Koko'),
-      FoodModel(description: 'Light food', image: '', name: 'Laagba'),
-      FoodModel(description: 'Light food', image: '', name: 'Rice')
+      FoodModel(description: 'Light food', image: '', name: 'Koko', extra: []),
+      FoodModel(
+          description: 'Light food', image: '', name: 'Laagba', extra: []),
+      FoodModel(description: 'Light food', image: '', name: 'Rice', extra: [])
     ])
   ];
 
@@ -75,9 +76,12 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
       currentDate = currentDate.add(const Duration(days: 1));
       timetable.add(
         TimetableModel(date: currentDate, foods: [
-          FoodModel(description: 'Light food', image: '', name: 'Koko'),
-          FoodModel(description: 'Light food', image: '', name: 'Laagba'),
-          FoodModel(description: 'Light food', image: '', name: 'Rice')
+          FoodModel(
+              description: 'Light food', image: '', name: 'Koko', extra: []),
+          FoodModel(
+              description: 'Light food', image: '', name: 'Laagba', extra: []),
+          FoodModel(
+              description: 'Light food', image: '', name: 'Rice', extra: [])
         ]),
       );
 
@@ -197,18 +201,20 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     width: CommonUtils.sw(context, s: 1),
                     child: ListView.builder(
                       controller: _scrollController,
-                      itemCount: timetable[_selected].foods.length,
+                      itemCount: period.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return SizedBox(
                             width: CommonUtils.sw(context) -
-                                (CommonUtils.padding * 0.6),
+                                (CommonUtils.padding * 0.8),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: FoodCard(
                                 timetable: timetable[index],
+                                period: period[index],
+                                img: 'assets/images/bf.jpg',
                               ),
                             ));
                       },
@@ -255,27 +261,6 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSelectionRing(double itemSize) {
-    return IgnorePointer(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: itemSize,
-          height: itemSize,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColour(context).primaryColour,
-              border: Border.fromBorderSide(
-                BorderSide(width: 6.0, color: Colors.red),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

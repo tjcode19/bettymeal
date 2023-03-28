@@ -97,7 +97,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                             // category: _foodCategoryController.text,
                             description: '',
                             id: 1,
-                            image: '');
+                            image: '', extra: []);
                         // await FoodRepository().insertFood(food);
 
                         _foodCubit.addFood(food);
