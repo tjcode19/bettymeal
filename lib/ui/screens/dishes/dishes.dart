@@ -1,8 +1,5 @@
 import 'package:bettymeals/ui/screens/dishes/widgets/day_container.dart';
-import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../../utils/colours.dart';
 
