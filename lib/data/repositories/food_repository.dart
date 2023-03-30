@@ -8,7 +8,7 @@ class FoodRepository {
     return await foodDao.getAll();
   }
 
-  Future<void> addMeal(FoodModel food) async {
+  Future<void> addMeal(FoodRequestModel food) async {
     await foodDao.insert(food);
   }
 }

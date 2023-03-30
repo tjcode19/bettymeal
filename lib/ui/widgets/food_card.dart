@@ -55,7 +55,7 @@ class FoodCard extends StatelessWidget {
                 ),
                 child: FoodCardFooter(
                   name: food.name,
-                  extra: food.extra,
+                  extra: food.foodextra_id,
                 )),
           ),
         )

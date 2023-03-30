@@ -11,6 +11,7 @@ class FoodDao {
       name TEXT,
       description TEXT,
       image TEXT,
+      type INTEGER,
       foodextra_id INTEGER,
       FOREIGN KEY (foodextra_id) REFERENCES foodextra (id)
     )
@@ -20,7 +21,7 @@ class FoodDao {
 
   FoodDao(this._database);
 
-  Future<int> insert(FoodModel food) async {
+  Future<int> insert(FoodRequestModel food) async {
     return await _database.insert(tableName, food.toMap());
   }
 

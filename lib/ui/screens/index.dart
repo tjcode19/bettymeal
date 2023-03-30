@@ -1,6 +1,6 @@
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
-import 'package:bettymeals/ui/screens/dishes.dart';
+import 'package:bettymeals/ui/screens/dishes/dishes.dart';
 import 'package:bettymeals/ui/screens/timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../cubit/timetable_cubit.dart';
 import '../widgets/timetable.dart';
-import 'food.dart';
+import 'foods/food.dart';
 import 'setting.dart';
 
 class HomePage extends StatefulWidget {

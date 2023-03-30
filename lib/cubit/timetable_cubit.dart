@@ -14,6 +14,7 @@ class TimetableCubit extends Cubit<TimetableState> {
     super(TimetableInitial());
 
   Future<void> loadMeals() async {
+    print('load');
     try {
       final meals = await _repository.getAllMeals();
       emit(TimetableLoaded(timetable: meals));

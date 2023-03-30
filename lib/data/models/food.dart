@@ -1,10 +1,33 @@
+class FoodRequestModel {
+  FoodRequestModel({
+    required this.name,
+    required this.description,
+    required this.type,
+    required this.image,
+  });
+
+  final String name;
+  final String description;
+  final int type;
+  final String image;
+
+  Map<String, Object?> toMap() {
+    return {
+      'name': name,
+      'description': description,
+      'type': type,
+      'image': image
+    };
+  }
+}
+
 class FoodModel {
   final int? id;
   final String name;
   final String description;
   final int type;
   final String image;
-  final List<String>? extra;
+  final List<String>? foodextra_id;
 
   FoodModel({
     this.id,
@@ -12,7 +35,7 @@ class FoodModel {
     required this.description,
     required this.type,
     required this.image,
-    required this.extra,
+    this.foodextra_id,
   });
 
   factory FoodModel.fromMap(Map<String, dynamic> map) {
@@ -22,7 +45,7 @@ class FoodModel {
         description: map['description'],
         type: map['type'],
         image: map['image'],
-        extra: map['extra']);
+        foodextra_id: map['foodextra_id']);
   }
 
   Map<String, dynamic> toMap() {
@@ -32,7 +55,7 @@ class FoodModel {
       'description': description,
       'type': type,
       'image': image,
-      'extra': extra
+      'foodextra_id': foodextra_id
     };
   }
 }

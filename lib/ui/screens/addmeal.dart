@@ -19,6 +19,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   final _foodNameController = TextEditingController();
   final _foodDescriptionController = TextEditingController();
   final _foodImageController = TextEditingController();
+  final _foodExtraController = TextEditingController();
   late FoodCubit _foodCubit;
 
   List<String> category = ['Breakfast', 'Lunch', 'Dinner'];
@@ -37,6 +38,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
     _foodNameController.dispose();
     _foodDescriptionController.dispose();
     _foodImageController.dispose();
+    _foodExtraController.dispose();
     super.dispose();
   }
 
@@ -86,6 +88,12 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         labelText: 'Image',
                       ),
                     ),
+                    TextFormField(
+                      controller: _foodExtraController,
+                      decoration: const InputDecoration(
+                        labelText: 'Extra',
+                      ),
+                    ),
                     const SizedBox(height: 32.0),
                     Row(
                       children: [
@@ -99,23 +107,23 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          List<FoodModel> food = [];
+                          List<FoodRequestModel> food = [];
 
                           for (int f in items) {
                             food.add(
-                              FoodModel(
+                              FoodRequestModel(
                                 name: _foodNameController.text,
-                                description: '',
+                                description: _foodDescriptionController.text,
                                 type: f,
-                                image: '',
-                                extra: [],
+                                image:
+                                    'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
                               ),
                             );
                           }
 
-                          _foodCubit.addFood(food);
+                          await _foodCubit.addFood(food);
                           _foodCubit.getAllMeals();
-                          Navigator.of(context).pop();
+                          // Navigator.of(context).pop();
                         }
                       },
                       child: const Text('Add Meal'),

@@ -35,16 +35,18 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
-                .copyWith(
-                    secondary: const Color(0xff576F72),
-                    secondaryContainer: const Color(0xffCBE4DE),
-                    onSecondary: Colors.black,
-                    tertiary: Color.fromARGB(255, 5, 79, 116),
-                    onSurface: Colors.black,
-                    onBackground: Colors.black,
-                    background: Colors.grey[300]),
+            colorScheme:
+                ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
+              secondary: const Color(0xff576F72),
+              secondaryContainer: const Color(0xffCBE4DE),
+              onSecondary: Colors.black,
+              tertiary: Color.fromARGB(255, 5, 79, 116),
+              onSurface: Colors.black,
+              onBackground: Colors.black,
+              background: Color.fromARGB(255, 236, 244, 243),
+            ),
             fontFamily: "Roboto",
+            listTileTheme: const ListTileThemeData(textColor: Color(0xff576F72), style: ListTileStyle.drawer),
             textTheme: TextTheme(
               // displayLarge:
               //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
             iconTheme: IconThemeData(color: Colors.teal, size: 20)),
+            
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(
