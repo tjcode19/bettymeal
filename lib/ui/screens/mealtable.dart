@@ -1,20 +1,22 @@
 import 'dart:math';
 
+import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../data/models/food_data.dart';
+import '../../utils/colours.dart';
 import '../widgets/time_table.dart';
 
-class TimetableScreen extends StatefulWidget {
-  const TimetableScreen({super.key});
+class MealTableScreen extends StatefulWidget {
+  const MealTableScreen({super.key});
 
   @override
-  State<TimetableScreen> createState() => _TimetableScreenState();
+  State<MealTableScreen> createState() => _MealTableScreenState();
 }
 
-class _TimetableScreenState extends State<TimetableScreen> {
+class _MealTableScreenState extends State<MealTableScreen> {
   Random random = Random();
   List<Food> breakfasts =
       food.where(((element) => element.type.contains(1))).toList();
@@ -120,10 +122,14 @@ class _TimetableScreenState extends State<TimetableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Meal Timetable'),
+          title: Text(
+            'Food Bank',
+            style: TextStyle(color: AppColour(context).onPrimaryColour),
+          ),
+          backgroundColor: AppColour(context).primaryColour,
         ),
         body: Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(CommonUtils.padding),
           child: Column(
             children: [
               TimeTable(

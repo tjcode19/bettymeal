@@ -3,7 +3,7 @@ import 'package:bettymeals/ui/screens/index.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/screens/addcategory.dart';
-import 'ui/screens/timetable.dart';
+import 'ui/screens/mealtable.dart';
 
 class Routes {
   static const String home = '/';
@@ -14,13 +14,13 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => const HomePage());
       case timetable:
-        return MaterialPageRoute(builder: (_) => TimetableScreen());
+        return MaterialPageRoute(builder: (_) => const MealTableScreen());
       case addFood:
-        return MaterialPageRoute(builder: (_) => AddMealScreen());
+        return MaterialPageRoute(builder: (_) => const AddMealScreen());
       case addCategory:
-        return MaterialPageRoute(builder: (_) => AddCategoryScreen());
+        return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
