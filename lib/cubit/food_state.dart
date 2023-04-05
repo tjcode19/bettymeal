@@ -13,8 +13,11 @@ class FoodLoading extends FoodState {}
 
 class FoodLoaded extends FoodState {
   final List<FoodModel> foods;
+  final List<FoodModel> bf;
+  final List<FoodModel> ln;
+  final List<FoodModel> dn;
 
-  const FoodLoaded({required this.foods});
+  const FoodLoaded({required this.bf, required this.ln, required this.dn, required this.foods});
 
   @override
   List<Object> get props => [foods];

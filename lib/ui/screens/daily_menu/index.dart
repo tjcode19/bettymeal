@@ -30,7 +30,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
           image:
               'https://www.thespruceeats.com/thmb/D5lsBYYAz2NiIup3evaCXteK8hM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hausa-koko-spicy-millet-porridge-39547-hero-01-edb486a34d6a4ee3b8b347430838d1f7.jpg',
           name: 'Koko',
-          type: 0,
+          type: "0",
           foodextra_id: [
             'Kose',
             'Bofloat',
@@ -42,14 +42,14 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
           image:
               'https://images.pexels.com/photos/1660030/pexels-photo-1660030.jpeg?auto=compress&cs=tinysrgb&w=1200',
           name: 'Laagba',
-          type: 1,
+          type: "1",
           foodextra_id: ['Beef/Salmon/Chicken', 'Ademe/Okro/Stew']),
       FoodModel(
           description: 'Suitable for dinner',
           image:
               'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
           name: 'Rice',
-          type: 2,
+          type: "2",
           foodextra_id: ['Vegetables/Eggs/Salmon', 'Stew', 'Fruit Juice'])
     ])
   ];

@@ -84,16 +84,10 @@ class _FoodScreenState extends State<FoodScreen>
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is FoodLoaded) {
-                    List<FoodModel> bf = [];
-
-                    for (FoodModel f in state.foods) {
-                      if (f.type == 0) bf.add(f);
-                    }
-
                     return ListView.builder(
-                      itemCount: bf.length,
+                      itemCount: state.bf.length,
                       itemBuilder: (context, index) {
-                        final meal = bf[index];
+                        final meal = state.bf[index];
                         return FoodListTile(meal: meal);
                       },
                     );
@@ -117,16 +111,10 @@ class _FoodScreenState extends State<FoodScreen>
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is FoodLoaded) {
-                    List<FoodModel> ml = [];
-
-                    for (FoodModel f in state.foods) {
-                      if (f.type == 1) ml.add(f);
-                    }
-
                     return ListView.builder(
-                      itemCount: ml.length,
+                      itemCount: state.ln.length,
                       itemBuilder: (context, index) {
-                        final meal = ml[index];
+                        final meal = state.ln[index];
                         return FoodListTile(meal: meal);
                       },
                     );
@@ -150,16 +138,10 @@ class _FoodScreenState extends State<FoodScreen>
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is FoodLoaded) {
-                    List<FoodModel> dn = [];
-
-                    for (FoodModel f in state.foods) {
-                      if (f.type == 2) dn.add(f);
-                    }
-
                     return ListView.builder(
-                      itemCount: dn.length,
+                      itemCount: state.dn.length,
                       itemBuilder: (context, index) {
-                        final meal = dn[index];
+                        final meal = state.dn[index];
                         return FoodListTile(meal: meal);
                       },
                     );

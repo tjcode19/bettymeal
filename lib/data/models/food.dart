@@ -8,7 +8,7 @@ class FoodRequestModel {
 
   final String name;
   final String description;
-  final int type;
+  final String type;
   final String image;
 
   Map<String, Object?> toMap() {
@@ -25,7 +25,7 @@ class FoodModel {
   final int? id;
   final String name;
   final String description;
-  final int type;
+  final String type;
   final String image;
   final List<String>? foodextra_id;
 

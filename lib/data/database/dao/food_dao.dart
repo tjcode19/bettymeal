@@ -11,7 +11,7 @@ class FoodDao {
       name TEXT,
       description TEXT,
       image TEXT,
-      type INTEGER,
+      type TEXT,
       foodextra_id INTEGER,
       FOREIGN KEY (foodextra_id) REFERENCES foodextra (id)
     )

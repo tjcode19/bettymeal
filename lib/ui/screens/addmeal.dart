@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bettymeals/data/models/food.dart';
 import 'package:bettymeals/data/repositories/food_repository.dart';
 import 'package:bettymeals/utils/colours.dart';
@@ -107,24 +109,19 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          List<FoodRequestModel> food = [];
-
-                          for (int f in items) {
-                            food.add(
-                              FoodRequestModel(
-                                name: _foodNameController.text,
-                                description: _foodDescriptionController.text,
-                                type: f,
-                                image:
-                                    'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
-                              ),
-                            );
-                          }
+                          FoodRequestModel food = FoodRequestModel(
+                            name: _foodNameController.text,
+                            description: _foodDescriptionController.text,
+                            type: jsonEncode(items),
+                            image:
+                                'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
+                          );
 
                           await _foodCubit.addFood(food);
-                          _foodCubit.getAllMeals();
-                          // Navigator.of(context).pop();
                         }
+
+                        _foodCubit.getAllMeals();
+                        // Navigator.of(context).pop();
                       },
                       child: const Text('Add Meal'),
                     ),
