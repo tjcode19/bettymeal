@@ -84,7 +84,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     _timetableCubit = context.read<TimetableCubit>();
-    _timetableCubit.loadMeals();
+    _timetableCubit.generateMealTable();
 
     // int a = 0;
     // while (a < 6) {

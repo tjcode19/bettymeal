@@ -2,6 +2,14 @@ import 'package:bettymeals/data/database/dao/food_dao.dart';
 
 import 'food.dart';
 
+
+class MealTable{
+
+  final DateTime date;
+  final List<int> foodId;
+
+  MealTable({required this.date, required this.foodId});
+}
 class TimetableModel {
   final int? id;
   final DateTime date;

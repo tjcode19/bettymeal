@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _timetableCubit = context.read<TimetableCubit>();
-    _timetableCubit.loadMeals();
+    // _timetableCubit.loadMeals();
   }
 
   @override
