@@ -17,7 +17,6 @@ class FoodCubit extends Cubit<FoodState> {
         super(FoodInitial());
 
   Future<void> getAllMeals() async {
-    print('get meal');
     try {
       emit(FoodLoading());
       final foods = await _foodRepository.getAllMeals();
@@ -31,7 +30,6 @@ class FoodCubit extends Cubit<FoodState> {
 
       emit(FoodLoaded(foods: foods, bf: bf, ln: ln, dn: dn));
     } catch (e) {
-      print("here we are $e");
       emit(FoodError(errorMessage: e.toString()));
     }
   }

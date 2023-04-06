@@ -2,14 +2,13 @@ import 'package:bettymeals/data/database/dao/food_dao.dart';
 
 import 'food.dart';
 
+// class MealTable {
+//   final DateTime date;
+//   final List<int> foodId;
 
-class MealTable{
+//   MealTable({required this.date, required this.foodId});
+// }
 
-  final DateTime date;
-  final List<int> foodId;
-
-  MealTable({required this.date, required this.foodId});
-}
 class TimetableModel {
   final int? id;
   final DateTime date;
@@ -36,5 +35,28 @@ class TimetableModel {
       'date': date.toIso8601String(),
       'foodIds': foods.map((food) => food.id).toList(),
     };
+  }
+}
+
+class TimeTable {
+  int? id;
+  int? date;
+  String? food;
+
+  TimeTable({this.id, this.date, this.food});
+
+  TimeTable.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    date = json['date'];
+    food = json['food'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data['id'] = id;
+    data['date'] = date;
+    data['food'] = food;
+    return data;
   }
 }

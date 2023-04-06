@@ -1,13 +1,15 @@
 import 'dart:math';
 
+import 'package:bettymeals/data/models/timetable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/models/food_data.dart';
 
 class TimeTable extends StatelessWidget {
   const TimeTable({required this.meals, super.key});
 
-  final List<TimeTableMeal> meals;
+  final List<TimetableModel> meals;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +56,12 @@ class TimeTable extends StatelessWidget {
             ),
           ],
         ),
-        for (TimeTableMeal d in meals)
-          _tableRow(context, day: d.day, b: d.bFast, l: d.lunch, d: d.dinner)
+        for (TimetableModel d in meals)
+          _tableRow(context,
+              day: 'Mon',
+              b: d.foods[0].name,
+              l: d.foods[1].name,
+              d: d.foods[2].name)
       ],
     );
   }
@@ -71,15 +77,15 @@ class TimeTable extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(b['meal'].name)),
+            child: Center(child: Text(b)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(l['meal'].name)),
+            child: Center(child: Text(l)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(d['meal'].toString())),
+            child: Center(child: Text(d)),
           ),
         ],
       );

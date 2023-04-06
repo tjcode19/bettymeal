@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/food_data.dart';
 import '../../utils/colours.dart';
@@ -132,11 +134,25 @@ class _MealTableScreenState extends State<MealTableScreen> {
           padding: EdgeInsets.all(CommonUtils.padding),
           child: Column(
             children: [
-              TimeTable(
-                key: const ValueKey("time_table"),
-                meals: meals,
+              BlocBuilder<TimetableCubit, TimetableState>(
+                builder: (context, state) {
+                  if (state is TimetableLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is TimetableLoaded) {
+                    return TimeTable(
+                    key: const ValueKey("time_table"),
+                    meals: state.timetable,
+                  );
+                  } else {
+                    return const Center(
+                      child: Text('Failed to load meals.'),
+                    );
+                  }
+                },
               ),
-              TextButton(onPressed: () {}, child: Text('Generate Timetabel'))
+              TextButton(onPressed: () {}, child: const Text('Generate Timetabel'))
             ],
           ),
         ));

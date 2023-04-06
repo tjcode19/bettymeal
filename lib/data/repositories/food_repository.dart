@@ -8,6 +8,10 @@ class FoodRepository {
     return await foodDao.getAll();
   }
 
+   Future<List<FoodModel>> getById(int foodId) async {
+    return await foodDao.getById(foodId);
+  }
+
   Future<void> addMeal(FoodRequestModel food) async {
     await foodDao.insert(food);
   }

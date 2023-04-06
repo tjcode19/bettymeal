@@ -42,4 +42,12 @@ class FoodDao {
       return FoodModel.fromMap(maps[i]);
     });
   }
+
+  Future<List<FoodModel>> getById(foodID) async {
+    final maps = await _database.query(tableName, where: 'id = ?', whereArgs: [foodID]);
+
+    return List.generate(maps.length, (i) {
+      return FoodModel.fromMap(maps[i]);
+    });
+  }
 }

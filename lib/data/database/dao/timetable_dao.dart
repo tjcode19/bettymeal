@@ -8,9 +8,8 @@ class TimetableDao {
   static const String createTableQuery = '''
     CREATE TABLE $tableName (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      food_id INTEGER,
-      date INTEGER,
-      FOREIGN KEY (food_id) REFERENCES food (id)
+      food TEXT,
+      date INTEGER
     )
   ''';
 
@@ -18,25 +17,27 @@ class TimetableDao {
 
   TimetableDao(this._database);
 
-  Future<int> insert(TimetableModel timetable) async {
-    return await _database.insert(tableName, timetable.toMap());
+  Future<int> insert(TimeTable timetable) async {
+    return await _database.insert(tableName, timetable.toJson());
   }
 
-  Future<int> update(TimetableModel timetable) async {
-    return await _database.update(tableName, timetable.toMap(),
+  Future<int> update(TimeTable timetable) async {
+    return await _database.update(tableName, timetable.toJson(),
         where: 'id = ?', whereArgs: [timetable.id]);
   }
 
-  Future<int> delete(TimetableModel timetable) async {
+  Future<int> delete(TimeTable timetable) async {
     return await _database
         .delete(tableName, where: 'id = ?', whereArgs: [timetable.id]);
   }
 
-  Future<List<TimetableModel>> getAll() async {
+  Future<List<TimeTable>> getAll() async {
     final List<Map<String, dynamic>> maps = await _database.query(tableName);
 
     return List.generate(maps.length, (i) {
-      return TimetableModel.fromMap(maps[i]);
+      return TimeTable.fromJson(maps[i]);
     });
   }
+
+  
 }

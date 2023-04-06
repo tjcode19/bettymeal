@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:convert';
+import 'dart:developer' as d;
 import 'dart:math';
 
 import 'package:bettymeals/data/models/food.dart';
@@ -22,11 +23,19 @@ class TimetableCubit extends Cubit<TimetableState> {
     try {
       FoodRepository foodRepository = FoodRepository();
       final foods = await foodRepository.getAllMeals();
-      final bf = foods.where((food) => food.type == 0).toList();
-      final ln = foods.where((e) => e.type == 1).toList();
-      final dn = foods.where((e) => e.type == 2).toList();
 
-      final mls = [bf, ln, dn];
+      final bf =
+          foods.where((food) => (jsonDecode(food.type).contains(0))).toList();
+      final ln =
+          foods.where((food) => (jsonDecode(food.type).contains(1))).toList();
+      final dn =
+          foods.where((food) => (jsonDecode(food.type).contains(2))).toList();
+
+      final mls = [];
+
+      mls.add(bf);
+      mls.add(ln);
+      mls.add(dn);
 
       DateTime now = DateTime.now();
       int daysUntilNextSunday = 7 - now.weekday;
@@ -37,28 +46,29 @@ class TimetableCubit extends Cubit<TimetableState> {
       int daysBetween = nextSunday.difference(now).inDays;
       var random = Random();
       var min = 0;
-      final List<int> f = [];
+      // final List<int> f = [];
 
       int d = 0;
 
       while (d < daysBetween) {
         var today = now.add(Duration(days: d));
-        f.clear();
+        final List<int> f = [];
+        int? b;
         for (List<FoodModel> m in mls) {
-          int? b;
+          var randomInt = min + random.nextInt(m.length - min);
 
-          var randomInt = min + random.nextInt((m.length-1) - min);
+          int att = 0;
+          while (f.contains(m[randomInt].id) && att < 3) {
+            randomInt = min + random.nextInt(m.length - min);
 
-          b = m[randomInt].id;
-
-          print('the random value $randomInt ${m.length} ${m[randomInt].name}');
-
-          f.add(b!);
+            att++;
+          }
+          b = m[randomInt].id!;
+          f.add(b);
         }
 
-        // inspect(f);
-
-        addMeal(MealTable(date: today, foodId: f));
+        addMeal(
+            TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
         d++;
       }
       // final meals = await _repository.getAllMeals();
@@ -68,13 +78,65 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
-  Future<void> addMeal(MealTable meal) async {
-    inspect(meal);
+  Future<void> addMeal(TimeTable meal) async {
+    FoodRepository foodRepository = FoodRepository();
     try {
       // await _repository.addMeal(meal);
-      // final meals = await _repository.getAllMeals();
-      // emit(TimetableLoaded(timetable: meals));
-    } catch (_) {
+      final meals = await _repository.getTimetable();
+
+      print("Meal $meals");
+
+      d.log("meal", error: meals);
+
+      // inspect(meals);
+      
+
+      final m = List.generate(meals.length, (i) async {
+        List<dynamic> f = jsonDecode(meals[i].food!);
+        final List<FoodModel> fItem = [];
+
+        for (int i in f) {
+          var kk = await foodRepository.getById(i);
+          fItem.add(kk[0]);
+        }
+        return TimetableModel(
+            date: DateTime.fromMicrosecondsSinceEpoch(meals[i].date!),
+            foods: fItem);
+      });
+
+      List<TimetableModel> mealList = await Future.wait(m);
+
+      d.inspect(mealList);
+
+      emit(TimetableLoaded(timetable: mealList));
+    } catch (e) {
+      print(e);
+      emit(const TimetableError(errorMessage: ''));
+    }
+  }
+
+  Future<void> getTimetable() async {
+    FoodRepository foodRepository = FoodRepository();
+    try {
+      final meals = await _repository.getTimetable();
+
+      final m = List.generate(meals.length, (i) async {
+        List<dynamic> f = jsonDecode(meals[i].food!);
+        final List<FoodModel> fItem = [];
+
+        for (int i in f) {
+          var kk = await foodRepository.getById(i);
+          fItem.add(kk[0]);
+        }
+        return TimetableModel(
+            date: DateTime.fromMicrosecondsSinceEpoch(meals[i].date!),
+            foods: fItem);
+      });
+
+      List<TimetableModel> mealList = await Future.wait(m);
+
+      emit(TimetableLoaded(timetable: mealList));
+    } catch (e) {
       emit(const TimetableError(errorMessage: ''));
     }
   }
