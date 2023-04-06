@@ -84,11 +84,6 @@ class TimetableCubit extends Cubit<TimetableState> {
       // await _repository.addMeal(meal);
       final meals = await _repository.getTimetable();
 
-      print("Meal $meals");
-
-      d.log("meal", error: meals);
-
-      // inspect(meals);
       
 
       final m = List.generate(meals.length, (i) async {

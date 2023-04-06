@@ -1,11 +1,13 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
 import 'package:bettymeals/ui/screens/index.dart';
+import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/mealtable.dart';
 
 class Routes {
+  static const String splashScreen = '/slash-screen';
   static const String home = '/';
   static const String timetable = '/timetable';
   static const String addFood = '/add-food';
@@ -15,6 +17,8 @@ class Routes {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(builder: (_) => const HomePage());
+      case splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case timetable:
         return MaterialPageRoute(builder: (_) => const MealTableScreen());
       case addFood:

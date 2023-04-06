@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.teal, brightness: Brightness.dark),
         ),
         themeMode: ThemeMode.light,
-        initialRoute: Routes.home,
+        initialRoute: Routes.splashScreen,
         onGenerateRoute: Routes.generateRoute,
       ),
     );
