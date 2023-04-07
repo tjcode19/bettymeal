@@ -1,3 +1,4 @@
+import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
               background: Color.fromARGB(255, 236, 244, 243),
             ),
             fontFamily: "Roboto",
-            listTileTheme: const ListTileThemeData(textColor: Color(0xff576F72), style: ListTileStyle.drawer),
+            listTileTheme: const ListTileThemeData(
+                textColor: Color(0xff576F72), style: ListTileStyle.drawer),
             textTheme: TextTheme(
               // displayLarge:
               //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
@@ -55,8 +57,10 @@ class MyApp extends StatelessWidget {
               bodyMedium: const TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
+            dataTableTheme: DataTableThemeData(
+                dataTextStyle:
+                    TextStyle(color: AppColour(context).secondaryColour)),
             iconTheme: IconThemeData(color: Colors.teal, size: 20)),
-            
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(

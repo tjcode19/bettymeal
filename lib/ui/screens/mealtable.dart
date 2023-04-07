@@ -124,6 +124,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Food Bank',
             style: TextStyle(color: AppColour(context).onPrimaryColour),
@@ -152,7 +153,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
                   }
                 },
               ),
-              TextButton(onPressed: () {}, child: const Text('Generate Timetabel'))
+              TextButton(onPressed: () {}, child: const Text('Shuffle MealTable'))
             ],
           ),
         ));

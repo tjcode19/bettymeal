@@ -43,6 +43,7 @@ class _FoodScreenState extends State<FoodScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Food Bank',
           style: TextStyle(color: AppColour(context).onPrimaryColour),

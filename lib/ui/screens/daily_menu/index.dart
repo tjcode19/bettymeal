@@ -1,7 +1,11 @@
+import 'dart:developer';
+import 'dart:ffi';
+
 import 'package:bettymeals/ui/widgets/food_card.dart';
 import 'package:bettymeals/ui/widgets/section_title.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,10 +22,14 @@ class DailyMenuScreen extends StatefulWidget {
 }
 
 class _DailyMenuScreenState extends State<DailyMenuScreen> {
-  late final TimetableCubit _timetableCubit;
+  // late final TimetableCubit _timetableCubit;
 
   DateTime currentDate = DateTime.now();
   final List<String> period = ['Breakfast', 'Lunch', 'Dinner'];
+  final today = HelperMethod.formatDate(DateTime.now().toIso8601String(),
+      pattern: 'yyyy-MM-dd');
+
+  final List<String> daysOfWeek = HelperMethod.dayOfWeek();
 
   final List<TimetableModel> timetable = [
     TimetableModel(date: DateTime.now(), foods: [
@@ -54,16 +62,17 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     ])
   ];
 
-  late ScrollController _scrollController;
-  int _scrollPosition = 0;
+  // late ScrollController _scrollController;
+  // int _scrollPosition = 0;
+
   int _selected = 0;
 
-  _scrollListener() {
-    setState(() {
-      _scrollPosition =
-          (_scrollController.position.pixels / CommonUtils.sw(context)).round();
-    });
-  }
+  // _scrollListener() {
+  //   setState(() {
+  //     _scrollPosition =
+  //         (_scrollController.position.pixels / CommonUtils.sw(context)).round();
+  //   });
+  // }
 
   String periodOfTheDay() {
     var time = DateTime.now();
@@ -81,27 +90,12 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   void initState() {
     super.initState();
 
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
-    _timetableCubit = context.read<TimetableCubit>();
-    _timetableCubit.generateMealTable();
+    _selected = daysOfWeek.indexOf(HelperMethod.formatDate(
+        DateTime.now().toIso8601String(),
+        pattern: 'yyyy-MM-dd'));
 
-    // int a = 0;
-    // while (a < 6) {
-    //   currentDate = currentDate.add(const Duration(days: 1));
-    //   timetable.add(
-    //     TimetableModel(date: currentDate, foods: [
-    //       FoodModel(
-    //           description: 'Light food', image: '', name: 'Koko', extra: []),
-    //       FoodModel(
-    //           description: 'Light food', image: '', name: 'Laagba', extra: []),
-    //       FoodModel(
-    //           description: 'Light food', image: '', name: 'Rice', extra: [])
-    //     ]),
-    //   );
-
-    //   a++;
-    // }
+    // _scrollController = ScrollController();
+    // _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -163,7 +157,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         top: 8, bottom: 8, left: CommonUtils.padding),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: timetable.length,
+                      itemCount: daysOfWeek.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -178,7 +172,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 EdgeInsets.only(right: CommonUtils.xspadding),
                             decoration: BoxDecoration(
                               // shape: BoxShape.circle,
-                              color: _selected != index
+                              color: (_selected != index)
                                   ? AppColour(context).primaryColour
                                   : AppColour(context).secondaryColour,
                               border: Border.all(
@@ -192,15 +186,18 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  DateWay(timetable[index].date).tDay,
+                                  DateWay(DateTime.parse(daysOfWeek[index]))
+                                      .tDay,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 Text(
-                                  DateWay(timetable[index].date).tDate,
+                                  DateWay(DateTime.parse(daysOfWeek[index]))
+                                      .tDate,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Text(
-                                  DateWay(timetable[index].date).tMon,
+                                  DateWay(DateTime.parse(daysOfWeek[index]))
+                                      .tMon,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
@@ -212,29 +209,44 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                   ),
                   CommonUtils.spaceH,
                   //The card listview implemetation starts here
-                  SizedBox(
-                    height: CommonUtils.sh(context, s: 0.4),
-                    width: CommonUtils.sw(context, s: 1),
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: timetable[_selected].foods.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        List<FoodModel> t = timetable[_selected].foods;
+                  BlocBuilder<TimetableCubit, TimetableState>(
+                    builder: (context, state) {
+                      if (state is TimetableLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is TimetableLoaded) {
                         return SizedBox(
-                            width: CommonUtils.sw(context) -
-                                (CommonUtils.padding * 0.8),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: FoodCard(
-                                food: t[index],
-                                period: period[index],
-                              ),
-                            ));
-                      },
-                    ),
+                          height: CommonUtils.sh(context, s: 0.4),
+                          width: CommonUtils.sw(context, s: 1),
+                          child: ListView.builder(
+                            // controller: _scrollController,
+                            itemCount: state.timetable[_selected].foods.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              List<FoodModel> t =
+                                  state.timetable[_selected].foods;
+                              return SizedBox(
+                                  width: CommonUtils.sw(context) -
+                                      (CommonUtils.padding * 0.8),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: FoodCard(
+                                      food: t[index],
+                                      period: period[index],
+                                    ),
+                                  ));
+                            },
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: Text('Failed to load meals.'),
+                        );
+                      }
+                    },
                   ),
                   //The card listview implemetation ends here
                   Column(

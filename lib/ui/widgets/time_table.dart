@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:bettymeals/data/models/timetable.dart';
+import 'package:bettymeals/utils/colours.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -58,7 +60,8 @@ class TimeTable extends StatelessWidget {
         ),
         for (TimetableModel d in meals)
           _tableRow(context,
-              day: 'Mon',
+              day: HelperMethod.formatDate(d.date.toIso8601String(),
+                  pattern: 'EEE'),
               b: d.foods[0].name,
               l: d.foods[1].name,
               d: d.foods[2].name)
@@ -77,15 +80,39 @@ class TimeTable extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(b)),
+            child: Center(
+                child: Text(
+              b,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColour(context).secondaryColour),
+            )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(l)),
+            child: Center(
+                child: Text(
+              l,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColour(context).secondaryColour),
+            )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text(d)),
+            child: Center(
+                child: Text(
+              d,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColour(context).secondaryColour),
+            )),
           ),
         ],
       );

@@ -62,10 +62,18 @@ class DayContainer extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              food[index].description,
+                              food[index].name,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
+                                  .copyWith(
+                                      color: AppColour(context).onBackground),
+                            ),
+                            Text(
+                              food[index].description,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
                                   .copyWith(
                                       color: AppColour(context).onBackground),
                             ),
