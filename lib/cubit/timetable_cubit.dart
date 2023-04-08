@@ -38,18 +38,10 @@ class TimetableCubit extends Cubit<TimetableState> {
       mls.add(ln);
       mls.add(dn);
 
-      // DateTime now = DateTime.now();
-      // int daysUntilNextSunday = 7 - now.weekday;
-      // if (now.weekday == 7) {
-      //   daysUntilNextSunday = 0;
-      // }
-      // DateTime nextSunday = now.add(Duration(days: daysUntilNextSunday));
-      // int daysBetween = nextSunday.difference(now).inDays;
       var random = Random();
       var min = 0;
-      // final List<int> f = [];
 
-      int d = 0;
+      // int d = 0;
       final dates = HelperMethod.dayOfWeek();
 
       for (String d in dates) {
@@ -73,8 +65,6 @@ class TimetableCubit extends Cubit<TimetableState> {
             TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
        
       }
-      // final meals = await _repository.getAllMeals();
-      // emit(TimetableLoaded(timetable: meals));
     } catch (_) {
       emit(const TimetableError(errorMessage: ""));
     }

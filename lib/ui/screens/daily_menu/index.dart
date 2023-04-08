@@ -111,7 +111,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             decoration: BoxDecoration(
                 color: AppColour(context).primaryColour,
                 borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(35))),
+                    const BorderRadius.only(bottomLeft: Radius.circular(35))),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               child: Column(
                 children: [
                   Container(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       minHeight: 50.0,
                       maxHeight: 80.0,
                     ),
@@ -178,7 +178,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               border: Border.all(
                                   width: 1.0,
                                   color: AppColour(context).onPrimaryColour),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               ),
                             ),

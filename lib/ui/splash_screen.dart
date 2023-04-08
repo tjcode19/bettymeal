@@ -5,8 +5,7 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../cubit/food_cubit.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final double sizeW = 140;
   void finishSplashScreen() async {
     final now = DateTime.now();
     final timetableCubit = context.read<TimetableCubit>();
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       timetableCubit.getTimetable();
     }
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 10), () {
       Navigator.pushNamed(context, Routes.home);
     });
   }
@@ -52,16 +52,24 @@ class _SplashScreenState extends State<SplashScreen> {
             width: CommonUtils.sw(context, s: 0.5),
             child: Column(
               children: [
-                Image.asset('assets/images/bf.jpg'),
+                Image(
+                  image: Svg('assets/icons/meal.svg',
+                      color: Colors.white, size: Size(sizeW, sizeW)),
+                ),
                 RichText(
                   text: TextSpan(
                     style: Theme.of(context)
                         .textTheme
-                        .displayMedium!,
-                        // .copyWith(color: AppColour(context).secondaryColour),
+                        .displayMedium!
+                        .copyWith(color: AppColour(context).onPrimaryColour),
                     text: 'Meal',
                     children: [
-                      TextSpan(text: 'ble'),
+                      TextSpan(
+                          text: 'ble',
+                          style: TextStyle(
+                              color: AppColour(context)
+                                  .onPrimaryColour
+                                  .withOpacity(0.5))),
                     ],
                   ),
                 )
