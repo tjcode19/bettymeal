@@ -18,7 +18,23 @@ class TimetableRepository {
     return res;
   }
 
+  Future<List<TimeTable>> getWeekTimetable(sDate, eDate) async {
+    var res;
+    try {
+      res = await _timetableDao.getForWeek(sDate, eDate);
+    } catch (e) {
+      // return e;
+      print('all timetable error $e');
+    }
+
+    return res;
+  }
+
   Future<void> addMeal(TimeTable meal) async {
     await _timetableDao.insert(meal);
+  }
+
+  Future<void> updateMeal(TimeTable meal) async {
+    await _timetableDao.update(meal);
   }
 }

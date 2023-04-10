@@ -143,9 +143,9 @@ class _MealTableScreenState extends State<MealTableScreen> {
                     );
                   } else if (state is TimetableLoaded) {
                     return TimeTable(
-                    key: const ValueKey("time_table"),
-                    meals: state.timetable,
-                  );
+                      key: const ValueKey("time_table"),
+                      meals: state.timetable,
+                    );
                   } else {
                     return const Center(
                       child: Text('Failed to load meals.'),
@@ -153,7 +153,12 @@ class _MealTableScreenState extends State<MealTableScreen> {
                   }
                 },
               ),
-              TextButton(onPressed: () {}, child: const Text('Shuffle MealTable'))
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<TimetableCubit>(context)
+                        .rescheduleMealTable();
+                  },
+                  child: const Text('Shuffle MealTable'))
             ],
           ),
         ));

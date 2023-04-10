@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/timetable.dart';
@@ -22,8 +24,10 @@ class TimetableDao {
   }
 
   Future<int> update(TimeTable timetable) async {
-    return await _database.update(tableName, timetable.toJson(),
-        where: 'id = ?', whereArgs: [timetable.id]);
+    inspect(timetable);
+    Map<String, dynamic> json = {'food': timetable.food};
+    return await _database.update(tableName,json,
+        where: 'date = ?', whereArgs: [timetable.date]);
   }
 
   Future<int> delete(TimeTable timetable) async {
@@ -39,5 +43,15 @@ class TimetableDao {
     });
   }
 
-  
+  // .where('createdAt', '>=', '2009-01-01T00:00:00Z')
+  // .where('createdAt', '<', '2010-01-01T00:00:00Z')
+
+  Future<List<TimeTable>> getForWeek(startDate, endDate) async {
+    final List<Map<String, dynamic>> maps = await _database
+        .query(tableName, where: 'date >= ?', whereArgs: [startDate]);
+
+    return List.generate(maps.length, (i) {
+      return TimeTable.fromJson(maps[i]);
+    });
+  }
 }
