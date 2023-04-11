@@ -155,55 +155,76 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     color: Colors.white,
                     padding: EdgeInsets.only(
                         top: 8, bottom: 8, left: CommonUtils.padding),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: daysOfWeek.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selected = index;
-                            });
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: CommonUtils.mpadding),
-                            margin:
-                                EdgeInsets.only(right: CommonUtils.xspadding),
-                            decoration: BoxDecoration(
-                              // shape: BoxShape.circle,
-                              color: (_selected != index)
-                                  ? AppColour(context).primaryColour
-                                  : AppColour(context).secondaryColour,
-                              border: Border.all(
-                                  width: 1.0,
-                                  color: AppColour(context).onPrimaryColour),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  DateWay(DateTime.parse(daysOfWeek[index]))
-                                      .tDay,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                    child: BlocBuilder<TimetableCubit, TimetableState>(
+                      builder: (context, state) {
+                        if (state is TimetableLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is TimetableLoaded) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.timetable.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _selected = index;
+                                  });
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: CommonUtils.mpadding),
+                                  margin: EdgeInsets.only(
+                                      right: CommonUtils.xspadding),
+                                  decoration: BoxDecoration(
+                                    // shape: BoxShape.circle,
+                                    color: (_selected != index)
+                                        ? AppColour(context).primaryColour
+                                        : AppColour(context).secondaryColour,
+                                    border: Border.all(
+                                        width: 1.0,
+                                        color:
+                                            AppColour(context).onPrimaryColour),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        DateWay(state.timetable[index].date)
+                                            .tDay,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Text(
+                                        DateWay(state.timetable[index].date)
+                                            .tDate,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        DateWay(state.timetable[index].date)
+                                            .tMon,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  DateWay(DateTime.parse(daysOfWeek[index]))
-                                      .tDate,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                Text(
-                                  DateWay(DateTime.parse(daysOfWeek[index]))
-                                      .tMon,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                              );
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: Text('Failed to load meals.'),
+                          );
+                        }
                       },
                     ),
                   ),
@@ -216,31 +237,36 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is TimetableLoaded) {
-                        return SizedBox(
-                          height: CommonUtils.sh(context, s: 0.4),
-                          width: CommonUtils.sw(context, s: 1),
-                          child: ListView.builder(
-                            // controller: _scrollController,
-                            itemCount: state.timetable[_selected].foods.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              List<FoodModel> t =
-                                  state.timetable[_selected].foods;
-                              return SizedBox(
-                                  width: CommonUtils.sw(context) -
-                                      (CommonUtils.padding * 0.8),
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: FoodCard(
-                                      food: t[index],
-                                      period: period[index],
-                                    ),
-                                  ));
-                            },
-                          ),
-                        );
+                        return state.timetable.length > 0
+                            ? SizedBox(
+                                height: CommonUtils.sh(context, s: 0.4),
+                                width: CommonUtils.sw(context, s: 1),
+                                child: ListView.builder(
+                                  // controller: _scrollController,
+                                  itemCount:
+                                      state.timetable[_selected].foods.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    List<FoodModel> t =
+                                        state.timetable[_selected].foods;
+                                    return SizedBox(
+                                        width: CommonUtils.sw(context) -
+                                            (CommonUtils.padding * 0.8),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: FoodCard(
+                                            food: t[index],
+                                            period: period[index],
+                                          ),
+                                        ));
+                                  },
+                                ),
+                              )
+                            : Text('You need to add some food',
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColour(context).secondaryColour));
                       } else {
                         return const Center(
                           child: Text('Failed to load meals.'),

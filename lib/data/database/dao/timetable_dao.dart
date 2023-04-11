@@ -24,7 +24,6 @@ class TimetableDao {
   }
 
   Future<int> update(TimeTable timetable) async {
-    inspect(timetable);
     Map<String, dynamic> json = {'food': timetable.food};
     return await _database.update(tableName,json,
         where: 'date = ?', whereArgs: [timetable.date]);
