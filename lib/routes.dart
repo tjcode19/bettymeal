@@ -1,4 +1,5 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
+import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
@@ -11,6 +12,7 @@ class Routes {
   static const String splashScreen = '/slash-screen';
   static const String home = '/';
   static const String onboarding = '/onboarding';
+  static const String getStarted = '/get-started';
   static const String timetable = '/timetable';
   static const String addFood = '/add-food';
   static const String addCategory = '/add-category';
@@ -23,6 +25,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case onboarding:
         return MaterialPageRoute(builder: (_) => const Onboarding());
+      case getStarted:
+        return MaterialPageRoute(builder: (_) => const GetStarted());
       case timetable:
         return MaterialPageRoute(builder: (_) => const MealTableScreen());
       case addFood:

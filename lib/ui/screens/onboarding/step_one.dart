@@ -1,6 +1,5 @@
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/enums.dart';
-import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,12 +7,10 @@ import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../../cubit/food_cubit.dart';
-import '../../../cubit/timetable_cubit.dart';
-import '../../../routes.dart';
 import '../../../utils/colours.dart';
 
 class StepOne extends StatefulWidget {
-  const StepOne({required this.onChange, super.key});
+  const StepOne(this.onChange, {super.key});
 
   final Function onChange;
 
@@ -25,7 +22,6 @@ class _StepOneState extends State<StepOne> {
   bool isOkay = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<FoodCubit>().getAllMeals();
   }
@@ -45,9 +41,7 @@ class _StepOneState extends State<StepOne> {
                       .textTheme
                       .displayMedium!
                       .copyWith(color: AppColour(context).onPrimaryColour)),
-
               CustomLayout.mPad.sizedBoxH,
-
               RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -87,15 +81,6 @@ class _StepOneState extends State<StepOne> {
                     // height: 13,
                     semanticsLabel: 'A red up arrow'),
               ),
-
-              // Image(
-              //   width: 24,
-              //   height: 24,
-              //   image: Svg(
-              //     'assets/icons/conf.svg',
-              //     color: Colors.white,
-              //   ),
-              // ),
               CustomLayout.xlPad.sizedBoxH,
               Center(
                 child: ElevatedButton(

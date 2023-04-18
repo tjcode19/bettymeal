@@ -12,14 +12,13 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  static const _kDuration = Duration(milliseconds: 300);
+  static const _kDuration = Duration(milliseconds: 500);
 
   static const _kCurve = Curves.ease;
 
   late final PageController _controller;
 
   changePage(int page) {
-    print('hey');
     _controller.animateToPage(
       page,
       duration: _kDuration,
@@ -27,34 +26,21 @@ class _OnboardingState extends State<Onboarding> {
     );
   }
 
-  final List<Widget> _pages = <Widget>[
-    // ConstrainedBox(
-    //   constraints: const BoxConstraints.expand(),
-    //   child: StepOne(onChange: changePage(2)),
-    // ),
-    // ConstrainedBox(
-    //   constraints: const BoxConstraints.expand(),
-    //   child: const StepTwo(),
-    // ),
-    // ConstrainedBox(
-    //   constraints: const BoxConstraints.expand(),
-    //   child: const StepThree(),
-    // ),
-  ];
+  final List<Widget> _pages = <Widget>[];
 
   @override
   void initState() {
     _pages.add(ConstrainedBox(
       constraints: const BoxConstraints.expand(),
-      child: StepOne(onChange: changePage),
+      child: StepOne(changePage),
     ));
     _pages.add(ConstrainedBox(
       constraints: const BoxConstraints.expand(),
-      child: StepTwo(),
+      child: StepTwo(changePage),
     ));
     _pages.add(ConstrainedBox(
       constraints: const BoxConstraints.expand(),
-      child: StepThree(),
+      child: StepThree(changePage),
     ));
     _controller = PageController();
     super.initState();
