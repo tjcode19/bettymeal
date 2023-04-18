@@ -68,11 +68,35 @@ class StepThree extends StatelessWidget {
               ),
               CustomLayout.xlPad.sizedBoxH,
               Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.addFood);
-                  },
-                  child: const Text('Get Started'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        changePage(1);
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(Icons.keyboard_arrow_left),
+                          Text('Back'),
+                        ],
+                      ),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.popAndPushNamed(context, Routes.getStarted);
+                      },
+                      child: Row(
+                        children: const [
+                          Text(
+                            'Get Started',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Icon(Icons.arrow_forward, color: Colors.white)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

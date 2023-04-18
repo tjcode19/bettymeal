@@ -15,7 +15,7 @@ class StepTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColour(context).primaryColour,
+      backgroundColor: AppColour(context).secondaryColour,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -69,11 +69,33 @@ class StepTwo extends StatelessWidget {
               ),
               CustomLayout.xlPad.sizedBoxH,
               Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    onChange(2);
-                  },
-                  child: const Text('Next'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        onChange(0);
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(Icons.keyboard_arrow_left),
+                          Text('Back'),
+                          
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        onChange(2);
+                      },
+                      child: Row(
+                        children: const [
+                          Text('Next'),
+                          Icon(Icons.keyboard_arrow_right)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

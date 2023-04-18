@@ -7,24 +7,13 @@ import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../../cubit/food_cubit.dart';
+import '../../../routes.dart';
 import '../../../utils/colours.dart';
 
-class StepOne extends StatefulWidget {
+class StepOne extends StatelessWidget {
   const StepOne(this.onChange, {super.key});
 
   final Function onChange;
-
-  @override
-  State<StepOne> createState() => _StepOneState();
-}
-
-class _StepOneState extends State<StepOne> {
-  bool isOkay = false;
-  @override
-  void initState() {
-    super.initState();
-    context.read<FoodCubit>().getAllMeals();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,40 +25,51 @@ class _StepOneState extends State<StepOne> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome',
+              Text('Welcome 🤗',
                   style: Theme.of(context)
                       .textTheme
-                      .displayMedium!
+                      .displaySmall!
                       .copyWith(color: AppColour(context).onPrimaryColour)),
-              CustomLayout.mPad.sizedBoxH,
+              const Divider(
+                thickness: 2,
+                color: Colors.white30,
+              ),
+              CustomLayout.xlPad.sizedBoxH,
               RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color:
-                            AppColour(context).onPrimaryColour.withOpacity(0.6),
+                            AppColour(context).onPrimaryColour.withOpacity(0.8),
                       ),
-                  text: 'Have you always been \n',
+                  text: 'Have you always been ',
                   children: [
                     TextSpan(
-                      text: 'Thinking \n',
+                      text: 'Thinking 🤔 \n',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                     TextSpan(
-                      text: ' how to plan your meal for a \n',
+                      text: 'how to plan your meal for a ',
                       style: TextStyle(
                         color:
-                            AppColour(context).onPrimaryColour.withOpacity(0.6),
+                            AppColour(context).onPrimaryColour.withOpacity(0.8),
                       ),
                     ),
                     TextSpan(
-                      text: ' whole week or month?',
+                      text: 'whole',
                       style: Theme.of(context)
                           .textTheme
-                          .titleMedium!
+                          .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
+                    TextSpan(
+                      text: ' week or month?',
+                      style: TextStyle(
+                        color:
+                            AppColour(context).onPrimaryColour.withOpacity(0.8),
+                      ),
                     ),
                   ],
                 ),
@@ -83,29 +83,38 @@ class _StepOneState extends State<StepOne> {
               ),
               CustomLayout.xlPad.sizedBoxH,
               Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    widget.onChange(1);
-                  },
-                  child: const Text('Next'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.getStarted);
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(Icons.keyboard_arrow_left),
+                          Text('Skip'),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        onChange(1);
+                      },
+                      child: Row(
+                        children: const [
+                          Text('Next'),
+                          Icon(Icons.keyboard_arrow_right)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget badgeer({required Widget badgeContent, required Widget label}) {
-    return badges.Badge(
-      badgeContent: badgeContent,
-      badgeStyle: badges.BadgeStyle(
-        badgeColor: AppColour(context).primaryColour,
-        padding: const EdgeInsets.all(8),
-        borderSide: const BorderSide(color: Colors.white, width: 1),
-      ),
-      child: Chip(label: label),
     );
   }
 }

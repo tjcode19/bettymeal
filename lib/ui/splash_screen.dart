@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   gotoOnboarding() {
     Timer(Duration(seconds: counter), () {
-      Navigator.pushNamed(context, Routes.onboarding);
+      Navigator.popAndPushNamed(context, Routes.onboarding);
     });
   }
 
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
       timetableCubit.getTimetable();
     }
     Timer(Duration(seconds: counter), () async {
-      Navigator.pushNamed(context, Routes.home);
+      Navigator.popAndPushNamed(context, Routes.home);
     });
   }
 
