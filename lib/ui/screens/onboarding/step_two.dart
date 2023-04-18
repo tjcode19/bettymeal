@@ -73,13 +73,20 @@ class StepTwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
                       onPressed: () {
                         onChange(0);
                       },
                       child: Row(
-                        children: const [
-                          Icon(Icons.keyboard_arrow_left),
-                          Text('Back'),
+                        children: [
+                          Icon(Icons.keyboard_arrow_left,
+                              color: AppColour(context).secondaryColour),
+                          Text(
+                            'Back',
+                            style: TextStyle(
+                                color: AppColour(context).secondaryColour),
+                          ),
                         ],
                       ),
                     ),

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import '../cubit/user_cubit.dart';
 import '../routes.dart';
 import '../utils/enums.dart';
 
@@ -50,17 +51,16 @@ class _SplashScreenState extends State<SplashScreen> {
     if (now.weekday == DateTime.sunday) {
       // Call generateMealTable() here\
       timetableCubit.generateMealTable();
-    } else {
-      timetableCubit.getTimetable();
-    }
+    } 
     Timer(Duration(seconds: counter), () async {
-      Navigator.popAndPushNamed(context, Routes.home);
+      Navigator.pushNamed(context, Routes.home);
     });
   }
 
   @override
   void initState() {
     super.initState();
+    // context.read<UserCubit>().setUserDetails('Tolu', 'Male');
 
     finishSplashScreen();
   }
@@ -95,8 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       TextSpan(
                           text: 'ble',
                           style: TextStyle(
-                              color: AppColour(context)
-                                  .secondaryColour)),
+                              color: AppColour(context).secondaryColour)),
                     ],
                   ),
                 )

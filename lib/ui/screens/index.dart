@@ -39,8 +39,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+     context.read<TimetableCubit>().getTimetable();
     super.initState();
-    
   }
 
   @override
@@ -63,9 +63,12 @@ class _HomePageState extends State<HomePage> {
           onTabTapped(0);
         },
         shape: const CircleBorder(),
-        child:  SvgPicture.asset('assets/icons/conf.svg',
-                  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                  semanticsLabel: 'A red up arrow'),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SvgPicture.asset('assets/icons/food-icon-w.svg',
+        
+              semanticsLabel: 'A red up arrow'),
+        ),
         // Image(
         //   width: 24,
         //   height: 24,

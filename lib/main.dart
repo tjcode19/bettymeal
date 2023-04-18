@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
 import 'cubit/timetable_cubit.dart';
+import 'cubit/user_cubit.dart';
 import 'data/database/app_database.dart';
 import 'routes.dart';
 
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TimetableCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(),
         ),
       ],
       child: MaterialApp(

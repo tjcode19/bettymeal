@@ -87,13 +87,22 @@ class StepOne extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.getStarted);
                       },
                       child: Row(
-                        children: const [
-                          Icon(Icons.keyboard_arrow_left),
-                          Text('Skip'),
+                        children: [
+                          Icon(
+                            Icons.keyboard_arrow_left,
+                            color: AppColour(context).primaryColour,
+                          ),
+                          Text(
+                            'Skip',
+                            style: TextStyle(
+                                color: AppColour(context).primaryColour),
+                          ),
                         ],
                       ),
                     ),

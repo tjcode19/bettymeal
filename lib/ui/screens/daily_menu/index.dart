@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ffi';
 
+import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
 import 'package:bettymeals/ui/widgets/section_title.dart';
 import 'package:bettymeals/utils/colours.dart';
@@ -120,25 +121,37 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: CommonUtils.padding),
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Hey, Betty \n',
-                      children: [
-                        TextSpan(
-                          text: 'Meal is ready!',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                  child: BlocBuilder<UserCubit, UserState>(
+                    builder: (context, state) {
+                      String name = 'NA';
+
+                      if (state is GetUser) {
+                        name = state.name;
+                      }
+                      return RichText(
+                        text: TextSpan(
+                          text: 'Hey, $name \n',
+                          children: [
+                            TextSpan(
+                              text: 'Meal is ready!',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
                                     color: AppColour(context)
                                         .onPrimaryColour
                                         .withOpacity(0.7),
                                   ),
-                        )
-                      ],
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: AppColour(context).onPrimaryColour),
-                    ),
+                            )
+                          ],
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  color: AppColour(context).onPrimaryColour),
+                        ),
+                      );
+                    },
                   ),
                 )
               ],

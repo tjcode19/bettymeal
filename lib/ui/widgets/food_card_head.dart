@@ -50,16 +50,15 @@ class FoodCardHead extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(5),
-
         child: Column(
           children: [
             // Image(
             //   image: Svg('assets/icons/meal.svg',
             //       color: Colors.white, size: Size(sizeW, sizeW)),
             // ),
-             SvgPicture.asset('assets/icons/conf.svg',
-                  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
-                  semanticsLabel: 'A red up arrow'),
+            SvgPicture.asset('assets/icons/food-icon-w.svg',
+                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                semanticsLabel: 'A red up arrow'),
             Text(
               mealType,
               style: Theme.of(context)

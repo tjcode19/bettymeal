@@ -72,13 +72,20 @@ class StepThree extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
                       onPressed: () {
                         changePage(1);
                       },
                       child: Row(
-                        children: const [
-                          Icon(Icons.keyboard_arrow_left),
-                          Text('Back'),
+                        children: [
+                          Icon(Icons.keyboard_arrow_left,
+                              color: AppColour(context).primaryColour),
+                          Text(
+                            'Back',
+                            style: TextStyle(
+                                color: AppColour(context).primaryColour),
+                          )
                         ],
                       ),
                     ),
