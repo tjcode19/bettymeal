@@ -41,26 +41,41 @@ class MyApp extends StatelessWidget {
               secondary: const Color(0xffc26700), //#66b2b2
               secondaryContainer: const Color(0xffc26700),
               onSecondary: Colors.black,
-              tertiary: Color.fromARGB(255, 5, 79, 116),
+              tertiary: const Color.fromARGB(255, 5, 79, 116),
               onSurface: Colors.black,
               onBackground: Colors.black,
-              background: Color.fromARGB(255, 236, 244, 243),
+              background: const Color.fromARGB(255, 236, 244, 243),
             ),
             fontFamily: "Roboto",
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 15)),
+            ),
+            inputDecorationTheme: const InputDecorationTheme(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Colors.teal),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2),
+              ),
+            ),
             listTileTheme: const ListTileThemeData(
                 textColor: Color(0xff576F72), style: ListTileStyle.drawer),
-            textTheme: TextTheme(
+            textTheme: const TextTheme(
               // displayLarge:
               //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              titleLarge: const TextStyle(fontWeight: FontWeight.bold),
-              bodySmall: TextStyle(color: Colors.white.withOpacity(0.8)),
-              bodyMedium: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+              titleLarge: TextStyle(fontWeight: FontWeight.bold),
+              // bodySmall: TextStyle(color: Colors.white.withOpacity(0.8)),
+              // bodyMedium: const TextStyle(
+              //     color: Colors.white, fontWeight: FontWeight.bold),
             ),
             dataTableTheme: DataTableThemeData(
                 dataTextStyle:
                     TextStyle(color: AppColour(context).secondaryColour)),
-            iconTheme: IconThemeData(color: Colors.teal, size: 20)),
+            iconTheme: const IconThemeData(color: Colors.teal, size: 20)),
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSwatch(

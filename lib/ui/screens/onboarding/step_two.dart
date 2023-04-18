@@ -80,18 +80,20 @@ class StepTwo extends StatelessWidget {
                         children: const [
                           Icon(Icons.keyboard_arrow_left),
                           Text('Back'),
-                          
                         ],
                       ),
                     ),
-                    ElevatedButton(
+                    OutlinedButton(
                       onPressed: () {
                         onChange(2);
                       },
                       child: Row(
                         children: const [
-                          Text('Next'),
-                          Icon(Icons.keyboard_arrow_right)
+                          Text(
+                            'Next',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Icon(Icons.keyboard_arrow_right, color: Colors.white)
                         ],
                       ),
                     ),

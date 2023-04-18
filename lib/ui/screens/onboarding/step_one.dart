@@ -97,14 +97,17 @@ class StepOne extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ElevatedButton(
+                    OutlinedButton(
                       onPressed: () {
                         onChange(1);
                       },
                       child: Row(
                         children: const [
-                          Text('Next'),
-                          Icon(Icons.keyboard_arrow_right)
+                          Text(
+                            'Next',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Icon(Icons.keyboard_arrow_right, color: Colors.white)
                         ],
                       ),
                     ),
