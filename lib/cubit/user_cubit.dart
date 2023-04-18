@@ -22,10 +22,14 @@ class UserCubit extends Cubit<UserState> {
         sharedType: SpDataType.bool, fieldName: 'firstTimer', fieldValue: true);
   }
 
-  getUserDetails(name, gender) async {
-    final name = await sharedPreference.getSharedPrefs(
-        sharedType: SpDataType.String, fieldName: 'name');
+  getUserDetails() async {
+    try {
+      final name = await sharedPreference.getSharedPrefs(
+          sharedType: SpDataType.String, fieldName: 'name');
 
-    emit(GetUser(name));
+      emit(GetUser(name));
+    } catch (e) {
+      print(e);
+    }
   }
 }

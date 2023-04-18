@@ -34,6 +34,12 @@ class FoodCubit extends Cubit<FoodState> {
     }
   }
 
+  Future<int> getFoodSize() async {
+    final foods = await _foodRepository.getAllMeals();
+
+    return foods.length;
+  }
+
   Future<void> addFood(FoodRequestModel food) async {
     inspect(food);
     try {

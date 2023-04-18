@@ -27,13 +27,22 @@ class DishesScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else if (state is TimetableLoaded) {
-              int l = state.timetable.length > 7 ? 6: state.timetable.length-1;
-              return Column(
-                children: [
-                  for (int i = 1; i <= l; i++)
-                    DayContainer(day: 'Day $i', food: state.timetable[i].foods),
-                ],
-              );
+              int l =
+                  state.timetable.length > 7 ? 6 : state.timetable.length - 1;
+              return l > 0
+                  ? Column(
+                      children: [
+                        for (int i = 1; i <= l; i++)
+                          DayContainer(
+                              day: 'Day $i', food: state.timetable[i].foods),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('No dish is available'),
+                      ],
+                    );
             } else {
               return const Center(
                 child: Text('Failed to load meals.'),

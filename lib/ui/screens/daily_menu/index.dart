@@ -10,6 +10,7 @@ import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
 import '../../../data/models/food.dart';
 import '../../../data/models/timetable.dart';
@@ -34,36 +35,38 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   final List<String> daysOfWeek = HelperMethod.dayOfWeek();
 
-  final List<TimetableModel> timetable = [
-    TimetableModel(date: DateTime.now(), foods: [
-      FoodModel(
-          description: 'Good as breakfast because it is very light',
-          image:
-              'https://www.thespruceeats.com/thmb/D5lsBYYAz2NiIup3evaCXteK8hM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hausa-koko-spicy-millet-porridge-39547-hero-01-edb486a34d6a4ee3b8b347430838d1f7.jpg',
-          name: 'Koko',
-          type: "0",
-          foodextra_id: [
-            'Kose',
-            'Bofloat',
-            'Kose Bread',
-            'Sugar bread/Tea bread/Butter bread'
-          ]),
-      FoodModel(
-          description: 'Laagba good for luch',
-          image:
-              'https://images.pexels.com/photos/1660030/pexels-photo-1660030.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          name: 'Laagba',
-          type: "1",
-          foodextra_id: ['Beef/Salmon/Chicken', 'Ademe/Okro/Stew']),
-      FoodModel(
-          description: 'Suitable for dinner',
-          image:
-              'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
-          name: 'Rice',
-          type: "2",
-          foodextra_id: ['Vegetables/Eggs/Salmon', 'Stew', 'Fruit Juice'])
-    ])
-  ];
+  int foodSize = 0;
+
+  // final List<TimetableModel> timetable = [
+  //   TimetableModel(date: DateTime.now(), foods: [
+  //     FoodModel(
+  //         description: 'Good as breakfast because it is very light',
+  //         image:
+  //             'https://www.thespruceeats.com/thmb/D5lsBYYAz2NiIup3evaCXteK8hM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hausa-koko-spicy-millet-porridge-39547-hero-01-edb486a34d6a4ee3b8b347430838d1f7.jpg',
+  //         name: 'Koko',
+  //         type: "0",
+  //         foodextra_id: [
+  //           'Kose',
+  //           'Bofloat',
+  //           'Kose Bread',
+  //           'Sugar bread/Tea bread/Butter bread'
+  //         ]),
+  //     FoodModel(
+  //         description: 'Laagba good for luch',
+  //         image:
+  //             'https://images.pexels.com/photos/1660030/pexels-photo-1660030.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  //         name: 'Laagba',
+  //         type: "1",
+  //         foodextra_id: ['Beef/Salmon/Chicken', 'Ademe/Okro/Stew']),
+  //     FoodModel(
+  //         description: 'Suitable for dinner',
+  //         image:
+  //             'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  //         name: 'Rice',
+  //         type: "2",
+  //         foodextra_id: ['Vegetables/Eggs/Salmon', 'Stew', 'Fruit Juice'])
+  //   ])
+  // ];
 
   // late ScrollController _scrollController;
   // int _scrollPosition = 0;
@@ -92,6 +95,12 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   @override
   void initState() {
     super.initState();
+
+    context.read<FoodCubit>().getFoodSize().then((value) {
+      setState(() {
+        foodSize = value;
+      });
+    });
 
     _selected = daysOfWeek.indexOf(HelperMethod.formatDate(
         DateTime.now().toIso8601String(),
@@ -158,145 +167,203 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             ),
           ),
           CommonUtils.spaceH,
-          //  BlocConsumer<FoodCubit, FoodState>(
-          //       listener: (context, state) {
-          //         if (state is FoodLoaded) {
-          //           if (state.bf.length >= 3 &&
-          //               state.ln.length >= 3 &&
-          //               state.dn.length >= 3) {
-          //             isOkay = true;
-          //           }
-          //         }
-          //       },
-          //       builder: (context, state) {
-          //         if (state is FoodLoaded) {
-          //           return Row(
-          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //             children: [
-          //               badgeer(
-          //                 badgeContent: Text(
-          //                   (state.bf.length +
-          //                           state.ln.length +
-          //                           state.dn.length)
-          //                       .toString(),
-          //                   style: const TextStyle(
-          //                       color: Colors.white, fontSize: 12),
-          //                 ),
-          //                 label: const Text(
-          //                   'All',
-          //                 ),
-          //               ),
-          //               badgeer(
-          //                 badgeContent: Text(
-          //                   state.bf.length.toString(),
-          //                   style: TextStyle(color: Colors.white),
-          //                 ),
-          //                 label: const Text(
-          //                   'Breakfast',
-          //                 ),
-          //               ),
-          //               badgeer(
-          //                 badgeContent: Text(
-          //                   state.ln.length.toString(),
-          //                   style: TextStyle(color: Colors.white),
-          //                 ),
-          //                 label: const Text(
-          //                   'Lunch',
-          //                 ),
-          //               ),
-          //               badgeer(
-          //                 badgeContent: Text(
-          //                   state.dn.length.toString(),
-          //                   style: TextStyle(color: Colors.white),
-          //                 ),
-          //                 label: const Text(
-          //                   'Dinner',
-          //                 ),
-          //               ),
-          //             ],
-          //           );
-          //         } else {
-          //           return const Text('No Record');
-          //         }
-          //       },
-          //     ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    constraints: const BoxConstraints(
-                      minHeight: 50.0,
-                      maxHeight: 80.0,
+          if (foodSize < 1)
+            BlocConsumer<FoodCubit, FoodState>(
+              listener: (context, state) {
+                if (state is FoodLoaded) {
+                  if (state.bf.length >= 3 &&
+                      state.ln.length >= 3 &&
+                      state.dn.length >= 3) {
+                    // isOkay = true;
+                  }
+                }
+              },
+              builder: (context, state) {
+                if (state is FoodLoaded) {
+                  return Padding(
+                    padding: EdgeInsets.all(CommonUtils.padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        badgeer(
+                          badgeContent: Text(
+                            (state.bf.length +
+                                    state.ln.length +
+                                    state.dn.length)
+                                .toString(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
+                          ),
+                          label: const Text(
+                            'All',
+                          ),
+                        ),
+                        badgeer(
+                          badgeContent: Text(
+                            state.bf.length.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          label: const Text(
+                            'Breakfast',
+                          ),
+                        ),
+                        badgeer(
+                          badgeContent: Text(
+                            state.ln.length.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          label: const Text(
+                            'Lunch',
+                          ),
+                        ),
+                        badgeer(
+                          badgeContent: Text(
+                            state.dn.length.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          label: const Text(
+                            'Dinner',
+                          ),
+                        ),
+                      ],
                     ),
-                    color: Colors.white,
-                    padding: EdgeInsets.only(
-                        top: 8, bottom: 8, left: CommonUtils.padding),
-                    child: BlocBuilder<TimetableCubit, TimetableState>(
+                  );
+                } else {
+                  return const Text('No Record');
+                }
+              },
+            ),
+          if (foodSize > 0)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(
+                        minHeight: 50.0,
+                        maxHeight: 80.0,
+                      ),
+                      color: Colors.white,
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: CommonUtils.padding),
+                      child: BlocBuilder<TimetableCubit, TimetableState>(
+                        builder: (context, state) {
+                          if (state is TimetableLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is TimetableLoaded) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.timetable.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selected = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: CommonUtils.mpadding),
+                                    margin: EdgeInsets.only(
+                                        right: CommonUtils.xspadding),
+                                    decoration: BoxDecoration(
+                                      // shape: BoxShape.circle,
+                                      color: (_selected != index)
+                                          ? AppColour(context).primaryColour
+                                          : AppColour(context).secondaryColour,
+                                      border: Border.all(
+                                          width: 1.0,
+                                          color: AppColour(context)
+                                              .onPrimaryColour),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          DateWay(state.timetable[index].date)
+                                              .tDay,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        Text(
+                                          DateWay(state.timetable[index].date)
+                                              .tDate,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                        Text(
+                                          DateWay(state.timetable[index].date)
+                                              .tMon,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                              child: Text('Failed to load meals.'),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    CommonUtils.spaceH,
+                    //The card listview implemetation starts here
+                    BlocBuilder<TimetableCubit, TimetableState>(
                       builder: (context, state) {
                         if (state is TimetableLoading) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
                         } else if (state is TimetableLoaded) {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.timetable.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selected = index;
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: CommonUtils.mpadding),
-                                  margin: EdgeInsets.only(
-                                      right: CommonUtils.xspadding),
-                                  decoration: BoxDecoration(
-                                    // shape: BoxShape.circle,
-                                    color: (_selected != index)
-                                        ? AppColour(context).primaryColour
-                                        : AppColour(context).secondaryColour,
-                                    border: Border.all(
-                                        width: 1.0,
-                                        color:
-                                            AppColour(context).onPrimaryColour),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
+                          return state.timetable.isNotEmpty
+                              ? SizedBox(
+                                  height: CommonUtils.sh(context, s: 0.4),
+                                  width: CommonUtils.sw(context, s: 1),
+                                  child: ListView.builder(
+                                    // controller: _scrollController,
+                                    itemCount:
+                                        state.timetable[_selected].foods.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      List<FoodModel> t =
+                                          state.timetable[_selected].foods;
+                                      return SizedBox(
+                                          width: CommonUtils.sw(context) -
+                                              (CommonUtils.padding * 0.8),
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: FoodCard(
+                                              food: t[index],
+                                              period: period[index],
+                                            ),
+                                          ));
+                                    },
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        DateWay(state.timetable[index].date)
-                                            .tDay,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                      Text(
-                                        DateWay(state.timetable[index].date)
-                                            .tDate,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                      Text(
-                                        DateWay(state.timetable[index].date)
-                                            .tMon,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
+                                )
+                              : Text('You need to add some food',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          color: AppColour(context)
+                                              .secondaryColour));
                         } else {
                           return const Center(
                             child: Text('Failed to load meals.'),
@@ -304,99 +371,47 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         }
                       },
                     ),
-                  ),
-                  CommonUtils.spaceH,
-                  //The card listview implemetation starts here
-                  BlocBuilder<TimetableCubit, TimetableState>(
-                    builder: (context, state) {
-                      if (state is TimetableLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (state is TimetableLoaded) {
-                        return state.timetable.length > 0
-                            ? SizedBox(
-                                height: CommonUtils.sh(context, s: 0.4),
-                                width: CommonUtils.sw(context, s: 1),
-                                child: ListView.builder(
-                                  // controller: _scrollController,
-                                  itemCount:
-                                      state.timetable[_selected].foods.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    List<FoodModel> t =
-                                        state.timetable[_selected].foods;
-                                    return SizedBox(
-                                        width: CommonUtils.sw(context) -
-                                            (CommonUtils.padding * 0.8),
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: FoodCard(
-                                            food: t[index],
-                                            period: period[index],
-                                          ),
-                                        ));
-                                  },
-                                ),
-                              )
-                            : Text('You need to add some food',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: AppColour(context)
-                                            .secondaryColour));
-                      } else {
-                        return const Center(
-                          child: Text('Failed to load meals.'),
-                        );
-                      }
-                    },
-                  ),
-                  //The card listview implemetation ends here
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        child: SectionTitle(text: 'What\'s new?'),
-                      ),
-                      Container(
-                        // height: CommonUtils.sh(context, s: 0.3),
-                        width: CommonUtils.sw(context),
-                        padding: EdgeInsets.all(CommonUtils.padding),
-                        decoration:
-                            BoxDecoration(color: AppColour(context).cardColor),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(0.0),
-                          title: const Text('Effect of Carbs'),
-                          subtitle: Text('Lorem ipsum fd sum' * 8),
+                    //The card listview implemetation ends here
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          child: SectionTitle(text: 'What\'s new?'),
                         ),
-                      ),
-                      const SectionTitle(text: 'Popular meals'),
-                      // _buildSelectionRing(50),
-                      SizedBox(
-                        height: CommonUtils.sh(context, s: 0.1),
-                        width: CommonUtils.sw(context, s: 1),
-                        child: ListView.builder(
-                            itemCount: timetable.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return FoodItemSub(
-                                timetable: timetable[index],
-                                foodType: 1,
-                                mealType: 'Lunch',
-                              );
-                            }),
-                      )
-                    ],
-                  ),
-                ],
+                        Container(
+                          // height: CommonUtils.sh(context, s: 0.3),
+                          width: CommonUtils.sw(context),
+                          padding: EdgeInsets.all(CommonUtils.padding),
+                          decoration: BoxDecoration(
+                              color: AppColour(context).cardColor),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(0.0),
+                            title: const Text('Effect of Carbs'),
+                            subtitle: Text('Lorem ipsum fd sum' * 8),
+                          ),
+                        ),
+                        const SectionTitle(text: 'Popular meals'),
+                        // _buildSelectionRing(50),
+                        // SizedBox(
+                        //   height: CommonUtils.sh(context, s: 0.1),
+                        //   width: CommonUtils.sw(context, s: 1),
+                        //   child: ListView.builder(
+                        //       itemCount: timetable.length,
+                        //       scrollDirection: Axis.horizontal,
+                        //       itemBuilder: (context, index) {
+                        //         return FoodItemSub(
+                        //           timetable: timetable[index],
+                        //           foodType: 1,
+                        //           mealType: 'Lunch',
+                        //         );
+                        //       }),
+                        // )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

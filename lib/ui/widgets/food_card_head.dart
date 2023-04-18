@@ -58,7 +58,7 @@ class FoodCardHead extends StatelessWidget {
             // ),
             SvgPicture.asset('assets/icons/food-icon-w.svg',
                 colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                semanticsLabel: 'A red up arrow'),
+                semanticsLabel: 'Meal'),
             Text(
               mealType,
               style: Theme.of(context)

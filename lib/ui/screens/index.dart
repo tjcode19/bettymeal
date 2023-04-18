@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../cubit/timetable_cubit.dart';
+import '../../cubit/user_cubit.dart';
 import '../widgets/timetable.dart';
 import 'foods/food.dart';
 import 'setting.dart';
@@ -39,7 +40,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-     context.read<TimetableCubit>().getTimetable();
+    context.read<TimetableCubit>().getTimetable();
+    context.read<UserCubit>().getUserDetails();
     super.initState();
   }
 
@@ -59,24 +61,14 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'homeScreen',
         onPressed: () {
-          // Navigator.pushNamed(context, Routes.addFood);
           onTabTapped(0);
         },
         shape: const CircleBorder(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset('assets/icons/food-icon-w.svg',
-        
               semanticsLabel: 'A red up arrow'),
         ),
-        // Image(
-        //   width: 24,
-        //   height: 24,
-        //   image: Svg(
-        //     'assets/icons/home.svg',
-        //     color: Colors.white,
-        //   ),
-        // ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Theme(
