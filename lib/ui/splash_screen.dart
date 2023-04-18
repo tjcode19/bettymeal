@@ -6,7 +6,8 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../routes.dart';
 import '../utils/enums.dart';
 
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
             sharedType: SpDataType.bool, fieldName: 'firstTimer') ??
         true;
 
-    if (!ft) {
+    if (ft) {
       gotoOnboarding();
     } else {
       goHome();
@@ -75,10 +76,14 @@ class _SplashScreenState extends State<SplashScreen> {
             width: CommonUtils.sw(context, s: 0.5),
             child: Column(
               children: [
-                Image(
-                  image: Svg('assets/icons/meal.svg',
-                      color: Colors.white, size: Size(sizeW, sizeW)),
-                ),
+                // Image(
+                //   image: Svg('assets/icons/meal.svg',
+                //       color: Colors.white, size: Size(sizeW, sizeW)),
+                // ),
+                SvgPicture.asset('assets/icons/meal.svg',
+                    width: sizeW,
+                    height: sizeW,
+                    semanticsLabel: 'A red up arrow'),
                 RichText(
                   text: TextSpan(
                     style: Theme.of(context)
@@ -91,8 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           text: 'ble',
                           style: TextStyle(
                               color: AppColour(context)
-                                  .onPrimaryColour
-                                  .withOpacity(0.5))),
+                                  .secondaryColour)),
                     ],
                   ),
                 )

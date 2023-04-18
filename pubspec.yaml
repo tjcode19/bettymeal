@@ -38,7 +38,8 @@ dependencies:
   equatable: ^2.0.3
   sqflite: ^2.0.0+3
   path_provider: ^2.0.3
-  flutter_svg_provider: ^1.0.3
+  # flutter_svg_provider: ^1.0.3
+  flutter_svg: ^2.0.5
   intl: ^0.18.0
   shared_preferences: ^2.1.0
   badges: ^3.1.1
@@ -69,6 +70,8 @@ flutter:
     - assets/icons/meal.svg
     - assets/icons/table.svg
     - assets/icons/home.svg
+    - assets/icons/conf.svg
+    - assets/icons/think.svg
     - assets/images/bf.jpg
   #   - images/a_dot_ham.jpeg
 

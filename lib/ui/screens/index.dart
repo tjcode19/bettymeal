@@ -6,7 +6,8 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../cubit/timetable_cubit.dart';
 import '../widgets/timetable.dart';
@@ -62,14 +63,17 @@ class _HomePageState extends State<HomePage> {
           onTabTapped(0);
         },
         shape: const CircleBorder(),
-        child: const Image(
-          width: 24,
-          height: 24,
-          image: Svg(
-            'assets/icons/home.svg',
-            color: Colors.white,
-          ),
-        ),
+        child:  SvgPicture.asset('assets/icons/conf.svg',
+                  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                  semanticsLabel: 'A red up arrow'),
+        // Image(
+        //   width: 24,
+        //   height: 24,
+        //   image: Svg(
+        //     'assets/icons/home.svg',
+        //     color: Colors.white,
+        //   ),
+        // ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Theme(

@@ -1,7 +1,8 @@
 import 'package:bettymeals/data/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../utils/constants.dart';
 
@@ -30,11 +31,14 @@ class FoodItemSub extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(mealType, style: Theme.of(context).textTheme.bodySmall),
-            Image(
-              image: Svg('assets/icons/meal.svg',
-                  size: Size(sizeW, sizeW),
-                  color: AppColour(context).onSecondaryColour),
-            ),
+            // Image(
+            //   image: Svg('assets/icons/meal.svg',
+            //       size: Size(sizeW, sizeW),
+            //       color: AppColour(context).onSecondaryColour),
+            // ),
+             SvgPicture.asset('assets/icons/conf.svg',
+                  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                  semanticsLabel: 'A red up arrow'),
             Text(timetable.foods[foodType].name,
                 style: Theme.of(context).textTheme.bodyMedium),
           ],

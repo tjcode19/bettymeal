@@ -1,7 +1,11 @@
+import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/enums.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
@@ -9,7 +13,9 @@ import '../../../routes.dart';
 import '../../../utils/colours.dart';
 
 class StepOne extends StatefulWidget {
-  const StepOne({super.key});
+  const StepOne({required this.onChange, super.key});
+
+  final Function onChange;
 
   @override
   State<StepOne> createState() => _StepOneState();
@@ -27,141 +33,78 @@ class _StepOneState extends State<StepOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Get Started',
-          style: TextStyle(color: AppColour(context).onPrimaryColour),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColour(context).primaryColour,
-      ),
+      backgroundColor: AppColour(context).primaryColour,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome to',
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color:
-                          AppColour(context).onPrimaryColour.withOpacity(0.6))),
-              RichText(
-                text: TextSpan(
+              Text('Welcome',
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!
-                      .copyWith(color: AppColour(context).onPrimaryColour),
-                  text: 'Meal',
+                      .copyWith(color: AppColour(context).onPrimaryColour)),
+
+              CustomLayout.mPad.sizedBoxH,
+
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color:
+                            AppColour(context).onPrimaryColour.withOpacity(0.6),
+                      ),
+                  text: 'Have you always been \n',
                   children: [
                     TextSpan(
-                        text: 'ble',
-                        style: TextStyle(
-                            color: AppColour(context)
-                                .onPrimaryColour
-                                .withOpacity(0.6))),
+                      text: 'Thinking \n',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
+                    TextSpan(
+                      text: ' how to plan your meal for a \n',
+                      style: TextStyle(
+                        color:
+                            AppColour(context).onPrimaryColour.withOpacity(0.6),
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' whole week or month?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
                   ],
                 ),
               ),
-              CustomLayout.mPad.sizedBoxH,
-              const Text(
-                  'Let us get you started to start enjoying thus meal app'),
               CustomLayout.lPad.sizedBoxH,
-              BlocConsumer<FoodCubit, FoodState>(
-                listener: (context, state) {
-                  if (state is FoodLoaded) {
-                    if (state.bf.length >= 3 &&
-                        state.ln.length >= 3 &&
-                        state.dn.length >= 3) {
-                      isOkay = true;
-                    }
-                  }
-                },
-                builder: (context, state) {
-                  if (state is FoodLoaded) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        badgeer(
-                          badgeContent: Text(
-                            (state.bf.length +
-                                    state.ln.length +
-                                    state.dn.length)
-                                .toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 12),
-                          ),
-                          label: const Text(
-                            'All',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.bf.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Breakfast',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.ln.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Lunch',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.dn.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Dinner',
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const Text('No Record');
-                  }
-                },
+              Center(
+                child: SvgPicture.asset('assets/icons/think.svg',
+                    width: CommonUtils.sw(context),
+                    // height: 13,
+                    semanticsLabel: 'A red up arrow'),
               ),
+
+              // Image(
+              //   width: 24,
+              //   height: 24,
+              //   image: Svg(
+              //     'assets/icons/conf.svg',
+              //     color: Colors.white,
+              //   ),
+              // ),
               CustomLayout.xlPad.sizedBoxH,
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.addFood);
+                    widget.onChange(1);
                   },
-                  child: const Text('Add meal'),
+                  child: const Text('Next'),
                 ),
               ),
-              BlocListener<FoodCubit, FoodState>(
-                listener: (context, state) {
-                  if (state is FoodLoaded) {
-                    if (state.bf.length >= 3 &&
-                        state.ln.length >= 3 &&
-                        state.dn.length >= 3) {
-                      isOkay = true;
-                    }
-                  }
-                },
-                child: isOkay
-                    ? Center(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            context.read<TimetableCubit>().generateMealTable();
-
-                            Navigator.pushNamed(context, Routes.home);
-
-                          },
-                          child: const Text('Generate Mealtable'),
-                        ),
-                      )
-                    : const Text(''),
-              )
             ],
           ),
         ),

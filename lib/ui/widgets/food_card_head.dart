@@ -2,7 +2,8 @@ import 'package:bettymeals/data/models/food.dart';
 import 'package:bettymeals/data/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class FoodCardHead extends StatelessWidget {
   const FoodCardHead(
@@ -52,10 +53,13 @@ class FoodCardHead extends StatelessWidget {
 
         child: Column(
           children: [
-            Image(
-              image: Svg('assets/icons/meal.svg',
-                  color: Colors.white, size: Size(sizeW, sizeW)),
-            ),
+            // Image(
+            //   image: Svg('assets/icons/meal.svg',
+            //       color: Colors.white, size: Size(sizeW, sizeW)),
+            // ),
+             SvgPicture.asset('assets/icons/conf.svg',
+                  colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
+                  semanticsLabel: 'A red up arrow'),
             Text(
               mealType,
               style: Theme.of(context)
