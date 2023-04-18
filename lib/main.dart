@@ -37,26 +37,27 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             useMaterial3: true,
             colorScheme:
-                ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
-              secondary: const Color(0xff576F72),
-              secondaryContainer: const Color(0xffCBE4DE),
-              onSecondary: Colors.black,
-              tertiary: Color.fromARGB(255, 5, 79, 116),
-              onSurface: Colors.black,
-              onBackground: Colors.black,
-              background: Color.fromARGB(255, 236, 244, 243),
-            ),
+                ColorScheme.fromSwatch(primarySwatch: Colors.teal),
+            //     .copyWith(
+            //   secondary: const Color(0xff576F72),
+            //   secondaryContainer: const Color(0xffCBE4DE),
+            //   onSecondary: Colors.black,
+            //   tertiary: Color.fromARGB(255, 5, 79, 116),
+            //   onSurface: Colors.black,
+            //   onBackground: Colors.black,
+            //   background: Color.fromARGB(255, 236, 244, 243),
+            // ),
             fontFamily: "Roboto",
             listTileTheme: const ListTileThemeData(
                 textColor: Color(0xff576F72), style: ListTileStyle.drawer),
-            textTheme: TextTheme(
-              // displayLarge:
-              //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              titleLarge: const TextStyle(fontWeight: FontWeight.bold),
-              bodySmall: TextStyle(color: Colors.white.withOpacity(0.8)),
-              bodyMedium: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-            ),
+            // textTheme: TextTheme(
+            //   // displayLarge:
+            //   //     TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            //   titleLarge: const TextStyle(fontWeight: FontWeight.bold),
+            //   bodySmall: TextStyle(color: Colors.white.withOpacity(0.8)),
+            //   bodyMedium: const TextStyle(
+            //       color: Colors.white, fontWeight: FontWeight.bold),
+            // ),
             dataTableTheme: DataTableThemeData(
                 dataTextStyle:
                     TextStyle(color: AppColour(context).secondaryColour)),

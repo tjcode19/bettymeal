@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:bettymeals/cubit/timetable_cubit.dart';
+import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../routes.dart';
+import '../utils/enums.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +19,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final double sizeW = 140;
+  int counter = 5;
+  final SharedPreferenceApp sharedPreference = SharedPreferenceApp();
   void finishSplashScreen() async {
+    final ft = await sharedPreference.getSharedPrefs(
+            sharedType: SpDataType.bool, fieldName: 'firstTimer') ??
+        true;
+
+    if (!ft) {
+      gotoOnboarding();
+    } else {
+      goHome();
+    }
+  }
+
+  gotoOnboarding() {
+    Timer(Duration(seconds: counter), () {
+      Navigator.pushNamed(context, Routes.onboarding);
+    });
+  }
+
+  goHome() {
     final now = DateTime.now();
     final timetableCubit = context.read<TimetableCubit>();
 
@@ -30,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       timetableCubit.getTimetable();
     }
-    Timer(const Duration(seconds: 10), () {
+    Timer(Duration(seconds: counter), () async {
       Navigator.pushNamed(context, Routes.home);
     });
   }
@@ -38,6 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     finishSplashScreen();
   }
 

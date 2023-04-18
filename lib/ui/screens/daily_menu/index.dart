@@ -266,7 +266,12 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 ),
                               )
                             : Text('You need to add some food',
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColour(context).secondaryColour));
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color: AppColour(context)
+                                            .secondaryColour));
                       } else {
                         return const Center(
                           child: Text('Failed to load meals.'),
