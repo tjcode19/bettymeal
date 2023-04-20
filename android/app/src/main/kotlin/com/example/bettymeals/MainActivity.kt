@@ -1,4 +1,4 @@
-package com.example.bettymeals
+package com.bolxtine.meable
 
 import io.flutter.embedding.android.FlutterActivity
 

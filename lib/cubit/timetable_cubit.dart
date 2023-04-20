@@ -63,6 +63,8 @@ class TimetableCubit extends Cubit<TimetableState> {
 
         addMeal(
             TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
+
+            
       }
     } catch (_) {
       emit(const TimetableError(errorMessage: ""));

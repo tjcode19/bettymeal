@@ -60,7 +60,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // context.read<UserCubit>().setUserDetails('Tolu', 'Male');
 
     finishSplashScreen();
   }

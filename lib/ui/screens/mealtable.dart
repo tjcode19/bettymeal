@@ -59,11 +59,61 @@ class _MealTableScreenState extends State<MealTableScreen> {
                 },
               ),
               CustomLayout.xlPad.sizedBoxH,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.info_outline),
+                  CustomLayout.mPad.sizedBoxW,
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.black87),
+                        text:
+                            'If you are not satisfied with the table, you can  ',
+                        children: [
+                          TextSpan(
+                            text: 'Shuffle. ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: AppColour(context).secondaryColour),
+                          ),
+                          TextSpan(
+                            text: 'And for more robust table, add more ',
+                          ),
+                          TextSpan(
+                            text: 'foods ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: AppColour(context).secondaryColour),
+                          ),
+                          TextSpan(
+                            text: 'to your list.',
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Text(
+                    //   'Select the meal type(s) for this food. You can select multiple if application. ' +
+                    //       'If the food can be taken as Breakfast and Lunch, kindly select both',
+                    //   textAlign: TextAlign.justify,
+                    // ),
+                  )
+                ],
+              ),
+              CustomLayout.mPad.sizedBoxH,
               OutlinedButton(
                   onPressed: () {
                     BlocProvider.of<TimetableCubit>(context)
                         .rescheduleMealTable();
                   },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: AppColour(context).primaryColour),
+                  ),
                   child: const Text('Shuffle MealTable'))
             ],
           ),

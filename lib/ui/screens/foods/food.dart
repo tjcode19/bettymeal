@@ -159,8 +159,7 @@ class _FoodScreenState extends State<FoodScreen>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add new meal item
-          Navigator.pushNamed(context, Routes.addFood);
+          Navigator.pushNamed(context, Routes.addFood, arguments: 3);
         },
         child: Icon(Icons.add),
       ),

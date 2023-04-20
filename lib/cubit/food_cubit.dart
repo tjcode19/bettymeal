@@ -51,5 +51,17 @@ class FoodCubit extends Cubit<FoodState> {
     }
   }
 
+  Future<void> deleteFood(FoodModel food) async {
+    try {
+      await _foodRepository.deleteMeal(food);
+
+      await getAllMeals();
+
+      // emit(FoodDeleted());
+    } catch (e) {
+      emit(FoodError(errorMessage: e.toString()));
+    }
+  }
+
   selectedFood(int currentMeal) {}
 }

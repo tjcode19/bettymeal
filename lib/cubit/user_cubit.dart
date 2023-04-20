@@ -17,9 +17,11 @@ class UserCubit extends Cubit<UserState> {
         sharedType: SpDataType.String, fieldName: 'name', fieldValue: name);
     sharedPreference.setData(
         sharedType: SpDataType.String, fieldName: 'gender', fieldValue: gender);
+  }
 
+  setFirstTimer(v) {
     sharedPreference.setData(
-        sharedType: SpDataType.bool, fieldName: 'firstTimer', fieldValue: true);
+        sharedType: SpDataType.bool, fieldName: 'firstTimer', fieldValue: v);
   }
 
   getUserDetails() async {

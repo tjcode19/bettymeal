@@ -1,6 +1,7 @@
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
@@ -8,6 +9,7 @@ import 'cubit/timetable_cubit.dart';
 import 'cubit/user_cubit.dart';
 import 'data/database/app_database.dart';
 import 'routes.dart';
+import 'utils/custom_anim.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Mealble',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             useMaterial3: true,
@@ -63,16 +65,21 @@ class MyApp extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                   // backgroundColor: Colors.teal,
                   // foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.teal),
+                  // side: const BorderSide(color: Colors.teal),
                   textStyle: const TextStyle(color: Colors.white, fontSize: 15),
                   padding: const EdgeInsets.symmetric(horizontal: 15)),
             ),
             inputDecorationTheme: const InputDecorationTheme(
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1, color: Colors.teal),
+                borderSide: BorderSide(width: 1),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
+                borderSide: BorderSide(
+                  width: 2,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.red),
               ),
             ),
             listTileTheme: const ListTileThemeData(
@@ -97,7 +104,41 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         initialRoute: Routes.splashScreen,
         onGenerateRoute: Routes.generateRoute,
+        builder: EasyLoading.init(),
       ),
     );
+  }
+
+  void configLoading() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 3000)
+      ..indicatorType = EasyLoadingIndicatorType.pouringHourGlass
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorSize = 35.0
+      ..radius = 10.0
+      ..progressColor = Colors.white
+      ..backgroundColor = Colors.teal
+      ..indicatorColor = Colors.white
+      ..textColor = Colors.white
+      ..maskColor = Colors.teal.withOpacity(0.5)
+      ..userInteractions = true
+      ..dismissOnTap = true
+      ..fontSize = 16.0
+      ..errorWidget = Column(
+        children: const [
+          Icon(
+            Icons.error_outline,
+            color: Colors.white,
+            size: 35.0,
+          ),
+          Text(
+            'Error',
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          )
+        ],
+      )
+      ..customAnimation = CustomAnimation();
+    // ..indicatorWidget = Text('Where ererer');
   }
 }

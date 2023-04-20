@@ -43,10 +43,19 @@ dependencies:
   intl: ^0.18.0
   shared_preferences: ^2.1.0
   badges: ^3.1.1
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/fav-main.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -80,6 +89,7 @@ flutter:
     - assets/images/2.png
     - assets/images/3.png
     - assets/images/4.png
+    - assets/images/fav-main.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

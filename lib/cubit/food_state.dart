@@ -25,6 +25,8 @@ class FoodLoaded extends FoodState {
 
 class FoodAdded extends FoodState {}
 
+class FoodDeleted extends FoodState {}
+
 class FoodUpdated extends FoodState {}
 
 class FoodError extends FoodState {

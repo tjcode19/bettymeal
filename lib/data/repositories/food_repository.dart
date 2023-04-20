@@ -15,4 +15,8 @@ class FoodRepository {
   Future<void> addMeal(FoodRequestModel food) async {
     await foodDao.insert(food);
   }
+
+  Future<void> deleteMeal(FoodModel food) async {
+    await foodDao.delete(food);
+  }
 }

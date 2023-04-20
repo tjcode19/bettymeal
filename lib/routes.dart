@@ -34,7 +34,11 @@ class Routes {
       case timetable:
         return MaterialPageRoute(builder: (_) => const MealTableScreen());
       case addFood:
-        return MaterialPageRoute(builder: (_) => const AddMealScreen());
+        final int t = settings.arguments as int;
+        return MaterialPageRoute(
+            builder: (_) => AddMealScreen(
+                  typeId: t,
+                ));
       case addCategory:
         return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
       default:

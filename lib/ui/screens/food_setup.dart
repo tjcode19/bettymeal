@@ -12,6 +12,7 @@ import '../../cubit/user_cubit.dart' as cs;
 import 'package:badges/badges.dart' as badges;
 
 import '../../cubit/user_cubit.dart' as user;
+import '../../cubit/user_cubit.dart';
 import '../../utils/constants.dart';
 
 class FoodSetup extends StatefulWidget {
@@ -22,29 +23,19 @@ class FoodSetup extends StatefulWidget {
 }
 
 class _FoodSetupState extends State<FoodSetup> {
-  final _nameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
   String gender = 'None';
   @override
   void initState() {
     super.initState();
-    // context.read<FoodCubit>().getAllMeals();
+
+    context.read<UserCubit>().getUserDetails();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            // Text(
-            //   'Welcome, Tolulope',
-            //   style: Theme.of(context)
-            //       .textTheme
-            //       .titleLarge!
-            //       .copyWith(color: AppColour(context).onPrimaryColour),
-            // ),
-            BlocBuilder<user.UserCubit, user.UserState>(
+        title: BlocBuilder<user.UserCubit, user.UserState>(
           builder: (context, state) {
             String name = 'NA';
 
@@ -92,11 +83,47 @@ class _FoodSetupState extends State<FoodSetup> {
                         .displaySmall!
                         .copyWith(color: AppColour(context).secondaryColour),
                   ),
-                  CustomLayout.sPad.sizedBoxH,
+                  // CustomLayout.sPad.sizedBoxH,
                   Text(
                       'To generate a meal table that is dynamic, input at least 3 foods for each meal delight.',
                       style: Theme.of(context).textTheme.bodyLarge),
                   CustomLayout.xlPad.sizedBoxH,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.info_outline),
+                      CustomLayout.mPad.sizedBoxW,
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 13,
+                                color: Colors.black87),
+                            text: 'Tap on any meal to add more food. \n ',
+                            children: [
+                              TextSpan(
+                                text: 'For example: tap ',
+                              ),
+                              TextSpan(
+                                text: 'breakfast ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color:
+                                            AppColour(context).secondaryColour),
+                              ),
+                              TextSpan(
+                                text: 'to add food to breakfast list',
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  CustomLayout.sPad.sizedBoxH,
                   BlocConsumer<FoodCubit, FoodState>(
                     listener: (context, state) {
                       if (state is FoodLoaded) {
@@ -116,6 +143,7 @@ class _FoodSetupState extends State<FoodSetup> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               badgeer(
+                                typeId: 3,
                                 badgeContent: Text(
                                   (state.bf.length +
                                           state.ln.length +
@@ -129,6 +157,7 @@ class _FoodSetupState extends State<FoodSetup> {
                                 ),
                               ),
                               badgeer(
+                                typeId: 0,
                                 badgeContent: Text(
                                   state.bf.length.toString(),
                                   style: const TextStyle(color: Colors.white),
@@ -138,6 +167,7 @@ class _FoodSetupState extends State<FoodSetup> {
                                 ),
                               ),
                               badgeer(
+                                typeId: 1,
                                 badgeContent: Text(
                                   state.ln.length.toString(),
                                   style: const TextStyle(color: Colors.white),
@@ -147,6 +177,7 @@ class _FoodSetupState extends State<FoodSetup> {
                                 ),
                               ),
                               badgeer(
+                                typeId: 2,
                                 badgeContent: Text(
                                   state.dn.length.toString(),
                                   style: const TextStyle(color: Colors.white),
@@ -170,24 +201,38 @@ class _FoodSetupState extends State<FoodSetup> {
                         semanticsLabel: 'A red up arrow'),
                   ),
                   CustomLayout.xlPad.sizedBoxH,
-                  RichText(
-                    text: TextSpan(
-                      style: Theme.of(context).textTheme.titleMedium,
-                      text:
-                          'The richer the variety of culinary delights you provide, the more sumptuous and satisfying menu ',
-                      children: [
-                        TextSpan(
-                          text: 'Meable ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  color: AppColour(context).secondaryColour),
-                        ),
-                        const TextSpan(
-                          text: 'will generate 😋',
-                        ),
-                      ],
+                  Container(
+                    padding: EdgeInsets.all(CommonUtils.padding),
+                    decoration: BoxDecoration(
+                      color: AppColour(context).cardColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black87),
+                        text:
+                            'The richer the variety of culinary delights you provide, the more sumptuous and satisfying menu ',
+                        children: [
+                          TextSpan(
+                            text: 'Meable ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                    color: AppColour(context).secondaryColour),
+                          ),
+                          const TextSpan(
+                            text: 'will generate 😋',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   CustomLayout.xlPad.sizedBoxH,
@@ -196,10 +241,10 @@ class _FoodSetupState extends State<FoodSetup> {
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.addFood);
                       },
-                      child: const Text('Add Food'),
+                      child: const Text('Add New Food'),
                     ),
                   ),
-                  CustomLayout.lPad.sizedBoxH,
+                  // CustomLayout.lPad.sizedBoxH,
                   BlocBuilder<FoodCubit, FoodState>(
                     builder: (context, state) {
                       if (state is FoodLoaded) {
@@ -213,8 +258,14 @@ class _FoodSetupState extends State<FoodSetup> {
                                     .read<TimetableCubit>()
                                     .generateMealTable();
 
+                                context.read<UserCubit>().setFirstTimer(false);
+
                                 Navigator.pushNamed(context, Routes.home);
                               },
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    color: AppColour(context).primaryColour),
+                              ),
                               child: const Text('Generate Mealtable'),
                             ),
                           );
@@ -232,15 +283,27 @@ class _FoodSetupState extends State<FoodSetup> {
     );
   }
 
-  Widget badgeer({required Widget badgeContent, required Widget label}) {
-    return badges.Badge(
-      badgeContent: badgeContent,
-      badgeStyle: badges.BadgeStyle(
-        badgeColor: AppColour(context).primaryColour,
-        padding: const EdgeInsets.all(8),
-        borderSide: const BorderSide(color: Colors.white, width: 1),
+  Widget badgeer(
+      {required int typeId,
+      required Widget badgeContent,
+      required Widget label}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.addFood, arguments: typeId);
+      },
+      child: badges.Badge(
+        badgeContent: badgeContent,
+        badgeStyle: badges.BadgeStyle(
+          badgeColor: AppColour(context).primaryColour,
+          padding: const EdgeInsets.all(8),
+          borderSide:
+              BorderSide(color: AppColour(context).primaryColour, width: 1),
+        ),
+        child: Chip(
+          label: label,
+          side: BorderSide(color: AppColour(context).primaryColour),
+        ),
       ),
-      child: Chip(label: label),
     );
   }
 }
