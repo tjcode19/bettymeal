@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/food_data.dart';
 import '../../utils/colours.dart';
+import '../../utils/enums.dart';
 import '../widgets/time_table.dart';
 
 class MealTableScreen extends StatefulWidget {
@@ -57,7 +58,8 @@ class _MealTableScreenState extends State<MealTableScreen> {
                   }
                 },
               ),
-              TextButton(
+              CustomLayout.xlPad.sizedBoxH,
+              OutlinedButton(
                   onPressed: () {
                     BlocProvider.of<TimetableCubit>(context)
                         .rescheduleMealTable();

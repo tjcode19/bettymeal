@@ -55,7 +55,15 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
                   foregroundColor: Colors.white,
-                  textStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                  textStyle: const TextStyle(color: Colors.white, fontSize: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15)),
+            ),
+            outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+                  // backgroundColor: Colors.teal,
+                  // foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.teal),
+                  textStyle: const TextStyle(color: Colors.white, fontSize: 15),
                   padding: const EdgeInsets.symmetric(horizontal: 15)),
             ),
             inputDecorationTheme: const InputDecorationTheme(

@@ -103,10 +103,7 @@ class _GetStartedState extends State<GetStarted> {
                               .read<cs.UserCubit>()
                               .setUserDetails(_nameController.text, gender);
 
-                          print(_nameController.text);
-                          print(gender);
-
-                          Navigator.pushNamed(context, Routes.home);
+                          Navigator.pushNamed(context, Routes.foodSetup);
                         }
                       },
                       child: const Text('Continue'),

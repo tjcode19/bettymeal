@@ -74,6 +74,7 @@ flutter:
     - assets/icons/think.svg
     - assets/icons/food-icon.svg
     - assets/icons/food-icon-w.svg
+    - assets/icons/breakfast-icon.svg
     - assets/images/bf.jpg
   #   - images/a_dot_ham.jpeg
 

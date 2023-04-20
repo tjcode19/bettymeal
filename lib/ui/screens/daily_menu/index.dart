@@ -16,7 +16,7 @@ import '../../../data/models/food.dart';
 import '../../../data/models/timetable.dart';
 import '../../widgets/food_item_sub.dart';
 
-import 'package:badges/badges.dart' as badges;
+
 
 class DailyMenuScreen extends StatefulWidget {
   const DailyMenuScreen({super.key});
@@ -167,72 +167,6 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             ),
           ),
           CommonUtils.spaceH,
-          if (foodSize < 1)
-            BlocConsumer<FoodCubit, FoodState>(
-              listener: (context, state) {
-                if (state is FoodLoaded) {
-                  if (state.bf.length >= 3 &&
-                      state.ln.length >= 3 &&
-                      state.dn.length >= 3) {
-                    // isOkay = true;
-                  }
-                }
-              },
-              builder: (context, state) {
-                if (state is FoodLoaded) {
-                  return Padding(
-                    padding: EdgeInsets.all(CommonUtils.padding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        badgeer(
-                          badgeContent: Text(
-                            (state.bf.length +
-                                    state.ln.length +
-                                    state.dn.length)
-                                .toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 12),
-                          ),
-                          label: const Text(
-                            'All',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.bf.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Breakfast',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.ln.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Lunch',
-                          ),
-                        ),
-                        badgeer(
-                          badgeContent: Text(
-                            state.dn.length.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          label: const Text(
-                            'Dinner',
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Text('No Record');
-                }
-              },
-            ),
           if (foodSize > 0)
             Expanded(
               child: SingleChildScrollView(
@@ -417,15 +351,5 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     );
   }
 
-  Widget badgeer({required Widget badgeContent, required Widget label}) {
-    return badges.Badge(
-      badgeContent: badgeContent,
-      badgeStyle: badges.BadgeStyle(
-        badgeColor: AppColour(context).primaryColour,
-        padding: const EdgeInsets.all(8),
-        borderSide: const BorderSide(color: Colors.white, width: 1),
-      ),
-      child: Chip(label: label),
-    );
-  }
+ 
 }

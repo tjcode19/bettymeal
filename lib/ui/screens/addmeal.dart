@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/food_cubit.dart';
+import '../../utils/enums.dart';
 
 class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
@@ -49,6 +50,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Meal'),
+        backgroundColor: AppColour(context).primaryColour,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -72,8 +74,10 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         return null;
                       },
                     ),
+                    CustomLayout.sPad.sizedBoxH,
                     TextFormField(
                       controller: _foodDescriptionController,
+                      maxLines: 3,
                       decoration: const InputDecoration(
                         labelText: 'Description',
                       ),
@@ -84,19 +88,21 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         return null;
                       },
                     ),
+                    CustomLayout.sPad.sizedBoxH,
                     TextFormField(
                       controller: _foodImageController,
                       decoration: const InputDecoration(
                         labelText: 'Image',
                       ),
                     ),
+                    CustomLayout.sPad.sizedBoxH,
                     TextFormField(
                       controller: _foodExtraController,
                       decoration: const InputDecoration(
                         labelText: 'Extra',
                       ),
                     ),
-                    const SizedBox(height: 32.0),
+                    CustomLayout.lPad.sizedBoxH,
                     Row(
                       children: [
                         ...category.map((e) {
@@ -105,7 +111,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         })
                       ],
                     ),
-                    CommonUtils.spaceHm,
+                    CustomLayout.xlPad.sizedBoxH,
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -118,6 +124,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           );
 
                           await _foodCubit.addFood(food);
+
+                          
                         }
 
                         _foodCubit.getAllMeals();
