@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (now.weekday == DateTime.sunday) {
       // Call generateMealTable() here\
       timetableCubit.generateMealTable();
-    } 
+    }
     Timer(Duration(seconds: counter), () async {
       Navigator.pushNamed(context, Routes.home);
     });
@@ -73,36 +73,36 @@ class _SplashScreenState extends State<SplashScreen> {
         Positioned(
           top: CommonUtils.sh(context, s: 0.25),
           child: SizedBox(
-            width: CommonUtils.sw(context, s: 0.5),
+            width: CommonUtils.sw(context, s: 0.7),
             child: Column(
               children: [
                 // Image(
                 //   image: Svg('assets/icons/meal.svg',
                 //       color: Colors.white, size: Size(sizeW, sizeW)),
                 // ),
-                SvgPicture.asset('assets/icons/meal.svg',
-                    width: sizeW,
-                    height: sizeW,
-                    semanticsLabel: 'A red up arrow'),
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(color: AppColour(context).onPrimaryColour),
-                    text: 'Meal',
-                    children: [
-                      TextSpan(
-                          text: 'ble',
-                          style: TextStyle(
-                              color: AppColour(context).secondaryColour)),
-                    ],
-                  ),
-                )
+                Image.asset(
+                  'assets/images/3.png',
+                  semanticLabel: 'Meable Logo',
+                ),
               ],
             ),
           ),
         ),
+        Positioned(
+            bottom: 10,
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColour(context).onPrimaryColour.withOpacity(0.6)),
+                text: 'Version',
+                children: [
+                  TextSpan(
+                      text: ' 1.0.0',
+                      style:
+                          TextStyle(color: AppColour(context).onPrimaryColour)),
+                ],
+              ),
+            ))
       ]),
     );
   }

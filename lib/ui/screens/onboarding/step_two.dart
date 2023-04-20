@@ -22,39 +22,53 @@ class StepTwo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome',
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayMedium!
-                      .copyWith(color: AppColour(context).onPrimaryColour)),
-              CustomLayout.mPad.sizedBoxH,
+              // Text('Welcome',
+              //     style: Theme.of(context)
+              //         .textTheme
+              //         .displayMedium!
+              //         .copyWith(color: AppColour(context).onPrimaryColour)),
+              CustomLayout.xlPad.sizedBoxH,
               RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color:
-                            AppColour(context).onPrimaryColour.withOpacity(0.6),
-                      ),
-                  text: 'Have you always been \n',
+                      color:
+                          AppColour(context).onPrimaryColour.withOpacity(0.6),
+                      fontSize: 20),
+                  text: 'Have you been ',
                   children: [
                     TextSpan(
-                      text: 'Thinking \n',
+                      text: 'Thinking ',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                     TextSpan(
-                      text: ' how to plan your meal for a \n',
+                      text: 'on how to ',
                       style: TextStyle(
                         color:
                             AppColour(context).onPrimaryColour.withOpacity(0.6),
                       ),
                     ),
                     TextSpan(
-                      text: ' whole week or month?',
+                      text: 'Plan ',
                       style: Theme.of(context)
                           .textTheme
-                          .titleMedium!
+                          .titleLarge!
+                          .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
+                    TextSpan(
+                      text: 'your meal/diet/menu for a \n',
+                      style: TextStyle(
+                        color:
+                            AppColour(context).onPrimaryColour.withOpacity(0.6),
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'day/week/month?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                   ],

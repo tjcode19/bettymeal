@@ -38,39 +38,39 @@ class StepOne extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color:
-                            AppColour(context).onPrimaryColour.withOpacity(0.8),
-                      ),
-                  text: 'Have you always been ',
+                      color:
+                          AppColour(context).onPrimaryColour.withOpacity(0.8),
+                      fontSize: 20),
+                  text: 'Not too sure of what to eat ',
                   children: [
                     TextSpan(
-                      text: 'Thinking 🤔 \n',
+                      text: 'Today? 🤔 \n',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                     TextSpan(
-                      text: 'how to plan your meal for a ',
+                      text: 'We got ',
                       style: TextStyle(
                         color:
                             AppColour(context).onPrimaryColour.withOpacity(0.8),
                       ),
                     ),
                     TextSpan(
-                      text: 'whole',
+                      text: 'You',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
-                    TextSpan(
-                      text: ' week or month?',
-                      style: TextStyle(
-                        color:
-                            AppColour(context).onPrimaryColour.withOpacity(0.8),
-                      ),
-                    ),
+                    // TextSpan(
+                    //   text: ' week or month?',
+                    //   style: TextStyle(
+                    //     color:
+                    //         AppColour(context).onPrimaryColour.withOpacity(0.8),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

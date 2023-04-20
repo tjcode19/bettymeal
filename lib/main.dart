@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             colorScheme:
                 ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
+              primary: const Color(0xff009688),
               secondary: const Color(0xffc26700), //#66b2b2
               secondaryContainer: const Color(0xffc26700),
               onSecondary: Colors.black,

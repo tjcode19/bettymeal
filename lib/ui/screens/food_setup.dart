@@ -94,7 +94,7 @@ class _FoodSetupState extends State<FoodSetup> {
                   ),
                   CustomLayout.sPad.sizedBoxH,
                   Text(
-                      'To generate a meal table that is dynamic, we need you to enter at list 3 food for each meal',
+                      'To generate a meal table that is dynamic, input at least 3 foods for each meal delight.',
                       style: Theme.of(context).textTheme.bodyLarge),
                   CustomLayout.xlPad.sizedBoxH,
                   BlocConsumer<FoodCubit, FoodState>(
@@ -170,11 +170,27 @@ class _FoodSetupState extends State<FoodSetup> {
                         semanticsLabel: 'A red up arrow'),
                   ),
                   CustomLayout.xlPad.sizedBoxH,
-                  Text(
-                    'The more food you tell us, the more robust the meal table we will give you 🤣',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  RichText(
+                    text: TextSpan(
+                      style: Theme.of(context).textTheme.titleMedium,
+                      text:
+                          'The richer the variety of culinary delights you provide, the more sumptuous and satisfying menu ',
+                      children: [
+                        TextSpan(
+                          text: 'Meable ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: AppColour(context).secondaryColour),
+                        ),
+                        const TextSpan(
+                          text: 'will generate 😋',
+                        ),
+                      ],
+                    ),
                   ),
-                  CustomLayout.sPad.sizedBoxH,
+                  CustomLayout.xlPad.sizedBoxH,
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -183,7 +199,7 @@ class _FoodSetupState extends State<FoodSetup> {
                       child: const Text('Add Food'),
                     ),
                   ),
-                  CustomLayout.xlPad.sizedBoxH,
+                  CustomLayout.lPad.sizedBoxH,
                   BlocBuilder<FoodCubit, FoodState>(
                     builder: (context, state) {
                       if (state is FoodLoaded) {

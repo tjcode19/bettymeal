@@ -21,39 +21,47 @@ class StepThree extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome',
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayMedium!
-                      .copyWith(color: AppColour(context).onPrimaryColour)),
-              CustomLayout.mPad.sizedBoxH,
+              // Text('Welcome',
+              //     style: Theme.of(context)
+              //         .textTheme
+              //         .displayMedium!
+              //         .copyWith(color: AppColour(context).onPrimaryColour)),
+              CustomLayout.xlPad.sizedBoxH,
               RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color:
                             AppColour(context).onPrimaryColour.withOpacity(0.6),
+                        fontSize: 20,
                       ),
-                  text: 'Have you always been \n',
+                  text: 'Having problem ',
                   children: [
                     TextSpan(
-                      text: 'Thinking \n',
+                      text: 'Budgeting \n',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                     TextSpan(
-                      text: ' how to plan your meal for a \n',
+                      text: 'for your favourite meal? \n',
                       style: TextStyle(
                         color:
                             AppColour(context).onPrimaryColour.withOpacity(0.6),
                       ),
                     ),
                     TextSpan(
-                      text: ' whole week or month?',
+                      text: 'Worry no more with ',
                       style: Theme.of(context)
                           .textTheme
-                          .titleMedium!
+                          .titleLarge!
+                          .copyWith(color: AppColour(context).onPrimaryColour),
+                    ),
+                    TextSpan(
+                      text: 'Meable',
+                      style: Theme.of(context)
+                          .textTheme
+                          .displaySmall!
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                   ],
