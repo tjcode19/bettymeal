@@ -39,8 +39,11 @@ class UserCubit extends Cubit<UserState> {
   }
 
   userRegistration(email) async {
+    emit(UserLoading());
     try {
       final cal = await userRepository.registerUser(email);
+
+      print(cal);
 
       if (cal.code != '001') {
         emit(UserError(cal.message!));

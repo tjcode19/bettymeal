@@ -1,6 +1,9 @@
+import 'package:bettymeals/utils/device_utils.dart';
 import 'package:bettymeals/utils/enums.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
@@ -16,7 +19,7 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
-  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   String gender = 'None';
@@ -33,7 +36,14 @@ class _GetStartedState extends State<GetStarted> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: BlocListener<cs.UserCubit, cs.UserState>(
-            listener: (context, state) {},
+            listener: (context, state) {
+              if (state is cs.UserLoading) {
+                Notificatn.showLoading(context, title: 'Loading');
+              }
+              if (state is cs.UserError) {
+                Notificatn.showErrorModal(context, errorMsg: state.msg);
+              }
+            },
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +60,7 @@ class _GetStartedState extends State<GetStarted> {
                   Form(
                     key: _formKey,
                     child: TextFormField(
-                      controller: _nameController,
+                      controller: _emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
@@ -98,12 +108,17 @@ class _GetStartedState extends State<GetStarted> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
+                        DeviceUtils.hideKeyboard(context);
                         if (_formKey.currentState!.validate()) {
+                          // context
+                          //     .read<cs.UserCubit>()
+                          //     .setUserDetails(_emailController.text, gender);
+
                           context
                               .read<cs.UserCubit>()
-                              .setUserDetails(_nameController.text, gender);
+                              .userRegistration(_emailController.text);
 
-                          Navigator.pushNamed(context, Routes.foodSetup);
+                          // Navigator.pushNamed(context, Routes.foodSetup);
                         }
                       },
                       child: const Text('Continue'),

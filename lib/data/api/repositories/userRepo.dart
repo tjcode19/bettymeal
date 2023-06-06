@@ -45,8 +45,9 @@ class UserRepository {
   // }
 
   Future<UserRegistration> registerUser(email) async {
+    
     final response = await nRequest.post(
-      "user",
+      "user/",
       {
         "email": email,
       },

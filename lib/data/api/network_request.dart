@@ -15,7 +15,7 @@ import '../../utils/enums.dart';
 
 class NetworkRequest {
   final String _baseUrl = "https://mealbleapi-production.up.railway.app/";
-  
+
   final SharedPreferenceApp? _sharedPreferenceQS = SharedPreferenceApp();
 
   final kApiUrl = defaultTargetPlatform == TargetPlatform.android
@@ -29,8 +29,7 @@ class NetworkRequest {
 
   getTokenPref() async {
     try {
-      token = await _sharedPreferenceQS!
-          .getSharedPrefs(sharedType: SpDataType.String, fieldName: 'token');
+      token = "";
 
       // 'token_1auzcBivJxPgz2yXyI-rVLp-hZO0wq9tW0nWQLh7-Mk';
     } catch (e) {
@@ -45,8 +44,6 @@ class NetworkRequest {
       "Authorization": "Bearer $token"
     };
   }
-
-  
 
   Future<dynamic> get(String url) async {
     var responseJson;
@@ -112,6 +109,11 @@ class NetworkRequest {
     var responseJson;
     await getTokenPref();
     try {
+      final uri = Uri.parse(_baseUrl + url);
+
+      print('the uri: $uri');
+      print(jsonEncode(body));
+
       final response = await http
           .post(
         Uri.parse(_baseUrl + url),
@@ -127,10 +129,8 @@ class NetworkRequest {
       );
 
       responseJson = _response(response);
-    } on SocketException {
-      throw FetchDataException('No Internet connection');
-    } on UnauthorisedException {
-      throw UnauthorisedException('Token Expired');
+    } catch (e) {
+      print(e);
     }
     return responseJson;
   }
