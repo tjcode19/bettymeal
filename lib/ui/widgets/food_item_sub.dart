@@ -1,4 +1,4 @@
-import 'package:bettymeals/data/models/timetable.dart';
+import 'package:bettymeals/data/local/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

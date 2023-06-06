@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:developer' as d;
 import 'dart:math';
 
-import 'package:bettymeals/data/models/food.dart';
-import 'package:bettymeals/data/repositories/food_repository.dart';
+import 'package:bettymeals/data/local/models/food.dart';
+import 'package:bettymeals/data/local/repositories/food_repository.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../data/models/timetable.dart';
-import '../data/repositories/timetable_repository.dart';
+import '../data/local/models/timetable.dart';
+import '../data/local/repositories/timetable_repository.dart';
 
 part 'timetable_state.dart';
 

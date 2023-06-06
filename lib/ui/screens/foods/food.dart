@@ -1,4 +1,4 @@
-import 'package:bettymeals/data/models/food.dart';
+import 'package:bettymeals/data/local/models/food.dart';
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';
 import 'package:bettymeals/utils/constants.dart';

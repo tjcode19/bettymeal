@@ -7,7 +7,7 @@ import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
 import 'cubit/timetable_cubit.dart';
 import 'cubit/user_cubit.dart';
-import 'data/database/app_database.dart';
+import 'data/local/database/app_database.dart';
 import 'routes.dart';
 import 'utils/custom_anim.dart';
 

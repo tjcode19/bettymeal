@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bettymeals/data/models/food.dart';
-import 'package:bettymeals/data/repositories/food_repository.dart';
+import 'package:bettymeals/data/local/models/food.dart';
+import 'package:bettymeals/data/local/repositories/food_repository.dart';
 import 'package:bettymeals/ui/widgets/badge.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/food_data.dart';
+import '../../data/local/models/food_data.dart';
 import '../../utils/colours.dart';
 import '../../utils/enums.dart';
 import '../widgets/time_table.dart';

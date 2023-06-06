@@ -1,4 +1,4 @@
-import 'package:bettymeals/data/database/dao/food_dao.dart';
+import 'package:bettymeals/data/local/database/dao/food_dao.dart';
 
 import 'food.dart';
 

@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../data/models/food.dart';
-import '../data/repositories/food_repository.dart';
+import '../data/local/models/food.dart';
+import '../data/local/repositories/food_repository.dart';
 
 part 'food_state.dart';
 

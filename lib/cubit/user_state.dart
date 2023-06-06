@@ -14,7 +14,7 @@ class UserLoading extends UserState {}
 class UserSuccess extends UserState {}
 
 class GetUser extends UserState {
- const GetUser(this.name);
+  const GetUser(this.name);
 
   final String name;
 
@@ -22,4 +22,11 @@ class GetUser extends UserState {
   List<Object> get props => [name];
 }
 
-class UserError extends UserState {}
+class UserError extends UserState {
+  const UserError(this.msg);
+
+  final String msg;
+
+  @override
+  List<Object> get props => [msg];
+}

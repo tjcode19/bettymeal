@@ -1,5 +1,5 @@
 import 'package:bettymeals/cubit/food_cubit.dart';
-import 'package:bettymeals/data/models/food.dart';
+import 'package:bettymeals/data/local/models/food.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

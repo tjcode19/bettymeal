@@ -44,7 +44,7 @@ class _GetStartedState extends State<GetStarted> {
                   Text('We will like to know little about you',
                       style: Theme.of(context).textTheme.bodyLarge),
                   CustomLayout.xlPad.sizedBoxH,
-                  Text('What is your name?',
+                  Text('Enter your email',
                       style: Theme.of(context).textTheme.titleMedium),
                   // CustomLayout.sPad.sizedBoxH,
                   Form(
@@ -53,45 +53,45 @@ class _GetStartedState extends State<GetStarted> {
                       controller: _nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return 'Please enter your email';
                         }
                         return null;
                       },
                     ),
                   ),
-                  CustomLayout.xlPad.sizedBoxH,
-                  Text('What gender would you like to be identify with?',
-                      style: Theme.of(context).textTheme.titleMedium),
-                  RadioListTile(
-                    title: const Text("Male"),
-                    value: 'Male',
-                    groupValue: gender,
-                    onChanged: (value) {
-                      setState(() {
-                        gender = value!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: const Text("Female"),
-                    value: 'Female',
-                    groupValue: gender,
-                    onChanged: (value) {
-                      setState(() {
-                        gender = value!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: const Text("Other"),
-                    value: 'Other',
-                    groupValue: gender,
-                    onChanged: (value) {
-                      setState(() {
-                        gender = value!;
-                      });
-                    },
-                  ),
+                  // CustomLayout.xlPad.sizedBoxH,
+                  // Text('What gender would you like to be identify with?',
+                  //     style: Theme.of(context).textTheme.titleMedium),
+                  // RadioListTile(
+                  //   title: const Text("Male"),
+                  //   value: 'Male',
+                  //   groupValue: gender,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       gender = value!;
+                  //     });
+                  //   },
+                  // ),
+                  // RadioListTile(
+                  //   title: const Text("Female"),
+                  //   value: 'Female',
+                  //   groupValue: gender,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       gender = value!;
+                  //     });
+                  //   },
+                  // ),
+                  // RadioListTile(
+                  //   title: const Text("Other"),
+                  //   value: 'Other',
+                  //   groupValue: gender,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       gender = value!;
+                  //     });
+                  //   },
+                  // ),
                   CustomLayout.lPad.sizedBoxH,
 
                   CustomLayout.xlPad.sizedBoxH,

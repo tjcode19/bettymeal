@@ -2,7 +2,7 @@ import 'package:bettymeals/ui/widgets/food_card_footer.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/models/food.dart';
+import '../../data/local/models/food.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
 

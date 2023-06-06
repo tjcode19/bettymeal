@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
-import '../../../data/models/food.dart';
-import '../../../data/models/timetable.dart';
+import '../../../data/local/models/food.dart';
+import '../../../data/local/models/timetable.dart';
 import '../../widgets/food_item_sub.dart';
 
 

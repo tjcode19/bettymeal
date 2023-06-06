@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/food.dart';
-import '../../data/models/timetable.dart';
+import '../../data/local/models/food.dart';
+import '../../data/local/models/timetable.dart';
 
 class TimetableItemWidget extends StatelessWidget {
   final TimetableModel timetable;
