@@ -41,4 +41,15 @@ class Notificatn {
 
     EasyLoading.showToast(errorMsg, toastPosition: toastPosition);
   }
+
+  static showSuccessToast(context,
+      {msg = 'Action Successful',
+      toastPosition = EasyLoadingToastPosition.bottom}) async{
+    await EasyLoading.instance
+      ..backgroundColor = AppColour(context).primaryColour;
+    await EasyLoading.instance
+      ..maskColor = AppColour(context).primaryColour.withOpacity(0.3);
+
+    await EasyLoading.showToast(msg, toastPosition: toastPosition);
+  }
 }

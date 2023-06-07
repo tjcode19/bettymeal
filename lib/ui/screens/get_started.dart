@@ -43,6 +43,11 @@ class _GetStartedState extends State<GetStarted> {
               if (state is cs.UserError) {
                 Notificatn.showErrorModal(context, errorMsg: state.msg);
               }
+              if (state is cs.UserSuccess) {
+                Notificatn.hideLoading();
+                Navigator.pushNamed(context, Routes.setPassword,
+                    arguments: [state.userId, state.email]);
+              }
             },
             child: SingleChildScrollView(
               child: Column(
@@ -110,43 +115,15 @@ class _GetStartedState extends State<GetStarted> {
                       onPressed: () {
                         DeviceUtils.hideKeyboard(context);
                         if (_formKey.currentState!.validate()) {
-                          // context
-                          //     .read<cs.UserCubit>()
-                          //     .setUserDetails(_emailController.text, gender);
-
                           context
                               .read<cs.UserCubit>()
                               .userRegistration(_emailController.text);
-
-                          // Navigator.pushNamed(context, Routes.foodSetup);
                         }
                       },
                       child: const Text('Continue'),
                     ),
                   ),
-                  // BlocListener<FoodCubit, FoodState>(
-                  //   listener: (context, state) {
-                  //     if (state is FoodLoaded) {
-                  //       if (state.bf.length >= 3 &&
-                  //           state.ln.length >= 3 &&
-                  //           state.dn.length >= 3) {
-                  //         isOkay = true;
-                  //       }
-                  //     }
-                  //   },
-                  //   child: isOkay
-                  //       ? Center(
-                  //           child: OutlinedButton(
-                  //             onPressed: () {
-                  //               context.read<TimetableCubit>().generateMealTable();
-
-                  //               Navigator.pushNamed(context, Routes.home);
-                  //             },
-                  //             child: const Text('Generate Mealtable'),
-                  //           ),
-                  //         )
-                  //       : const Text(''),
-                  // )
+                 
                 ],
               ),
             ),

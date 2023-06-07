@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/mealtable.dart';
+import 'ui/screens/set_password.dart';
 
 class Routes {
   static const String splashScreen = '/slash-screen';
@@ -17,6 +18,7 @@ class Routes {
   static const String foodSetup = '/food-setup';
   static const String timetable = '/timetable';
   static const String addFood = '/add-food';
+  static const String setPassword = '/set-password';
   static const String addCategory = '/add-category';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,9 +38,18 @@ class Routes {
       case addFood:
         final int t = settings.arguments as int;
         return MaterialPageRoute(
-            builder: (_) => AddMealScreen(
-                  typeId: t,
-                ));
+          builder: (_) => AddMealScreen(
+            typeId: t,
+          ),
+        );
+      case setPassword:
+        final List<String> t = settings.arguments as List<String>;
+        return MaterialPageRoute(
+          builder: (_) => SetPasswordScreen(
+            userId: t[0],
+            email: t[1],
+          ),
+        );
       case addCategory:
         return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
       default:

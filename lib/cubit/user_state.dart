@@ -11,7 +11,20 @@ class UserInitial extends UserState {}
 
 class UserLoading extends UserState {}
 
-class UserSuccess extends UserState {}
+class VerifyEmailSuccess extends UserState {}
+
+
+class SendOtpSuccess extends UserState {}
+
+class UserSuccess extends UserState {
+  const UserSuccess(this.userId, this.email);
+
+  final String userId;
+  final String email;
+
+  @override
+  List<Object> get props => [userId, email];
+}
 
 class GetUser extends UserState {
   const GetUser(this.name);
