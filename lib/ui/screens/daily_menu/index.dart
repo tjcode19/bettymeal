@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'dart:ffi';
 
-import 'package:bettymeals/cubit/user_cubit.dart';
+import 'package:bettymeals/cubit/user_cubit.dart' as cs;
+import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
 import 'package:bettymeals/ui/widgets/section_title.dart';
 import 'package:bettymeals/utils/colours.dart';
@@ -10,13 +11,11 @@ import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
 import '../../../data/local/models/food.dart';
-import '../../../data/local/models/timetable.dart';
-import '../../widgets/food_item_sub.dart';
-
-
+import '../../../utils/enums.dart';
 
 class DailyMenuScreen extends StatefulWidget {
   const DailyMenuScreen({super.key});
@@ -130,11 +129,11 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: CommonUtils.padding),
-                  child: BlocBuilder<UserCubit, UserState>(
+                  child: BlocBuilder<cs.UserCubit, cs.UserState>(
                     builder: (context, state) {
-                      String name = 'NA';
+                      String name = 'Guest';
 
-                      if (state is GetUser) {
+                      if (state is cs.GetUser) {
                         name = state.name;
                       }
                       return RichText(
@@ -346,10 +345,58 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 ),
               ),
             ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: CommonUtils.padding,
+                        vertical: CommonUtils.xspadding),
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Select from ',
+                        children: [
+                          TextSpan(
+                            text: 'Our Plans ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: AppColour(context).primaryColour,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: 'to get started',
+                          )
+                        ],
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Colors.black.withOpacity(0.7)),
+                      ),
+                    ),
+                  ),
+                  PlanCard(duration: '7 Days', plan: 'Weekly Plan'),
+                  CustomLayout.lPad.sizedBoxH,
+                  PlanCard(
+                    duration: '30 Days',
+                    plan: 'Monthly Plan',
+                    background:
+                        AppColour(context).secondaryColour.withOpacity(0.1),
+                  ),
+                  CustomLayout.lPad.sizedBoxH,
+                  PlanCard(
+                      duration: '365 Days',
+                      plan: 'Yearly Plan',
+                      background: Colors.blue.withOpacity(0.1)),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
   }
-
- 
 }
