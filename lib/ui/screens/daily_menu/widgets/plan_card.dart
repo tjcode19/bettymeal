@@ -10,11 +10,13 @@ class PlanCard extends StatelessWidget {
       {required this.duration,
       required this.plan,
       this.background,
+      this.price,
       required this.onPress,
       super.key});
 
   final String plan;
   final String duration;
+  final String? price;
   final Color? background;
   final Function() onPress;
 
@@ -68,6 +70,21 @@ class PlanCard extends StatelessWidget {
                         text: duration,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               color: AppColour(context).primaryColour,
+                            ),
+                      ),
+                      TextSpan(
+                        text: " @",
+                      ),
+                      TextSpan(
+                        text: " \$$price",
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                              color: Colors.black,
+                            ),
+                      ),
+                      TextSpan(
+                        text: ".00",
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: Colors.black.withOpacity(0.5),
                             ),
                       )
                     ],

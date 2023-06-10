@@ -1,13 +1,8 @@
 import 'dart:math';
 
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
-import 'package:bettymeals/data/local/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
-import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import '../../data/local/models/food_data.dart';
 
 class TimeTable extends StatelessWidget {
   const TimeTable({required this.meals, super.key});

@@ -125,9 +125,14 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                           AppColour(context).onPrimaryColour),
                             ),
                           ),
-                          Container(
-                            color: AppColour(context).onPrimaryColour,
-                            child: Text('The plan'),
+                          GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                                context, Routes.plans,
+                                arguments: ''),
+                            child: Container(
+                              color: AppColour(context).onPrimaryColour,
+                              child: Text('The plan'),
+                            ),
                           )
                         ],
                       );

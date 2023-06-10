@@ -1,12 +1,14 @@
+import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:flutter/material.dart';
 
+import '../../routes.dart';
 import '../../utils/colours.dart';
 import '../../utils/constants.dart';
 
 class FoodCardFooter extends StatelessWidget {
-  const FoodCardFooter({super.key, required this.name, this.extra});
+  const FoodCardFooter({super.key, required this.meal, this.extra});
 
-  final String name;
+  final Meal meal;
   final List<String>? extra;
 
   @override
@@ -19,7 +21,7 @@ class FoodCardFooter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              name,
+              meal.name!,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
@@ -31,7 +33,13 @@ class FoodCardFooter extends StatelessWidget {
             // itemRow(context, name: 'Bread'),
           ],
         ),
-        const CircleAvatar(child: Icon(Icons.arrow_forward))
+        GestureDetector(
+          onTap: () =>
+              Navigator.pushNamed(context, Routes.mealDetails, arguments: meal),
+          child: const CircleAvatar(
+            child: Icon(Icons.arrow_forward),
+          ),
+        )
       ],
     );
   }

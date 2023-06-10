@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       button(
                         onPressed: () => onTabTapped(1),
-                        label: 'Dishes',
+                        label: 'History',
                         icon: Icons.list_alt_outlined,
                         index: 1,
                       ),

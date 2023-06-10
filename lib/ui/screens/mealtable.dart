@@ -29,7 +29,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
-            'Food Bank',
+            'Meal Table',
             style: TextStyle(color: AppColour(context).onPrimaryColour),
           ),
           backgroundColor: AppColour(context).primaryColour,

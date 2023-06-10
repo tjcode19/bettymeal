@@ -8,8 +8,10 @@ import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'data/api/models/GetSubscription.dart';
+import 'data/api/models/GetTimetable.dart';
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/mealtable.dart';
+import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
 
 class Routes {
@@ -23,6 +25,7 @@ class Routes {
   static const String setPassword = '/set-password';
   static const String addCategory = '/add-category';
   static const String mealDetails = '/meal-details';
+  static const String plans = '/plans';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -42,10 +45,10 @@ class Routes {
           ),
         );
       case mealDetails:
-        final SubData plan = settings.arguments as SubData;
+        final Meal meal = settings.arguments as Meal;
         return MaterialPageRoute(
           builder: (_) => MealDetails(
-            plan: plan,
+            meal: meal,
           ),
         );
       case timetable:
@@ -55,6 +58,13 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => AddMealScreen(
             typeId: t,
+          ),
+        );
+      case plans:
+        final String t = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => PlansScreen(
+            planId: t,
           ),
         );
       case setPassword:

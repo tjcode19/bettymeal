@@ -55,7 +55,7 @@ class FoodCard extends StatelessWidget {
                       bodyColor: AppColour(context).onSecondaryColour),
                 ),
                 child: FoodCardFooter(
-                  name: food.meal!.name!,
+                  meal: food.meal!,
                   extra: [],
                 )),
           ),
