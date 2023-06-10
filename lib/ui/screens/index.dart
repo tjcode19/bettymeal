@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
+import '../../cubit/meal_cubit.dart';
+import '../../cubit/sub_cubit.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../cubit/user_cubit.dart';
 import '../widgets/timetable.dart';
@@ -40,8 +42,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    context.read<TimetableCubit>().getTimetable();
+    context.read<TimetableCubit>().getTimeableApi();
     context.read<UserCubit>().getUserDetails();
+    context.read<SubCubit>().getSubscription();
+    context.read<MealCubit>().getAllMeal();
     super.initState();
   }
 

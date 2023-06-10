@@ -1,17 +1,17 @@
-class GetAllMeal {
+class GetSubscription {
   String? code;
   String? message;
-  List<MealData>? data;
+  List<SubData>? data;
 
-  GetAllMeal({this.code, this.message, this.data});
+  GetSubscription({this.code, this.message, this.data});
 
-  GetAllMeal.fromJson(Map<String, dynamic> json) {
+  GetSubscription.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <MealData>[];
+      data = <SubData>[];
       json['data'].forEach((v) {
-        data!.add(new MealData.fromJson(v));
+        data!.add(new SubData.fromJson(v));
       });
     }
   }
@@ -27,55 +27,51 @@ class GetAllMeal {
   }
 }
 
-class MealData {
+class SubData {
   String? sId;
   String? name;
-  List<String>? category;
-  String? country;
+  String? duration;
+  String? price;
+  bool? active;
   String? createdAt;
   String? updatedAt;
   int? iV;
-  List<String>? extra;
-  List<String>? nutrients;
-  String? description;
+  int? reshuffle;
 
-  MealData(
+  SubData(
       {this.sId,
       this.name,
-      this.category,
-      this.country,
+      this.duration,
+      this.price,
+      this.active,
       this.createdAt,
       this.updatedAt,
       this.iV,
-      this.extra,
-      this.nutrients,
-      this.description});
+      this.reshuffle});
 
-  MealData.fromJson(Map<String, dynamic> json) {
+  SubData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    category = json['category'].cast<String>();
-    country = json['country'];
+    duration = json['duration'];
+    price = json['price'];
+    active = json['active'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    extra = json['extra'].cast<String>();
-    nutrients = json['nutrients'].cast<String>();
-    description = json['description'];
+    reshuffle = json['reshuffle'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['category'] = this.category;
-    data['country'] = this.country;
+    data['duration'] = this.duration;
+    data['price'] = this.price;
+    data['active'] = this.active;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
-    data['extra'] = this.extra;
-    data['nutrients'] = this.nutrients;
-    data['description'] = this.description;
+    data['reshuffle'] = this.reshuffle;
     return data;
   }
 }

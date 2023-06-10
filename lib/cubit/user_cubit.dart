@@ -71,12 +71,17 @@ class UserCubit extends Cubit<UserState> {
       if (cal.code != '001') {
         emit(UserError(cal.message!));
       } else {
+        setFirstTimer(false);
         emit(VerifyEmailSuccess());
       }
     } catch (e) {
       emit(UserError("Error Occured"));
       print(e);
     }
+  }
+
+  isActiveSub() {
+    return true;
   }
 
   sendOtp(email) async {

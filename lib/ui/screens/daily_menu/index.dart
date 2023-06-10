@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ffi';
 
+import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/cubit/user_cubit.dart' as cs;
 import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
 import 'package:bettymeals/ui/widgets/food_card.dart';
@@ -14,7 +15,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../cubit/food_cubit.dart';
 import '../../../cubit/timetable_cubit.dart';
+import '../../../cubit/user_cubit.dart';
+import '../../../data/api/models/GetTimetable.dart';
 import '../../../data/local/models/food.dart';
+import '../../../routes.dart';
 import '../../../utils/enums.dart';
 
 class DailyMenuScreen extends StatefulWidget {
@@ -28,7 +32,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   // late final TimetableCubit _timetableCubit;
 
   DateTime currentDate = DateTime.now();
-  final List<String> period = ['Breakfast', 'Lunch', 'Dinner'];
+  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
   final today = HelperMethod.formatDate(DateTime.now().toIso8601String(),
       pattern: 'yyyy-MM-dd');
 
@@ -36,70 +40,27 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   int foodSize = 0;
 
-  // final List<TimetableModel> timetable = [
-  //   TimetableModel(date: DateTime.now(), foods: [
-  //     FoodModel(
-  //         description: 'Good as breakfast because it is very light',
-  //         image:
-  //             'https://www.thespruceeats.com/thmb/D5lsBYYAz2NiIup3evaCXteK8hM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hausa-koko-spicy-millet-porridge-39547-hero-01-edb486a34d6a4ee3b8b347430838d1f7.jpg',
-  //         name: 'Koko',
-  //         type: "0",
-  //         foodextra_id: [
-  //           'Kose',
-  //           'Bofloat',
-  //           'Kose Bread',
-  //           'Sugar bread/Tea bread/Butter bread'
-  //         ]),
-  //     FoodModel(
-  //         description: 'Laagba good for luch',
-  //         image:
-  //             'https://images.pexels.com/photos/1660030/pexels-photo-1660030.jpeg?auto=compress&cs=tinysrgb&w=1200',
-  //         name: 'Laagba',
-  //         type: "1",
-  //         foodextra_id: ['Beef/Salmon/Chicken', 'Ademe/Okro/Stew']),
-  //     FoodModel(
-  //         description: 'Suitable for dinner',
-  //         image:
-  //             'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200',
-  //         name: 'Rice',
-  //         type: "2",
-  //         foodextra_id: ['Vegetables/Eggs/Salmon', 'Stew', 'Fruit Juice'])
-  //   ])
-  // ];
-
-  // late ScrollController _scrollController;
-  // int _scrollPosition = 0;
+  bool isActiveSub = false;
 
   int _selected = 0;
 
-  // _scrollListener() {
-  //   setState(() {
-  //     _scrollPosition =
-  //         (_scrollController.position.pixels / CommonUtils.sw(context)).round();
-  //   });
+  // String periodOfTheDay() {
+  //   var time = DateTime.now();
+
+  //   if (time.hour < 12) {
+  //     return "Breakfast";
+  //   } else if (time.hour > 12 && time.hour < 15) {
+  //     return "Lunch";
+  //   } else {
+  //     return "Dinner";
+  //   }
   // }
-
-  String periodOfTheDay() {
-    var time = DateTime.now();
-
-    if (time.hour < 12) {
-      return "Breakfast";
-    } else if (time.hour > 12 && time.hour < 15) {
-      return "Lunch";
-    } else {
-      return "Dinner";
-    }
-  }
 
   @override
   void initState() {
     super.initState();
 
-    context.read<FoodCubit>().getFoodSize().then((value) {
-      setState(() {
-        foodSize = value;
-      });
-    });
+    isActiveSub = context.read<UserCubit>().isActiveSub();
 
     _selected = daysOfWeek.indexOf(HelperMethod.formatDate(
         DateTime.now().toIso8601String(),
@@ -128,7 +89,8 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: CommonUtils.padding),
+                  padding: EdgeInsets.only(
+                      left: CommonUtils.padding, right: CommonUtils.padding),
                   child: BlocBuilder<cs.UserCubit, cs.UserState>(
                     builder: (context, state) {
                       String name = 'Guest';
@@ -136,28 +98,38 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                       if (state is cs.GetUser) {
                         name = state.name;
                       }
-                      return RichText(
-                        text: TextSpan(
-                          text: 'Hey, $name \n',
-                          children: [
-                            TextSpan(
-                              text: 'Meal is ready!',
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Hey, $name \n',
+                              children: [
+                                TextSpan(
+                                  text: 'Meal is ready!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: AppColour(context)
+                                            .onPrimaryColour
+                                            .withOpacity(0.7),
+                                      ),
+                                )
+                              ],
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodySmall!
+                                  .titleLarge!
                                   .copyWith(
-                                    color: AppColour(context)
-                                        .onPrimaryColour
-                                        .withOpacity(0.7),
-                                  ),
-                            )
-                          ],
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: AppColour(context).onPrimaryColour),
-                        ),
+                                      color:
+                                          AppColour(context).onPrimaryColour),
+                            ),
+                          ),
+                          Container(
+                            color: AppColour(context).onPrimaryColour,
+                            child: Text('The plan'),
+                          )
+                        ],
                       );
                     },
                   ),
@@ -166,7 +138,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             ),
           ),
           CommonUtils.spaceH,
-          if (foodSize > 0)
+          if (isActiveSub)
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -185,10 +157,11 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
-                          } else if (state is TimetableLoaded) {
+                          } else if (state is GetTableSuccess) {
+                            List<Timetable> tVal = state.data.timetable!;
                             return ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: state.timetable.length,
+                              itemCount: tVal.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
@@ -219,21 +192,24 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          DateWay(state.timetable[index].date)
+                                          DateWay(DateTime.parse(
+                                                  tVal[index].meals![0].date!))
                                               .tDay,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall,
                                         ),
                                         Text(
-                                          DateWay(state.timetable[index].date)
+                                          DateWay(DateTime.parse(
+                                                  tVal[index].meals![0].date!))
                                               .tDate,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,
                                         ),
                                         Text(
-                                          DateWay(state.timetable[index].date)
+                                          DateWay(DateTime.parse(
+                                                  tVal[index].meals![0].date!))
                                               .tMon,
                                           style: Theme.of(context)
                                               .textTheme
@@ -245,9 +221,13 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 );
                               },
                             );
+                          } else if (state is NoSubSuccess) {
+                            return Center(
+                              child: Text(state.msg),
+                            );
                           } else {
                             return const Center(
-                              child: Text('Failed to load meals.'),
+                              child: Text('Failed to retrieve timetable.'),
                             );
                           }
                         },
@@ -261,32 +241,32 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
-                        } else if (state is TimetableLoaded) {
-                          return state.timetable.isNotEmpty
+                        } else if (state is GetTableSuccess) {
+                          List<Timetable> tVal = state.data.timetable!;
+                          return tVal.isNotEmpty
                               ? SizedBox(
                                   height: CommonUtils.sh(context, s: 0.4),
                                   width: CommonUtils.sw(context, s: 1),
                                   child: ListView.builder(
                                     // controller: _scrollController,
-                                    itemCount:
-                                        state.timetable[_selected].foods.length,
+                                    itemCount: tVal[_selected].meals!.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      List<FoodModel> t =
-                                          state.timetable[_selected].foods;
+                                      List<Meals> t = tVal[_selected].meals!;
                                       return SizedBox(
-                                          width: CommonUtils.sw(context) -
-                                              (CommonUtils.padding * 0.8),
-                                          child: Card(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            child: FoodCard(
-                                              food: t[index],
-                                              period: period[index],
-                                            ),
-                                          ));
+                                        width: CommonUtils.sw(context) -
+                                            (CommonUtils.padding * 0.8),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: FoodCard(
+                                            food: t[index],
+                                            period: period[index],
+                                          ),
+                                        ),
+                                      );
                                     },
                                   ),
                                 )
@@ -345,56 +325,74 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 ),
               ),
             ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: CommonUtils.padding,
-                        vertical: CommonUtils.xspadding),
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Select from ',
-                        children: [
-                          TextSpan(
-                            text: 'Our Plans ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: AppColour(context).primaryColour,
-                                    fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text: 'to get started',
-                          )
-                        ],
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black.withOpacity(0.7)),
+          if (!isActiveSub)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: CommonUtils.padding,
+                          vertical: CommonUtils.xspadding),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Select from ',
+                          children: [
+                            TextSpan(
+                              text: 'Our Plans ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: AppColour(context).primaryColour,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: 'to get started',
+                            )
+                          ],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black.withOpacity(0.7)),
+                        ),
                       ),
                     ),
-                  ),
-                  PlanCard(duration: '7 Days', plan: 'Weekly Plan'),
-                  CustomLayout.lPad.sizedBoxH,
-                  PlanCard(
-                    duration: '30 Days',
-                    plan: 'Monthly Plan',
-                    background:
-                        AppColour(context).secondaryColour.withOpacity(0.1),
-                  ),
-                  CustomLayout.lPad.sizedBoxH,
-                  PlanCard(
-                      duration: '365 Days',
-                      plan: 'Yearly Plan',
-                      background: Colors.blue.withOpacity(0.1)),
-                ],
+                    BlocBuilder<SubCubit, SubState>(
+                      builder: (context, state) {
+                        if (state is SubSuccess) {
+                          var a = state.data.map(
+                            (e) {
+                              int pos = state.data.indexOf(e);
+                              return PlanCard(
+                                duration: e.duration!,
+                                plan: e.name!,
+                                background: pos == 1
+                                    ? AppColour(context)
+                                        .secondaryColour
+                                        .withOpacity(0.1)
+                                    : pos == 2
+                                        ? Colors.blue.withOpacity(0.1)
+                                        : null,
+                                onPress: () {
+                                  Navigator.pushNamed(context, Routes.foodSetup,
+                                      arguments: e);
+                                },
+                              );
+                            },
+                          );
+
+                          return Column(children: [...a]);
+                        } else {
+                          return Text('No record');
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

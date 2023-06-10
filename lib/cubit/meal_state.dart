@@ -21,10 +21,12 @@ class MealError extends MealState {
 }
 
 class MealSuccess extends MealState {
-  const MealSuccess(this.meal);
+  const MealSuccess(this.br, this.ln, this.dn);
 
-  final List<MealData> meal;
+  final List<MealData> br;
+  final List<MealData> ln;
+  final List<MealData> dn;
 
   @override
-  List<Object> get props => [meal];
+  List<Object> get props => [br, ln, dn];
 }

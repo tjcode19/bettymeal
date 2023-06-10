@@ -2,6 +2,7 @@ import 'package:bettymeals/ui/widgets/food_card_footer.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/api/models/GetTimetable.dart';
 import '../../data/local/models/food.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
@@ -9,7 +10,7 @@ import 'food_card_head.dart';
 class FoodCard extends StatelessWidget {
   const FoodCard({super.key, required this.food, required this.period});
 
-  final FoodModel food;
+  final Meals food;
   final String period;
 
   @override
@@ -23,7 +24,7 @@ class FoodCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black,
             image: DecorationImage(
-                image: NetworkImage(food.image),
+                image: NetworkImage('https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200'),
                 fit: BoxFit.cover,
                 opacity: 0.4),
             borderRadius: BorderRadius.vertical(
@@ -54,8 +55,8 @@ class FoodCard extends StatelessWidget {
                       bodyColor: AppColour(context).onSecondaryColour),
                 ),
                 child: FoodCardFooter(
-                  name: food.name,
-                  extra: food.foodextra_id,
+                  name: food.meal!.name!,
+                  extra: [],
                 )),
           ),
         )

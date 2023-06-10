@@ -5,6 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
+import 'cubit/meal_cubit.dart';
+import 'cubit/sub_cubit.dart';
 import 'cubit/timetable_cubit.dart';
 import 'cubit/user_cubit.dart';
 import 'data/local/database/app_database.dart';
@@ -33,10 +35,16 @@ class MyApp extends StatelessWidget {
           create: (context) => FoodCubit(),
         ),
         BlocProvider(
+          create: (context) => MealCubit(),
+        ),
+        BlocProvider(
           create: (context) => TimetableCubit(),
         ),
         BlocProvider(
           create: (context) => UserCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SubCubit(),
         ),
       ],
       child: MaterialApp(

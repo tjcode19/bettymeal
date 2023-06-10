@@ -3,12 +3,7 @@ import 'package:bettymeals/utils/enums.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-import '../../../cubit/food_cubit.dart';
-import '../../../cubit/timetable_cubit.dart';
 import '../../../routes.dart';
-import '../../../utils/colours.dart';
 import '../../cubit/user_cubit.dart' as cs;
 
 class GetStarted extends StatefulWidget {

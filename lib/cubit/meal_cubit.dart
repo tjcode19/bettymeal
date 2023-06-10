@@ -20,13 +20,20 @@ class MealCubit extends Cubit<MealState> {
   getAllMeal() async {
     emit(MealLoading());
     try {
-      final cal = await mealRepository.getAllMeals();
+      final cal = await Future.wait(
+        [
+          mealRepository.getAllMeals('BR'),
+          mealRepository.getAllMeals('LN'),
+          mealRepository.getAllMeals('DN')
+        ],
+      );
+
       inspect(cal);
 
-      if (cal.code != '001') {
-        emit(MealError(cal.message!));
+      if (cal[0].code != '000') {
+        emit(MealError(cal[0].message!));
       } else {
-        emit(MealSuccess(cal.data!));
+        emit(MealSuccess(cal[0].data!, cal[1].data!, cal[2].data!));
       }
     } catch (e) {
       emit(MealError("Error Occured"));

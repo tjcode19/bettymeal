@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:bettymeals/data/local/models/timetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/helper.dart';
@@ -11,7 +12,7 @@ import '../../data/local/models/food_data.dart';
 class TimeTable extends StatelessWidget {
   const TimeTable({required this.meals, super.key});
 
-  final List<TimetableModel> meals;
+  final GetTimetableData meals;
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +59,12 @@ class TimeTable extends StatelessWidget {
             ),
           ],
         ),
-        for (TimetableModel d in meals)
+        for (Timetable d in meals.timetable!)
           _tableRow(context,
-              day: HelperMethod.formatDate(d.date.toIso8601String(),
-                  pattern: 'EEE'),
-              b: d.foods[0].name,
-              l: d.foods[1].name,
-              d: d.foods[2].name)
+              day: d.day,
+              b: d.meals![0].meal?.name,
+              l: d.meals![1].meal?.name,
+              d: d.meals![2].meal?.name)
       ],
     );
   }

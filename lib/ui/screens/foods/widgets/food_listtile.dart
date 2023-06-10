@@ -1,15 +1,13 @@
-import 'package:bettymeals/cubit/food_cubit.dart';
-import 'package:bettymeals/data/local/models/food.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/api/models/MealResponse.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/enums.dart';
 
 class FoodListTile extends StatelessWidget {
   const FoodListTile({super.key, required this.meal});
 
-  final FoodModel meal;
+  final MealData meal;
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +22,19 @@ class FoodListTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.red,
             shape: BoxShape.circle,
-            image: DecorationImage(
-                image: NetworkImage(meal.image), fit: BoxFit.cover),
+            image: DecorationImage(image: NetworkImage(''), fit: BoxFit.cover),
           ),
           child: const SizedBox(
             width: 50,
             height: 50,
           ),
         ),
-        title: Text(meal.name, style: Theme.of(context).textTheme.titleLarge),
+        title: Text(meal.name!, style: Theme.of(context).textTheme.titleLarge),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(meal.description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: AppColour(context).secondaryColour)),
+            Text("${meal.description!.substring(0, 50)}...",
+                style: Theme.of(context).textTheme.bodySmall!),
             // Text(
             //   meal.type == 0
             //       ? 'Breakfast'
@@ -60,7 +54,7 @@ class FoodListTile extends StatelessWidget {
               case 0:
                 break;
               case 1:
-                context.read<FoodCubit>().deleteFood(meal);
+                // context.read<FoodCubit>().deleteFood(meal);
                 break;
             }
           },

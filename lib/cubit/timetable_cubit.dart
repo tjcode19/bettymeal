@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as d;
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:bettymeals/data/local/models/food.dart';
@@ -8,6 +9,9 @@ import 'package:bettymeals/utils/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../data/api/models/GetTimetable.dart';
+import '../data/api/models/GetTimetableByUser.dart';
+import '../data/api/repositories/timetableRepo.dart';
 import '../data/local/models/timetable.dart';
 import '../data/local/repositories/timetable_repository.dart';
 
@@ -15,9 +19,11 @@ part 'timetable_state.dart';
 
 class TimetableCubit extends Cubit<TimetableState> {
   final TimetableRepository _repository;
+  final TimetableRepo apiRepo;
 
   TimetableCubit()
       : _repository = TimetableRepository(),
+        apiRepo = TimetableRepo(),
         super(TimetableInitial());
 
   Future<void> generateMealTable() async {
@@ -63,8 +69,6 @@ class TimetableCubit extends Cubit<TimetableState> {
 
         addMeal(
             TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
-
-            
       }
     } catch (_) {
       emit(const TimetableError(errorMessage: ""));
@@ -164,6 +168,70 @@ class TimetableCubit extends Cubit<TimetableState> {
       emit(TimetableLoaded(timetable: mealList));
     } catch (e) {
       emit(const TimetableError(errorMessage: ''));
+    }
+  }
+
+  generateTimeableApi(id) async {
+    emit(TimetableLoading());
+    try {
+      final cal = await apiRepo.generateTimetable();
+
+      if (cal.code != '000') {
+        emit(TimetableError(errorMessage: cal.message!));
+      } else {
+        getTimeableApi();
+        emit(TimetableSuccess());
+      }
+    } catch (e) {
+      emit(TimetableError(errorMessage: "Error Occured"));
+      print(e);
+    }
+  }
+
+  shuffleTimeableApi(id) async {
+    emit(TimetableLoading());
+    try {
+      final cal = await apiRepo.shuffleTimetable(id);
+
+      if (cal.code != '000') {
+        emit(TimetableError(errorMessage: cal.message!));
+      } else {
+        getTimeableApi();
+        emit(TimetableSuccess());
+      }
+    } catch (e) {
+      emit(TimetableError(errorMessage: "Error Occured"));
+      print(e);
+    }
+  }
+
+  getUserId() {
+    return "64787ec50495ab4d35a5a7de";
+  }
+
+  getTimeableApi() async {
+    emit(TimetableLoading());
+    try {
+      final cal = await apiRepo.getTimetable(getUserId());
+
+      if (cal.code != '000') {
+        emit(TimetableError(errorMessage: cal.message!));
+      } else {
+        List<GetTimetableData> d = cal.data!.where(
+          (element) {
+            return element.active == true;
+          },
+        ).toList();
+
+        if (d.length > 0) {
+          emit(GetTableSuccess(d[0]));
+        } else {
+          emit(NoSubSuccess(msg: 'You currently do not have any active plan'));
+        }
+      }
+    } catch (e) {
+      emit(TimetableError(errorMessage: "Error Occured"));
+      print(e);
     }
   }
 }
