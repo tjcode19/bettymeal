@@ -14,7 +14,7 @@ class DishesScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Dishes',
+          'Plan History',
           style: TextStyle(color: AppColour(context).onPrimaryColour),
         ),
         backgroundColor: AppColour(context).primaryColour,

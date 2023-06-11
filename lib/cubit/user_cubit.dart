@@ -47,10 +47,6 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     try {
       final cal = await userRepository.registerUser(email);
-
-      print(cal);
-      inspect(cal);
-
       if (cal.code != '001') {
         emit(UserError(cal.message!));
       } else {
@@ -64,24 +60,23 @@ class UserCubit extends Cubit<UserState> {
     try {
       final cal = await userRepository.verifyEmail(otp, password, userId);
 
-      print(cal);
-
-      inspect(cal);
-
       if (cal.code != '001') {
         emit(UserError(cal.message!));
       } else {
         setFirstTimer(false);
+        sharedPreference.setData(
+            sharedType: SpDataType.String,
+            fieldName: 'token',
+            fieldValue: cal.data!.token);
         emit(VerifyEmailSuccess());
       }
     } catch (e) {
       emit(UserError("Error Occured"));
-      print(e);
     }
   }
 
   isActiveSub() {
-    return true;
+    return false;
   }
 
   sendOtp(email) async {
@@ -89,18 +84,13 @@ class UserCubit extends Cubit<UserState> {
     try {
       final cal = await authRepository.sendOtp(email);
 
-      print(cal);
-
-      inspect(cal);
-
       if (cal.code != '000') {
         emit(UserError(cal.message!));
       } else {
         emit(SendOtpSuccess());
       }
     } catch (e) {
-      emit(UserError("Error Occured"));
-      print(e);
+      emit(UserError("Error Occured at SendOTP"));
     }
   }
 }

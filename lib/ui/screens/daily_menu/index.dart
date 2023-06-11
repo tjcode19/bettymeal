@@ -130,8 +130,19 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 context, Routes.plans,
                                 arguments: ''),
                             child: Container(
-                              color: AppColour(context).onPrimaryColour,
-                              child: Text('The plan'),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: CommonUtils.padding, vertical: 6),
+                              decoration: BoxDecoration(
+                                // color: AppColour(context).onPrimaryColour,
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                'The plan',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           )
                         ],
@@ -148,6 +159,26 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: CommonUtils.padding),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: CommonUtils.padding, vertical: 6),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(children: [
+                          Icon(Icons.notification_important),
+                          CustomLayout.sPad.sizedBoxW,
+                          Text('Update your profile')
+                        ]),
+                      ),
+                    ),
+                    CustomLayout.mPad.sizedBoxH,
                     Container(
                       constraints: const BoxConstraints(
                         minHeight: 50.0,
@@ -373,6 +404,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               return PlanCard(
                                 duration: e.duration!,
                                 plan: e.name!,
+                                price: e.price,
                                 background: pos == 1
                                     ? AppColour(context)
                                         .secondaryColour

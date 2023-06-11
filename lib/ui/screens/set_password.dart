@@ -169,13 +169,17 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                         },
                       ),
                       CustomLayout.xlPad.sizedBoxH,
-                      OutlinedButton(
+                      TextButton(
+                        // style: TextButton.styleFrom(
+                        //     side: BorderSide(
+                        //         color: AppColour(context).primaryColour)),
                         onPressed: () {
                           context.read<cs.UserCubit>().sendOtp(widget.email);
                         },
                         child: Text(
                           'Resend OTP',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: AppColour(context).primaryColour),
                         ),
                       ),
                       CustomLayout.lPad.sizedBoxH,

@@ -21,11 +21,6 @@ class StepThree extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text('Welcome',
-              //     style: Theme.of(context)
-              //         .textTheme
-              //         .displayMedium!
-              //         .copyWith(color: AppColour(context).onPrimaryColour)),
               CustomLayout.xlPad.sizedBoxH,
               RichText(
                 text: TextSpan(

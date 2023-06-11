@@ -171,10 +171,10 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
-  generateTimeableApi(id) async {
+  generateTimeableApi(subId) async {
     emit(TimetableLoading());
     try {
-      final cal = await apiRepo.generateTimetable();
+      final cal = await apiRepo.generateTimetable(subId);
 
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
@@ -231,7 +231,6 @@ class TimetableCubit extends Cubit<TimetableState> {
       }
     } catch (e) {
       emit(TimetableError(errorMessage: "Error Occured"));
-      print(e);
     }
   }
 }

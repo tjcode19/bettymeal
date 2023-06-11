@@ -2,12 +2,11 @@ import 'package:bettymeals/data/api/models/GenerateTimetable.dart';
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:bettymeals/data/api/network_request.dart';
 
-
 class TimetableRepo {
   final NetworkRequest nRequest = NetworkRequest();
 
-  Future<GenerateTimetable> generateTimetable() async {
-    final response = await nRequest.get("timetable/generate");
+  Future<GenerateTimetable> generateTimetable(subId) async {
+    final response = await nRequest.get("timetable/generate/$subId");
 
     return GenerateTimetable.fromJson(response);
   }

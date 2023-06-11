@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
-import '../../../cubit/food_cubit.dart';
 import '../../../routes.dart';
 import '../../../utils/colours.dart';
 

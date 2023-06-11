@@ -7,9 +7,9 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http_parser/http_parser.dart';
+import '../../utils/enums.dart';
 import '../CustomException.dart';
 import '../shared_preference.dart';
-import '../../utils/enums.dart';
 
 // import 'CustomException.dart';
 
@@ -29,14 +29,11 @@ class NetworkRequest {
 
   getTokenPref() async {
     try {
-      token = "";
-
-      // 'token_1auzcBivJxPgz2yXyI-rVLp-hZO0wq9tW0nWQLh7-Mk';
+      token = _sharedPreferenceQS!
+          .getSharedPrefs(sharedType: SpDataType.String, fieldName: 'token');
     } catch (e) {
       print(e);
     }
-
-    print("the token here $token");
 
     headers = {
       'Content-Type': 'application/json; charset=UTF-8',

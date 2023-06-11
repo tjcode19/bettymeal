@@ -1,14 +1,9 @@
 import 'dart:async';
 
-import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import '../cubit/user_cubit.dart';
 import '../routes.dart';
 import '../utils/enums.dart';
 
@@ -43,14 +38,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goHome() {
     final now = DateTime.now();
-    final timetableCubit = context.read<TimetableCubit>();
+    // final timetableCubit = context.read<TimetableCubit>();
 
     // timetableCubit.generateMealTable();
 
     // Check if it's Sunday
     if (now.weekday == DateTime.sunday) {
       // Call generateMealTable() here\
-      timetableCubit.generateMealTable();
+      // timetableCubit.generateMealTable();
     }
     Timer(Duration(seconds: counter), () async {
       Navigator.pushNamed(context, Routes.home);
@@ -75,10 +70,6 @@ class _SplashScreenState extends State<SplashScreen> {
             width: CommonUtils.sw(context, s: 0.7),
             child: Column(
               children: [
-                // Image(
-                //   image: Svg('assets/icons/meal.svg',
-                //       color: Colors.white, size: Size(sizeW, sizeW)),
-                // ),
                 Image.asset(
                   'assets/images/3.png',
                   semanticLabel: 'Meable Logo',
@@ -89,18 +80,31 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         Positioned(
             bottom: 10,
-            child: RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColour(context).onPrimaryColour.withOpacity(0.6)),
-                text: 'Version',
-                children: [
-                  TextSpan(
-                      text: ' 1.0.0',
-                      style:
-                          TextStyle(color: AppColour(context).onPrimaryColour)),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text('By'),
+                Image.asset(
+                  'assets/images/boll.png',
+                  width: CommonUtils.sw(context, s: 0.3),
+                  height: CommonUtils.sh(context, s: 0.1),
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColour(context)
+                            .onPrimaryColour
+                            .withOpacity(0.6)),
+                    text: 'Version',
+                    children: [
+                      TextSpan(
+                          text: ' 1.0.0',
+                          style: TextStyle(
+                              color: AppColour(context).onPrimaryColour)),
+                    ],
+                  ),
+                ),
+              ],
             ))
       ]),
     );

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../utils/colours.dart';
@@ -22,11 +20,6 @@ class StepTwo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text('Welcome',
-              //     style: Theme.of(context)
-              //         .textTheme
-              //         .displayMedium!
-              //         .copyWith(color: AppColour(context).onPrimaryColour)),
               CustomLayout.xlPad.sizedBoxH,
               RichText(
                 text: TextSpan(

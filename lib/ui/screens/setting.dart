@@ -49,15 +49,21 @@ class _SettingScreenState extends State<SettingScreen> {
                 'Push Notification',
                 style: Theme.of(context).textTheme.titleLarge!,
               ),
-              subtitle: const Text('This will notify you when it\'s time to eat'),
+              subtitle:
+                  const Text('This will notify you when it\'s time to eat'),
               value: _showFab,
               onChanged: _onShowFabChanged,
             ),
-            // SwitchListTile(
-            //   title: const Text('Bottom App Bar Elevation'),
-            //   value: _isElevated,
-            //   onChanged: _onElevatedChanged,
-            // ),
+            SwitchListTile(
+              title: Text(
+                'Notifications',
+                style: Theme.of(context).textTheme.titleLarge!,
+              ),
+              subtitle: const Text(
+                  'Send me notification 1 hour before the next meal'),
+              value: _isElevated,
+              onChanged: _onElevatedChanged,
+            ),
             // Expanded(
             //   child: ListView(
             //     controller: _controller,
