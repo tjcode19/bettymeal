@@ -27,12 +27,12 @@ class UserSuccess extends UserState {
 }
 
 class GetUser extends UserState {
-  const GetUser(this.name);
+  const GetUser(this.uData);
 
-  final String name;
+  final UserData uData;
 
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [uData];
 }
 
 class UserError extends UserState {

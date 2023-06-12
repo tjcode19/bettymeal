@@ -47,7 +47,16 @@ class NoSubSuccess extends TimetableState {
 class GetTableSuccess extends TimetableState {
   const GetTableSuccess(this.data);
 
-  final GetTimetableData data;
+  final List<GetTimetableData> data;
+
+  @override
+  List<Object> get props => [data];
+}
+
+class RecordsSuccess extends TimetableState {
+  const RecordsSuccess(this.data);
+
+  final List<GetTimetableData> data;
 
   @override
   List<Object> get props => [data];

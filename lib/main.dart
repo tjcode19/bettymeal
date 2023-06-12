@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
 import 'cubit/meal_cubit.dart';
@@ -39,12 +40,17 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TimetableCubit(),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => UserCubit(),
         ),
         BlocProvider(
           create: (context) => SubCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AuthCubit(),
+          lazy: false,
         ),
       ],
       child: MaterialApp(

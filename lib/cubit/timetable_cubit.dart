@@ -209,14 +209,20 @@ class TimetableCubit extends Cubit<TimetableState> {
     return "64787ec50495ab4d35a5a7de";
   }
 
+  getRecords(List<GetTimetableData> data) {
+    print('Call me');
+    emit(RecordsSuccess(data));
+  }
+
   getTimeableApi() async {
     emit(TimetableLoading());
     try {
-      final cal = await apiRepo.getTimetable(getUserId());
+      final cal = await apiRepo.getTimetable();
 
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
+        getRecords(cal.data!);
         List<GetTimetableData> d = cal.data!.where(
           (element) {
             return element.active == true;
@@ -224,7 +230,7 @@ class TimetableCubit extends Cubit<TimetableState> {
         ).toList();
 
         if (d.length > 0) {
-          emit(GetTableSuccess(d[0]));
+          emit(GetTableSuccess(d));
         } else {
           emit(NoSubSuccess(msg: 'You currently do not have any active plan'));
         }

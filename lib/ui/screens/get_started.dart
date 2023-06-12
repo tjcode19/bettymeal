@@ -1,3 +1,4 @@
+import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/device_utils.dart';
 import 'package:bettymeals/utils/enums.dart';
 import 'package:bettymeals/utils/noti.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../routes.dart';
 import '../../cubit/user_cubit.dart' as cs;
+import '../../utils/colours.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -47,78 +49,76 @@ class _GetStartedState extends State<GetStarted> {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Let\'s get started',
-                      style: Theme.of(context).textTheme.displaySmall),
-                  CustomLayout.sPad.sizedBoxH,
-                  Text('We will like to know little about you',
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  CustomLayout.xlPad.sizedBoxH,
-                  Text('Enter your email',
-                      style: Theme.of(context).textTheme.titleMedium),
-                  // CustomLayout.sPad.sizedBoxH,
-                  Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  // CustomLayout.xlPad.sizedBoxH,
-                  // Text('What gender would you like to be identify with?',
-                  //     style: Theme.of(context).textTheme.titleMedium),
-                  // RadioListTile(
-                  //   title: const Text("Male"),
-                  //   value: 'Male',
-                  //   groupValue: gender,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       gender = value!;
-                  //     });
-                  //   },
-                  // ),
-                  // RadioListTile(
-                  //   title: const Text("Female"),
-                  //   value: 'Female',
-                  //   groupValue: gender,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       gender = value!;
-                  //     });
-                  //   },
-                  // ),
-                  // RadioListTile(
-                  //   title: const Text("Other"),
-                  //   value: 'Other',
-                  //   groupValue: gender,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       gender = value!;
-                  //     });
-                  //   },
-                  // ),
-                  CustomLayout.lPad.sizedBoxH,
+                  Column(
+                    children: [
+                      Text('Let\'s get started',
+                          style: Theme.of(context).textTheme.displaySmall),
+                      CustomLayout.sPad.sizedBoxH,
+                      Text('We will like to know little about you',
+                          style: Theme.of(context).textTheme.bodyLarge),
+                      CustomLayout.xlPad.sizedBoxH,
+                      Text('Enter your email',
+                          style: Theme.of(context).textTheme.titleMedium),
+                      // CustomLayout.sPad.sizedBoxH,
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
 
+                      CustomLayout.lPad.sizedBoxH,
+
+                      CustomLayout.xlPad.sizedBoxH,
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            DeviceUtils.hideKeyboard(context);
+                            if (_formKey.currentState!.validate()) {
+                              context
+                                  .read<cs.UserCubit>()
+                                  .userRegistration(_emailController.text);
+                            }
+                          },
+                          child: const Text('Continue'),
+                        ),
+                      ),
+                    ],
+                  ),
                   CustomLayout.xlPad.sizedBoxH,
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        DeviceUtils.hideKeyboard(context);
-                        if (_formKey.currentState!.validate()) {
-                          context
-                              .read<cs.UserCubit>()
-                              .userRegistration(_emailController.text);
-                        }
-                      },
-                      child: const Text('Continue'),
+                  SizedBox(
+                    height: CommonUtils.sh(context, s: 0.4),
+                    child: GestureDetector(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.loginScreen),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Already have a profile?',
+                          children: [
+                            TextSpan(
+                              text: ' Login Now',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: AppColour(context).primaryColour,
+                                  ),
+                            )
+                          ],
+                          style: Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
                     ),
                   ),
-                 
                 ],
               ),
             ),

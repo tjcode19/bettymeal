@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (ft) {
       gotoOnboarding();
     } else {
-      goHome();
+      goLogin();
     }
   }
 
@@ -48,7 +48,13 @@ class _SplashScreenState extends State<SplashScreen> {
       // timetableCubit.generateMealTable();
     }
     Timer(Duration(seconds: counter), () async {
-      Navigator.pushNamed(context, Routes.home);
+      Navigator.popAndPushNamed(context, Routes.home);
+    });
+  }
+
+  goLogin() {
+    Timer(Duration(seconds: counter), () async {
+      Navigator.popAndPushNamed(context, Routes.loginScreen);
     });
   }
 

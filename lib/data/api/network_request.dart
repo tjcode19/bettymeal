@@ -14,7 +14,7 @@ import '../shared_preference.dart';
 // import 'CustomException.dart';
 
 class NetworkRequest {
-  final String _baseUrl = "https://mealbleapi-production.up.railway.app/";
+  final String _baseUrl = "https://mealbleapi-staging.up.railway.app/";
 
   final SharedPreferenceApp? _sharedPreferenceQS = SharedPreferenceApp();
 
@@ -29,10 +29,11 @@ class NetworkRequest {
 
   getTokenPref() async {
     try {
-      token = _sharedPreferenceQS!
+      token = await _sharedPreferenceQS!
           .getSharedPrefs(sharedType: SpDataType.String, fieldName: 'token');
     } catch (e) {
       print(e);
+      print("Token Error: $e");
     }
 
     headers = {
@@ -47,10 +48,9 @@ class NetworkRequest {
     await getTokenPref();
     final uri = Uri.parse(_baseUrl + url);
 
-    print('the uri: $uri');
+    // print('the uri GET: $uri');
     try {
       final response = await http.get(uri, headers: headers);
-
       responseJson = _response(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -281,18 +281,15 @@ class NetworkRequest {
   }
 
   dynamic _response(http.Response response) {
-    // var tokenExp =
-    //     jsonEncode({"response_code": "06", 'response_description': 'Failed'});
-
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-        // log('ApiProdider200: $responseJson');
+        log('ApiProdider200: $responseJson');
         return responseJson;
 
       case 201:
         var responseJson = json.decode(response.body.toString());
-        // log('ApiProdider201: $responseJson');
+        log('ApiProdider201: $responseJson');
         return responseJson;
 
       case 401:
@@ -302,6 +299,7 @@ class NetworkRequest {
 
       default:
         var responseJson = json.decode(response.body.toString());
+        // var responseJ = json.decode(response.toString());
         log('ApiProdiderDefault: $responseJson ${response.statusCode}');
         return responseJson;
     }

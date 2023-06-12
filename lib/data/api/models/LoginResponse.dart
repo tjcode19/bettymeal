@@ -1,19 +1,14 @@
-class GetSubscription {
+class LoginResponse {
   String? code;
   String? message;
-  List<SubData>? data;
+  LoginData? data;
 
-  GetSubscription({this.code, this.message, this.data});
+  LoginResponse({this.code, this.message, this.data});
 
-  GetSubscription.fromJson(Map<String, dynamic> json) {
+  LoginResponse.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <SubData>[];
-      json['data'].forEach((v) {
-        data!.add(new SubData.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new LoginData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,13 +16,43 @@ class GetSubscription {
     data['code'] = this.code;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
-class SubData {
+class LoginData {
+  String? token;
+  String? firstName;
+  String? lastName;
+  Sub? sub;
+  String? userId;
+
+  LoginData({this.token, this.firstName, this.lastName, this.sub, this.userId});
+
+  LoginData.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    sub = json['sub'] != null ? new Sub.fromJson(json['sub']) : null;
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    if (this.sub != null) {
+      data['sub'] = this.sub!.toJson();
+    }
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
+class Sub {
   String? sId;
   String? name;
   int? duration;
@@ -38,7 +63,7 @@ class SubData {
   int? iV;
   int? reshuffle;
 
-  SubData(
+  Sub(
       {this.sId,
       this.name,
       this.duration,
@@ -49,7 +74,7 @@ class SubData {
       this.iV,
       this.reshuffle});
 
-  SubData.fromJson(Map<String, dynamic> json) {
+  Sub.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     duration = json['duration'];

@@ -1,6 +1,9 @@
+import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/data/api/models/User.dart';
 import 'package:bettymeals/data/api/models/VerifyEmail.dart';
 import 'package:bettymeals/data/api/network_request.dart';
+
+import '../models/GetUserDetails.dart';
 
 class UserRepository {
   final NetworkRequest nRequest = NetworkRequest();
@@ -29,11 +32,11 @@ class UserRepository {
     return VerifyEmail.fromJson(response);
   }
 
-  Future<VerifyEmail> getUserDetails(userId) async {
+  Future<GetUserDetails> getUserDetails() async {
     final response = await nRequest.get(
-      "user/$userId",
+      "user/single",
     );
 
-    return VerifyEmail.fromJson(response);
+    return GetUserDetails.fromJson(response);
   }
 }

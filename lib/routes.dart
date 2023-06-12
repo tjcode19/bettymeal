@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/GetTimetable.dart';
 import 'ui/screens/addcategory.dart';
+import 'ui/screens/login.dart';
 import 'ui/screens/mealtable.dart';
 import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
@@ -26,6 +27,7 @@ class Routes {
   static const String addCategory = '/add-category';
   static const String mealDetails = '/meal-details';
   static const String plans = '/plans';
+  static const String loginScreen = '/loginScreen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -74,6 +76,10 @@ class Routes {
             userId: t[0],
             email: t[1],
           ),
+        );
+      case loginScreen:
+        return MaterialPageRoute(
+          builder: (_) => LoginScreen(),
         );
       case addCategory:
         return MaterialPageRoute(builder: (_) => const AddCategoryScreen());

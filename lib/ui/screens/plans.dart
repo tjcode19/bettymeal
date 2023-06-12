@@ -148,9 +148,9 @@ class _PlansScreenState extends State<PlansScreen> {
                           (e) {
                             int pos = state.data.indexOf(e);
                             return PlanCard(
-                              duration: e.duration!,
+                              duration: "${e.duration!} Days",
                               plan: e.name!,
-                              price: e.price,
+                              price: e.price.toString(),
                               background: pos == 1
                                   ? AppColour(context)
                                       .secondaryColour

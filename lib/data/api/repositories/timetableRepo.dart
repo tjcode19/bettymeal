@@ -17,8 +17,8 @@ class TimetableRepo {
     return GenerateTimetable.fromJson(response);
   }
 
-  Future<GetTimetable> getTimetable(id) async {
-    final response = await nRequest.get("timetable/$id");
+  Future<GetTimetable> getTimetable() async {
+    final response = await nRequest.get("timetable/records");
 
     return GetTimetable.fromJson(response);
   }

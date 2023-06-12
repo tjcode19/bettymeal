@@ -7,6 +7,8 @@ import 'package:bettymeals/utils/enums.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../data/api/models/GetUserDetails.dart';
+
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
@@ -34,10 +36,12 @@ class UserCubit extends Cubit<UserState> {
 
   getUserDetails() async {
     try {
-      final name = await sharedPreference.getSharedPrefs(
-          sharedType: SpDataType.String, fieldName: 'name');
-
-      emit(GetUser(name));
+      final cal = await userRepository.getUserDetails();
+      if (cal.code != '001') {
+        emit(UserError(cal.message!));
+      } else {
+        emit(GetUser(cal.data!));
+      }
     } catch (e) {
       print(e);
     }
@@ -68,7 +72,10 @@ class UserCubit extends Cubit<UserState> {
             sharedType: SpDataType.String,
             fieldName: 'token',
             fieldValue: cal.data!.token);
-        emit(VerifyEmailSuccess());
+
+        await getUserDetails();
+
+        // emit(VerifyEmailSuccess());
       }
     } catch (e) {
       emit(UserError("Error Occured"));

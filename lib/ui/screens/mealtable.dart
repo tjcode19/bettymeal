@@ -50,10 +50,10 @@ class _MealTableScreenState extends State<MealTableScreen> {
                           child: CircularProgressIndicator(),
                         );
                       } else if (state is GetTableSuccess) {
-                        tableId = state.data.sId.toString();
+                        tableId = state.data[0].sId.toString();
                         return TimeTable(
                           key: const ValueKey("time_table"),
-                          meals: state.data,
+                          meals: state.data[0],
                         );
                       } else if (state is NoSubSuccess) {
                         return Center(

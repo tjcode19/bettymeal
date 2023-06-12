@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ffi';
 
+import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/cubit/user_cubit.dart' as cs;
 import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
@@ -91,12 +92,14 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: CommonUtils.padding, right: CommonUtils.padding),
-                  child: BlocBuilder<cs.UserCubit, cs.UserState>(
+                  child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
                       String name = 'Guest';
+                      String plan = "Basic";
 
-                      if (state is cs.GetUser) {
-                        name = state.name;
+                      if (state is LoginSuccess) {
+                        name = state.data.firstName!;
+                        plan = state.data.sub!.name!;
                       }
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +143,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 ),
                               ),
                               child: Text(
-                                'The plan',
+                                plan,
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -194,7 +197,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               child: CircularProgressIndicator(),
                             );
                           } else if (state is GetTableSuccess) {
-                            List<Timetable> tVal = state.data.timetable!;
+                            List<Timetable> tVal = state.data[0].timetable!;
                             return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: tVal.length,
@@ -278,7 +281,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                             child: CircularProgressIndicator(),
                           );
                         } else if (state is GetTableSuccess) {
-                          List<Timetable> tVal = state.data.timetable!;
+                          List<Timetable> tVal = state.data[0].timetable!;
                           return tVal.isNotEmpty
                               ? SizedBox(
                                   height: CommonUtils.sh(context, s: 0.4),
@@ -397,14 +400,17 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     ),
                     BlocBuilder<SubCubit, SubState>(
                       builder: (context, state) {
+                        if (state is SubLoading) {
+                          return Text('Loading Available Subscriptions');
+                        }
                         if (state is SubSuccess) {
                           var a = state.data.map(
                             (e) {
                               int pos = state.data.indexOf(e);
                               return PlanCard(
-                                duration: e.duration!,
+                                duration: "${e.duration!} Days",
                                 plan: e.name!,
-                                price: e.price,
+                                price: e.price.toString(),
                                 background: pos == 1
                                     ? AppColour(context)
                                         .secondaryColour

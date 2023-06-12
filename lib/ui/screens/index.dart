@@ -1,10 +1,11 @@
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
-import 'package:bettymeals/ui/screens/dishes/dishes.dart';
+import 'package:bettymeals/ui/screens/records/index.dart';
 import 'package:bettymeals/ui/screens/mealtable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -42,11 +43,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    context.read<TimetableCubit>().getTimeableApi();
-    context.read<UserCubit>().getUserDetails();
-    context.read<SubCubit>().getSubscription();
-    context.read<MealCubit>().getAllMeal();
+    // context.read<UserCubit>().getUserDetails();
+
     super.initState();
+
+    // BlocProvider.of<MealCubit>(context).getAllMeal();
+
+    
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:bettymeals/cubit/timetable_cubit.dart';
-import 'package:bettymeals/ui/screens/dishes/widgets/day_container.dart';
+import 'package:bettymeals/data/api/models/GetTimetable.dart';
+import 'package:bettymeals/ui/screens/records/widgets/day_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,26 +27,24 @@ class DishesScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is TimetableLoaded) {
-              int l =
-                  state.timetable.length > 7 ? 6 : state.timetable.length - 1;
-              return l > 0
+            } else if (state is GetTableSuccess) {
+              List<GetTimetableData> l = state.data;
+              return l.length > 0
                   ? Column(
                       children: [
-                        for (int i = 1; i <= l; i++)
-                          DayContainer(
-                              day: 'Day $i', food: state.timetable[i].foods),
+                        for (int i = 0; i < l.length; i++)
+                          Text(l[i].sub?.name! ?? 'NA'),
                       ],
                     )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Text('No dish is available'),
+                        Text('No Plan Records Found'),
                       ],
                     );
             } else {
               return const Center(
-                child: Text('Failed to load meals.'),
+                child: Text('Failed to load Plan History.'),
               );
             }
           },
