@@ -26,16 +26,17 @@ class LoginData {
   String? token;
   String? firstName;
   String? lastName;
-  Sub? sub;
+  SubInfo? subInfo;
   String? userId;
 
-  LoginData({this.token, this.firstName, this.lastName, this.sub, this.userId});
+  LoginData({this.token, this.firstName, this.lastName, this.subInfo, this.userId});
 
   LoginData.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     firstName = json['firstName'];
     lastName = json['lastName'];
-    sub = json['sub'] != null ? new Sub.fromJson(json['sub']) : null;
+    subInfo =
+        json['subInfo'] != null ? new SubInfo.fromJson(json['subInfo']) : null;
     userId = json['userId'];
   }
 
@@ -44,15 +45,39 @@ class LoginData {
     data['token'] = this.token;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
-    if (this.sub != null) {
-      data['sub'] = this.sub!.toJson();
+    if (this.subInfo != null) {
+      data['subInfo'] = this.subInfo!.toJson();
     }
     data['userId'] = this.userId;
     return data;
   }
 }
 
-class Sub {
+class SubInfo {
+  String? expiryDate;
+  LoginSub? sub;
+  String? sId;
+
+  SubInfo({this.expiryDate, this.sub, this.sId});
+
+  SubInfo.fromJson(Map<String, dynamic> json) {
+    expiryDate = json['expiryDate'];
+    sub = json['sub'] != null ? new LoginSub.fromJson(json['sub']) : null;
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['expiryDate'] = this.expiryDate;
+    if (this.sub != null) {
+      data['sub'] = this.sub!.toJson();
+    }
+    data['_id'] = this.sId;
+    return data;
+  }
+}
+
+class LoginSub {
   String? sId;
   String? name;
   int? duration;
@@ -63,7 +88,7 @@ class Sub {
   int? iV;
   int? reshuffle;
 
-  Sub(
+  LoginSub(
       {this.sId,
       this.name,
       this.duration,
@@ -74,7 +99,7 @@ class Sub {
       this.iV,
       this.reshuffle});
 
-  Sub.fromJson(Map<String, dynamic> json) {
+  LoginSub.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     duration = json['duration'];

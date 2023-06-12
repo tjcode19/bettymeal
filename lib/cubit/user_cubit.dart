@@ -82,8 +82,8 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  isActiveSub() {
-    return false;
+  isActiveSub({v=false}) {
+    return v;
   }
 
   sendOtp(email) async {

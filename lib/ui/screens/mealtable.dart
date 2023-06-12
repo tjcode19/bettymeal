@@ -32,6 +32,15 @@ class _MealTableScreenState extends State<MealTableScreen> {
             'Meal Table',
             style: TextStyle(color: AppColour(context).onPrimaryColour),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.store, color: AppColour(context).onPrimaryColour,),
+              tooltip: 'My Store',
+              onPressed: () {
+                // handle the press
+              },
+            ),
+          ],
           backgroundColor: AppColour(context).primaryColour,
         ),
         body: RefreshIndicator(

@@ -3,6 +3,7 @@ import 'dart:developer' as d;
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/data/local/models/food.dart';
 import 'package:bettymeals/data/local/repositories/food_repository.dart';
 import 'package:bettymeals/utils/helper.dart';
@@ -205,15 +206,6 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
-  getUserId() {
-    return "64787ec50495ab4d35a5a7de";
-  }
-
-  getRecords(List<GetTimetableData> data) {
-    print('Call me');
-    emit(RecordsSuccess(data));
-  }
-
   getTimeableApi() async {
     emit(TimetableLoading());
     try {
@@ -222,14 +214,19 @@ class TimetableCubit extends Cubit<TimetableState> {
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
-        getRecords(cal.data!);
+        final now = DateTime.now();
         List<GetTimetableData> d = cal.data!.where(
           (element) {
-            return element.active == true;
+            var h = DateTime.parse(element.endDate!);
+
+            return element.active == true && !h.isBefore(now);
           },
         ).toList();
 
+        
+
         if (d.length > 0) {
+          UserCubit().isActiveSub(v: true);
           emit(GetTableSuccess(d));
         } else {
           emit(NoSubSuccess(msg: 'You currently do not have any active plan'));

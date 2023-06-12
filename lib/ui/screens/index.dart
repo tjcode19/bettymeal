@@ -48,8 +48,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     // BlocProvider.of<MealCubit>(context).getAllMeal();
-
-    
   }
 
   @override
@@ -59,9 +57,9 @@ class _HomePageState extends State<HomePage> {
         index: _currentIndex,
         children: const [
           DailyMenuScreen(),
-          DishesScreen(),
-          FoodScreen(),
           MealTableScreen(),
+          FoodScreen(),
+          RecordsScreen(),
           SettingScreen()
         ],
       ),
@@ -95,8 +93,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       button(
                         onPressed: () => onTabTapped(1),
-                        label: 'History',
-                        icon: Icons.list_alt_outlined,
+                        label: 'Meal',
+                        icon: Icons.food_bank_outlined,
                         index: 1,
                       ),
                       button(
@@ -114,8 +112,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       button(
                         onPressed: () => onTabTapped(3),
-                        label: 'Meal',
-                        icon: Icons.food_bank_outlined,
+                        label: 'Records',
+                        icon: Icons.list_alt_outlined,
                         index: 3,
                       ),
                       button(
@@ -152,7 +150,7 @@ class _HomePageState extends State<HomePage> {
               icon,
               color: _currentIndex == index
                   ? AppColour(context).onPrimaryColour
-                  : AppColour(context).onPrimaryColour.withOpacity(0.5),
+                  : AppColour(context).onPrimaryColour.withOpacity(0.7),
             ),
             const SizedBox(height: 2),
             Text(
@@ -161,7 +159,7 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: _currentIndex == index
                       ? AppColour(context).onPrimaryColour
-                      : AppColour(context).onPrimaryColour.withOpacity(0.5)),
+                      : AppColour(context).onPrimaryColour.withOpacity(0.7)),
             ),
           ],
         ),

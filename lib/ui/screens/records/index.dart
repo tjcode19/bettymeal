@@ -1,13 +1,14 @@
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
-import 'package:bettymeals/ui/screens/records/widgets/day_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/colours.dart';
+import '../../../utils/enums.dart';
+import '../daily_menu/widgets/plan_card.dart';
 
-class DishesScreen extends StatelessWidget {
-  const DishesScreen({super.key});
+class RecordsScreen extends StatelessWidget {
+  const RecordsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +33,22 @@ class DishesScreen extends StatelessWidget {
               return l.length > 0
                   ? Column(
                       children: [
+                        CustomLayout.lPad.sizedBoxH,
                         for (int i = 0; i < l.length; i++)
-                          Text(l[i].sub?.name! ?? 'NA'),
+                          PlanCard(
+                            duration: "${l[i].sub?.duration} Days",
+                            plan: "${l[i].sub?.name}",
+                            price: "${l[i].sub?.price}",
+                            showBadge: DateTime.parse(l[i].endDate!)
+                                .isAfter(DateTime.now()),
+                            background: DateTime.parse(l[i].endDate!)
+                                    .isBefore(DateTime.now())
+                                ? AppColour(context)
+                                    .secondaryColour
+                                    .withOpacity(0.1)
+                                : Colors.blue.withOpacity(0.1),
+                            onPress: () {},
+                          ),
                       ],
                     )
                   : Column(

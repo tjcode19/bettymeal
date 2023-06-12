@@ -284,12 +284,12 @@ class NetworkRequest {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
-        log('ApiProdider200: $responseJson');
+        // log('ApiProdider200: $responseJson');
         return responseJson;
 
       case 201:
         var responseJson = json.decode(response.body.toString());
-        log('ApiProdider201: $responseJson');
+        // log('ApiProdider201: $responseJson');
         return responseJson;
 
       case 401:

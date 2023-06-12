@@ -25,6 +25,13 @@ class AuthCubit extends Cubit<AuthState> {
       if (cal.code != '000') {
         emit(AuthError(cal.message!));
       } else {
+        final now = DateTime.now();
+        var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
+
+
+        print("endDate ${cal.data!.subInfo!.expiryDate!} Today: $now");
+        
+
         sharedPreference.setData(
             sharedType: SpDataType.bool,
             fieldName: 'firstTimer',
@@ -37,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
             sharedType: SpDataType.object,
             fieldName: 'userData',
             fieldValue: cal.data!);
-        emit(LoginSuccess(cal.data!));
+        emit(LoginSuccess(cal.data!, now.isBefore(h)));
       }
     } catch (e) {
       emit(AuthError(

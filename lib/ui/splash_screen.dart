@@ -89,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('By'),
+                Text('From'),
                 Image.asset(
                   'assets/images/boll.png',
                   width: CommonUtils.sw(context, s: 0.3),

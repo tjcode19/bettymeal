@@ -21,10 +21,11 @@ class AuthError extends AuthState {
 }
 
 class LoginSuccess extends AuthState {
-  const LoginSuccess(this.data);
+  const LoginSuccess(this.data, this.isActiveSub);
 
   final LoginData data;
+  final bool isActiveSub;
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [data, isActiveSub];
 }
