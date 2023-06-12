@@ -3,7 +3,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/api/models/GetTimetable.dart';
-import '../../data/local/models/food.dart';
+import '../../data/api/models/MealResponse.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
 

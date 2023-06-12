@@ -1,5 +1,4 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
-import 'package:bettymeals/ui/screens/generate_meal/index.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/meal_details.dart';
@@ -8,10 +7,11 @@ import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'data/api/models/GetSubscription.dart';
-import 'data/api/models/GetTimetable.dart';
+import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/login.dart';
 import 'ui/screens/mealtable.dart';
+import 'ui/screens/plan_details/index.dart';
 import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
 
@@ -20,7 +20,7 @@ class Routes {
   static const String home = '/';
   static const String onboarding = '/onboarding';
   static const String getStarted = '/get-started';
-  static const String foodSetup = '/food-setup';
+  static const String planDetails = '/plan-details';
   static const String timetable = '/timetable';
   static const String addFood = '/add-food';
   static const String setPassword = '/set-password';
@@ -39,15 +39,15 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const Onboarding());
       case getStarted:
         return MaterialPageRoute(builder: (_) => const GetStarted());
-      case foodSetup:
+      case planDetails:
         final SubData plan = settings.arguments as SubData;
         return MaterialPageRoute(
-          builder: (_) => FoodSetup(
+          builder: (_) => PlanDetails(
             plan: plan,
           ),
         );
       case mealDetails:
-        final Meal meal = settings.arguments as Meal;
+        final MealData meal = settings.arguments as MealData;
         return MaterialPageRoute(
           builder: (_) => MealDetails(
             meal: meal,

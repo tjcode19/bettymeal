@@ -30,18 +30,23 @@ class _MealTableScreenState extends State<MealTableScreen> {
           automaticallyImplyLeading: false,
           title: Text(
             'Meal Table',
-            style: TextStyle(color: AppColour(context).onPrimaryColour),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColour(context).primaryColour.withOpacity(0.7),
+                fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.store, color: AppColour(context).onPrimaryColour,),
+              icon: Icon(
+                Icons.store,
+                color: AppColour(context).primaryColour.withOpacity(0.6),
+              ),
               tooltip: 'My Store',
               onPressed: () {
                 // handle the press
               },
             ),
           ],
-          backgroundColor: AppColour(context).primaryColour,
+          backgroundColor: AppColour(context).background,
         ),
         body: RefreshIndicator(
           onRefresh: () => context.read<TimetableCubit>().getTimeableApi(),
@@ -128,7 +133,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
                   CustomLayout.mPad.sizedBoxH,
                   OutlinedButton(
                       onPressed: () {
-                        print("get: $tableId");
                         context
                             .read<TimetableCubit>()
                             .shuffleTimeableApi(tableId);

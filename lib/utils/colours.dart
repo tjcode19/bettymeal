@@ -16,6 +16,7 @@ class AppColour {
 
   Color get cardColor =>
       Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.2);
+  Color get background => Theme.of(context).colorScheme.background;
   Color get onBackground => Theme.of(context).colorScheme.onBackground;
 
   Color get errorColor => Color.fromARGB(255, 222, 7, 7);

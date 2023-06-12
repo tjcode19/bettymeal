@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       button(
                         onPressed: () => onTabTapped(4),
-                        label: 'Settings',
+                        label: 'Profile',
                         icon: Icons.settings_outlined,
                         index: 4,
                       ),

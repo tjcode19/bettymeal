@@ -198,7 +198,7 @@ class TimetableCubit extends Cubit<TimetableState> {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
         getTimeableApi();
-        emit(TimetableSuccess());
+        // emit(TimetableSuccess());
       }
     } catch (e) {
       emit(TimetableError(errorMessage: "Error Occured"));
@@ -222,9 +222,6 @@ class TimetableCubit extends Cubit<TimetableState> {
             return element.active == true && !h.isBefore(now);
           },
         ).toList();
-
-        
-
         if (d.length > 0) {
           UserCubit().isActiveSub(v: true);
           emit(GetTableSuccess(d));

@@ -16,10 +16,12 @@ class RecordsScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Plan History',
-          style: TextStyle(color: AppColour(context).onPrimaryColour),
+          'Records',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: AppColour(context).primaryColour.withOpacity(0.7),
+              fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColour(context).primaryColour,
+        backgroundColor: AppColour(context).background,
       ),
       body: SingleChildScrollView(
         child: BlocBuilder<TimetableCubit, TimetableState>(

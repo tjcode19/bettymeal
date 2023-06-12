@@ -16,12 +16,13 @@ import 'package:badges/badges.dart' as badges;
 import '../../../cubit/user_cubit.dart' as user;
 import '../../../cubit/user_cubit.dart';
 import '../../../utils/constants.dart';
-import 'generate_meal/widgets/features.dart';
+import '../../data/api/models/MealResponse.dart';
+import 'plan_details/widgets/features.dart';
 
 class MealDetails extends StatefulWidget {
   const MealDetails({required this.meal, super.key});
 
-  final Meal meal;
+  final MealData meal;
 
   @override
   State<MealDetails> createState() => _MealDetailsState();
@@ -79,7 +80,7 @@ class _MealDetailsState extends State<MealDetails> {
                         GestureDetector(
                           onTap: () => Navigator.of(context).pop(),
                           child: CircleAvatar(
-                            backgroundColor: AppColour(context).secondaryColour,
+                            backgroundColor: AppColour(context).secondaryColour.withOpacity(0.4),
                             child: Icon(
                               Icons.arrow_back,
                               color: Colors.white,

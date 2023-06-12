@@ -38,7 +38,6 @@ class _FoodScreenState extends State<FoodScreen>
 
     // _foodCubit.getAllMeals();
 
-    
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -48,27 +47,30 @@ class _FoodScreenState extends State<FoodScreen>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Food Bank',
-          style: TextStyle(color: AppColour(context).onPrimaryColour),
+          'Our Recipes',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: AppColour(context).primaryColour.withOpacity(0.7),
+              fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColour(context).primaryColour,
+        backgroundColor: AppColour(context).background,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColour(context).onPrimaryColour,
-          labelColor: AppColour(context).onPrimaryColour,
+          dividerColor: AppColour(context).primaryColour.withOpacity(0.4),
+          indicatorColor: AppColour(context).primaryColour,
+          labelColor: AppColour(context).primaryColour,
           unselectedLabelColor:
-              AppColour(context).onPrimaryColour.withOpacity(0.6),
+              AppColour(context).primaryColour.withOpacity(0.6),
           tabs: const [
             Tab(
-              icon: Icon(Icons.favorite),
+              // icon: Icon(Icons.favorite),
               text: 'Breakfast',
             ),
             Tab(
-              icon: Icon(Icons.star),
+              // icon: Icon(Icons.star),
               text: 'Lunch',
             ),
             Tab(
-              icon: Icon(Icons.star),
+              // icon: Icon(Icons.star),
               text: 'Dinner',
             ),
           ],
@@ -76,8 +78,10 @@ class _FoodScreenState extends State<FoodScreen>
       ),
       body: RefreshIndicator(
         onRefresh: () => context.read<MealCubit>().getAllMeal(),
+        
         child: TabBarView(
           controller: _tabController,
+          physics: AlwaysScrollableScrollPhysics(),
           children: [
             Center(
               child: Container(

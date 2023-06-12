@@ -42,7 +42,10 @@ class _PlansScreenState extends State<PlansScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
+      appBar: AppBar(
+        // iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: AppColour(context).background,
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -161,7 +164,7 @@ class _PlansScreenState extends State<PlansScreen> {
                                         ? Colors.blue.withOpacity(0.1)
                                         : null,
                                 onPress: () {
-                                  Navigator.pushNamed(context, Routes.foodSetup,
+                                  Navigator.pushNamed(context, Routes.planDetails,
                                       arguments: e);
                                 },
                               );

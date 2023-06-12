@@ -387,7 +387,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                             : null,
                                     onPress: () {
                                       Navigator.pushNamed(
-                                          context, Routes.foodSetup,
+                                          context, Routes.planDetails,
                                           arguments: e);
                                     },
                                   );

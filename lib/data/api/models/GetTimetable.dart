@@ -1,3 +1,5 @@
+import 'MealResponse.dart';
+
 class GetTimetable {
   String? code;
   String? message;
@@ -162,7 +164,7 @@ class Timetable {
 class Meals {
   String? date;
   String? category;
-  Meal? meal;
+  MealData? meal;
   String? sId;
 
   Meals({this.date, this.category, this.meal, this.sId});
@@ -170,7 +172,7 @@ class Meals {
   Meals.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     category = json['category'];
-    meal = json['meal'] != null ? new Meal.fromJson(json['meal']) : null;
+    meal = json['meal'] != null ? new MealData.fromJson(json['meal']) : null;
     sId = json['_id'];
   }
 
@@ -186,55 +188,55 @@ class Meals {
   }
 }
 
-class Meal {
-  String? sId;
-  String? name;
-  String? description;
-  List<String>? category;
-  List<String>? extra;
-  List<String>? nutrients;
-  String? country;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+// class Meal {
+//   String? sId;
+//   String? name;
+//   String? description;
+//   List<String>? category;
+//   List<String>? extra;
+//   List<String>? nutrients;
+//   String? country;
+//   String? createdAt;
+//   String? updatedAt;
+//   int? iV;
 
-  Meal(
-      {this.sId,
-      this.name,
-      this.description,
-      this.category,
-      this.extra,
-      this.nutrients,
-      this.country,
-      this.createdAt,
-      this.updatedAt,
-      this.iV});
+//   Meal(
+//       {this.sId,
+//       this.name,
+//       this.description,
+//       this.category,
+//       this.extra,
+//       this.nutrients,
+//       this.country,
+//       this.createdAt,
+//       this.updatedAt,
+//       this.iV});
 
-  Meal.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    description = json['description'];
-    category = json['category'].cast<String>();
-    extra = json['extra'].cast<String>();
-    nutrients = json['nutrients'].cast<String>();
-    country = json['country'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-  }
+//   Meal.fromJson(Map<String, dynamic> json) {
+//     sId = json['_id'];
+//     name = json['name'];
+//     description = json['description'];
+//     category = json['category'].cast<String>();
+//     extra = json['extra'].cast<String>();
+//     nutrients = json['nutrients'].cast<String>();
+//     country = json['country'];
+//     createdAt = json['createdAt'];
+//     updatedAt = json['updatedAt'];
+//     iV = json['__v'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['category'] = this.category;
-    data['extra'] = this.extra;
-    data['nutrients'] = this.nutrients;
-    data['country'] = this.country;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['_id'] = this.sId;
+//     data['name'] = this.name;
+//     data['description'] = this.description;
+//     data['category'] = this.category;
+//     data['extra'] = this.extra;
+//     data['nutrients'] = this.nutrients;
+//     data['country'] = this.country;
+//     data['createdAt'] = this.createdAt;
+//     data['updatedAt'] = this.updatedAt;
+//     data['__v'] = this.iV;
+//     return data;
+//   }
+// }

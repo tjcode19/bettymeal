@@ -1,6 +1,7 @@
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/api/models/MealResponse.dart';
 import '../../routes.dart';
 import '../../utils/colours.dart';
 import '../../utils/constants.dart';
@@ -8,7 +9,7 @@ import '../../utils/constants.dart';
 class FoodCardFooter extends StatelessWidget {
   const FoodCardFooter({super.key, required this.meal, this.extra});
 
-  final Meal meal;
+  final MealData meal;
   final List<String>? extra;
 
   @override
