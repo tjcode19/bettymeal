@@ -69,50 +69,63 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColour(context).primaryColour,
-      body: Stack(alignment: AlignmentDirectional.center, children: [
-        Positioned(
-          top: CommonUtils.sh(context, s: 0.25),
-          child: SizedBox(
-            width: CommonUtils.sw(context, s: 0.7),
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/3.png',
-                  semanticLabel: 'Meable Logo',
-                ),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: AppColour(context).primaryColour,
+          image: DecorationImage(
+              image: AssetImage('assets/images/6.png'),
+              fit: BoxFit.cover,
+              opacity: 0.1),
+          borderRadius: BorderRadius.vertical(
+            top: const Radius.circular(20),
+            bottom: Radius.elliptical(CommonUtils.sw(context), 40.0),
           ),
         ),
-        Positioned(
-            bottom: 10,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text('From'),
-                Image.asset(
-                  'assets/images/boll.png',
-                  width: CommonUtils.sw(context, s: 0.3),
-                  height: CommonUtils.sh(context, s: 0.1),
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: AppColour(context)
-                            .onPrimaryColour
-                            .withOpacity(0.6)),
-                    text: 'Version',
-                    children: [
-                      TextSpan(
-                          text: ' 1.0.0',
-                          style: TextStyle(
-                              color: AppColour(context).onPrimaryColour)),
-                    ],
+        child: Stack(alignment: AlignmentDirectional.center, children: [
+          Positioned(
+            top: CommonUtils.sh(context, s: 0.25),
+            child: SizedBox(
+              width: CommonUtils.sw(context, s: 0.7),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/3.png',
+                    semanticLabel: 'Meable Logo',
                   ),
-                ),
-              ],
-            ))
-      ]),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+              bottom: 10,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('From'),
+                  Image.asset(
+                    'assets/images/boll.png',
+                    width: CommonUtils.sw(context, s: 0.3),
+                    height: CommonUtils.sh(context, s: 0.1),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppColour(context)
+                              .onPrimaryColour
+                              .withOpacity(0.6)),
+                      text: 'Version',
+                      children: [
+                        TextSpan(
+                            text: ' 1.0.0',
+                            style: TextStyle(
+                                color: AppColour(context).onPrimaryColour)),
+                      ],
+                    ),
+                  ),
+                ],
+              ))
+        ]),
+      ),
     );
   }
 }

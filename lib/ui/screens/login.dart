@@ -41,19 +41,41 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 24.0,
-        automaticallyImplyLeading: false,
-        foregroundColor: Colors.white,
-        title: Text(
-          'Login',
-          style: TextStyle(color: AppColour(context).onPrimaryColour),
-        ),
-        backgroundColor: AppColour(context).primaryColour,
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              width: double.infinity,
+              height: CommonUtils.sh(context, s: 0.3),
+              padding: EdgeInsets.only(
+                  top: CommonUtils.xlpadding,
+                  left: CommonUtils.padding,
+                  right: CommonUtils.padding),
+              decoration: BoxDecoration(
+                color: AppColour(context).primaryColour,
+                image: DecorationImage(
+                    image: AssetImage('assets/images/6.png'),
+                    fit: BoxFit.cover,
+                    opacity: 0.1),
+                borderRadius: BorderRadius.vertical(
+                  top: const Radius.circular(20),
+                  bottom: Radius.elliptical(CommonUtils.sw(context), 40.0),
+                ),
+              ),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  textTheme: Theme.of(context).textTheme.apply(
+                      displayColor: Colors.white, bodyColor: Colors.white),
+                ),
+                child: Container(
+                  child: Image.asset(
+                    'assets/images/5.png',
+                    width: CommonUtils.sw(context, s: 0.6),
+                    height: CommonUtils.sh(context, s: 0.2),
+                  ),
+                ),
+              ),
+            ),
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is AuthLoading) {
@@ -83,40 +105,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.info_outline),
+                          Icon(
+                            Icons.lock,
+                            size: 25,
+                          ),
                           CustomLayout.mPad.sizedBoxW,
                           Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.black87),
-                                text: 'We need to',
-                                children: [
-                                  TextSpan(
-                                    text: ' authenticate ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                            color: AppColour(context)
-                                                .secondaryColour),
-                                  ),
-                                  TextSpan(
-                                    text: 'you',
-                                  ),
-                                ],
-                              ),
+                            child: Text(
+                              'Login',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                      color: AppColour(context)
+                                          .primaryColour
+                                          .withOpacity(0.7),
+                                      fontWeight: FontWeight.bold),
                             ),
                           )
                         ],
                       ),
                       CustomLayout.xlPad.sizedBoxH,
+                      Text('Enter Enter',
+                          style: Theme.of(context).textTheme.titleMedium),
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration:
-                            const InputDecoration(labelText: 'Enter Email'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter Email';
@@ -125,12 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       CustomLayout.mPad.sizedBoxH,
+                      Text('Enter Password',
+                          style: Theme.of(context).textTheme.titleMedium),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Enter Password',
-                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter Password';
@@ -162,26 +175,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text('Login'),
                       ),
                       CustomLayout.lPad.sizedBoxH,
-                      SizedBox(
-                        height: CommonUtils.sh(context, s: 0.4),
-                        child: GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, Routes.getStarted),
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'No Profile Yet?',
-                              children: [
-                                TextSpan(
-                                  text: ' Create Now!',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        color: AppColour(context).primaryColour,
-                                      ),
-                                )
-                              ],
-                              style: Theme.of(context).textTheme.bodyMedium!,
+                      Center(
+                        child: SizedBox(
+                          height: CommonUtils.sh(context, s: 0.4),
+                          child: GestureDetector(
+                            onTap: () =>
+                                Navigator.pushNamed(context, Routes.getStarted),
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'No Profile Yet?',
+                                children: [
+                                  TextSpan(
+                                    text: ' Create Now!',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          color: AppColour(context).primaryColour,
+                                        ),
+                                  )
+                                ],
+                                style: Theme.of(context).textTheme.bodyMedium!,
+                              ),
                             ),
                           ),
                         ),

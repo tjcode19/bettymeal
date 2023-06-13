@@ -24,33 +24,33 @@ class FoodCardHead extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('$mealType : ${food.meal!.name}'),
-              content: Text('Message'),
-              actions: [
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    // do something
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: Text('$mealType : ${food.meal!.name}'),
+        //       content: Text('Message'),
+        //       actions: [
+        //         TextButton(
+        //           child: Text('Cancel'),
+        //           onPressed: () {
+        //             Navigator.of(context).pop();
+        //           },
+        //         ),
+        //         TextButton(
+        //           child: Text('OK'),
+        //           onPressed: () {
+        //             // do something
+        //             Navigator.of(context).pop();
+        //           },
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       },
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(2),
         margin: const EdgeInsets.all(5),
         child: Column(
           children: [
@@ -65,7 +65,7 @@ class FoodCardHead extends StatelessWidget {
               mealType,
               style: Theme.of(context)
                   .textTheme
-                  .titleLarge!
+                  .titleMedium!
                   .copyWith(color: AppColour(context).onPrimaryColour),
             ),
           ],

@@ -17,22 +17,25 @@ class FoodCardFooter extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              meal.name!,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: AppColour(context).onBackground),
-            ),
-            ...?extra?.map((e) => itemRow(context, name: e)),
-            // itemRow(context, name: 'Koko'),
-            // itemRow(context, name: 'Kose/Bofloat/Kose bread'),
-            // itemRow(context, name: 'Bread'),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                meal.name!,
+                softWrap: true,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: AppColour(context).onBackground),
+              ),
+              ...?extra?.map((e) => itemRow(context, name: e)),
+              // itemRow(context, name: 'Koko'),
+              // itemRow(context, name: 'Kose/Bofloat/Kose bread'),
+              // itemRow(context, name: 'Bread'),
+            ],
+          ),
         ),
         GestureDetector(
           onTap: () =>

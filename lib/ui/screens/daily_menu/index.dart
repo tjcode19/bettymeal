@@ -262,7 +262,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               List<Timetable> tVal = state.data[0].timetable!;
                               return tVal.isNotEmpty
                                   ? SizedBox(
-                                      height: CommonUtils.sh(context, s: 0.4),
+                                      height: CommonUtils.sh(context, s: 0.35),
                                       width: CommonUtils.sw(context, s: 1),
                                       child: ListView.builder(
                                         // controller: _scrollController,
@@ -273,8 +273,8 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                           List<Meals> t =
                                               tVal[_selected].meals!;
                                           return SizedBox(
-                                            width: CommonUtils.sw(context) -
-                                                (CommonUtils.padding * 0.8),
+                                            width:
+                                                CommonUtils.sw(context, s: .6),
                                             child: Card(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -307,18 +307,30 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              child: SectionTitle(text: 'What\'s new?'),
-                            ),
+                            // const SizedBox(
+                            //   child: SectionTitle(text: 'What\'s new?'),
+                            // ),
+                            CommonUtils.spaceH,
                             Container(
                               // height: CommonUtils.sh(context, s: 0.3),
                               width: CommonUtils.sw(context),
                               padding: EdgeInsets.all(CommonUtils.padding),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: CommonUtils.padding),
                               decoration: BoxDecoration(
-                                  color: AppColour(context).cardColor),
+                                color: AppColour(context).onPrimaryColour,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                              ),
+
                               child: ListTile(
                                 contentPadding: const EdgeInsets.all(0.0),
-                                title: const Text('Effect of Carbs'),
+                                title: Row(children: [
+                                  Icon(Icons.tips_and_updates),
+                                  CustomLayout.mPad.sizedBoxW,
+                                  const Text('Tips')
+                                ]),
                                 subtitle: Text('Lorem ipsum fd sum' * 8),
                               ),
                             ),

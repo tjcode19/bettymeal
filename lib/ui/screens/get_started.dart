@@ -29,99 +29,148 @@ class _GetStartedState extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: BlocListener<cs.UserCubit, cs.UserState>(
-            listener: (context, state) {
-              if (state is cs.UserLoading) {
-                Notificatn.showLoading(context, title: 'Loading');
-              }
-              if (state is cs.UserError) {
-                Notificatn.showErrorModal(context, errorMsg: state.msg);
-              }
-              if (state is cs.UserSuccess) {
-                Notificatn.hideLoading();
-                Navigator.pushNamed(context, Routes.setPassword,
-                    arguments: [state.userId, state.email]);
-              }
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text('Let\'s get started',
-                          style: Theme.of(context).textTheme.displaySmall),
-                      CustomLayout.sPad.sizedBoxH,
-                      Text('We will like to know little about you',
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      CustomLayout.xlPad.sizedBoxH,
-                      Text('Enter your email',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      // CustomLayout.sPad.sizedBoxH,
-                      Form(
-                        key: _formKey,
-                        child: TextFormField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-
-                      CustomLayout.lPad.sizedBoxH,
-
-                      CustomLayout.xlPad.sizedBoxH,
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            DeviceUtils.hideKeyboard(context);
-                            if (_formKey.currentState!.validate()) {
-                              context
-                                  .read<cs.UserCubit>()
-                                  .userRegistration(_emailController.text);
-                            }
-                          },
-                          child: const Text('Continue'),
-                        ),
-                      ),
-                    ],
+      body: BlocListener<cs.UserCubit, cs.UserState>(
+        listener: (context, state) {
+          if (state is cs.UserLoading) {
+            Notificatn.showLoading(context, title: 'Loading');
+          }
+          if (state is cs.UserError) {
+            Notificatn.showErrorModal(context, errorMsg: state.msg);
+          }
+          if (state is cs.UserSuccess) {
+            Notificatn.hideLoading();
+            Navigator.pushNamed(context, Routes.setPassword,
+                arguments: [state.userId, state.email]);
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                height: CommonUtils.sh(context, s: 0.3),
+                padding: EdgeInsets.only(
+                    top: CommonUtils.xlpadding,
+                    left: CommonUtils.padding,
+                    right: CommonUtils.padding),
+                decoration: BoxDecoration(
+                  color: AppColour(context).primaryColour,
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/6.png'),
+                      fit: BoxFit.cover,
+                      opacity: 0.1),
+                  borderRadius: BorderRadius.vertical(
+                    top: const Radius.circular(20),
+                    bottom: Radius.elliptical(CommonUtils.sw(context), 40.0),
                   ),
-                  CustomLayout.xlPad.sizedBoxH,
-                  SizedBox(
-                    height: CommonUtils.sh(context, s: 0.4),
-                    child: GestureDetector(
-                      onTap: () =>
-                          Navigator.pushNamed(context, Routes.loginScreen),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Already have a profile?',
-                          children: [
-                            TextSpan(
-                              text: ' Login Now',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: AppColour(context).primaryColour,
-                                  ),
-                            )
-                          ],
-                          style: Theme.of(context).textTheme.bodyMedium!,
+                ),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    textTheme: Theme.of(context).textTheme.apply(
+                        displayColor: Colors.white, bodyColor: Colors.white),
+                  ),
+                  child: Container(
+                    child: Image.asset(
+                      'assets/images/5.png',
+                      width: CommonUtils.sw(context, s: 0.6),
+                      height: CommonUtils.sh(context, s: 0.2),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(CommonUtils.padding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.app_registration_outlined,
+                          size: 25,
                         ),
+                        CustomLayout.mPad.sizedBoxW,
+                        Expanded(
+                          child: Text(
+                            'Sign Up',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    color: AppColour(context)
+                                        .primaryColour
+                                        .withOpacity(0.7),
+                                    fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                    CustomLayout.sPad.sizedBoxH,
+                    Text('We need to create a profile for you',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                    CustomLayout.xlPad.sizedBoxH,
+                    Text('Enter your email',
+                        style: Theme.of(context).textTheme.titleMedium),
+                    // CustomLayout.sPad.sizedBoxH,
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    CustomLayout.lPad.sizedBoxH,
+
+                    CustomLayout.xlPad.sizedBoxH,
+                    ElevatedButton(
+                      onPressed: () {
+                        DeviceUtils.hideKeyboard(context);
+                        if (_formKey.currentState!.validate()) {
+                          context
+                              .read<cs.UserCubit>()
+                              .userRegistration(_emailController.text);
+                        }
+                      },
+                      child: Center(child: const Text('Continue')),
+                    ),
+                  ],
+                ),
+              ),
+              CustomLayout.xlPad.sizedBoxH,
+              Center(
+                child: SizedBox(
+                  height: CommonUtils.sh(context, s: 0.4),
+                  child: GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, Routes.loginScreen),
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Already have a profile?',
+                        children: [
+                          TextSpan(
+                            text: ' Login Now',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: AppColour(context).primaryColour,
+                                    ),
+                          )
+                        ],
+                        style: Theme.of(context).textTheme.bodyMedium!,
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
