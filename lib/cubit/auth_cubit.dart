@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -22,15 +24,19 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final cal = await authRepository.login(email, password);
 
+      inspect(cal);
+
       if (cal.code != '000') {
         emit(AuthError(cal.message!));
       } else {
         final now = DateTime.now();
-        var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
+        bool onSub = false;
+        if (cal.data!.subInfo != null) {
+          var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
+          onSub = now.isBefore(h);
+        }
 
-
-        print("endDate ${cal.data!.subInfo!.expiryDate!} Today: $now");
-        
+        // print("endDate ${cal.data!.subInfo!.expiryDate!} Today: $now");
 
         sharedPreference.setData(
             sharedType: SpDataType.bool,
@@ -44,11 +50,11 @@ class AuthCubit extends Cubit<AuthState> {
             sharedType: SpDataType.object,
             fieldName: 'userData',
             fieldValue: cal.data!);
-        emit(LoginSuccess(cal.data!, now.isBefore(h)));
+        emit(LoginSuccess(cal.data!, onSub));
       }
     } catch (e) {
       emit(AuthError(
-          "Something went wrong and we are working to correct it. Thank you."));
+          "Something went wrong and we are working to correct it. Thank you. $e"));
     }
   }
 }

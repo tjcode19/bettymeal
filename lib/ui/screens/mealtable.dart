@@ -55,8 +55,8 @@ class _MealTableScreenState extends State<MealTableScreen> {
             child: Container(
               padding: EdgeInsets.all(CommonUtils.padding),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomLayout.lPad.sizedBoxW,
                   BlocBuilder<TimetableCubit, TimetableState>(
                     builder: (context, state) {
                       if (state is TimetableLoading) {
@@ -65,83 +65,96 @@ class _MealTableScreenState extends State<MealTableScreen> {
                         );
                       } else if (state is GetTableSuccess) {
                         tableId = state.data[0].sId.toString();
-                        return TimeTable(
-                          key: const ValueKey("time_table"),
-                          meals: state.data[0],
+                        return Column(
+                          children: [
+                            TimeTable(
+                              key: const ValueKey("time_table"),
+                              meals: state.data[0],
+                            ),
+                            CustomLayout.xlPad.sizedBoxH,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.info_outline),
+                                CustomLayout.mPad.sizedBoxW,
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black87),
+                                      text:
+                                          'If you are not satisfied with the table, you can  ',
+                                      children: [
+                                        TextSpan(
+                                          text: 'Shuffle. ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .secondaryColour),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              'And for more robust table, add more ',
+                                        ),
+                                        TextSpan(
+                                          text: 'foods ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .secondaryColour),
+                                        ),
+                                        TextSpan(
+                                          text: 'to your list.',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            CustomLayout.mPad.sizedBoxH,
+                            OutlinedButton(
+                              onPressed: () {
+                                context
+                                    .read<TimetableCubit>()
+                                    .shuffleTimeableApi(tableId);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                    color: AppColour(context).primaryColour),
+                              ),
+                              child: const Text('Shuffle MealTable'),
+                            )
+                          ],
                         );
                       } else if (state is NoSubSuccess) {
-                        return Center(
-                          child: Text(state.msg),
+                        return Column(
+                          children: [
+                            CustomLayout.xxlPad.sizedBoxH,
+                            Icon(Icons.notification_important, size: 50,),
+                            Center(
+                              child: Text(state.msg),
+                            ),
+                          ],
                         );
                       } else {
-                        return const Center(
-                          child: Text('Failed to load meals.'),
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.notification_important),
+                            const Center(
+                              child: Text('Failed to load meals.'),
+                            ),
+                          ],
                         );
                       }
                     },
                   ),
-                  CustomLayout.xlPad.sizedBoxH,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.info_outline),
-                      CustomLayout.mPad.sizedBoxW,
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black87),
-                            text:
-                                'If you are not satisfied with the table, you can  ',
-                            children: [
-                              TextSpan(
-                                text: 'Shuffle. ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color:
-                                            AppColour(context).secondaryColour),
-                              ),
-                              TextSpan(
-                                text: 'And for more robust table, add more ',
-                              ),
-                              TextSpan(
-                                text: 'foods ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color:
-                                            AppColour(context).secondaryColour),
-                              ),
-                              TextSpan(
-                                text: 'to your list.',
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Text(
-                        //   'Select the meal type(s) for this food. You can select multiple if application. ' +
-                        //       'If the food can be taken as Breakfast and Lunch, kindly select both',
-                        //   textAlign: TextAlign.justify,
-                        // ),
-                      )
-                    ],
-                  ),
-                  CustomLayout.mPad.sizedBoxH,
-                  OutlinedButton(
-                      onPressed: () {
-                        context
-                            .read<TimetableCubit>()
-                            .shuffleTimeableApi(tableId);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        side:
-                            BorderSide(color: AppColour(context).primaryColour),
-                      ),
-                      child: const Text('Shuffle MealTable'))
                 ],
               ),
             ),

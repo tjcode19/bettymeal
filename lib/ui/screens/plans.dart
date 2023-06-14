@@ -152,7 +152,7 @@ class _PlansScreenState extends State<PlansScreen> {
                             (e) {
                               int pos = state.data.indexOf(e);
                               return PlanCard(
-                                duration: "${e.duration!} Days",
+                                duration: "7 Days",
                                 plan: e.name!,
                                 price: e.price.toString(),
                                 showBadge: widget.planId == e.sId,

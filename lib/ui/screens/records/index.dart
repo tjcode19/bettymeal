@@ -30,7 +30,7 @@ class RecordsScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is GetTableSuccess) {
+            } else if (state is GetRecordSuccess) {
               List<GetTimetableData> l = state.data;
               return l.length > 0
                   ? Column(
@@ -60,8 +60,17 @@ class RecordsScreen extends StatelessWidget {
                       ],
                     );
             } else {
-              return const Center(
-                child: Text('Failed to load Plan History.'),
+              return Column(
+                children: [
+                  CustomLayout.xxlPad.sizedBoxH,
+                  Icon(
+                    Icons.notification_important,
+                    size: 50,
+                  ),
+                  Center(
+                    child: Text('No Record Found'),
+                  ),
+                ],
               );
             }
           },

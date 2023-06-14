@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bettymeals/data/api/models/GetSubscription.dart';
 import 'package:bettymeals/utils/enums.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,15 @@ class PlanDetails extends StatefulWidget {
 
 class _PlanDetailsState extends State<PlanDetails> {
   String gender = 'None';
+
+  bool _isMonth = true;
+
+  void _onSwitch(bool value) {
+    setState(() {
+      _isMonth = value;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,8 +99,8 @@ class _PlanDetailsState extends State<PlanDetails> {
                             GestureDetector(
                               onTap: () => Navigator.of(context).pop(),
                               child: CircleAvatar(
-                                backgroundColor: AppColour(context)
-                                    .secondaryColour,
+                                backgroundColor:
+                                    AppColour(context).secondaryColour,
                                 child: Icon(
                                   Icons.arrow_back,
                                   color: Colors.white,
@@ -176,138 +187,207 @@ class _PlanDetailsState extends State<PlanDetails> {
                     ),
 
                     CustomLayout.sPad.sizedBoxH,
-                    RichText(
-                        text: TextSpan(
-                      text: 'at ',
-                      children: [
-                        TextSpan(
-                          text: '\$${widget.plan.price!}.00 ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: AppColour(context).secondaryColour),
-                        ),
-                        TextSpan(text: 'for '),
-                        TextSpan(
-                          text: '${widget.plan.duration!} Days',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color: AppColour(context)
-                                      .secondaryColour,
-                                  fontSize: 15),
-                        )
-                      ],
-                      style: Theme.of(context).textTheme.bodyMedium!,
-                    )),
-                    // BlocConsumer<FoodCubit, FoodState>(
-                    //   listener: (context, state) {
-                    //     if (state is FoodLoaded) {
-                    //       if (state.bf.length >= 3 &&
-                    //           state.ln.length >= 3 &&
-                    //           state.dn.length >= 3) {
-                    //         // isOkay = true;
-                    //       }
-                    //     }
-                    //   },
-                    //   builder: (context, state) {
-                    //     if (state is FoodLoaded) {
-                    //       return Padding(
-                    //         padding: EdgeInsets.symmetric(
-                    //             vertical: CommonUtils.padding),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             badgeer(
-                    //               typeId: 3,
-                    //               badgeContent: Text(
-                    //                 (state.bf.length +
-                    //                         state.ln.length +
-                    //                         state.dn.length)
-                    //                     .toString(),
-                    //                 style: const TextStyle(
-                    //                     color: Colors.white, fontSize: 12),
-                    //               ),
-                    //               label: const Text(
-                    //                 'All',
-                    //               ),
-                    //             ),
-                    //             badgeer(
-                    //               typeId: 0,
-                    //               badgeContent: Text(
-                    //                 state.bf.length.toString(),
-                    //                 style: const TextStyle(color: Colors.white),
-                    //               ),
-                    //               label: const Text(
-                    //                 'Breakfast',
-                    //               ),
-                    //             ),
-                    //             badgeer(
-                    //               typeId: 1,
-                    //               badgeContent: Text(
-                    //                 state.ln.length.toString(),
-                    //                 style: const TextStyle(color: Colors.white),
-                    //               ),
-                    //               label: const Text(
-                    //                 'Lunch',
-                    //               ),
-                    //             ),
-                    //             badgeer(
-                    //               typeId: 2,
-                    //               badgeContent: Text(
-                    //                 state.dn.length.toString(),
-                    //                 style: const TextStyle(color: Colors.white),
-                    //               ),
-                    //               label: const Text(
-                    //                 'Dinner',
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return const Text('No Record');
-                    //     }
-                    //   },
-                    // ),
 
                     CustomLayout.xlPad.sizedBoxH,
                     Container(
-                      padding: EdgeInsets.all(CommonUtils.padding),
+                      padding:
+                          EdgeInsets.symmetric(vertical: CommonUtils.padding),
                       decoration: BoxDecoration(
-                        color: AppColour(context).cardColor,
+                        color: AppColour(context).onPrimaryColour,
                         borderRadius: BorderRadius.all(
                           Radius.circular(15),
                         ),
                       ),
-                      child: RichText(
-                        text: TextSpan(
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.black87),
-                          text:
-                              'The richer the variety of culinary delights you provide, the more sumptuous and satisfying menu ',
-                          children: [
-                            TextSpan(
-                              text: 'Mealble ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                      color:
-                                          AppColour(context).secondaryColour),
+                      child: widget.plan.price! == 0
+                          ? Container(
+                              padding: EdgeInsets.all(CommonUtils.padding),
+                              decoration: BoxDecoration(
+                                color: AppColour(context).secondaryColour,
+                                borderRadius: BorderRadius.horizontal(
+                                  left: const Radius.circular(5),
+                                  right: Radius.elliptical(
+                                      CommonUtils.sw(context), 70.0),
+                                ),
+                              ),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: '',
+                                  children: [
+                                    WidgetSpan(
+                                      child: Transform.translate(
+                                        offset: const Offset(0.0, -10.0),
+                                        child: Text(
+                                          '\$',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .onPrimaryColour
+                                                      .withOpacity(0.7)),
+                                        ),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${widget.plan.price!}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall!
+                                          .copyWith(
+                                              color: AppColour(context)
+                                                  .onPrimaryColour),
+                                    ),
+                                    TextSpan(
+                                      text: '.00 ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                            color: AppColour(context)
+                                                .onPrimaryColour
+                                                .withOpacity(0.7),
+                                          ),
+                                    ),
+                                    TextSpan(text: '\nfor '),
+                                    TextSpan(
+                                      text: '${widget.plan.duration!}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                            color: AppColour(context)
+                                                .onPrimaryColour,
+                                          ),
+                                    ),
+                                    TextSpan(
+                                      text: ' Days',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                            color: AppColour(context)
+                                                .onPrimaryColour
+                                                .withOpacity(0.7),
+                                          ),
+                                    )
+                                  ],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color:
+                                            AppColour(context).onPrimaryColour,
+                                      ),
+                                ),
+                              ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(CommonUtils.padding),
+                                  decoration: BoxDecoration(
+                                    color: AppColour(context).secondaryColour,
+                                    borderRadius: BorderRadius.horizontal(
+                                      left: const Radius.circular(5),
+                                      right: Radius.elliptical(
+                                          CommonUtils.sw(context), 70.0),
+                                    ),
+                                  ),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: '',
+                                      children: [
+                                        WidgetSpan(
+                                          child: Transform.translate(
+                                            offset: const Offset(0.0, -10.0),
+                                            child: Text(
+                                              '\$',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: AppColour(context)
+                                                          .onPrimaryColour
+                                                          .withOpacity(0.7)),
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: _isMonth
+                                              ? '${widget.plan.price! * 3}'
+                                              : '${widget.plan.price!}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displaySmall!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .onPrimaryColour),
+                                        ),
+                                        TextSpan(
+                                          text: '.00 ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(
+                                                color: AppColour(context)
+                                                    .onPrimaryColour
+                                                    .withOpacity(0.7),
+                                              ),
+                                        ),
+                                        TextSpan(text: '\nfor '),
+                                        TextSpan(
+                                          text:
+                                              '${_isMonth ? widget.plan.duration! : 7}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(
+                                                color: AppColour(context)
+                                                    .onPrimaryColour,
+                                              ),
+                                        ),
+                                        TextSpan(
+                                          text: ' Days',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                                color: AppColour(context)
+                                                    .onPrimaryColour
+                                                    .withOpacity(0.7),
+                                              ),
+                                        )
+                                      ],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color: AppColour(context)
+                                                .onPrimaryColour,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text('Weekly'),
+                                    Switch(
+                                      value: _isMonth,
+                                      onChanged: _onSwitch,
+                                      activeColor:
+                                          AppColour(context).secondaryColour,
+                                      inactiveTrackColor: AppColour(context)
+                                          .secondaryColour
+                                          .withOpacity(0.4),
+                                      inactiveThumbColor:
+                                          AppColour(context).secondaryColour,
+                                    ),
+                                    Text('Monthly'),
+                                  ],
+                                ),
+                              ],
                             ),
-                            const TextSpan(
-                              text: 'will generate 😋',
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                     CustomLayout.xlPad.sizedBoxH,
                     // Center(
@@ -324,7 +404,7 @@ class _PlanDetailsState extends State<PlanDetails> {
                         onPressed: () {
                           context
                               .read<TimetableCubit>()
-                              .generateTimeableApi("64787ec50495ab4d35a5a7de");
+                              .generateTimeableApi(widget.plan.sId);
 
                           // context.read<UserCubit>().setFirstTimer(false);
 

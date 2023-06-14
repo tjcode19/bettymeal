@@ -48,7 +48,7 @@ class NetworkRequest {
     await getTokenPref();
     final uri = Uri.parse(_baseUrl + url);
 
-    // print('the uri GET: $uri');
+    print('the uri GET: $uri');
     try {
       final response = await http.get(uri, headers: headers);
       responseJson = _response(response);

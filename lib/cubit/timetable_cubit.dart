@@ -211,6 +211,8 @@ class TimetableCubit extends Cubit<TimetableState> {
     try {
       final cal = await apiRepo.getTimetable();
 
+      inspect(cal);
+
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
@@ -222,6 +224,7 @@ class TimetableCubit extends Cubit<TimetableState> {
             return element.active == true && !h.isBefore(now);
           },
         ).toList();
+
         if (d.length > 0) {
           UserCubit().isActiveSub(v: true);
           emit(GetTableSuccess(d));

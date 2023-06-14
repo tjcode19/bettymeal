@@ -1,6 +1,10 @@
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/meal_cubit.dart';
+import '../../cubit/sub_cubit.dart';
+import '../../cubit/timetable_cubit.dart';
 import '../../data/shared_preference.dart';
 import '../../routes.dart';
 import '../../utils/device_utils.dart';
@@ -63,8 +67,18 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 if (state is cs.UserError) {
                   Notificatn.showErrorModal(context, errorMsg: state.msg);
                 }
-                if (state is cs.VerifyEmailSuccess) {
+                // if (state is cs.VerifyEmailSuccess) {
+                //   Notificatn.hideLoading();
+
+                //   Navigator.pushNamed(context, Routes.home);
+                // }
+                if (state is cs.GetUser) {
                   Notificatn.hideLoading();
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    context.read<TimetableCubit>().getTimeableApi();
+                    context.read<SubCubit>().getSubscription();
+                    context.read<MealCubit>().getAllMeal();
+                  });
 
                   Navigator.pushNamed(context, Routes.home);
                 }

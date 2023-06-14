@@ -48,15 +48,15 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
       body: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           String name = 'Guest';
-          String plan = "Basic";
+          String plan = "Select Plan";
           bool isActiveSub = false;
           String subId = '';
 
           if (state is LoginSuccess) {
             name = state.data.firstName!;
-            plan = state.data.subInfo!.sub!.name!;
+            plan = state.data.subInfo?.sub?.name ?? 'Select Plan';
             isActiveSub = state.isActiveSub;
-            subId = state.data.subInfo!.sub!.sId!;
+            subId = state.data.subInfo?.sub?.sId ?? '';
           }
           return Column(
             children: [
@@ -380,14 +380,16 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                         BlocBuilder<SubCubit, SubState>(
                           builder: (context, state) {
                             if (state is SubLoading) {
-                              return Text('Loading Available Subscriptions');
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
                             if (state is SubSuccess) {
                               var a = state.data.map(
                                 (e) {
                                   int pos = state.data.indexOf(e);
                                   return PlanCard(
-                                    duration: "${e.duration!} Days",
+                                    duration: "7 Days",
                                     plan: e.name!,
                                     price: e.price.toString(),
                                     background: pos == 1

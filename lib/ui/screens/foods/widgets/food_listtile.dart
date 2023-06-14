@@ -22,7 +22,7 @@ class FoodListTile extends StatelessWidget {
         minVerticalPadding: 15.0,
         leading: DecoratedBox(
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: Colors.black38,
             shape: BoxShape.circle,
             image: DecorationImage(
                 image: NetworkImage(

@@ -37,7 +37,7 @@ class UserCubit extends Cubit<UserState> {
   getUserDetails() async {
     try {
       final cal = await userRepository.getUserDetails();
-      if (cal.code != '001') {
+      if (cal.code != '000') {
         emit(UserError(cal.message!));
       } else {
         emit(GetUser(cal.data!));
@@ -63,7 +63,6 @@ class UserCubit extends Cubit<UserState> {
     emit(UserLoading());
     try {
       final cal = await userRepository.verifyEmail(otp, password, userId);
-
       if (cal.code != '001') {
         emit(UserError(cal.message!));
       } else {
@@ -82,7 +81,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  isActiveSub({v=false}) {
+  isActiveSub({v = false}) {
     return v;
   }
 
