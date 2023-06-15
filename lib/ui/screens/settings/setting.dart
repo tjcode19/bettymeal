@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../../utils/colours.dart';
-import '../../utils/enums.dart';
+import '../../../routes.dart';
+import '../../../utils/colours.dart';
+import '../../../utils/enums.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -33,21 +34,29 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Settings',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: AppColour(context).primaryColour.withOpacity(0.7),
-              fontWeight: FontWeight.bold),
+      // extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: const Size(10, 56),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: CommonUtils.spadding, vertical: 0.0),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(
+              'Settings',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: AppColour(context).primaryColour.withOpacity(0.7),
+                  fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: AppColour(context).background,
+          ),
         ),
-        backgroundColor: AppColour(context).background,
       ),
       body: Padding(
         padding: EdgeInsets.all(CommonUtils.spadding),
         child: Column(
           children: <Widget>[
             ListTile(
+              onTap: () => Navigator.pushNamed(context, Routes.profileScreen),
               title: Text(
                 'Edit Profile',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -57,6 +66,8 @@ class _SettingScreenState extends State<SettingScreen> {
               subtitle: Text('Update your name, phone number, dob, etc'),
             ),
             ListTile(
+              onTap: () =>
+                  Navigator.pushNamed(context, Routes.changePasswordScreen),
               title: Text(
                 'Change Password',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -99,9 +110,36 @@ class _SettingScreenState extends State<SettingScreen> {
             CustomLayout.mPad.sizedBoxH,
 
             ListTile(
+              onTap: () => Navigator.pushNamed(context, Routes.aboutScreen),
               title: Text('About Mealble'),
             ),
             ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('You want to Logout?'),
+                      content: Text('Message'),
+                      actions: [
+                        TextButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            // do something
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
               title: Text('Logout'),
             ),
             ListTile(

@@ -16,7 +16,7 @@ import '../../cubit/timetable_cubit.dart';
 import '../../cubit/user_cubit.dart';
 import '../widgets/timetable.dart';
 import 'foods/food.dart';
-import 'setting.dart';
+import 'settings/setting.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

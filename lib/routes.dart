@@ -3,6 +3,8 @@ import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/meal_details.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
+import 'package:bettymeals/ui/screens/settings/change_password.dart';
+import 'package:bettymeals/ui/screens/settings/profile.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,7 @@ import 'ui/screens/mealtable.dart';
 import 'ui/screens/plan_details/index.dart';
 import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
+import 'ui/screens/settings/about.dart';
 
 class Routes {
   static const String splashScreen = '/slash-screen';
@@ -27,7 +30,10 @@ class Routes {
   static const String addCategory = '/add-category';
   static const String mealDetails = '/meal-details';
   static const String plans = '/plans';
-  static const String loginScreen = '/loginScreen';
+  static const String loginScreen = '/login-screen';
+  static const String aboutScreen = '/about-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String changePasswordScreen = '/change-password-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -80,6 +86,18 @@ class Routes {
       case loginScreen:
         return MaterialPageRoute(
           builder: (_) => LoginScreen(),
+        );
+      case aboutScreen:
+        return MaterialPageRoute(
+          builder: (_) => AboutScreen(),
+        );
+      case profileScreen:
+        return MaterialPageRoute(
+          builder: (_) => ProfileScreen(),
+        );
+      case changePasswordScreen:
+        return MaterialPageRoute(
+          builder: (_) => ChangePasswordScreen(),
         );
       case addCategory:
         return MaterialPageRoute(builder: (_) => const AddCategoryScreen());
