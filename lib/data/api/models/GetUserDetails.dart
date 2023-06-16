@@ -1,3 +1,5 @@
+import 'GetSubscription.dart';
+
 class GetUserDetails {
   String? code;
   String? message;
@@ -31,7 +33,7 @@ class UserData {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  Sub? sub;
+  SubscriptionData? sub;
 
   UserData(
       {this.sId,
@@ -53,7 +55,7 @@ class UserData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    sub = json['sub'] != null ? new Sub.fromJson(json['sub']) : null;
+    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -73,51 +75,4 @@ class UserData {
   }
 }
 
-class Sub {
-  String? sId;
-  String? name;
-  int? duration;
-  double? price;
-  bool? active;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  int? reshuffle;
 
-  Sub(
-      {this.sId,
-      this.name,
-      this.duration,
-      this.price,
-      this.active,
-      this.createdAt,
-      this.updatedAt,
-      this.iV,
-      this.reshuffle});
-
-  Sub.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    duration = json['duration'];
-    price = json['price'];
-    active = json['active'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-    reshuffle = json['reshuffle'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['duration'] = this.duration;
-    data['price'] = this.price;
-    data['active'] = this.active;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    data['reshuffle'] = this.reshuffle;
-    return data;
-  }
-}

@@ -23,9 +23,6 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final cal = await authRepository.login(email, password);
-
-      inspect(cal);
-
       if (cal.code != '000') {
         emit(AuthError(cal.message!));
       } else {
@@ -35,8 +32,6 @@ class AuthCubit extends Cubit<AuthState> {
           var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
           onSub = now.isBefore(h);
         }
-
-        // print("endDate ${cal.data!.subInfo!.expiryDate!} Today: $now");
 
         sharedPreference.setData(
             sharedType: SpDataType.bool,
@@ -51,6 +46,21 @@ class AuthCubit extends Cubit<AuthState> {
             fieldName: 'userData',
             fieldValue: cal.data!);
         emit(LoginSuccess(cal.data!, onSub));
+      }
+    } catch (e) {
+      emit(AuthError(
+          "Something went wrong and we are working to correct it. Thank you. $e"));
+    }
+  }
+
+  changePassword(oldPass, newPass) async {
+    emit(AuthLoading());
+    try {
+      final cal = await authRepository.changePassword(oldPass, newPass);
+      if (cal.code != '000') {
+        emit(AuthError(cal.message!));
+      } else {
+        emit(ChangePasswordSuccess());
       }
     } catch (e) {
       emit(AuthError(

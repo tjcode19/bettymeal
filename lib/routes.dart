@@ -13,6 +13,7 @@ import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/login.dart';
 import 'ui/screens/mealtable.dart';
+import 'ui/screens/payment.dart';
 import 'ui/screens/plan_details/index.dart';
 import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
@@ -33,6 +34,7 @@ class Routes {
   static const String loginScreen = '/login-screen';
   static const String aboutScreen = '/about-screen';
   static const String profileScreen = '/profile-screen';
+  static const String paymentScreen = '/payment-screen';
   static const String changePasswordScreen = '/change-password-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -46,7 +48,7 @@ class Routes {
       case getStarted:
         return MaterialPageRoute(builder: (_) => const GetStarted());
       case planDetails:
-        final SubData plan = settings.arguments as SubData;
+        final SubscriptionData plan = settings.arguments as SubscriptionData;
         return MaterialPageRoute(
           builder: (_) => PlanDetails(
             plan: plan,
@@ -94,6 +96,16 @@ class Routes {
       case profileScreen:
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),
+        );
+      case paymentScreen:
+        final List<dynamic> t = settings.arguments as List;
+        final plan = t[0];
+        final m = t[1];
+        return MaterialPageRoute(
+          builder: (_) => PaymentScreen(
+            plan: plan,
+            type: m,
+          ),
         );
       case changePasswordScreen:
         return MaterialPageRoute(

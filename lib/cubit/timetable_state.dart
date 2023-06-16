@@ -35,6 +35,15 @@ class TimetableError extends TimetableState {
   List<Object> get props => [errorMessage];
 }
 
+class TimetableInfo extends TimetableState {
+  final String msg;
+
+  const TimetableInfo({required this.msg});
+
+  @override
+  List<Object> get props => [msg];
+}
+
 class NoSubSuccess extends TimetableState {
   final String msg;
 

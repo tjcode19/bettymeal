@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer' as d;
 import 'dart:developer';
 import 'dart:math';
 
@@ -11,7 +10,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../data/api/models/GetTimetable.dart';
-import '../data/api/models/GetTimetableByUser.dart';
 import '../data/api/repositories/timetableRepo.dart';
 import '../data/local/models/timetable.dart';
 import '../data/local/repositories/timetable_repository.dart';
@@ -177,11 +175,13 @@ class TimetableCubit extends Cubit<TimetableState> {
     try {
       final cal = await apiRepo.generateTimetable(subId);
 
-      if (cal.code != '000') {
-        emit(TimetableError(errorMessage: cal.message!));
-      } else {
+      if (cal.code == '000') {
         getTimeableApi();
         emit(TimetableSuccess());
+      } else if (cal.code == '004') {
+        emit(TimetableInfo(msg: cal.message!));
+      } else {
+        emit(TimetableError(errorMessage: cal.message!));
       }
     } catch (e) {
       emit(TimetableError(errorMessage: "Error Occured"));

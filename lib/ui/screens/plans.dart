@@ -152,9 +152,7 @@ class _PlansScreenState extends State<PlansScreen> {
                             (e) {
                               int pos = state.data.indexOf(e);
                               return PlanCard(
-                                duration: "7 Days",
-                                plan: e.name!,
-                                price: e.price.toString(),
+                                plan: e,
                                 showBadge: widget.planId == e.sId,
                                 background: pos == 1
                                     ? AppColour(context)
@@ -164,7 +162,8 @@ class _PlansScreenState extends State<PlansScreen> {
                                         ? Colors.blue.withOpacity(0.1)
                                         : null,
                                 onPress: () {
-                                  Navigator.pushNamed(context, Routes.planDetails,
+                                  Navigator.pushNamed(
+                                      context, Routes.planDetails,
                                       arguments: e);
                                 },
                               );

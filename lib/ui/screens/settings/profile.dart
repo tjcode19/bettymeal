@@ -15,8 +15,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _dobController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: PreferredSize(
         preferredSize: const Size(10, 56),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: CommonUtils.spadding, vertical: 0.0),
+          padding: EdgeInsets.symmetric(
+              horizontal: CommonUtils.spadding, vertical: 0.0),
           child: AppBar(
             leadingWidth: 24,
             title: Text(
@@ -48,10 +52,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                        Icons.person_3,
+                    Icon(Icons.person_3,
                         size: 25,
-                        color:AppColour(context).onSecondaryColour.withOpacity(0.5)),
+                        color: AppColour(context)
+                            .onSecondaryColour
+                            .withOpacity(0.5)),
                     CustomLayout.mPad.sizedBoxW,
                     Expanded(
                       child: Text(
@@ -72,11 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text('First Name',
                     style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  controller: _emailController,
+                  controller: _firstNameController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Enter Email';
+                      return 'Please Enter FirstName';
                     }
                     return null;
                   },
@@ -85,11 +90,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text('Last Name',
                     style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  controller: _passwordController,
+                  controller: _lastNameController,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Enter Password';
+                      return 'Please Enter LastName';
                     }
                     return null;
                   },
@@ -98,11 +103,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text('Date Of Birth',
                     style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  controller: _passwordController,
+                  controller: _dobController,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Enter Password';
+                      return 'Please Enter DOB';
                     }
                     return null;
                   },
@@ -110,11 +115,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CustomLayout.mPad.sizedBoxH,
                 Text('Gender', style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  controller: _passwordController,
+                  controller: _genderController,
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Enter Password';
+                      return 'Please Select Gender';
                     }
                     return null;
                   },
@@ -123,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text('Phone Number',
                     style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  controller: _passwordController,
+                  controller: _phoneNumberController,
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

@@ -119,8 +119,8 @@ class _SettingScreenState extends State<SettingScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('You want to Logout?'),
-                      content: Text('Message'),
+                      title: Text('Logout'),
+                      content: Text('Are you sure you want to logout?'),
                       actions: [
                         TextButton(
                           child: Text('Cancel'),

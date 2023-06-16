@@ -1,7 +1,7 @@
 class GetSubscription {
   String? code;
   String? message;
-  List<SubData>? data;
+  List<SubscriptionData>? data;
 
   GetSubscription({this.code, this.message, this.data});
 
@@ -9,9 +9,9 @@ class GetSubscription {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <SubData>[];
+      data = <SubscriptionData>[];
       json['data'].forEach((v) {
-        data!.add(new SubData.fromJson(v));
+        data!.add(new SubscriptionData.fromJson(v));
       });
     }
   }
@@ -27,51 +27,94 @@ class GetSubscription {
   }
 }
 
-class SubData {
+class SubscriptionData {
   String? sId;
   String? name;
-  int? duration;
-  int? price;
   bool? active;
   String? createdAt;
   String? updatedAt;
   int? iV;
-  int? reshuffle;
+  Period? period;
 
-  SubData(
+  SubscriptionData(
       {this.sId,
       this.name,
-      this.duration,
-      this.price,
       this.active,
       this.createdAt,
       this.updatedAt,
       this.iV,
-      this.reshuffle});
+      this.period});
 
-  SubData.fromJson(Map<String, dynamic> json) {
+  SubscriptionData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    duration = json['duration'];
-    price = json['price'];
     active = json['active'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    reshuffle = json['reshuffle'];
+    period =
+        json['period'] != null ? new Period.fromJson(json['period']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['duration'] = this.duration;
-    data['price'] = this.price;
     data['active'] = this.active;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
-    data['reshuffle'] = this.reshuffle;
+    if (this.period != null) {
+      data['period'] = this.period!.toJson();
+    }
+    return data;
+  }
+}
+
+class Period {
+  Week? week;
+  Week? month;
+  String? sId;
+
+  Period({this.week, this.month, this.sId});
+
+  Period.fromJson(Map<String, dynamic> json) {
+    week = json['week'] != null ? new Week.fromJson(json['week']) : null;
+    month = json['month'] != null ? new Week.fromJson(json['month']) : null;
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.week != null) {
+      data['week'] = this.week!.toJson();
+    }
+    if (this.month != null) {
+      data['month'] = this.month!.toJson();
+    }
+    data['_id'] = this.sId;
+    return data;
+  }
+}
+
+class Week {
+  int? duration;
+  int? price;
+  int? shuffle;
+
+  Week({this.duration, this.price, this.shuffle});
+
+  Week.fromJson(Map<String, dynamic> json) {
+    duration = json['duration'];
+    price = json['price'];
+    shuffle = json['shuffle'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['duration'] = this.duration;
+    data['price'] = this.price;
+    data['shuffle'] = this.shuffle;
     return data;
   }
 }

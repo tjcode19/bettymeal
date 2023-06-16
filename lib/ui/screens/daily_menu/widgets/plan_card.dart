@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../../../../data/api/models/GetSubscription.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
-import '../../../widgets/badge.dart';
 
 class PlanCard extends StatelessWidget {
   const PlanCard(
-      {required this.duration,
+      {
       required this.plan,
       this.background,
       this.plainId,
       this.showBadge = false,
-      this.price,
       required this.onPress,
       super.key});
 
-  final String plan;
-  final String duration;
-  final String? price;
+  final SubscriptionData plan;
   final Color? background;
   final String? plainId;
   final bool showBadge;
@@ -77,7 +74,7 @@ class PlanCard extends StatelessWidget {
                         .copyWith(color: Colors.black.withOpacity(0.7)),
                   ),
                   Text(
-                    plan,
+                    plan.name!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       shadows: [
                         Shadow(
@@ -94,7 +91,7 @@ class PlanCard extends StatelessWidget {
                       text: 'Plan for the next \n',
                       children: [
                         TextSpan(
-                          text: duration,
+                          text: plan.period?.week?.duration.toString(),
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     color: AppColour(context).primaryColour,
@@ -104,7 +101,7 @@ class PlanCard extends StatelessWidget {
                           text: " @",
                         ),
                         TextSpan(
-                          text: " \$$price",
+                          text: " \$${plan.period?.week?.price}",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.black,

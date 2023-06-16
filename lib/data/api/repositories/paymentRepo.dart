@@ -2,10 +2,10 @@ import 'package:bettymeals/data/api/models/LoginResponse.dart';
 import 'package:bettymeals/data/api/models/SendOtp.dart';
 import 'package:bettymeals/data/api/network_request.dart';
 
-class AuthRepository {
+class PaymentRepository {
   final NetworkRequest nRequest = NetworkRequest();
 
-  Future<SendOtp> sendOtp(email) async {
+  Future<SendOtp> makePayment(email) async {
     final response = await nRequest.post(
       "auth/send-otp/",
       {"email": email},
@@ -14,19 +14,10 @@ class AuthRepository {
     return SendOtp.fromJson(response);
   }
 
-  Future<LoginResponse> login(email, password) async {
+  Future<LoginResponse> getPaymentStatus(email, password) async {
     final response = await nRequest.post(
       "auth",
       {"email": email, "password": password},
-    );
-
-    return LoginResponse.fromJson(response);
-  }
-
-  Future<LoginResponse> changePassword(oldPass, newPass) async {
-    final response = await nRequest.post(
-      "auth/change-password",
-      {"currentPassword": oldPass, "newPassword": newPass},
     );
 
     return LoginResponse.fromJson(response);

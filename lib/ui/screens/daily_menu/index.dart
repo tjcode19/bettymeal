@@ -389,9 +389,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                 (e) {
                                   int pos = state.data.indexOf(e);
                                   return PlanCard(
-                                    duration: "7 Days",
-                                    plan: e.name!,
-                                    price: e.price.toString(),
+                                    plan: e,
                                     background: pos == 1
                                         ? AppColour(context)
                                             .secondaryColour

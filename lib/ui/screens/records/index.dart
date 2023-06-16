@@ -38,9 +38,7 @@ class RecordsScreen extends StatelessWidget {
                         CustomLayout.lPad.sizedBoxH,
                         for (int i = 0; i < l.length; i++)
                           PlanCard(
-                            duration: "${l[i].sub?.duration} Days",
-                            plan: "${l[i].sub?.name}",
-                            price: "${l[i].sub?.price}",
+                            plan: l[i].sub!,
                             showBadge: DateTime.parse(l[i].endDate!)
                                 .isAfter(DateTime.now()),
                             background: DateTime.parse(l[i].endDate!)

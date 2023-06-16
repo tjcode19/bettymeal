@@ -22,7 +22,7 @@ class SubError extends SubState {
 class SubSuccess extends SubState {
   const SubSuccess(this.data);
 
-  final List<SubData> data;
+  final List<SubscriptionData> data;
 
   @override
   List<Object> get props => [data];
