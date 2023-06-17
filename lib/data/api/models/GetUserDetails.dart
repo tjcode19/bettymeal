@@ -33,7 +33,7 @@ class UserData {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  SubscriptionData? sub;
+  SubInfo? subInfo;
 
   UserData(
       {this.sId,
@@ -44,7 +44,7 @@ class UserData {
       this.createdAt,
       this.updatedAt,
       this.iV,
-      this.sub});
+      this.subInfo});
 
   UserData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -55,7 +55,7 @@ class UserData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
+    subInfo = json['subInfo'] != null ? new SubInfo.fromJson(json['subInfo']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,9 +68,33 @@ class UserData {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    if (this.subInfo != null) {
+      data['sub'] = this.subInfo!.toJson();
+    }
+    return data;
+  }
+}
+
+class SubInfo {
+  String? expiryDate;
+  SubscriptionData? sub;
+  String? sId;
+
+  SubInfo({this.expiryDate, this.sub, this.sId});
+
+  SubInfo.fromJson(Map<String, dynamic> json) {
+    expiryDate = json['expiryDate'];
+    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['expiryDate'] = this.expiryDate;
     if (this.sub != null) {
       data['sub'] = this.sub!.toJson();
     }
+    data['_id'] = this.sId;
     return data;
   }
 }

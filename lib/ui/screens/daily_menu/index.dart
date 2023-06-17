@@ -37,9 +37,9 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   void initState() {
     super.initState();
 
-    _selected = daysOfWeek.indexOf(HelperMethod.formatDate(
-        DateTime.now().toIso8601String(),
-        pattern: 'yyyy-MM-dd'));
+    // _selected = daysOfWeek.indexOf(HelperMethod.formatDate(
+    //     DateTime.now().toIso8601String(),
+    //     pattern: 'yyyy-MM-dd'));
   }
 
   @override
@@ -52,7 +52,13 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
           bool isActiveSub = false;
           String subId = '';
 
-          if (state is LoginSuccess) {
+          if (state is LoadDashboard) {
+            name = state.data.firstName!;
+            plan = state.data.subInfo?.sub?.name ?? 'Select Plan';
+            isActiveSub = state.isActiveSub;
+            subId = state.data.subInfo?.sub?.sId ?? '';
+          }
+          if ( state is LoginSuccess) {
             name = state.data.firstName!;
             plan = state.data.subInfo?.sub?.name ?? 'Select Plan';
             isActiveSub = state.isActiveSub;
@@ -260,6 +266,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               );
                             } else if (state is GetTableSuccess) {
                               List<Timetable> tVal = state.data[0].timetable!;
+                               print("The selected: $_selected");
                               return tVal.isNotEmpty
                                   ? SizedBox(
                                       height: CommonUtils.sh(context, s: 0.35),

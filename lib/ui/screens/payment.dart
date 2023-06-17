@@ -1,8 +1,10 @@
+import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/auth_cubit.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../data/api/models/GetSubscription.dart';
 import '../../routes.dart';
@@ -23,16 +25,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
   // late final TimetableCubit _timetableCubit;
 
   DateTime currentDate = DateTime.now();
-  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
-  final today = HelperMethod.formatDate(DateTime.now().toIso8601String(),
-      pattern: 'yyyy-MM-dd');
-
-  final List<String> daysOfWeek = HelperMethod.dayOfWeek();
 
   int duration = 0;
   int price = 0;
 
   bool _isMonth = true;
+  bool _isSuccess = false;
 
   void _onSwitch(bool value) {
     setState(() {
@@ -88,116 +86,182 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                 ),
                 CustomLayout.xxlPad.sizedBoxH,
-                BlocBuilder<TimetableCubit, TimetableState>(
-                    builder: (context, state) {
-                  if (state is TimetableLoading) {
-                    Notificatn.showLoading(context,
-                        title: 'Preparing your meal table');
-                  } else if (state is TimetableSuccess) {
-                    Notificatn.hideLoading();
-                    Navigator.pushNamed(context, Routes.home);
-                  }
-                  else if (state is TimetableInfo) {
-                    Notificatn.hideLoading();
-                    Notificatn.showInfoModal(context, msg: state.msg);
-                  }
-                  return Column(
-                    children: [
-                      Center(
-                        child: Icon(
-                          Icons.security_outlined,
-                          size: CommonUtils.sw(context, s: 0.7),
-                        ),
-                      ),
-                      CustomLayout.lPad.sizedBoxH,
-                      RichText(
-                        text: TextSpan(
-                          text: 'Proceed to Payment of ',
+                BlocListener<TimetableCubit, TimetableState>(
+                  listener: (context, state) {
+                    if (state is TimetableLoading) {
+                      Notificatn.showLoading(context,
+                          title: 'Preparing your meal table');
+                    } else if (state is TimetableSuccess) {
+                      Notificatn.hideLoading();
+
+                      setState(() {
+                        _isSuccess = true;
+                      });
+                    } else if (state is TimetableInfo) {
+                      Notificatn.hideLoading();
+                      Notificatn.showInfoModal(context, msg: state.msg);
+                    }
+                  },
+                  child: !_isSuccess
+                      ? Column(
                           children: [
-                            TextSpan(
-                              text: '\$$price ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: AppColour(context).primaryColour,
-                                      fontWeight: FontWeight.bold),
+                            Center(
+                              child: Icon(
+                                Icons.security_outlined,
+                                size: CommonUtils.sw(context, s: 0.7),
+                              ),
                             ),
-                            TextSpan(
-                              text: 'for ',
+                            CustomLayout.lPad.sizedBoxH,
+                            RichText(
+                              text: TextSpan(
+                                text: 'Proceed to Payment of ',
+                                children: [
+                                  TextSpan(
+                                    text: '\$$price ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: AppColour(context)
+                                                .primaryColour,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                  TextSpan(
+                                    text: 'for ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Basic Plan ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: AppColour(context)
+                                                .primaryColour,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                  TextSpan(
+                                    text: '\nto be enjoyed for ',
+                                  ),
+                                  TextSpan(
+                                    text: '$duration days ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: AppColour(context)
+                                                .primaryColour,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.7)),
+                              ),
                             ),
-                            TextSpan(
-                              text: 'Basic Plan ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: AppColour(context).primaryColour,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: '\nto be enjoyed for ',
-                            ),
-                            TextSpan(
-                              text: '$duration days ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                      color: AppColour(context).primaryColour,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: Colors.black.withOpacity(0.7)),
-                        ),
-                      ),
-                      CustomLayout.xxlPad.sizedBoxH,
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (price == 0) {
-                                  context
-                                      .read<TimetableCubit>()
-                                      .generateTimeableApi(widget.plan.sId);
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('PayStack'),
-                                        content: Text(
-                                            'You will be redirected to paystack to make payment'),
-                                        actions: [
-                                          TextButton(
-                                            child: Text('Cancel'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: Text('Pay Now'),
-                                            onPressed: () {},
-                                          ),
-                                        ],
-                                      );
+                            CustomLayout.xxlPad.sizedBoxH,
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (price == 0) {
+                                        context
+                                            .read<TimetableCubit>()
+                                            .generateTimeableApi(
+                                                widget.plan.sId, duration);
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('PayStack'),
+                                              content: Text(
+                                                  'You will be redirected to paystack to make payment'),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('Pay Now'),
+                                                  onPressed: () {},
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     },
-                                  );
-                                }
-                              },
-                              child: const Text('Continue'),
+                                    child: const Text('Continue'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Center(
+                              child: Icon(
+                                Icons.security_outlined,
+                                size: CommonUtils.sw(context, s: 0.7),
+                              ),
+                            ),
+                            CustomLayout.lPad.sizedBoxH,
+                            RichText(
+                              text: TextSpan(
+                                text: 'Payment Successful and meal table ',
+                                children: [
+                                  TextSpan(
+                                    text: 'generated succeefully',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                            color: AppColour(context)
+                                                .primaryColour,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: Colors.black.withOpacity(0.7)),
+                              ),
+                            ),
+                            CustomLayout.xxlPad.sizedBoxH,
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      context
+                                          .read<SubCubit>()
+                                          .getSubscription();
+
+                                      context
+                                          .read<AuthCubit>()
+                                          .prepareDashboard();
+
+                                      Navigator.popAndPushNamed(
+                                          context, Routes.home);
+                                    },
+                                    child: const Text('Go to Dashboard'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  );
-                }),
+                )
+
                 // BlocBuilder<SubCubit, SubState>(
                 //   builder: (context, state) {
                 //     if (state is SubSuccess) {

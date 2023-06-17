@@ -30,5 +30,15 @@ class LoginSuccess extends AuthState {
   List<Object> get props => [data, isActiveSub];
 }
 
+class LoadDashboard extends AuthState {
+  const LoadDashboard(this.data, this.isActiveSub);
+
+  final UserData data;
+  final bool isActiveSub;
+
+  @override
+  List<Object> get props => [data, isActiveSub];
+}
+
 class ChangePasswordSuccess extends AuthState {
 }

@@ -36,6 +36,35 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<bool> logout() {
+    var res;
+    if (_currentIndex == 0) {
+      res = Future<bool>.value(false);
+      // exit(0);
+
+      print("hello");
+    }
+
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return CustomDialogBox(
+    //         title: "Warning",
+    //         descriptions: "Are you sure you want to log out?",
+    //         textPos: "Yes",
+    //         textNeg: "No",
+    //         posAction: action,
+    //       );
+    //     },
+    //     barrierDismissible: false);
+    else {
+      onTabTapped(0);
+      res = Future<bool>.value(false);
+    }
+
+    return res;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -52,80 +81,83 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: const [
-          DailyMenuScreen(),
-          MealTableScreen(),
-          FoodScreen(),
-          RecordsScreen(),
-          SettingScreen()
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'homeScreen',
-        onPressed: () {
-          onTabTapped(0);
-        },
-        shape: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SvgPicture.asset('assets/icons/food-icon-w.svg',
-              semanticsLabel: 'A red up arrow'),
+    return WillPopScope(
+      onWillPop: () => logout(),
+      child: Scaffold(
+        body: IndexedStack(
+          index: _currentIndex,
+          children: const [
+            DailyMenuScreen(),
+            MealTableScreen(),
+            FoodScreen(),
+            RecordsScreen(),
+            SettingScreen()
+          ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Theme(
-        data: ThemeData(useMaterial3: false),
-        child: BottomAppBar(
-          notchMargin: 5.0,
-          // height: CommonUtils.sh(context, s: 0.1),
-          shape: const CircularNotchedRectangle(),
-          color: AppColour(context).primaryColour,
-          child: IconTheme(
-            data: IconThemeData(color: AppColour(context).onPrimaryColour),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(
-                    children: [
-                      button(
-                        onPressed: () => onTabTapped(1),
-                        label: 'Meal',
-                        icon: Icons.food_bank_outlined,
-                        index: 1,
-                      ),
-                      button(
-                        onPressed: () => onTabTapped(2),
-                        label: 'Food',
-                        icon: Icons.dinner_dining_outlined,
-                        index: 2,
-                      ),
-                    ],
+        floatingActionButton: FloatingActionButton(
+          heroTag: 'homeScreen',
+          onPressed: () {
+            onTabTapped(0);
+          },
+          shape: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SvgPicture.asset('assets/icons/food-icon-w.svg',
+                semanticsLabel: 'A red up arrow'),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Theme(
+          data: ThemeData(useMaterial3: false),
+          child: BottomAppBar(
+            notchMargin: 5.0,
+            // height: CommonUtils.sh(context, s: 0.1),
+            shape: const CircularNotchedRectangle(),
+            color: AppColour(context).primaryColour,
+            child: IconTheme(
+              data: IconThemeData(color: AppColour(context).onPrimaryColour),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        button(
+                          onPressed: () => onTabTapped(1),
+                          label: 'Meal',
+                          icon: Icons.food_bank_outlined,
+                          index: 1,
+                        ),
+                        button(
+                          onPressed: () => onTabTapped(2),
+                          label: 'Food',
+                          icon: Icons.dinner_dining_outlined,
+                          index: 2,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      button(
-                        onPressed: () => onTabTapped(3),
-                        label: 'Records',
-                        icon: Icons.list_alt_outlined,
-                        index: 3,
-                      ),
-                      button(
-                        onPressed: () => onTabTapped(4),
-                        label: 'Settings',
-                        icon: Icons.settings_outlined,
-                        index: 4,
-                      ),
-                    ],
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        button(
+                          onPressed: () => onTabTapped(3),
+                          label: 'Records',
+                          icon: Icons.list_alt_outlined,
+                          index: 3,
+                        ),
+                        button(
+                          onPressed: () => onTabTapped(4),
+                          label: 'Settings',
+                          icon: Icons.settings_outlined,
+                          index: 4,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
