@@ -30,8 +30,8 @@ class RecordsScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is GetRecordSuccess) {
-              List<GetTimetableData> l = state.data;
+            } else if (state is GetTableSuccess) {
+              List<GetTimetableData> l = state.allData;
               return l.length > 0
                   ? Column(
                       children: [

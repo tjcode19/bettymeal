@@ -4,6 +4,8 @@ import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 
+import '../../routes.dart';
+
 class TimeTable extends StatelessWidget {
   const TimeTable({required this.meals, super.key});
 
@@ -57,9 +59,9 @@ class TimeTable extends StatelessWidget {
         for (Timetable d in meals.timetable!)
           _tableRow(context,
               day: d.day,
-              b: d.meals![0].meal?.name,
-              l: d.meals![1].meal?.name,
-              d: d.meals![2].meal?.name)
+              b: d.meals![0].meal,
+              l: d.meals![1].meal,
+              d: d.meals![2].meal)
       ],
     );
   }
@@ -73,41 +75,53 @@ class TimeTable extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Text(day),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-                child: Text(
-              b,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColour(context).secondaryColour),
-            )),
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, Routes.mealDetails, arguments: b),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                b.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColour(context).secondaryColour),
+              )),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-                child: Text(
-              l,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColour(context).secondaryColour),
-            )),
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, Routes.mealDetails, arguments: l),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                l.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColour(context).secondaryColour),
+              )),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-                child: Text(
-              d,
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColour(context).secondaryColour),
-            )),
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, Routes.mealDetails, arguments: d),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                d.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColour(context).secondaryColour),
+              )),
+            ),
           ),
         ],
       );

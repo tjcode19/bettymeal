@@ -58,7 +58,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             isActiveSub = state.isActiveSub;
             subId = state.data.subInfo?.sub?.sId ?? '';
           }
-          if ( state is LoginSuccess) {
+          if (state is LoginSuccess) {
             name = state.data.firstName!;
             plan = state.data.subInfo?.sub?.name ?? 'Select Plan';
             isActiveSub = state.isActiveSub;
@@ -142,25 +142,44 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: CommonUtils.padding),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: CommonUtils.padding, vertical: 6),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                        if (name == "Guest")
+                          GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                                context, Routes.profileScreen),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: CommonUtils.padding),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: CommonUtils.padding,
+                                    vertical: 6),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black.withOpacity(0.5)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Row(children: [
+                                  Icon(Icons.notification_important),
+                                  CustomLayout.lPad.sizedBoxW,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Your profile is 30% completed',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                      ),
+                                      Text('Update your profile'),
+                                    ],
+                                  )
+                                ]),
                               ),
                             ),
-                            child: Row(children: [
-                              Icon(Icons.notification_important),
-                              CustomLayout.sPad.sizedBoxW,
-                              Text('Update your profile')
-                            ]),
                           ),
-                        ),
                         CustomLayout.mPad.sizedBoxH,
                         Container(
                           constraints: const BoxConstraints(
@@ -266,7 +285,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                               );
                             } else if (state is GetTableSuccess) {
                               List<Timetable> tVal = state.data[0].timetable!;
-                               print("The selected: $_selected");
+                              print("The selected: $_selected");
                               return tVal.isNotEmpty
                                   ? SizedBox(
                                       height: CommonUtils.sh(context, s: 0.35),

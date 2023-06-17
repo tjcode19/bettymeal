@@ -208,6 +208,10 @@ class TimetableCubit extends Cubit<TimetableState> {
     // }
   }
 
+  getRecords(data) {
+    emit(GetRecordSuccess(data));
+  }
+
   getTimeableApi() async {
     emit(TimetableLoading());
     try {
@@ -215,6 +219,7 @@ class TimetableCubit extends Cubit<TimetableState> {
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
+        // getRecords(cal.data);
         final now = DateTime.now();
         List<GetTimetableData> d = cal.data!.where(
           (element) {
@@ -226,7 +231,7 @@ class TimetableCubit extends Cubit<TimetableState> {
 
         if (d.length > 0) {
           UserCubit().isActiveSub(v: true);
-          emit(GetTableSuccess(d));
+          emit(GetTableSuccess(d, cal.data!));
         } else {
           emit(NoSubSuccess(msg: 'You currently do not have any active plan'));
         }

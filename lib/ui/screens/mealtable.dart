@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,6 +42,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
               tooltip: 'My Store',
               onPressed: () {
                 // handle the press
+                Notificatn.showInfoModal(context, msg: "Available in Pro Plan");
               },
             ),
           ],
@@ -67,6 +67,39 @@ class _MealTableScreenState extends State<MealTableScreen> {
                         tableId = state.data[0].sId.toString();
                         return Column(
                           children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.info_outline),
+                                CustomLayout.mPad.sizedBoxW,
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black87),
+                                      text: '',
+                                      children: [
+                                        TextSpan(
+                                          text: 'Tap ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .secondaryColour),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              'on any meal to see more details ',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            CustomLayout.xlPad.sizedBoxH,
                             TimeTable(
                               key: const ValueKey("time_table"),
                               meals: state.data[0],
@@ -136,7 +169,10 @@ class _MealTableScreenState extends State<MealTableScreen> {
                         return Column(
                           children: [
                             CustomLayout.xxlPad.sizedBoxH,
-                            Icon(Icons.notification_important, size: 50,),
+                            Icon(
+                              Icons.notification_important,
+                              size: 50,
+                            ),
                             Center(
                               child: Text(state.msg),
                             ),
