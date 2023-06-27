@@ -1,3 +1,5 @@
+import 'package:bettymeals/cubit/auth_cubit.dart';
+import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -67,14 +69,10 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 if (state is cs.UserError) {
                   Notificatn.showErrorModal(context, errorMsg: state.msg);
                 }
-                // if (state is cs.VerifyEmailSuccess) {
-                //   Notificatn.hideLoading();
-
-                //   Navigator.pushNamed(context, Routes.home);
-                // }
-                if (state is cs.GetUser) {
+                if (state is cs.VerifyEmailSuccess) {
                   Notificatn.hideLoading();
                   SchedulerBinding.instance.addPostFrameCallback((_) {
+                    context.read<DashboardCubit>().prepareDashboard();
                     context.read<TimetableCubit>().getTimeableApi();
                     context.read<SubCubit>().getSubscription();
                     context.read<MealCubit>().getAllMeal();
@@ -82,6 +80,16 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
                   Navigator.pushNamed(context, Routes.home);
                 }
+                // if (state is cs.GetUser) {
+                //   Notificatn.hideLoading();
+                //   SchedulerBinding.instance.addPostFrameCallback((_) {
+                //     context.read<TimetableCubit>().getTimeableApi();
+                //     context.read<SubCubit>().getSubscription();
+                //     context.read<MealCubit>().getAllMeal();
+                //   });
+
+                //   Navigator.pushNamed(context, Routes.home);
+                // }
                 if (state is cs.SendOtpSuccess) {
                   Notificatn.showSuccessToast(context,
                       msg: 'OTP Sent Successfully');

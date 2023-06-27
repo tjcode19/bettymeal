@@ -1,3 +1,4 @@
+import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -130,7 +131,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     text: 'for ',
                                   ),
                                   TextSpan(
-                                    text: 'Basic Plan ',
+                                    text: '${widget.plan.name} ',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -143,7 +144,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     text: '\nto be enjoyed for ',
                                   ),
                                   TextSpan(
-                                    text: '$duration days ',
+                                    text: '$duration days',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -208,7 +209,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           children: [
                             Center(
                               child: Icon(
-                                Icons.security_outlined,
+                                Icons.check_circle_outline,
                                 size: CommonUtils.sw(context, s: 0.7),
                               ),
                             ),
@@ -247,7 +248,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           .getSubscription();
 
                                       context
-                                          .read<AuthCubit>()
+                                          .read<DashboardCubit>()
                                           .prepareDashboard();
 
                                       Navigator.popAndPushNamed(

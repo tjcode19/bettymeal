@@ -1,3 +1,5 @@
+import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/data/api/network_check.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +22,12 @@ void main() async {
   runApp(const MyApp());
 
   configLoading();
+
+  if(await NetworkCheck().isConnected()){
+    print("haaaaa");
+  }else{
+     print("haaaaa noooo");
+  };
 }
 
 class MyApp extends StatelessWidget {
@@ -50,6 +58,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AuthCubit(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => DashboardCubit(),
           lazy: false,
         ),
       ],

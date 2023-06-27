@@ -20,25 +20,8 @@ class AuthError extends AuthState {
   List<Object> get props => [msg];
 }
 
-class LoginSuccess extends AuthState {
-  const LoginSuccess(this.data, this.isActiveSub);
+class LoginSuccess extends AuthState {}
 
-  final LoginData data;
-  final bool isActiveSub;
 
-  @override
-  List<Object> get props => [data, isActiveSub];
-}
 
-class LoadDashboard extends AuthState {
-  const LoadDashboard(this.data, this.isActiveSub);
-
-  final UserData data;
-  final bool isActiveSub;
-
-  @override
-  List<Object> get props => [data, isActiveSub];
-}
-
-class ChangePasswordSuccess extends AuthState {
-}
+class ChangePasswordSuccess extends AuthState {}

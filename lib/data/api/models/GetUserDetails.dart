@@ -1,4 +1,6 @@
-import 'GetSubscription.dart';
+import 'package:bettymeals/data/api/models/GetSubscription.dart';
+
+import 'GetTimetable.dart';
 
 class GetUserDetails {
   String? code;
@@ -25,6 +27,37 @@ class GetUserDetails {
 }
 
 class UserData {
+  User? user;
+  List<ActiveSub>? activeSub;
+  bool? isFreshUser;
+
+  UserData({this.user, this.activeSub, this.isFreshUser});
+
+  UserData.fromJson(Map<String, dynamic> json) {
+     isFreshUser = json['isFreshUser'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    if (json['activeSub'] != null) {
+      activeSub = <ActiveSub>[];
+      json['activeSub'].forEach((v) {
+        activeSub!.add(new ActiveSub.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['isFreshUser'] = this.isFreshUser;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    if (this.activeSub != null) {
+      data['activeSub'] = this.activeSub!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class User {
   String? sId;
   String? firstName;
   String? lastName;
@@ -33,9 +66,8 @@ class UserData {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  SubInfo? subInfo;
 
-  UserData(
+  User(
       {this.sId,
       this.firstName,
       this.lastName,
@@ -43,10 +75,9 @@ class UserData {
       this.email,
       this.createdAt,
       this.updatedAt,
-      this.iV,
-      this.subInfo});
+      this.iV});
 
-  UserData.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -55,7 +86,6 @@ class UserData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    subInfo = json['subInfo'] != null ? new SubInfo.fromJson(json['subInfo']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,35 +98,61 @@ class UserData {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
-    if (this.subInfo != null) {
-      data['sub'] = this.subInfo!.toJson();
-    }
     return data;
   }
 }
 
-class SubInfo {
-  String? expiryDate;
-  SubscriptionData? sub;
+class ActiveSub {
   String? sId;
+  String? owner;
+  String? startDate;
+  String? endDate;
+  bool? active;
+  SubscriptionData? sub;
+  List<Timetable>? timetable;
+  int? iV;
 
-  SubInfo({this.expiryDate, this.sub, this.sId});
+  ActiveSub(
+      {this.sId,
+      this.owner,
+      this.startDate,
+      this.endDate,
+      this.active,
+      this.sub,
+      this.timetable,
+      this.iV});
 
-  SubInfo.fromJson(Map<String, dynamic> json) {
-    expiryDate = json['expiryDate'];
-    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
+  ActiveSub.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    owner = json['owner'];
+    startDate = json['startDate'];
+    endDate = json['endDate'];
+    active = json['active'];
+    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
+    if (json['timetable'] != null) {
+      timetable = <Timetable>[];
+      json['timetable'].forEach((v) {
+        timetable!.add(new Timetable.fromJson(v));
+      });
+    }
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['expiryDate'] = this.expiryDate;
+    data['_id'] = this.sId;
+    data['owner'] = this.owner;
+    data['startDate'] = this.startDate;
+    data['endDate'] = this.endDate;
+    data['active'] = this.active;
     if (this.sub != null) {
       data['sub'] = this.sub!.toJson();
     }
-    data['_id'] = this.sId;
+    if (this.timetable != null) {
+      data['timetable'] = this.timetable!.map((v) => v.toJson()).toList();
+    }
+    data['__v'] = this.iV;
     return data;
   }
 }
-
 

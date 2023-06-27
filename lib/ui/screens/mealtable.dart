@@ -68,6 +68,46 @@ class _MealTableScreenState extends State<MealTableScreen> {
                         return Column(
                           children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('You have '),
+                                CircleAvatar(
+                                  child: Text('8'),
+                                ),
+                                CustomLayout.mPad.sizedBoxW,
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black87),
+                                      text: '',
+                                      children: [
+                                        TextSpan(
+                                          text: 'Shuffle ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .primaryColour),
+                                        ),
+                                        TextSpan(
+                                          text: 'credit left',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            CustomLayout.xlPad.sizedBoxH,
+                            TimeTable(
+                              key: const ValueKey("time_table"),
+                              meals: state.data[0],
+                            ),
+                            CustomLayout.lPad.sizedBoxH,
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Icon(Icons.info_outline),
@@ -92,57 +132,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
                                         TextSpan(
                                           text:
                                               'on any meal to see more details ',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            CustomLayout.xlPad.sizedBoxH,
-                            TimeTable(
-                              key: const ValueKey("time_table"),
-                              meals: state.data[0],
-                            ),
-                            CustomLayout.xlPad.sizedBoxH,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(Icons.info_outline),
-                                CustomLayout.mPad.sizedBoxW,
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.black87),
-                                      text:
-                                          'If you are not satisfied with the table, you can  ',
-                                      children: [
-                                        TextSpan(
-                                          text: 'Shuffle. ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                  color: AppColour(context)
-                                                      .secondaryColour),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              'And for more robust table, add more ',
-                                        ),
-                                        TextSpan(
-                                          text: 'foods ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                  color: AppColour(context)
-                                                      .secondaryColour),
-                                        ),
-                                        TextSpan(
-                                          text: 'to your list.',
                                         ),
                                       ],
                                     ),

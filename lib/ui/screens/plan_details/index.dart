@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bettymeals/data/api/models/GetSubscription.dart';
 import 'package:bettymeals/utils/enums.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +92,9 @@ class _PlanDetailsState extends State<PlanDetails> {
                               backgroundColor:
                                   AppColour(context).secondaryColour,
                               child: Icon(
-                                Icons.arrow_back,
+                                Platform.isIOS
+                                    ? Icons.keyboard_arrow_left
+                                    : Icons.arrow_back,
                                 color: Colors.white,
                                 size: 25,
                               ),

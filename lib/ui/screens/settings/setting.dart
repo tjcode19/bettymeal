@@ -2,10 +2,13 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../cubit/auth_cubit.dart';
 import '../../../routes.dart';
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
+import '../../widgets/custom_dialog.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -25,6 +28,24 @@ class _SettingScreenState extends State<SettingScreen> {
     });
   }
 
+  logout() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+            title: "Warning",
+            descriptions: "Are you sure you want to log out?",
+            textPos: "Yes",
+            textNeg: "No",
+            posAction: () {
+              context.read<AuthCubit>().logout();
+              Navigator.pushReplacementNamed(context, Routes.loginScreen);
+            },
+          );
+        },
+        barrierDismissible: false);
+  }
+
   void _onElevatedChanged(bool value) {
     setState(() {
       _isElevated = value;
@@ -38,7 +59,8 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: PreferredSize(
         preferredSize: const Size(10, 56),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: CommonUtils.spadding, vertical: 0.0),
+          padding: EdgeInsets.symmetric(
+              horizontal: CommonUtils.spadding, vertical: 0.0),
           child: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
@@ -114,32 +136,7 @@ class _SettingScreenState extends State<SettingScreen> {
               title: Text('About Mealble'),
             ),
             ListTile(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Logout'),
-                      content: Text('Are you sure you want to logout?'),
-                      actions: [
-                        TextButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: Text('OK'),
-                          onPressed: () {
-                            // do something
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
+              onTap: () => logout(),
               title: Text('Logout'),
             ),
             ListTile(

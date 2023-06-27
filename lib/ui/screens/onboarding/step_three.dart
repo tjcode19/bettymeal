@@ -53,7 +53,7 @@ class StepThree extends StatelessWidget {
                           .copyWith(color: AppColour(context).onPrimaryColour),
                     ),
                     TextSpan(
-                      text: 'Meable',
+                      text: 'Mealble',
                       style: Theme.of(context)
                           .textTheme
                           .displaySmall!

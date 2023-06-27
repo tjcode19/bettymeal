@@ -13,7 +13,6 @@ class UserLoading extends UserState {}
 
 class VerifyEmailSuccess extends UserState {}
 
-
 class SendOtpSuccess extends UserState {}
 
 class UserSuccess extends UserState {
@@ -26,6 +25,8 @@ class UserSuccess extends UserState {
   List<Object> get props => [userId, email];
 }
 
+class UpdateUserSuccess extends UserState {}
+
 class GetUser extends UserState {
   const GetUser(this.uData);
 
@@ -33,6 +34,16 @@ class GetUser extends UserState {
 
   @override
   List<Object> get props => [uData];
+}
+
+class SpGetData extends UserState {
+  const SpGetData(this.uData, this.email);
+
+  final UserData uData;
+  final String email;
+
+  @override
+  List<Object> get props => [uData, email];
 }
 
 class UserError extends UserState {

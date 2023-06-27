@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import '../data/api/models/GetUserDetails.dart';
 import '../data/api/models/LoginResponse.dart';
+import '../data/api/network_check.dart';
 import '../data/api/repositories/authRepo.dart';
 import '../data/api/repositories/userRepo.dart';
 import '../data/shared_preference.dart';
@@ -31,27 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
       if (cal.code != '000') {
         emit(AuthError(cal.message!));
       } else {
-        final now = DateTime.now();
-        bool onSub = false;
-        if (cal.data!.subInfo != null) {
-          var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
-          onSub = now.isBefore(h);
-        }
-
-        sharedPreference.setData(
-            sharedType: SpDataType.bool,
-            fieldName: 'firstTimer',
-            fieldValue: false);
-        sharedPreference.setData(
-            sharedType: SpDataType.String,
-            fieldName: 'token',
-            fieldValue: cal.data!.token);
-        sharedPreference.setData(
-            sharedType: SpDataType.object,
-            fieldName: 'userData',
-            fieldValue: cal.data!);
-
-        emit(LoginSuccess(cal.data!, onSub));
+        await setPrefValues(cal.data);
+        emit(LoginSuccess());
       }
     } catch (e) {
       emit(AuthError(
@@ -59,27 +41,33 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  prepareDashboard() async {
-    try {
-      final cal = await userRepository.getUserDetails();
-      if (cal.code != '000') {
-        // emit(UserError(cal.message!));
-
-        print('Get user details failed');
-      } else {
-        final now = DateTime.now();
-        bool onSub = false;
-        if (cal.data!.subInfo != null) {
-          var h = DateTime.parse(cal.data!.subInfo!.expiryDate!);
-          onSub = now.isBefore(h);
-        }
-
-        emit(LoadDashboard(cal.data!, onSub));
-      }
-    } catch (e) {
-      print(e);
-    }
+  setPrefValues(LoginData? d) {
+    sharedPreference.setData(
+        sharedType: SpDataType.bool,
+        fieldName: 'firstTimer',
+        fieldValue: false);
+    sharedPreference.setData(
+        sharedType: SpDataType.String,
+        fieldName: 'token',
+        fieldValue: d!.token);
+    sharedPreference.setData(
+        sharedType: SpDataType.String,
+        fieldName: 'tokenExp',
+        fieldValue: d.tokenExp);
+    sharedPreference.setData(
+        sharedType: SpDataType.String, fieldName: 'email', fieldValue: d.email);
   }
+
+  logout() {
+    sharedPreference.setData(
+        sharedType: SpDataType.String, fieldName: 'token', fieldValue: "");
+    sharedPreference.setData(
+        sharedType: SpDataType.String, fieldName: 'tokenExp', fieldValue: "");
+    sharedPreference.setData(
+        sharedType: SpDataType.String, fieldName: 'email', fieldValue: "");
+  }
+
+  
 
   changePassword(oldPass, newPass) async {
     emit(AuthLoading());

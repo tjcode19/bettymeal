@@ -22,13 +22,15 @@ class FoodCardFooter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                meal.name!,
-                softWrap: true,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: AppColour(context).onBackground),
+              Flexible(
+                child: Text(
+                  meal.name!,
+                  softWrap: true,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: AppColour(context).onBackground),
+                ),
               ),
               ...?extra?.map((e) => itemRow(context, name: e)),
               // itemRow(context, name: 'Koko'),

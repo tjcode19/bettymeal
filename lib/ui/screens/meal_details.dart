@@ -29,12 +29,14 @@ class MealDetails extends StatefulWidget {
 }
 
 class _MealDetailsState extends State<MealDetails> {
-  String gender = 'None';
   @override
   void initState() {
     super.initState();
+  }
 
-    context.read<UserCubit>().getUserDetails();
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

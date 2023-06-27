@@ -6,12 +6,13 @@ import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/screens/settings/change_password.dart';
 import 'package:bettymeals/ui/screens/settings/profile.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
+import 'package:bettymeals/utils/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
-import 'ui/screens/login.dart';
+import 'ui/screens/authentication/login.dart';
 import 'ui/screens/mealtable.dart';
 import 'ui/screens/payment.dart';
 import 'ui/screens/plan_details/index.dart';
@@ -40,7 +41,7 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return FadeRoute(page: HomePage());
       case splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case onboarding:
@@ -86,9 +87,7 @@ class Routes {
           ),
         );
       case loginScreen:
-        return MaterialPageRoute(
-          builder: (_) => LoginScreen(),
-        );
+        return SlideLeftRoute(page: LoginScreen());
       case aboutScreen:
         return MaterialPageRoute(
           builder: (_) => AboutScreen(),

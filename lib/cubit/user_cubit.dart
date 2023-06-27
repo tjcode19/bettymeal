@@ -1,5 +1,8 @@
 import 'dart:developer';
+import 'dart:math';
 
+import 'package:bettymeals/cubit/auth_cubit.dart';
+import 'package:bettymeals/data/api/models/LoginResponse.dart';
 import 'package:bettymeals/data/api/repositories/authRepo.dart';
 import 'package:bettymeals/data/api/repositories/userRepo.dart';
 import 'package:bettymeals/data/shared_preference.dart';
@@ -16,11 +19,13 @@ class UserCubit extends Cubit<UserState> {
       : sharedPreference = SharedPreferenceApp(),
         userRepository = UserRepository(),
         authRepository = AuthRepository(),
+        authCubit = AuthCubit(),
         super(UserInitial());
 
   final SharedPreferenceApp sharedPreference;
   final UserRepository userRepository;
   final AuthRepository authRepository;
+  final AuthCubit authCubit;
 
   setUserDetails(name, gender) {
     sharedPreference.setData(
@@ -40,6 +45,10 @@ class UserCubit extends Cubit<UserState> {
       if (cal.code != '000') {
         emit(UserError(cal.message!));
       } else {
+        sharedPreference.setData(
+            sharedType: SpDataType.String,
+            fieldName: 'email',
+            fieldValue: cal.data!.user!.email);
         emit(GetUser(cal.data!));
       }
     } catch (e) {
@@ -59,6 +68,24 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {}
   }
 
+  updateUser(fName, lName, dob, gender, phNumber) async {
+    emit(UserLoading());
+    try {
+      final cal = await userRepository.updateUser(
+          fName: fName,
+          lName: lName,
+          dob: dob,
+          gender: gender,
+          phNumber: phNumber);
+      if (cal.code != '000') {
+        emit(UserError(cal.message!));
+      } else {
+        emit(UpdateUserSuccess());
+        setPrefValues(cal.data);
+      }
+    } catch (e) {}
+  }
+
   verifyEmail(otp, password, userId) async {
     emit(UserLoading());
     try {
@@ -66,15 +93,12 @@ class UserCubit extends Cubit<UserState> {
       if (cal.code != '001') {
         emit(UserError(cal.message!));
       } else {
-        setFirstTimer(false);
-        sharedPreference.setData(
-            sharedType: SpDataType.String,
-            fieldName: 'token',
-            fieldValue: cal.data!.token);
+        // await getUserDetails();
+        authCubit.setPrefValues(cal.data);
 
-        await getUserDetails();
+        // authCubit.prepareDashboard();
 
-        // emit(VerifyEmailSuccess());
+        emit(VerifyEmailSuccess());
       }
     } catch (e) {
       emit(UserError("Error Occured"));
@@ -83,6 +107,18 @@ class UserCubit extends Cubit<UserState> {
 
   isActiveSub({v = false}) {
     return v;
+  }
+
+  spGetUserData() async {
+    final userData = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'userData');
+
+    final email = await sharedPreference.getSharedPrefs(
+            sharedType: SpDataType.String, fieldName: 'email') ??
+        '';
+
+    UserData uData = UserData.fromJson(userData);
+    emit(SpGetData(uData, email));
   }
 
   sendOtp(email) async {
@@ -98,5 +134,18 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {
       emit(UserError("Error Occured at SendOTP"));
     }
+  }
+
+  setPrefValues(d) {
+    sharedPreference.setData(
+        sharedType: SpDataType.String,
+        fieldName: 'token',
+        fieldValue: d!.token);
+    sharedPreference.setData(
+        sharedType: SpDataType.String,
+        fieldName: 'email',
+        fieldValue: d!.email);
+    sharedPreference.setData(
+        sharedType: SpDataType.object, fieldName: 'userData', fieldValue: d!);
   }
 }

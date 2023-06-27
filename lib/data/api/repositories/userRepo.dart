@@ -1,4 +1,3 @@
-import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/data/api/models/User.dart';
 import 'package:bettymeals/data/api/models/VerifyEmail.dart';
 import 'package:bettymeals/data/api/network_request.dart';
@@ -17,6 +16,22 @@ class UserRepository {
       "user/",
       {
         "email": email,
+      },
+    );
+
+    return UserRegistration.fromJson(response);
+  }
+
+  Future<UserRegistration> updateUser(
+      {fName, lName, dob, gender, phNumber}) async {
+    final response = await nRequest.patch(
+      "user/",
+      {
+        "firstName": fName,
+        "lastName": lName,
+        "dob": dob,
+        "gender": gender,
+        "phoneNumber": phNumber
       },
     );
 

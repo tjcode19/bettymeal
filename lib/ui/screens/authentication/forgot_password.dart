@@ -2,25 +2,25 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubit/auth_cubit.dart';
-import '../../cubit/meal_cubit.dart';
-import '../../cubit/sub_cubit.dart';
-import '../../cubit/timetable_cubit.dart';
-import '../../data/shared_preference.dart';
-import '../../routes.dart';
-import '../../utils/constants.dart';
-import '../../utils/device_utils.dart';
-import '../../utils/enums.dart';
-import '../../utils/noti.dart';
+import '../../../cubit/auth_cubit.dart';
+import '../../../cubit/meal_cubit.dart';
+import '../../../cubit/sub_cubit.dart';
+import '../../../cubit/timetable_cubit.dart';
+import '../../../data/shared_preference.dart';
+import '../../../routes.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/device_utils.dart';
+import '../../../utils/enums.dart';
+import '../../../utils/noti.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       CustomLayout.xlPad.sizedBoxH,
-                      Text('Enter Enter',
+                      Text('Enter Email',
                           style: Theme.of(context).textTheme.titleMedium),
                       TextFormField(
                         controller: _emailController,
@@ -191,7 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                          color: AppColour(context).primaryColour,
+                                          color:
+                                              AppColour(context).primaryColour,
                                         ),
                                   )
                                 ],

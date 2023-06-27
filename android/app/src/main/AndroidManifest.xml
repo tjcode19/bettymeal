@@ -2,7 +2,7 @@
     package="com.bolxtine.meable">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="Meable"
+        android:label="Mealble"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

@@ -215,6 +215,7 @@ class NetworkRequest {
     var responseJson;
     await getTokenPref();
     try {
+       print(jsonEncode(body));
       final response = await http
           .patch(
         Uri.parse(_baseUrl + url),

@@ -1,8 +1,6 @@
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 

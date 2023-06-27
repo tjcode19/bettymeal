@@ -1,3 +1,4 @@
+import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
 import 'package:bettymeals/ui/screens/records/index.dart';
@@ -6,6 +7,7 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -14,6 +16,7 @@ import '../../cubit/meal_cubit.dart';
 import '../../cubit/sub_cubit.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../cubit/user_cubit.dart';
+import '../widgets/custom_dialog.dart';
 import '../widgets/timetable.dart';
 import 'foods/food.dart';
 import 'settings/setting.dart';
@@ -26,8 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final TimetableCubit _timetableCubit;
-
   int _currentIndex = 0;
 
   void onTabTapped(int index) {
@@ -36,47 +37,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<bool> logout() {
-    var res;
-    if (_currentIndex == 0) {
-      res = Future<bool>.value(false);
-      // exit(0);
-
-      print("hello");
-    }
-
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return CustomDialogBox(
-    //         title: "Warning",
-    //         descriptions: "Are you sure you want to log out?",
-    //         textPos: "Yes",
-    //         textNeg: "No",
-    //         posAction: action,
-    //       );
-    //     },
-    //     barrierDismissible: false);
-    else {
-      onTabTapped(0);
-      res = Future<bool>.value(false);
-    }
-
-    return res;
-  }
-
   @override
   void dispose() {
     super.dispose();
   }
 
+  logout() {
+    if (_currentIndex == 0) {
+      SystemNavigator.pop();
+      return Future.value(true);
+    } else
+      onTabTapped(0);
+  }
+
   @override
   void initState() {
-    // context.read<UserCubit>().getUserDetails();
-
     super.initState();
-
-    // BlocProvider.of<MealCubit>(context).getAllMeal();
   }
 
   @override
