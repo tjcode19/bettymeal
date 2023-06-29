@@ -16,6 +16,7 @@ class UpdateProfile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(
               horizontal: CommonUtils.padding, vertical: 6),
+              margin: EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black.withOpacity(0.4)),
             borderRadius: BorderRadius.all(
@@ -40,7 +41,7 @@ class UpdateProfile extends StatelessWidget {
                 ),
               ],
             )
-          ]),
+          ],),
         ),
       ),
     );

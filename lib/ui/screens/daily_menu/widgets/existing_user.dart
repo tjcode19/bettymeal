@@ -1,32 +1,24 @@
-// import 'package:bettymeals/data/api/models/GetUserDetails.dart';
-import 'dart:developer';
-
-import 'package:bettymeals/cubit/auth_cubit.dart';
-import 'package:bettymeals/data/api/models/GetSubscription.dart';
-import 'package:bettymeals/ui/screens/daily_menu/widgets/current_plan_card.dart';
+import 'package:bettymeals/ui/screens/daily_menu/widgets/inactive_plan_card.dart';
 import 'package:bettymeals/ui/screens/daily_menu/widgets/update_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../cubit/timetable_cubit.dart';
 import '../../../../data/api/models/GetTimetable.dart';
 import '../../../../data/api/models/GetUserDetails.dart';
 import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
-import '../../../../utils/helper.dart';
 import '../../../../utils/timer.dart';
 import '../../../widgets/food_card.dart';
-import '../../../widgets/section_title.dart';
+import 'active_plan_card.dart';
 
 class ExistingUserWidget extends StatefulWidget {
-  const ExistingUserWidget(this.name, this.isActiveSub, this.activeSub,
+  const ExistingUserWidget(this.name, this.isActiveSub, this.activeSub, this.shuffle,
       {super.key});
 
   final String name;
   final bool isActiveSub;
-  final List<ActiveSub> activeSub;
+  final List<ActiveSub>? activeSub;
+  final int shuffle;
 
   @override
   State<ExistingUserWidget> createState() => _ExistingUserWidgetState();
@@ -41,7 +33,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
 
   @override
   void initState() {
-    tVal = widget.isActiveSub? widget.activeSub[0].timetable! : [];
+    tVal = widget.isActiveSub ? widget.activeSub![0].timetable! : [];
     super.initState();
   }
 
@@ -52,103 +44,112 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
         child: Column(
           children: [
             if (widget.name == "Guest") UpdateProfile(),
-            CustomLayout.mPad.sizedBoxH,
-            tVal.length>0?
-            Container(
-              constraints: const BoxConstraints(
-                minHeight: 50.0,
-                maxHeight: 80.0,
-              ),
-              color: Colors.white,
-              padding:
-                  EdgeInsets.only(top: 8, bottom: 8, left: CommonUtils.padding),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: tVal.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      // final d = tVal.firstWhere((element) =>
-                      //     HelperMethod.formatDate(
-                      //         element.meals![0].date) ==
-                      //     HelperMethod.formatDate(
-                      //         DateTime.now().toIso8601String()));
-                      _scrollController.animateTo(0.8 * index,
-                          duration: const Duration(milliseconds: 800),
-                          curve: Curves.bounceOut);
-                      setState(() {
-                        _selected = index;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: CommonUtils.mpadding),
-                      margin: EdgeInsets.only(right: CommonUtils.xspadding),
-                      decoration: BoxDecoration(
-                        // shape: BoxShape.circle,
-                        color: (_selected != index)
-                            ? AppColour(context).onPrimaryColour
-                            : AppColour(context).primaryColour,
-                        border: Border.all(
-                            width: 1.0,
-                            color: AppColour(context).primaryColour),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
+            
+            tVal.length > 0
+                ? Column(
+                  children: [
+                    CustomLayout.mPad.sizedBoxH,
+                    ActivePlanCard(widget.activeSub![0], widget.shuffle),
+                    CustomLayout.lPad.sizedBoxH,
+                    Container(
+                        constraints: const BoxConstraints(
+                          minHeight: 50.0,
+                          maxHeight: 80.0,
+                        ),
+                        color: Colors.white,
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, left: CommonUtils.padding),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tVal.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                // final d = tVal.firstWhere((element) =>
+                                //     HelperMethod.formatDate(
+                                //         element.meals![0].date) ==
+                                //     HelperMethod.formatDate(
+                                //         DateTime.now().toIso8601String()));
+                                _scrollController.animateTo(0.8 * index,
+                                    duration: const Duration(milliseconds: 800),
+                                    curve: Curves.bounceOut);
+                                setState(() {
+                                  _selected = index;
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: CommonUtils.mpadding),
+                                margin:
+                                    EdgeInsets.only(right: CommonUtils.xspadding),
+                                decoration: BoxDecoration(
+                                  // shape: BoxShape.circle,
+                                  color: (_selected != index)
+                                      ? AppColour(context).onPrimaryColour
+                                      : AppColour(context).primaryColour,
+                                  border: Border.all(
+                                      width: 1.0,
+                                      color: AppColour(context).primaryColour),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      DateWay(DateTime.parse(
+                                              tVal[index].meals![0].date!))
+                                          .tDay,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              color: (_selected != index)
+                                                  ? AppColour(context).primaryColour
+                                                  : AppColour(context)
+                                                      .onPrimaryColour),
+                                    ),
+                                    Text(
+                                      DateWay(DateTime.parse(
+                                              tVal[index].meals![0].date!))
+                                          .tDate,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                              color: (_selected != index)
+                                                  ? AppColour(context).primaryColour
+                                                  : AppColour(context)
+                                                      .onPrimaryColour,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      DateWay(DateTime.parse(
+                                              tVal[index].meals![0].date!))
+                                          .tMon,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              color: (_selected != index)
+                                                  ? AppColour(context).primaryColour
+                                                  : AppColour(context)
+                                                      .onPrimaryColour),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            DateWay(DateTime.parse(tVal[index].meals![0].date!))
-                                .tDay,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    color: (_selected != index)
-                                        ? AppColour(context).primaryColour
-                                        : AppColour(context).onPrimaryColour),
-                          ),
-                          Text(
-                            DateWay(DateTime.parse(tVal[index].meals![0].date!))
-                                .tDate,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: (_selected != index)
-                                        ? AppColour(context).primaryColour
-                                        : AppColour(context).onPrimaryColour,
-                                    fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            DateWay(DateTime.parse(tVal[index].meals![0].date!))
-                                .tMon,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    color: (_selected != index)
-                                        ? AppColour(context).primaryColour
-                                        : AppColour(context).onPrimaryColour),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              
-            ):CurrentPlanCard(),
-            CommonUtils.spaceH,
+                  ],
+                )
+                : InactivePlanCard(),
+            CustomLayout.lPad.sizedBoxH,
             //The card listview implemetation starts here
             if (widget.isActiveSub)
-
-              // List<Timetable> tVal = widget.subInfo.timetable!;
-              //  tVal.isNotEmpty
-              //     ?
               SizedBox(
                 height: CommonUtils.sh(context, s: 0.35),
                 width: CommonUtils.sw(context, s: 1),
@@ -178,7 +179,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommonUtils.spaceH,
+                CustomLayout.mPad.sizedBoxH,
                 GestureDetector(
                   onTap: () =>
                       Navigator.pushNamed(context, Routes.profileScreen),
@@ -246,7 +247,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                         'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).'),
                   ),
                 ),
-                const SectionTitle(text: 'Popular meals'),
+                CustomLayout.mPad.sizedBoxH,
+                // const SectionTitle(text: 'Popular meals'),
               ],
             ),
           ],

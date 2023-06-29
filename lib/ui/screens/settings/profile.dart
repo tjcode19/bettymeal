@@ -56,7 +56,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (state is sd.SpGetData) {
                   _firstNameController.text = state.uData.user!.firstName!;
                   _lastNameController.text = state.uData.user!.lastName!;
-                  _email = state.email;
+                  // _phoneNumberController.text = state.uData.user!.;
+                  setState(() {
+                    _email = state.email;
+                  });
                 }
                 else if (state is sd.UserLoading) {
                   Notificatn.showLoading(context, title: 'Updating Profile');

@@ -98,7 +98,7 @@ class PlanCard extends StatelessWidget {
                                   ),
                         ),
                         TextSpan(
-                          text: " @",
+                          text: "Days @",
                         ),
                         TextSpan(
                           text: " \$${plan.period?.week?.price}",

@@ -1,24 +1,14 @@
-import 'package:bettymeals/cubit/auth_cubit.dart';
-import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
 import 'package:bettymeals/ui/screens/records/index.dart';
-import 'package:bettymeals/ui/screens/mealtable.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
-import '../../cubit/meal_cubit.dart';
-import '../../cubit/sub_cubit.dart';
-import '../../cubit/timetable_cubit.dart';
-import '../../cubit/user_cubit.dart';
-import '../widgets/custom_dialog.dart';
-import '../widgets/timetable.dart';
 import 'foods/food.dart';
+import 'mealtable/mealtable.dart';
 import 'settings/setting.dart';
 
 class HomePage extends StatefulWidget {

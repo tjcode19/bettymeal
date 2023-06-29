@@ -18,16 +18,21 @@ class DashboardCubit extends Cubit<DashboardState> {
   final SharedPreferenceApp sharedPreference;
 
   prepareDashboard() async {
-    emit(DashboardInitial());
+    emit(DashboardLoading());
     try {
       final cal = await userRepository.getUserDetails();
       if (cal.code != '000') {
         print('Get user details failed');
       } else {
-        print('I am here ${cal.data!.user!.email!}');
         bool onSub = false;
-        if (cal.data!.activeSub!.length > 0) {
+        int? shuffle;
+        int l = cal.data?.activeSub!.length ?? 0;
+        if (l > 0) {
           onSub = true;
+          final gh = cal.data?.activeSub!.first.timetable!.length ?? 0;
+          shuffle = gh <= 7
+              ? cal.data!.activeSub![0].sub!.period!.week!.shuffle
+              : cal.data!.activeSub![0].sub!.period?.month?.shuffle;
         }
 
         sharedPreference.setData(
@@ -35,10 +40,7 @@ class DashboardCubit extends Cubit<DashboardState> {
             fieldName: 'userData',
             fieldValue: cal.data);
 
-        emit(LoadDashboard(
-          cal.data!,
-          onSub,
-        ));
+        emit(LoadDashboard(cal.data!, onSub, shuffle ?? 0));
       }
     } catch (e) {
       print(e);

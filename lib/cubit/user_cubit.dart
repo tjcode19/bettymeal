@@ -81,7 +81,7 @@ class UserCubit extends Cubit<UserState> {
         emit(UserError(cal.message!));
       } else {
         emit(UpdateUserSuccess());
-        setPrefValues(cal.data);
+        // setPrefValues(cal.data);
       }
     } catch (e) {}
   }

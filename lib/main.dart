@@ -9,6 +9,7 @@ import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
 import 'cubit/meal_cubit.dart';
+import 'cubit/store_cubit.dart';
 import 'cubit/sub_cubit.dart';
 import 'cubit/timetable_cubit.dart';
 import 'cubit/user_cubit.dart';
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SubCubit(),
+        ),
+        BlocProvider(
+          create: (context) => StoreCubit(),
         ),
         BlocProvider(
           create: (context) => AuthCubit(),

@@ -1,12 +1,15 @@
+import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/cubit/store_cubit.dart';
 import 'package:bettymeals/cubit/timetable_cubit.dart';
+import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/utils/constants.dart';
-import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../utils/colours.dart';
-import '../../utils/enums.dart';
-import '../widgets/time_table.dart';
+import '../../../utils/colours.dart';
+import '../../../utils/enums.dart';
+import '../../widgets/time_table.dart';
+
 
 class MealTableScreen extends StatefulWidget {
   const MealTableScreen({super.key});
@@ -17,6 +20,11 @@ class MealTableScreen extends StatefulWidget {
 
 class _MealTableScreenState extends State<MealTableScreen> {
   String tableId = "";
+
+  int shuffle = 0;
+
+  bool firstTime = true;
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +50,17 @@ class _MealTableScreenState extends State<MealTableScreen> {
               tooltip: 'My Store',
               onPressed: () {
                 // handle the press
-                Notificatn.showInfoModal(context, msg: "Available in Pro Plan");
+                // Notificatn.showInfoModal(context, msg: "Available in Pro Plan");
+
+                if (firstTime) {
+                  context.read<StoreCubit>().getStoreItems();
+
+                  setState(() {
+                    firstTime = false;
+                  });
+                }
+
+                Navigator.pushNamed(context, Routes.storeScreen, arguments: "");
               },
             ),
           ],
@@ -67,40 +85,49 @@ class _MealTableScreenState extends State<MealTableScreen> {
                         tableId = state.data[0].sId.toString();
                         return Column(
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('You have '),
-                                CircleAvatar(
-                                  child: Text('8'),
-                                ),
-                                CustomLayout.mPad.sizedBoxW,
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.black87),
-                                      text: '',
-                                      children: [
-                                        TextSpan(
-                                          text: 'Shuffle ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                  color: AppColour(context)
-                                                      .primaryColour),
-                                        ),
-                                        TextSpan(
-                                          text: 'credit left',
-                                        ),
-                                      ],
-                                    ),
+                            BlocBuilder<DashboardCubit, DashboardState>(
+                                builder: (context, state) {
+                              if (state is LoadDashboard) {
+                                // setState(() {
+                                shuffle = state.shuffle;
+                                // });
+                              }
+
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('You have '),
+                                  CircleAvatar(
+                                    child: Text(shuffle.toString()),
                                   ),
-                                )
-                              ],
-                            ),
+                                  CustomLayout.mPad.sizedBoxW,
+                                  Expanded(
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.black87),
+                                        text: '',
+                                        children: [
+                                          TextSpan(
+                                            text: 'Shuffle ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                    color: AppColour(context)
+                                                        .primaryColour),
+                                          ),
+                                          TextSpan(
+                                            text: 'credit left',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            }),
                             CustomLayout.xlPad.sizedBoxH,
                             TimeTable(
                               key: const ValueKey("time_table"),

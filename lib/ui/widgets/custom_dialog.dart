@@ -81,12 +81,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                         widget.textNeg!,
                         style: TextStyle(fontSize: 18),
                       )),
-                  TextButton(
+                  ElevatedButton(
                       onPressed: widget.posAction,
                       child: Text(
                         widget.textPos!,
                         style: TextStyle(
-                            fontSize: 18, color: AppColour(context).primaryLightColour),
+                            fontSize: 18, color: AppColour(context).onPrimaryColour),
                       )),
                 ],
               ),

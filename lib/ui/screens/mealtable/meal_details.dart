@@ -1,23 +1,15 @@
-import 'package:bettymeals/data/api/models/GetSubscription.dart';
-import 'package:bettymeals/data/api/models/GetTimetable.dart';
+import 'dart:io';
+
 import 'package:bettymeals/utils/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../../../cubit/food_cubit.dart';
-import '../../../../cubit/timetable_cubit.dart';
 import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
-import '../../../cubit/user_cubit.dart' as cs;
 
 import 'package:badges/badges.dart' as badges;
-
-import '../../../cubit/user_cubit.dart' as user;
-import '../../../cubit/user_cubit.dart';
+import '../../../data/api/models/MealResponse.dart';
 import '../../../utils/constants.dart';
-import '../../data/api/models/MealResponse.dart';
-import 'plan_details/widgets/features.dart';
+import '../plan_details/widgets/features.dart';
 
 class MealDetails extends StatefulWidget {
   const MealDetails({required this.meal, super.key});
@@ -82,12 +74,14 @@ class _MealDetailsState extends State<MealDetails> {
                         GestureDetector(
                           onTap: () => Navigator.of(context).pop(),
                           child: CircleAvatar(
-                            backgroundColor: AppColour(context).secondaryColour.withOpacity(0.4),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                              size: 25,
-                            ),
+                            backgroundColor: AppColour(context).secondaryColour,
+                            child: Platform.isAndroid
+                                ? Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.white,
+                                    size: 25,
+                                  )
+                                : Icon(Icons.keyboard_arrow_left),
                           ),
                         ),
                         Container(
@@ -201,6 +195,48 @@ class _MealDetailsState extends State<MealDetails> {
                       ),
                     ],
                   ),
+                  CustomLayout.lPad.sizedBoxH,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Ingredients',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Wrap(
+                              children: [
+                                for (String a in widget.meal.nutrients!)
+                                  Chip(label: Text(a))
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomLayout.mPad.sizedBoxH,
+                  Center(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.stepbystepScreen,
+                            arguments: "");
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side:
+                            BorderSide(color: AppColour(context).primaryColour),
+                      ),
+                      child: const Text('Step-By-Step Guide'),
+                    ),
+                  )
                 ],
               ),
             ),

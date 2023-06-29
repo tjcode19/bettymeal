@@ -1,7 +1,7 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
-import 'package:bettymeals/ui/screens/meal_details.dart';
+import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/screens/settings/change_password.dart';
 import 'package:bettymeals/ui/screens/settings/profile.dart';
@@ -13,12 +13,14 @@ import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
 import 'ui/screens/authentication/login.dart';
-import 'ui/screens/mealtable.dart';
+import 'ui/screens/mealtable/mealtable.dart';
+import 'ui/screens/mealtable/meal_details.dart';
 import 'ui/screens/payment.dart';
 import 'ui/screens/plan_details/index.dart';
 import 'ui/screens/plans.dart';
 import 'ui/screens/set_password.dart';
 import 'ui/screens/settings/about.dart';
+import 'ui/screens/store.dart';
 
 class Routes {
   static const String splashScreen = '/slash-screen';
@@ -37,6 +39,8 @@ class Routes {
   static const String profileScreen = '/profile-screen';
   static const String paymentScreen = '/payment-screen';
   static const String changePasswordScreen = '/change-password-screen';
+  static const String storeScreen = '/store-screen';
+  static const String stepbystepScreen = '/step-by-step-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -75,6 +79,20 @@ class Routes {
         final String t = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => PlansScreen(
+            planId: t,
+          ),
+        );
+      case storeScreen:
+        final String t = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => StoreScreen(
+            planId: t,
+          ),
+        );
+      case stepbystepScreen:
+        final String t = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => StepByStepScreen(
             planId: t,
           ),
         );

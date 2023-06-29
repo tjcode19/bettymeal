@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
-import '../../../../utils/helper.dart';
 
-class CurrentPlanCard extends StatelessWidget {
-  const CurrentPlanCard(  {super.key});
+class InactivePlanCard extends StatelessWidget {
+  const InactivePlanCard({super.key});
 
   // final String planName;
   // final String expDate;
@@ -26,6 +22,14 @@ class CurrentPlanCard extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 6,
+              blurRadius: 10,
+              offset: Offset(2, 3), // changes the position of the shadow
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,8 +91,7 @@ class CurrentPlanCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: 'Expired' +
-                          '\n',
+                      text: 'Expired' + '\n',
                       children: [
                         TextSpan(
                           text: 'Expired',
