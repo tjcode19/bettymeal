@@ -91,11 +91,14 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
                     _currentStep > 0 ? _currentStep - 1 : _currentStep),
                 steps: [
                   Step(
-                      title: Text('Put 50ml of water in the pot'),
-                      content: Text(
-                        'Put 50ml of water in the pot ' * 10,
-                        textAlign: TextAlign.justify,
-                      )),
+                    title: Text('Put 50ml of water in the pot'),
+                    content: Text(
+                      'Put 50ml of water in the pot ' * 10,
+                      textAlign: TextAlign.justify,
+                    ),
+                    state: _currentStep <= 0 ? StepState.editing : StepState.complete,
+                    isActive: _currentStep >= 0
+                  ),
                   const Step(
                       title: Text('Address'),
                       content: Center(

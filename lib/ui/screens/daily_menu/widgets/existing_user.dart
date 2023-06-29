@@ -7,12 +7,14 @@ import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
+import '../../../../utils/helper.dart';
 import '../../../../utils/timer.dart';
 import '../../../widgets/food_card.dart';
 import 'active_plan_card.dart';
 
 class ExistingUserWidget extends StatefulWidget {
-  const ExistingUserWidget(this.name, this.isActiveSub, this.activeSub, this.shuffle,
+  const ExistingUserWidget(
+      this.name, this.isActiveSub, this.activeSub, this.shuffle,
       {super.key});
 
   final String name;
@@ -44,14 +46,14 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
         child: Column(
           children: [
             if (widget.name == "Guest") UpdateProfile(),
-            
+
             tVal.length > 0
                 ? Column(
-                  children: [
-                    CustomLayout.mPad.sizedBoxH,
-                    ActivePlanCard(widget.activeSub![0], widget.shuffle),
-                    CustomLayout.lPad.sizedBoxH,
-                    Container(
+                    children: [
+                      CustomLayout.mPad.sizedBoxH,
+                      ActivePlanCard(widget.activeSub![0], widget.shuffle),
+                      CustomLayout.lPad.sizedBoxH,
+                      Container(
                         constraints: const BoxConstraints(
                           minHeight: 50.0,
                           maxHeight: 80.0,
@@ -63,13 +65,19 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                           scrollDirection: Axis.horizontal,
                           itemCount: tVal.length,
                           itemBuilder: (context, index) {
+                            final d = tVal.firstWhere((element) =>
+                                HelperMethod.formatDate(
+                                    element.meals![0].date) ==
+                                HelperMethod.formatDate(
+                                    DateTime.now().toIso8601String()));
+
+                            var pos = tVal.indexOf(d);
+                            if (justLaunch) {
+                              _selected = pos;
+                              justLaunch = false;
+                            }
                             return GestureDetector(
                               onTap: () {
-                                // final d = tVal.firstWhere((element) =>
-                                //     HelperMethod.formatDate(
-                                //         element.meals![0].date) ==
-                                //     HelperMethod.formatDate(
-                                //         DateTime.now().toIso8601String()));
                                 _scrollController.animateTo(0.8 * index,
                                     duration: const Duration(milliseconds: 800),
                                     curve: Curves.bounceOut);
@@ -80,8 +88,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: CommonUtils.mpadding),
-                                margin:
-                                    EdgeInsets.only(right: CommonUtils.xspadding),
+                                margin: EdgeInsets.only(
+                                    right: CommonUtils.xspadding),
                                 decoration: BoxDecoration(
                                   // shape: BoxShape.circle,
                                   color: (_selected != index)
@@ -106,7 +114,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                                           .bodySmall!
                                           .copyWith(
                                               color: (_selected != index)
-                                                  ? AppColour(context).primaryColour
+                                                  ? AppColour(context)
+                                                      .primaryColour
                                                   : AppColour(context)
                                                       .onPrimaryColour),
                                     ),
@@ -119,7 +128,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                                           .bodyLarge!
                                           .copyWith(
                                               color: (_selected != index)
-                                                  ? AppColour(context).primaryColour
+                                                  ? AppColour(context)
+                                                      .primaryColour
                                                   : AppColour(context)
                                                       .onPrimaryColour,
                                               fontWeight: FontWeight.bold),
@@ -133,7 +143,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                                           .bodySmall!
                                           .copyWith(
                                               color: (_selected != index)
-                                                  ? AppColour(context).primaryColour
+                                                  ? AppColour(context)
+                                                      .primaryColour
                                                   : AppColour(context)
                                                       .onPrimaryColour),
                                     ),
@@ -144,8 +155,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                           },
                         ),
                       ),
-                  ],
-                )
+                    ],
+                  )
                 : InactivePlanCard(),
             CustomLayout.lPad.sizedBoxH,
             //The card listview implemetation starts here

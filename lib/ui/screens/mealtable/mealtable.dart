@@ -10,7 +10,6 @@ import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
 import '../../widgets/time_table.dart';
 
-
 class MealTableScreen extends StatefulWidget {
   const MealTableScreen({super.key});
 
@@ -20,14 +19,66 @@ class MealTableScreen extends StatefulWidget {
 
 class _MealTableScreenState extends State<MealTableScreen> {
   String tableId = "";
+  ScrollController _scrollController = ScrollController();
 
   int shuffle = 0;
-
   bool firstTime = true;
+  bool isEnd = false;
+  bool _showRightButton = true, _showLeftButton = false;
+
+  double currentPos = 0.1;
+  late double maxPoint;
+
+  void animateNow(pos) {
+    print('The $pos');
+    setState(() {
+      if (isEnd) {
+        if (pos < currentPos) {
+          isEnd = false;
+          currentPos = pos;
+        }
+      } else {
+        if (pos < 50) {
+          currentPos = 0.0;
+        } else {
+          currentPos = pos;
+        }
+      }
+    });
+
+    _scrollController.animateTo(currentPos,
+        duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
+  }
+
+  _scrollListener() {
+    setState(() {
+      _showLeftButton = true;
+      _showRightButton = true;
+    });
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        debugPrint("reach the end");
+        isEnd = true;
+        _showRightButton = false;
+        currentPos = _scrollController.position.maxScrollExtent;
+      });
+    }
+    if (_scrollController.offset <=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      setState(() {
+        debugPrint("reach the start");
+        _showLeftButton = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -45,7 +96,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
             IconButton(
               icon: Icon(
                 Icons.store,
-                color: AppColour(context).primaryColour.withOpacity(0.6),
+                color: AppColour(context).primaryColour.withOpacity(0.8),
               ),
               tooltip: 'My Store',
               onPressed: () {
@@ -128,8 +179,42 @@ class _MealTableScreenState extends State<MealTableScreen> {
                                 ],
                               );
                             }),
-                            CustomLayout.xlPad.sizedBoxH,
+                            CustomLayout.lPad.sizedBoxH,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Visibility(
+                                  visible: _showLeftButton,
+                                  child: InkWell(
+                                    onTap: () {
+                                      var pos = currentPos - 70;
+                                      animateNow(pos);
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_circle_left_outlined,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                                Text('Scroll right or left'),
+                                Visibility(
+                                  visible: _showRightButton,
+                                  child: InkWell(
+                                    onTap: () {
+                                      var pos = currentPos + 70;
+                                      animateNow(pos);
+                                    },
+                                    child: Icon(
+                                      Icons.arrow_circle_right_outlined,
+                                      size: 30,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            CustomLayout.mPad.sizedBoxH,
                             TimeTable(
+                              _scrollController,
                               key: const ValueKey("time_table"),
                               meals: state.data[0],
                             ),

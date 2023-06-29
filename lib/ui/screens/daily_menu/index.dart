@@ -1,4 +1,3 @@
-import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/ui/screens/daily_menu/widgets/existing_user.dart';
 import 'package:bettymeals/ui/screens/daily_menu/widgets/new_user.dart';
@@ -7,10 +6,8 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../routes.dart';
 import '../../../utils/device_utils.dart';
-import '../../../utils/enums.dart';
 import '../../widgets/shimmer_widget.dart';
 
 class DailyMenuScreen extends StatefulWidget {
@@ -59,7 +56,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             subInfo = state.data.activeSub;
             shuffle = state.shuffle;
           }
-          
+
           return Column(
             children: [
               Container(
