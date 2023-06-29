@@ -1,5 +1,6 @@
 import 'package:bettymeals/data/api/models/LoginResponse.dart';
 import 'package:bettymeals/data/api/models/SendOtp.dart';
+import 'package:bettymeals/data/api/models/SetPassword.dart';
 import 'package:bettymeals/data/api/network_request.dart';
 
 class AuthRepository {
@@ -30,5 +31,14 @@ class AuthRepository {
     );
 
     return LoginResponse.fromJson(response);
+  }
+
+  Future<SetPassword> setPassword(pass, userId, otp) async {
+    final response = await nRequest.patch(
+      "auth/set-password/$userId",
+      {"password": pass, "otp": otp},
+    );
+
+    return SetPassword.fromJson(response);
   }
 }

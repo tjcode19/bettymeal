@@ -192,20 +192,20 @@ class TimetableCubit extends Cubit<TimetableState> {
   }
 
   shuffleTimeableApi(id) async {
-    // emit(TimetableLoading());
-    // try {
-    //   final cal = await apiRepo.shuffleTimetable(id);
+    emit(TimetableLoading());
+    try {
+      final cal = await apiRepo.shuffleTimetable(id);
 
-    //   if (cal.code != '000') {
-    //     emit(TimetableError(errorMessage: cal.message!));
-    //   } else {
-    //     getTimeableApi();
-    //     // emit(TimetableSuccess());
-    //   }
-    // } catch (e) {
-    //   emit(TimetableError(errorMessage: "Error Occured"));
-    //   print(e);
-    // }
+      if (cal.code != '000') {
+        emit(TimetableError(errorMessage: cal.message!));
+      } else {
+        getTimeableApi();
+        // emit(TimetableSuccess());
+      }
+    } catch (e) {
+      emit(TimetableError(errorMessage: "Error Occured"));
+      print(e);
+    }
   }
 
   getRecords(data) {

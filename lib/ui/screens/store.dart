@@ -88,31 +88,51 @@ class _StoreScreenState extends State<StoreScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: CommonUtils.padding,
                     vertical: CommonUtils.xspadding),
-                child: BlocBuilder<StoreCubit, StoreState>(
-                  builder: (context, state) {
-                    if (state is StoreSuccess) {
-                      return ListView.separated(
-                          itemBuilder: (_, int index) {
-                            return Text(
-                                state.data[index].mealItem!.meal!.name!);
-                          },
-                          separatorBuilder: (_, index) {
-                            return Divider(
-                              color: AppColour(context)
-                                  .primaryColour
-                                  .withOpacity(0.4),
-                            );
-                          },
-                          itemCount: state.data.length);
-                    } else if (state is StoreLoading) {
-                      return shimmerWidget(
-                          row: 6,
-                          height:
-                              (DeviceUtils.height(context) * 0.6).toDouble());
-                    } else {
-                      return Text('No record');
-                    }
-                  },
+                child: Container(
+                  padding: EdgeInsets.only(top: CommonUtils.padding),
+                  decoration: BoxDecoration(
+                    color: AppColour(context).primaryColour.withOpacity(0.1),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+                  child: BlocBuilder<StoreCubit, StoreState>(
+                    builder: (context, state) {
+                      if (state is StoreSuccess) {
+                        return ListView.separated(
+                            itemBuilder: (_, int index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: CommonUtils.padding,
+                                    vertical: 8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(state
+                                        .data[index].mealItem!.meal!.name!),
+                                    Text('X ${state.data[index].count.toString()}'),
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, index) {
+                              return Divider(
+                                color: AppColour(context)
+                                    .primaryColour
+                                    .withOpacity(0.4),
+                              );
+                            },
+                            itemCount: state.data.length);
+                      } else if (state is StoreLoading) {
+                        return shimmerWidget(
+                            row: 6,
+                            height:
+                                (DeviceUtils.height(context) * 0.6).toDouble());
+                      } else {
+                        return Text('No record');
+                      }
+                    },
+                  ),
                 ),
               ),
             ),

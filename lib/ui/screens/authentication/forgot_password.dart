@@ -1,3 +1,7 @@
+import 'package:bettymeals/data/api/models/SendOtp.dart';
+import 'package:bettymeals/ui/screens/authentication/widgets/sent_otp.dart';
+import 'package:bettymeals/ui/screens/authentication/widgets/set_password.dart';
+import 'package:bettymeals/ui/screens/set_password.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -23,8 +27,12 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _otpController = TextEditingController();
   final _passwordController = TextEditingController();
   final SharedPreferenceApp sharedPreference = SharedPreferenceApp();
+
+  int stage = 1;
+  late String userId;
 
   @override
   void initState() {
@@ -77,136 +85,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
             BlocListener<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state is AuthLoading) {
-                  Notificatn.showLoading(context, title: 'Loading');
-                }
-                if (state is AuthError) {
-                  Notificatn.showErrorModal(context, errorMsg: state.msg);
-                }
-                if (state is LoginSuccess) {
-                  Notificatn.hideLoading();
-                  SchedulerBinding.instance.addPostFrameCallback((_) {
-                    context.read<TimetableCubit>().getTimeableApi();
-                    context.read<SubCubit>().getSubscription();
-                    context.read<MealCubit>().getAllMeal();
-                  });
+                listener: (context, state) {
+                  if (state is AuthLoading) {
+                    Notificatn.showLoading(context, title: 'Loading');
+                  }
+                  if (state is AuthError) {
+                    Notificatn.showErrorModal(context, errorMsg: state.msg);
+                  }
+                  if (state is SentOTPSuccess) {
+                    Notificatn.hideLoading();
+                    setState(() {
+                      stage = 2;
+                      userId = state.userId;
+                    });
 
-                  Navigator.popAndPushNamed(context, Routes.home);
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.lock,
-                            size: 25,
-                          ),
-                          CustomLayout.mPad.sizedBoxW,
-                          Expanded(
-                            child: Text(
-                              'Login',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                      color: AppColour(context)
-                                          .primaryColour
-                                          .withOpacity(0.7),
-                                      fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      ),
-                      CustomLayout.xlPad.sizedBoxH,
-                      Text('Enter Email',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Email';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomLayout.mPad.sizedBoxH,
-                      Text('Enter Password',
-                          style: Theme.of(context).textTheme.titleMedium),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Password';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomLayout.xlPad.sizedBoxH,
-                      TextButton(
-                        onPressed: () {
-                          // context.read<cs.UserCubit>().sendOtp(widget.email);
-                        },
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                              color: AppColour(context).primaryColour),
-                        ),
-                      ),
-                      CustomLayout.lPad.sizedBoxH,
-                      ElevatedButton(
-                        onPressed: () async {
-                          DeviceUtils.hideKeyboard(context);
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthCubit>().login(
-                                _emailController.text,
-                                _passwordController.text);
-                          }
-                        },
-                        child: const Text('Login'),
-                      ),
-                      CustomLayout.lPad.sizedBoxH,
-                      Center(
-                        child: SizedBox(
-                          height: CommonUtils.sh(context, s: 0.4),
-                          child: GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, Routes.getStarted),
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'No Profile Yet?',
-                                children: [
-                                  TextSpan(
-                                    text: ' Create Now!',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(
-                                          color:
-                                              AppColour(context).primaryColour,
-                                        ),
-                                  )
-                                ],
-                                style: Theme.of(context).textTheme.bodyMedium!,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                    // Navigator.popAndPushNamed(context, Routes.home);
+                  }
+                  if (state is SetPasswordSuccess) {
+                    Notificatn.hideLoading();
+                    Notificatn.showSuccessToast(context,
+                        msg: 'Password Set Successfully');
+
+                    Navigator.popAndPushNamed(context, Routes.loginScreen);
+                  }
+                },
+                child: stage == 1
+                    ? SendOtpScreen(_emailController, _formKey)
+                    : SetPasswordWidget(
+                        _otpController, _passwordController, userId, _formKey)),
           ],
         ),
       ),

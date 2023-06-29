@@ -16,32 +16,34 @@ class UpdateProfile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(
               horizontal: CommonUtils.padding, vertical: 6),
-              margin: EdgeInsets.only(bottom: 10),
+          margin: EdgeInsets.only(bottom: 10, top: 10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black.withOpacity(0.4)),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
-          child: Row(children: [
-            Icon(Icons.notification_important),
-            CustomLayout.lPad.sizedBoxW,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Your profile is 30% completed',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  'Update your profile',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                ),
-              ],
-            )
-          ],),
+          child: Row(
+            children: [
+              Icon(Icons.notification_important),
+              CustomLayout.lPad.sizedBoxW,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Your profile is 30% completed',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    'Update your profile',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

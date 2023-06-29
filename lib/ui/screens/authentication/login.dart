@@ -163,6 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextButton(
                           onPressed: () {
                             // context.read<cs.UserCubit>().sendOtp(widget.email);
+                            Navigator.pushNamed(
+                                context, Routes.forgotPasswordScreen);
                           },
                           child: Text(
                             'Forgot Password?',

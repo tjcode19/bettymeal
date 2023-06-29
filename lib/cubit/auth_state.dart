@@ -22,6 +22,15 @@ class AuthError extends AuthState {
 
 class LoginSuccess extends AuthState {}
 
+class SetPasswordSuccess extends AuthState {}
 
+class SentOTPSuccess extends AuthState {
+  const SentOTPSuccess(this.userId);
+  final String userId;
+
+  @override
+  List<Object> get props => [userId];
+
+}
 
 class ChangePasswordSuccess extends AuthState {}

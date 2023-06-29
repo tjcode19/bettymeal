@@ -1,4 +1,5 @@
 import 'package:bettymeals/ui/screens/addmeal.dart';
+import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
@@ -36,6 +37,7 @@ class Routes {
   static const String plans = '/plans';
   static const String loginScreen = '/login-screen';
   static const String aboutScreen = '/about-screen';
+  static const String forgotPasswordScreen = '/forgot-password-screen';
   static const String profileScreen = '/profile-screen';
   static const String paymentScreen = '/payment-screen';
   static const String changePasswordScreen = '/change-password-screen';
@@ -106,6 +108,8 @@ class Routes {
         );
       case loginScreen:
         return SlideLeftRoute(page: LoginScreen());
+      case forgotPasswordScreen:
+        return SlideLeftRoute(page: ForgotPasswordScreen());
       case aboutScreen:
         return MaterialPageRoute(
           builder: (_) => AboutScreen(),

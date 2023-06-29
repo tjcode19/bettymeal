@@ -126,118 +126,122 @@ class _MealDetailsState extends State<MealDetails> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
+          Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomLayout.lPad.sizedBoxH,
-                  Text(
-                    'Description',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${widget.meal.description}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.justify,
-                  ),
-                  CustomLayout.lPad.sizedBoxH,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Complementary Meals',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            for (String a in widget.meal.extra!)
-                              FeatureText(
-                                a,
-                                iconColor: AppColour(context)
-                                    .secondaryColour
-                                    .withOpacity(0.6),
-                              ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomLayout.lPad.sizedBoxH,
+                    Text(
+                      'Description',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${widget.meal.description}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.justify,
+                    ),
+                    CustomLayout.lPad.sizedBoxH,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                'Nutrients',
+                                'Complementary Meals',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
-                              for (String a in widget.meal.nutrients!)
-                                Text(a,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall),
+                              for (String a in widget.meal.extra!)
+                                FeatureText(
+                                  a,
+                                  iconColor: AppColour(context)
+                                      .secondaryColour
+                                      .withOpacity(0.6),
+                                ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  CustomLayout.lPad.sizedBoxH,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Ingredients',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            Wrap(
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                Text(
+                                  'Nutrients',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
                                 for (String a in widget.meal.nutrients!)
-                                  Chip(label: Text(a))
+                                  Text(a,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall),
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  CustomLayout.mPad.sizedBoxH,
-                  Center(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.stepbystepScreen,
-                            arguments: "");
-                      },
-                      style: OutlinedButton.styleFrom(
-                        side:
-                            BorderSide(color: AppColour(context).primaryColour),
-                      ),
-                      child: const Text('Step-By-Step Guide'),
+                      ],
                     ),
-                  )
-                ],
+                    CustomLayout.lPad.sizedBoxH,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Ingredients',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                children: [
+                                  for (String a in widget.meal.nutrients!)
+                                    Chip(label: Text(a))
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomLayout.mPad.sizedBoxH,
+                    Center(
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.stepbystepScreen,
+                              arguments: "");
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                              color: AppColour(context).primaryColour),
+                        ),
+                        child: const Text('Step-By-Step Guide'),
+                      ),
+                    ),
+                    CustomLayout.mPad.sizedBoxH,
+                  ],
+                ),
               ),
             ),
           ),

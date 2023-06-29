@@ -1,12 +1,9 @@
 import 'dart:developer';
 
-import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../data/api/models/GetUserDetails.dart';
 import '../data/api/models/LoginResponse.dart';
-import '../data/api/network_check.dart';
 import '../data/api/repositories/authRepo.dart';
 import '../data/api/repositories/userRepo.dart';
 import '../data/shared_preference.dart';
@@ -41,6 +38,38 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  sendOtp(email) async {
+    emit(AuthLoading());
+    try {
+      final cal = await authRepository.sendOtp(email);
+
+      inspect(cal);
+
+      if (cal.code != '000') {
+        emit(AuthError(cal.message!));
+      } else {
+        emit(SentOTPSuccess(cal.data!.userId!));
+      }
+    } catch (e) {
+      emit(AuthError("Error Occured at SendOTP"));
+    }
+  }
+
+  setPassword(password, userId, otp) async {
+    emit(AuthLoading());
+    try {
+      final cal = await authRepository.setPassword(password, userId, otp);
+      if (cal.code != '000') {
+        emit(AuthError(cal.message!));
+      } else {
+        emit(SetPasswordSuccess());
+      }
+    } catch (e) {
+      emit(AuthError(
+          "Something went wrong and we are working to correct it. Thank you. $e"));
+    }
+  }
+
   setPrefValues(LoginData? d) {
     sharedPreference.setData(
         sharedType: SpDataType.bool,
@@ -66,8 +95,6 @@ class AuthCubit extends Cubit<AuthState> {
     sharedPreference.setData(
         sharedType: SpDataType.String, fieldName: 'email', fieldValue: "");
   }
-
-  
 
   changePassword(oldPass, newPass) async {
     emit(AuthLoading());
