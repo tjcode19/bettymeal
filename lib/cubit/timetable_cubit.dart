@@ -208,12 +208,29 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
+  regenrateTimeableApi(id) async {
+    emit(TimetableLoading());
+    try {
+      final cal = await apiRepo.regenerateTimetable(id);
+
+      if (cal.code != '000') {
+        emit(TimetableError(errorMessage: cal.message!));
+      } else {
+        getTimeableApi();
+        // emit(TimetableSuccess());
+      }
+    } catch (e) {
+      emit(TimetableError(errorMessage: "Error Occured"));
+      print(e);
+    }
+  }
+
   getRecords(data) {
     emit(GetRecordSuccess(data));
   }
 
   getTimeableApi() async {
-    emit(TimetableLoading());
+    // emit(TimetableLoading());
     try {
       final cal = await apiRepo.getTimetable();
       if (cal.code != '000') {

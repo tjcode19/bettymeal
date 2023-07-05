@@ -14,13 +14,14 @@ import 'active_plan_card.dart';
 
 class ExistingUserWidget extends StatefulWidget {
   const ExistingUserWidget(
-      this.name, this.isActiveSub, this.activeSub, this.shuffle,
+      this.name, this.isActiveSub, this.activeSub, this.shuffle, this.regenerate,
       {super.key});
 
   final String name;
   final bool isActiveSub;
   final List<ActiveSub>? activeSub;
   final int shuffle;
+  final int regenerate;
 
   @override
   State<ExistingUserWidget> createState() => _ExistingUserWidgetState();
@@ -51,7 +52,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                 ? Column(
                     children: [
                       CustomLayout.mPad.sizedBoxH,
-                      ActivePlanCard(widget.activeSub![0], widget.shuffle),
+                      ActivePlanCard(widget.activeSub![0], widget.shuffle, widget.regenerate),
                       CustomLayout.lPad.sizedBoxH,
                       Container(
                         constraints: const BoxConstraints(
@@ -171,7 +172,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                   itemBuilder: (context, index) {
                     List<Meals> t = tVal[_selected].meals!;
                     return SizedBox(
-                      width: CommonUtils.sw(context, s: .6),
+                      width: CommonUtils.sw(context, s: 0.6),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),

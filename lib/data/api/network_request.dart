@@ -14,7 +14,7 @@ import '../shared_preference.dart';
 // import 'CustomException.dart';
 
 class NetworkRequest {
-  final String _baseUrl = "https://mealbleapi-staging.up.railway.app/";
+  final String _baseUrl = "https://mealbleapi-58d2.onrender.com/";
 
   final SharedPreferenceApp? _sharedPreferenceQS = SharedPreferenceApp();
 

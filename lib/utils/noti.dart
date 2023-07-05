@@ -46,7 +46,7 @@ class Notificatn {
       {errorMsg = 'Error occured',
       toastPosition = EasyLoadingToastPosition.top}) {
     EasyLoading.instance
-      ..backgroundColor = AppColour(context).primaryColour.withOpacity(0.3);
+      ..backgroundColor = AppColour(context).errorColor;
     EasyLoading.instance
       ..maskColor = AppColour(context).primaryColour.withOpacity(0.3);
 

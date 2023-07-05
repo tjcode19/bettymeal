@@ -49,28 +49,34 @@ class FoodCardHead extends StatelessWidget {
         //   },
         // );
       },
-      child: Container(
-        padding: const EdgeInsets.all(2),
-        margin: const EdgeInsets.all(5),
-        child: Column(
-          children: [
-            // Image(
-            //   image: Svg('assets/icons/meal.svg',
-            //       color: Colors.white, size: Size(sizeW, sizeW)),
-            // ),
-            SvgPicture.asset('assets/icons/food-icon-w.svg',
-                colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                semanticsLabel: 'Meal'),
-            Text(
-              mealType,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: AppColour(context).onPrimaryColour),
-            ),
-          ],
-        ),
-      ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        double iconSize = constraints.maxHeight * 0.5;
+        double textSize = constraints.maxHeight * 0.15;
+
+        return Container(
+          padding: const EdgeInsets.all(2),
+          margin: const EdgeInsets.all(5),
+          child: Column(
+            children: [
+              // Image(
+              //   image: Svg('assets/icons/meal.svg',
+              //       color: Colors.white, size: Size(sizeW, sizeW)),
+              // ),
+              SvgPicture.asset('assets/icons/food-icon-w.svg',
+                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  height: iconSize,
+                  semanticsLabel: 'Meal'),
+
+              Text(
+                mealType,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: AppColour(context).onPrimaryColour,
+                    fontSize: textSize),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

@@ -26,13 +26,12 @@ class DashboardCubit extends Cubit<DashboardState> {
       } else {
         bool onSub = false;
         int? shuffle;
+        int? regenerate;
         int l = cal.data?.activeSub!.length ?? 0;
         if (l > 0) {
           onSub = true;
-          final gh = cal.data?.activeSub!.first.timetable!.length ?? 0;
-          shuffle = gh <= 7
-              ? cal.data!.activeSub![0].sub!.period!.week!.shuffle
-              : cal.data!.activeSub![0].sub!.period?.month?.shuffle;
+          shuffle = cal.data?.activeSub!.first.subData!.shuffle;
+          regenerate = cal.data?.activeSub!.first.subData!.regenerate;
         }
 
         sharedPreference.setData(
@@ -40,7 +39,7 @@ class DashboardCubit extends Cubit<DashboardState> {
             fieldName: 'userData',
             fieldValue: cal.data);
 
-        emit(LoadDashboard(cal.data!, onSub, shuffle ?? 0));
+        emit(LoadDashboard(cal.data!, onSub, shuffle ?? 0, regenerate ?? 0));
       }
     } catch (e) {
       print(e);

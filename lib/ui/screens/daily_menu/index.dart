@@ -43,6 +43,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
           bool isFreshUser = false;
           String subId = '';
           late int shuffle;
+          late int regenerate;
           var subInfo;
 
           if (state is LoadDashboard) {
@@ -55,6 +56,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
             isFreshUser = state.data.isFreshUser!;
             subInfo = state.data.activeSub;
             shuffle = state.shuffle;
+            regenerate = state.regenerate;
           }
 
           return Column(
@@ -140,7 +142,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 )
               else if (state is LoadDashboard)
                 if (!isFreshUser)
-                  ExistingUserWidget(name, isActiveSub, subInfo, shuffle)
+                  ExistingUserWidget(name, isActiveSub, subInfo, shuffle, regenerate)
                 else
                   NewUserWidget(name)
             ],

@@ -29,6 +29,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   int duration = 0;
   int price = 0;
+  late String planPeriodId;
 
   bool _isMonth = true;
   bool _isSuccess = false;
@@ -40,9 +41,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       if (_isMonth) {
         price = widget.plan.period!.month!.price!;
         duration = widget.plan.period!.month!.duration!;
+        planPeriodId = widget.plan.period!.month!.id!;
       } else {
         price = widget.plan.period!.week!.price!;
         duration = widget.plan.period!.week!.duration!;
+        planPeriodId = widget.plan.period!.week!.id!;
       }
     });
   }
@@ -172,7 +175,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         context
                                             .read<TimetableCubit>()
                                             .generateTimeableApi(
-                                                widget.plan.sId, duration);
+                                                widget.plan.sId, planPeriodId);
                                       } else {
                                         showDialog(
                                           context: context,
@@ -190,7 +193,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 ),
                                                 TextButton(
                                                   child: Text('Pay Now'),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                    context
+                                                        .read<TimetableCubit>()
+                                                        .generateTimeableApi(
+                                                            widget.plan.sId,
+                                                            planPeriodId);
+                                                  },
                                                 ),
                                               ],
                                             );

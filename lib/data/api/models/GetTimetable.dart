@@ -1,4 +1,5 @@
-import 'GetSubscription.dart';
+import 'package:bettymeals/data/api/models/GetSubscription.dart';
+
 import 'MealResponse.dart';
 
 class GetTimetable {
@@ -36,6 +37,7 @@ class GetTimetableData {
   String? startDate;
   String? endDate;
   bool? active;
+  SubData? subData;
   SubscriptionData? sub;
   List<Timetable>? timetable;
   int? iV;
@@ -46,6 +48,7 @@ class GetTimetableData {
       this.startDate,
       this.endDate,
       this.active,
+      this.subData,
       this.sub,
       this.timetable,
       this.iV});
@@ -56,7 +59,10 @@ class GetTimetableData {
     startDate = json['startDate'];
     endDate = json['endDate'];
     active = json['active'];
-    sub = json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
+    subData =
+        json['subData'] != null ? new SubData.fromJson(json['subData']) : null;
+    sub =
+        json['sub'] != null ? new SubscriptionData.fromJson(json['sub']) : null;
     if (json['timetable'] != null) {
       timetable = <Timetable>[];
       json['timetable'].forEach((v) {
@@ -73,6 +79,9 @@ class GetTimetableData {
     data['startDate'] = this.startDate;
     data['endDate'] = this.endDate;
     data['active'] = this.active;
+    if (this.subData != null) {
+      data['subData'] = this.subData!.toJson();
+    }
     if (this.sub != null) {
       data['sub'] = this.sub!.toJson();
     }
@@ -84,7 +93,30 @@ class GetTimetableData {
   }
 }
 
+class SubData {
+  int? shuffle;
+  int? regenerate;
+  int? period;
+  String? sId;
 
+  SubData({this.shuffle, this.regenerate, this.period, this.sId});
+
+  SubData.fromJson(Map<String, dynamic> json) {
+    shuffle = json['shuffle'];
+    regenerate = json['regenerate'];
+    period = json['period'];
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['shuffle'] = this.shuffle;
+    data['regenerate'] = this.regenerate;
+    data['period'] = this.period;
+    data['_id'] = this.sId;
+    return data;
+  }
+}
 
 class Timetable {
   String? day;
@@ -141,3 +173,5 @@ class Meals {
     return data;
   }
 }
+
+

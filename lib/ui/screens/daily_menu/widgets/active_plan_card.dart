@@ -8,15 +8,16 @@ import '../../../../utils/enums.dart';
 import '../../../../utils/helper.dart';
 
 class ActivePlanCard extends StatelessWidget {
-  const ActivePlanCard(this.plan, this.shuffle, {super.key});
+  const ActivePlanCard(this.plan, this.shuffle, this.regenerate, {super.key});
 
   final ActiveSub plan;
   final int shuffle;
+  final int regenerate;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.plans, arguments: ""),
+      onTap: (){},
       child: Container(
         width: CommonUtils.sw(context, s: 1),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
@@ -69,17 +70,75 @@ class ActivePlanCard extends StatelessWidget {
                     ),
                   ),
                   CustomLayout.sPad.sizedBoxH,
-                  Text(
-                    'Shuffle',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.white.withOpacity(0.7), fontSize: 12.0),
-                  ),
-                  Text(
-                    '$shuffle Credits',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          color: Colors.white,
+                  Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: 'Shuffle \n',
+                          children: [
+                            TextSpan(
+                              text: '$shuffle Melz',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
+                            )
+                          ],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 12.0),
                         ),
-                  )
+                      ),
+                      SizedBox(
+                        height: 25,
+                        child: VerticalDivider(
+                          color: Colors.white,
+                          thickness: 2,
+                          indent: 5,
+                          endIndent: 0,
+                          width: 20,
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Regenerate \n',
+                          children: [
+                            TextSpan(
+                              text: '$regenerate Melz',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
+                            )
+                          ],
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontSize: 12.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Text(
+                  //   'Shuffle',
+                  //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  //       color: Colors.white.withOpacity(0.7), fontSize: 12.0),
+                  // ),
+                  // Text(
+                  //   '$shuffle Credits',
+                  //   style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  //         color: Colors.white,
+                  //       ),
+                  // )
                 ],
               ),
             ),

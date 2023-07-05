@@ -16,16 +16,19 @@ class LoadDashboard extends DashboardState {
     this.data,
     this.isActiveSub,
     this.shuffle,
+    this.regenerate
   );
 
   final UserData data;
   final bool isActiveSub;
   final int shuffle;
+  final int regenerate;
 
   @override
   List<Object> get props => [
         data,
         isActiveSub,
-        shuffle
+        shuffle,
+        regenerate
       ];
 }

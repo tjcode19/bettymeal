@@ -98,23 +98,29 @@ class Period {
 }
 
 class Week {
+  String? id;
   int? duration;
   int? price;
   int? shuffle;
+  int? regenerate;
 
-  Week({this.duration, this.price, this.shuffle});
+  Week({this.id, this.duration, this.price, this.shuffle, this.regenerate});
 
   Week.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     duration = json['duration'];
     price = json['price'];
     shuffle = json['shuffle'];
+    regenerate = json['regenerate'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['duration'] = this.duration;
     data['price'] = this.price;
     data['shuffle'] = this.shuffle;
+    data['regenerate'] = this.regenerate;
     return data;
   }
 }

@@ -3,9 +3,11 @@ import 'package:bettymeals/cubit/store_cubit.dart';
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/api/models/GetTimetable.dart';
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
 import '../../widgets/time_table.dart';
@@ -20,17 +22,20 @@ class MealTableScreen extends StatefulWidget {
 class _MealTableScreenState extends State<MealTableScreen> {
   String tableId = "";
   ScrollController _scrollController = ScrollController();
+  List<GetTimetableData> meal = [];
 
   int shuffle = 0;
+  int regenerate = 0;
   bool firstTime = true;
   bool isEnd = false;
+  bool isShuffleBtnClicked = false;
+  bool isRegenerateBtnClicked = false;
   bool _showRightButton = true, _showLeftButton = false;
 
   double currentPos = 0.1;
   late double maxPoint;
 
   void animateNow(pos) {
-    print('The $pos');
     setState(() {
       if (isEnd) {
         if (pos < currentPos) {
@@ -59,7 +64,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
-        debugPrint("reach the end");
         isEnd = true;
         _showRightButton = false;
         currentPos = _scrollController.position.maxScrollExtent;
@@ -69,7 +73,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
             _scrollController.position.minScrollExtent &&
         !_scrollController.position.outOfRange) {
       setState(() {
-        debugPrint("reach the start");
         _showLeftButton = false;
       });
     }
@@ -126,146 +129,32 @@ class _MealTableScreenState extends State<MealTableScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BlocBuilder<TimetableCubit, TimetableState>(
+                  BlocConsumer<TimetableCubit, TimetableState>(
+                    listenWhen: (previous, current) {
+                      if (current is TimetableError) {
+                        return true;
+                      }
+                      return previous != current;
+                    },
+                    listener: (context, state) {
+                      if (state is GetTableSuccess) {
+                        isRegenerateBtnClicked = false;
+                        isShuffleBtnClicked = false;
+                        context.read<DashboardCubit>().prepareDashboard();
+                      }
+                      if (state is TimetableError) {
+                        isRegenerateBtnClicked = false;
+                        isShuffleBtnClicked = false;
+                        Notificatn.showErrorToast(context,
+                            errorMsg: state.errorMessage);
+                      }
+                    },
                     builder: (context, state) {
-                      if (state is TimetableLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (state is GetTableSuccess) {
+                      if (state is GetTableSuccess) {
                         tableId = state.data[0].sId.toString();
-                        return Column(
-                          children: [
-                            BlocBuilder<DashboardCubit, DashboardState>(
-                                builder: (context, state) {
-                              if (state is LoadDashboard) {
-                                // setState(() {
-                                shuffle = state.shuffle;
-                                // });
-                              }
-
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('You have '),
-                                  CircleAvatar(
-                                    child: Text(shuffle.toString()),
-                                  ),
-                                  CustomLayout.mPad.sizedBoxW,
-                                  Expanded(
-                                    child: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            color: Colors.black87),
-                                        text: '',
-                                        children: [
-                                          TextSpan(
-                                            text: 'Shuffle ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(
-                                                    color: AppColour(context)
-                                                        .primaryColour),
-                                          ),
-                                          TextSpan(
-                                            text: 'credit left',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              );
-                            }),
-                            CustomLayout.lPad.sizedBoxH,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Visibility(
-                                  visible: _showLeftButton,
-                                  child: InkWell(
-                                    onTap: () {
-                                      var pos = currentPos - 70;
-                                      animateNow(pos);
-                                    },
-                                    child: Icon(
-                                      Icons.arrow_circle_left_outlined,
-                                      size: 30,
-                                    ),
-                                  ),
-                                ),
-                                Text('Scroll right or left'),
-                                Visibility(
-                                  visible: _showRightButton,
-                                  child: InkWell(
-                                    onTap: () {
-                                      var pos = currentPos + 70;
-                                      animateNow(pos);
-                                    },
-                                    child: Icon(
-                                      Icons.arrow_circle_right_outlined,
-                                      size: 30,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            CustomLayout.mPad.sizedBoxH,
-                            TimeTable(
-                              _scrollController,
-                              key: const ValueKey("time_table"),
-                              meals: state.data[0],
-                            ),
-                            CustomLayout.lPad.sizedBoxH,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(Icons.info_outline),
-                                CustomLayout.mPad.sizedBoxW,
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.black87),
-                                      text: '',
-                                      children: [
-                                        TextSpan(
-                                          text: 'Tap ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(
-                                                  color: AppColour(context)
-                                                      .secondaryColour),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              'on any meal to see more details ',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            CustomLayout.mPad.sizedBoxH,
-                            OutlinedButton(
-                              onPressed: () {
-                                context
-                                    .read<TimetableCubit>()
-                                    .shuffleTimeableApi(tableId);
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                    color: AppColour(context).primaryColour),
-                              ),
-                              child: const Text('Shuffle MealTable'),
-                            )
-                          ],
-                        );
+                        meal = state.data;
+                        shuffle = state.data[0].subData!.shuffle!;
+                        regenerate = state.data[0].subData!.regenerate!;
                       } else if (state is NoSubSuccess) {
                         return Column(
                           children: [
@@ -279,17 +168,231 @@ class _MealTableScreenState extends State<MealTableScreen> {
                             ),
                           ],
                         );
-                      } else {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.notification_important),
-                            const Center(
-                              child: Text('Failed to load meals.'),
-                            ),
-                          ],
-                        );
                       }
+
+                      // else {
+                      //   return Column(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Icon(Icons.notification_important),
+                      //       const Center(
+                      //         child: Text('Failed to load meals.'),
+                      //       ),
+                      //     ],
+                      //   );
+                      // }
+
+                      return Column(
+                        children: [
+                          // if (state is TimetableLoading)
+                          //   const Center(
+                          //     child: CircularProgressIndicator(),
+                          //   ),
+                          // if (state is GetTableSuccess)
+                          Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(CommonUtils.spadding),
+                                decoration: BoxDecoration(
+                                    color: AppColour(context)
+                                        .primaryColour
+                                        .withOpacity(0.1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12))),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.info_outline),
+                                    CustomLayout.mPad.sizedBoxW,
+                                    Expanded(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                              color: Colors.black87),
+                                          text: '',
+                                          children: [
+                                            TextSpan(
+                                              text: 'Tap ',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(
+                                                      color: AppColour(context)
+                                                          .secondaryColour),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  'on any meal to see more details ',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              CustomLayout.lPad.sizedBoxH,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Visibility(
+                                    visible: _showLeftButton,
+                                    child: InkWell(
+                                      onTap: () {
+                                        var pos = currentPos - 70;
+                                        animateNow(pos);
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_circle_left_outlined,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  Text('Scroll right or left'),
+                                  Visibility(
+                                    visible: _showRightButton,
+                                    child: InkWell(
+                                      onTap: () {
+                                        var pos = currentPos + 70;
+                                        animateNow(pos);
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_circle_right_outlined,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              CustomLayout.mPad.sizedBoxH,
+                              if (meal.length > 0)
+                                TimeTable(
+                                  _scrollController,
+                                  key: const ValueKey("time_table"),
+                                  meals: meal[0],
+                                ),
+                              CustomLayout.mPad.sizedBoxH,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: !isShuffleBtnClicked &&
+                                              shuffle > 0
+                                          ? () {
+                                              setState(() {
+                                                isShuffleBtnClicked = true;
+                                              });
+                                              context
+                                                  .read<TimetableCubit>()
+                                                  .shuffleTimeableApi(tableId);
+                                            }
+                                          : null,
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: AppColour(context)
+                                                .primaryColour),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text('Shuffle'),
+                                          Container(
+                                            margin: EdgeInsets.all(6),
+                                            padding: EdgeInsets.all(6),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColour(context)
+                                                  .primaryColour,
+                                            ),
+                                            child: isShuffleBtnClicked
+                                                ? SizedBox(
+                                                    width: 10,
+                                                    height: 10,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                      color: AppColour(context)
+                                                          .onPrimaryColour,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    shuffle.toString(),
+                                                    style: TextStyle(
+                                                        color: AppColour(
+                                                                context)
+                                                            .onPrimaryColour),
+                                                  ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  CustomLayout.lPad.sizedBoxW,
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: !isRegenerateBtnClicked &&
+                                              regenerate > 0
+                                          ? () {
+                                              setState(() {
+                                                isRegenerateBtnClicked = true;
+                                              });
+                                              context
+                                                  .read<TimetableCubit>()
+                                                  .regenrateTimeableApi(
+                                                      tableId);
+                                            }
+                                          : null,
+                                      style: OutlinedButton.styleFrom(
+                                          side: BorderSide(
+                                              color: AppColour(context)
+                                                  .primaryColour),
+                                          disabledBackgroundColor:
+                                              AppColour(context)
+                                                  .primaryColour
+                                                  .withOpacity(0.5)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text('Regenerate'),
+                                          Container(
+                                            margin: EdgeInsets.all(6),
+                                            padding: EdgeInsets.all(6),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColour(context)
+                                                  .onPrimaryColour,
+                                            ),
+                                            child: isRegenerateBtnClicked
+                                                ? SizedBox(
+                                                    width: 10,
+                                                    height: 10,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    regenerate.toString(),
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppColour(context)
+                                                                .primaryColour),
+                                                  ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      );
                     },
                   ),
                 ],

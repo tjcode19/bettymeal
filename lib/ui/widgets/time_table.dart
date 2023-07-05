@@ -7,7 +7,7 @@ import '../../routes.dart';
 class TimeTable extends StatelessWidget {
   const TimeTable(this.scrollController, {required this.meals, super.key});
 
-  final GetTimetableData meals;
+  final GetTimetableData? meals;
   final ScrollController scrollController;
 
   @override
@@ -63,7 +63,7 @@ class TimeTable extends StatelessWidget {
               ),
             ],
           ),
-          for (Timetable d in meals.timetable!)
+          for (Timetable d in meals!.timetable!)
             _tableRow(context,
                 day: d.day,
                 b: d.meals![0].meal,
