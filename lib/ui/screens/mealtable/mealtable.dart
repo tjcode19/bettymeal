@@ -21,16 +21,22 @@ class MealTableScreen extends StatefulWidget {
 
 class _MealTableScreenState extends State<MealTableScreen> {
   String tableId = "";
-  ScrollController _scrollController = ScrollController();
-  List<GetTimetableData> meal = [];
+
+  List<ScrollController> scrollControllers = [];
+
+  final PageController pageController = PageController();
+
+  List<List<Timetable>> meal = [];
 
   int shuffle = 0;
   int regenerate = 0;
+  int weeks = 0;
   bool firstTime = true;
   bool isEnd = false;
   bool isShuffleBtnClicked = false;
   bool isRegenerateBtnClicked = false;
   bool _showRightButton = true, _showLeftButton = false;
+  int selectedWeekIndex = 0;
 
   double currentPos = 0.1;
   late double maxPoint;
@@ -51,7 +57,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
       }
     });
 
-    _scrollController.animateTo(currentPos,
+    scrollControllers[selectedWeekIndex].animateTo(currentPos,
         duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
   }
 
@@ -60,18 +66,19 @@ class _MealTableScreenState extends State<MealTableScreen> {
       _showLeftButton = true;
       _showRightButton = true;
     });
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
+    if (scrollControllers[selectedWeekIndex].offset >=
+            scrollControllers[selectedWeekIndex].position.maxScrollExtent &&
+        !scrollControllers[selectedWeekIndex].position.outOfRange) {
       setState(() {
         isEnd = true;
         _showRightButton = false;
-        currentPos = _scrollController.position.maxScrollExtent;
+        currentPos =
+            scrollControllers[selectedWeekIndex].position.maxScrollExtent;
       });
     }
-    if (_scrollController.offset <=
-            _scrollController.position.minScrollExtent &&
-        !_scrollController.position.outOfRange) {
+    if (scrollControllers[selectedWeekIndex].offset <=
+            scrollControllers[selectedWeekIndex].position.minScrollExtent &&
+        !scrollControllers[selectedWeekIndex].position.outOfRange) {
       setState(() {
         _showLeftButton = false;
       });
@@ -81,7 +88,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
   }
 
   @override
@@ -98,7 +104,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
           actions: [
             IconButton(
               icon: Icon(
-                Icons.store,
+                Icons.local_grocery_store,
                 color: AppColour(context).primaryColour.withOpacity(0.8),
               ),
               tooltip: 'My Store',
@@ -125,7 +131,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Container(
-              padding: EdgeInsets.all(CommonUtils.padding),
+              // padding: EdgeInsets.all(CommonUtils.padding),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,9 +158,17 @@ class _MealTableScreenState extends State<MealTableScreen> {
                     builder: (context, state) {
                       if (state is GetTableSuccess) {
                         tableId = state.data[0].sId.toString();
-                        meal = state.data;
+                        meal = state.dataWeekly;
                         shuffle = state.data[0].subData!.shuffle!;
                         regenerate = state.data[0].subData!.regenerate!;
+
+                        weeks = meal.length;
+
+                        for (int i = 0; i < weeks; i++) {
+                          ScrollController scrollController =
+                              ScrollController();
+                          scrollControllers.add(scrollController);
+                        }
                       } else if (state is NoSubSuccess) {
                         return Column(
                           children: [
@@ -184,213 +198,333 @@ class _MealTableScreenState extends State<MealTableScreen> {
 
                       return Column(
                         children: [
-                          // if (state is TimetableLoading)
-                          //   const Center(
-                          //     child: CircularProgressIndicator(),
-                          //   ),
-                          // if (state is GetTableSuccess)
-                          Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(CommonUtils.spadding),
-                                decoration: BoxDecoration(
-                                    color: AppColour(context)
-                                        .primaryColour
-                                        .withOpacity(0.1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12))),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.info_outline),
-                                    CustomLayout.mPad.sizedBoxW,
-                                    Expanded(
-                                      child: RichText(
-                                        text: TextSpan(
-                                          style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              color: Colors.black87),
-                                          text: '',
-                                          children: [
-                                            TextSpan(
-                                              text: 'Tap ',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge!
-                                                  .copyWith(
-                                                      color: AppColour(context)
-                                                          .secondaryColour),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  'on any meal to see more details ',
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                          Container(
+                            width: CommonUtils.sw(context),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: CommonUtils.padding,
+                                vertical: CommonUtils.spadding),
+                            decoration: BoxDecoration(
+                              color: AppColour(context).onPrimaryColour,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
                               ),
-                              CustomLayout.lPad.sizedBoxH,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Visibility(
-                                    visible: _showLeftButton,
-                                    child: InkWell(
-                                      onTap: () {
-                                        var pos = currentPos - 70;
-                                        animateNow(pos);
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_circle_left_outlined,
-                                        size: 30,
-                                      ),
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: -10,
+                                  right: -2,
+                                  child: Transform.rotate(
+                                    angle: -20 * 0.0174533,
+                                    child: Icon(
+                                      Icons.info_outline,
+                                      color: AppColour(context)
+                                          .secondaryColour
+                                          .withOpacity(0.2),
+                                      size: 80,
                                     ),
                                   ),
-                                  Text('Scroll right or left'),
-                                  Visibility(
-                                    visible: _showRightButton,
-                                    child: InkWell(
-                                      onTap: () {
-                                        var pos = currentPos + 70;
-                                        animateNow(pos);
-                                      },
-                                      child: Icon(
-                                        Icons.arrow_circle_right_outlined,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              CustomLayout.mPad.sizedBoxH,
-                              if (meal.length > 0)
-                                TimeTable(
-                                  _scrollController,
-                                  key: const ValueKey("time_table"),
-                                  meals: meal[0],
                                 ),
-                              CustomLayout.mPad.sizedBoxH,
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: OutlinedButton(
-                                      onPressed: !isShuffleBtnClicked &&
-                                              shuffle > 0
-                                          ? () {
-                                              setState(() {
-                                                isShuffleBtnClicked = true;
-                                              });
-                                              context
-                                                  .read<TimetableCubit>()
-                                                  .shuffleTimeableApi(tableId);
-                                            }
-                                          : null,
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
+                                Padding(
+                                  padding: EdgeInsets.all(CommonUtils.spadding),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black87),
+                                      text: '* ',
+                                      children: [
+                                        TextSpan(
+                                          text: 'Tap ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                  color: AppColour(context)
+                                                      .secondaryColour),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              'on any meal to see more details ',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CustomLayout.sPad.sizedBoxH,
+                          Container(
+                            alignment: Alignment.center,
+                            constraints: const BoxConstraints(
+                              minHeight: 50.0,
+                              maxHeight: 80.0,
+                            ),
+                            color: AppColour(context)
+                                .primaryColour
+                                .withOpacity(0.1),
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, left: CommonUtils.padding),
+                            child: Center(
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: weeks,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedWeekIndex = index;
+                                        // pageController.jumpToPage(index);
+                                        scrollControllers[selectedWeekIndex]
+                                            .addListener(_scrollListener);
+                                      });
+                                      pageController.animateToPage(
+                                        selectedWeekIndex,
+                                        duration: Duration(milliseconds: 900),
+                                        curve: Curves.easeInOut,
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: CommonUtils.spadding),
+                                      margin: EdgeInsets.only(
+                                          right: CommonUtils.xspadding),
+                                      decoration: BoxDecoration(
+                                        // shape: BoxShape.circle,
+                                        color: (selectedWeekIndex != index)
+                                            ? AppColour(context).onPrimaryColour
+                                            : AppColour(context).primaryColour,
+                                        border: Border.all(
+                                            width: 1.0,
                                             color: AppColour(context)
                                                 .primaryColour),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
                                       ),
-                                      child: Row(
+                                      child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const Text('Shuffle'),
-                                          Container(
-                                            margin: EdgeInsets.all(6),
-                                            padding: EdgeInsets.all(6),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColour(context)
-                                                  .primaryColour,
-                                            ),
-                                            child: isShuffleBtnClicked
-                                                ? SizedBox(
-                                                    width: 10,
-                                                    height: 10,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      strokeWidth: 2,
-                                                      color: AppColour(context)
-                                                          .onPrimaryColour,
-                                                    ),
-                                                  )
-                                                : Text(
-                                                    shuffle.toString(),
-                                                    style: TextStyle(
-                                                        color: AppColour(
-                                                                context)
+                                          Text(
+                                            'Week ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    color: (selectedWeekIndex !=
+                                                            index)
+                                                        ? AppColour(context)
+                                                            .primaryColour
+                                                        : AppColour(context)
                                                             .onPrimaryColour),
-                                                  ),
-                                          )
+                                          ),
+                                          Text(
+                                            '${index + 1}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                    color: (selectedWeekIndex !=
+                                                            index)
+                                                        ? AppColour(context)
+                                                            .primaryColour
+                                                        : AppColour(context)
+                                                            .onPrimaryColour,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  CustomLayout.lPad.sizedBoxW,
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: !isRegenerateBtnClicked &&
-                                              regenerate > 0
-                                          ? () {
-                                              setState(() {
-                                                isRegenerateBtnClicked = true;
-                                              });
-                                              context
-                                                  .read<TimetableCubit>()
-                                                  .regenrateTimeableApi(
-                                                      tableId);
-                                            }
-                                          : null,
-                                      style: OutlinedButton.styleFrom(
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          // CustomLayout.lPad.sizedBoxH,
+                          // Row(
+                          //   mainAxisAlignment:
+                          //       MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Visibility(
+                          //       visible: _showLeftButton,
+                          //       child: InkWell(
+                          //         onTap: () {
+                          //           var pos = currentPos - 70;
+                          //           animateNow(pos);
+                          //         },
+                          //         child: Icon(
+                          //           Icons.arrow_circle_left_outlined,
+                          //           size: 30,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Text('Scroll right or left'),
+                          //     Visibility(
+                          //       visible: _showRightButton,
+                          //       child: InkWell(
+                          //         onTap: () {
+                          //           var pos = currentPos + 70;
+                          //           animateNow(pos);
+                          //         },
+                          //         child: Icon(
+                          //           Icons.arrow_circle_right_outlined,
+                          //           size: 30,
+                          //         ),
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
+
+                          CustomLayout.mPad.sizedBoxH,
+                          if (meal.length > 0)
+                            SizedBox(
+                              height: CommonUtils.sh(context, s: 0.5),
+                              child: PageView(
+                                  controller: pageController,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      selectedWeekIndex = index;
+                                    });
+                                  },
+                                  children: [
+                                    for (final element in meal)
+                                      TimeTable(
+                                        scrollControllers[
+                                            meal.indexOf(element)],
+                                        key: ValueKey(
+                                            "time_table ${meal.indexOf(element)}"),
+                                        meals: element,
+                                      ),
+                                  ]),
+                            ),
+                          Padding(
+                            padding: EdgeInsets.all(CommonUtils.padding),
+                            child: Column(
+                              children: [
+                                CustomLayout.mPad.sizedBoxH,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        onPressed: !isShuffleBtnClicked &&
+                                                shuffle > 0
+                                            ? () {
+                                                setState(() {
+                                                  isShuffleBtnClicked = true;
+                                                });
+                                                context
+                                                    .read<TimetableCubit>()
+                                                    .shuffleTimeableApi(
+                                                        tableId);
+                                              }
+                                            : null,
+                                        style: OutlinedButton.styleFrom(
                                           side: BorderSide(
                                               color: AppColour(context)
                                                   .primaryColour),
-                                          disabledBackgroundColor:
-                                              AppColour(context)
-                                                  .primaryColour
-                                                  .withOpacity(0.5)),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Text('Regenerate'),
-                                          Container(
-                                            margin: EdgeInsets.all(6),
-                                            padding: EdgeInsets.all(6),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColour(context)
-                                                  .onPrimaryColour,
-                                            ),
-                                            child: isRegenerateBtnClicked
-                                                ? SizedBox(
-                                                    width: 10,
-                                                    height: 10,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      strokeWidth: 2,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text('Shuffle'),
+                                            Container(
+                                              margin: EdgeInsets.all(6),
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColour(context)
+                                                    .primaryColour,
+                                              ),
+                                              child: isShuffleBtnClicked
+                                                  ? SizedBox(
+                                                      width: 10,
+                                                      height: 10,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: AppColour(
+                                                                context)
+                                                            .onPrimaryColour,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      shuffle.toString(),
+                                                      style: TextStyle(
+                                                          color: AppColour(
+                                                                  context)
+                                                              .onPrimaryColour),
                                                     ),
-                                                  )
-                                                : Text(
-                                                    regenerate.toString(),
-                                                    style: TextStyle(
-                                                        color:
-                                                            AppColour(context)
-                                                                .primaryColour),
-                                                  ),
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
+                                    CustomLayout.lPad.sizedBoxW,
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: !isRegenerateBtnClicked &&
+                                                regenerate > 0
+                                            ? () {
+                                                setState(() {
+                                                  isRegenerateBtnClicked = true;
+                                                });
+                                                context
+                                                    .read<TimetableCubit>()
+                                                    .regenrateTimeableApi(
+                                                        tableId);
+                                              }
+                                            : null,
+                                        style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: AppColour(context)
+                                                    .primaryColour),
+                                            disabledBackgroundColor:
+                                                AppColour(context)
+                                                    .primaryColour
+                                                    .withOpacity(0.5)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text('Regenerate'),
+                                            Container(
+                                              margin: EdgeInsets.all(6),
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AppColour(context)
+                                                    .onPrimaryColour,
+                                              ),
+                                              child: isRegenerateBtnClicked
+                                                  ? SizedBox(
+                                                      width: 10,
+                                                      height: 10,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      regenerate.toString(),
+                                                      style: TextStyle(
+                                                          color: AppColour(
+                                                                  context)
+                                                              .primaryColour),
+                                                    ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       );
                     },

@@ -3,7 +3,6 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/api/models/GetTimetable.dart';
-import '../../data/api/models/MealResponse.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
 
@@ -23,7 +22,7 @@ class FoodCard extends StatelessWidget {
       // Calculate the height of the container based on the available height
       double containerHeight = availableHeight * 0.6;
       double textSize = (availableHeight * 0.4) * 0.15;
-      debugPrint(containerHeight.toString());
+      
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

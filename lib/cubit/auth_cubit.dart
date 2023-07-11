@@ -34,7 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
     } catch (e) {
       emit(AuthError(
-          "Something went wrong and we are working to correct it. Thank you. $e"));
+          "Something went wrong and we are working to correct it. Thank you."));
     }
   }
 
@@ -42,9 +42,6 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final cal = await authRepository.sendOtp(email);
-
-      inspect(cal);
-
       if (cal.code != '000') {
         emit(AuthError(cal.message!));
       } else {

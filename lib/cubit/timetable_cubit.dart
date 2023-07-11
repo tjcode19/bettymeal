@@ -9,6 +9,7 @@ import 'package:bettymeals/data/local/repositories/food_repository.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/api/models/GetTimetable.dart';
@@ -229,6 +230,50 @@ class TimetableCubit extends Cubit<TimetableState> {
     emit(GetRecordSuccess(data));
   }
 
+  sortTable(List<GetTimetableData> data) {
+    List<List<Timetable>> weeklyTable = [];
+
+    try {
+      List<Timetable> timetable = data[0].timetable!;
+
+      DateTime startDate = DateTime.parse(data[0].startDate!);
+      int startWeekday = startDate.weekday;
+      int daysUntilSaturday = (DateTime.saturday - startWeekday) % 7;
+
+      int i = 0;
+
+      List<Timetable> weekly = [];
+
+      while (i <= timetable.length) {
+        if (daysUntilSaturday >= 0 && i < timetable.length) {
+          weekly.add(timetable[i]);
+          daysUntilSaturday--;
+          i++;
+          continue;
+        }
+        weeklyTable.add(weekly);
+        if (daysUntilSaturday == -1 && i == timetable.length) {
+          break;
+        }
+
+        weekly = [];
+
+        startDate = DateTime.parse(timetable[i].meals![0].date!);
+        startWeekday = startDate.weekday;
+        final endWeekDay = timetable.length - i > 7
+            ? DateTime.saturday
+            : DateTime.parse(data[0].endDate!).weekday;
+        daysUntilSaturday = (endWeekDay - startWeekday) % 7;
+
+        i = i;
+      }
+
+      return weeklyTable.toList();
+    } catch (d) {
+      print(d);
+    }
+  }
+
   getTimeableApi() async {
     // emit(TimetableLoading());
     try {
@@ -247,13 +292,15 @@ class TimetableCubit extends Cubit<TimetableState> {
         ).toList();
 
         if (d.length > 0) {
-          UserCubit().isActiveSub(v: true);
-          emit(GetTableSuccess(d, cal.data!));
+          // UserCubit().isActiveSub(v: true);
+          final dataWeekly = sortTable(cal.data!);
+          emit(GetTableSuccess(d, cal.data!, dataWeekly));
         } else {
           emit(NoSubSuccess(msg: 'You currently do not have any active plan'));
         }
       }
     } catch (e) {
+      print(e);
       emit(TimetableError(errorMessage: "Error Occured"));
     }
   }

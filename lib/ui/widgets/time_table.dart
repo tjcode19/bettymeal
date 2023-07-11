@@ -7,14 +7,14 @@ import '../../routes.dart';
 class TimeTable extends StatelessWidget {
   const TimeTable(this.scrollController, {required this.meals, super.key});
 
-  final GetTimetableData? meals;
+  final List<Timetable> meals;
   final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      controller: scrollController,
+      // controller: scrollController,
       child: Table(
         border: TableBorder.all(
           color: Theme.of(context).primaryColor.withOpacity(0.7),
@@ -63,7 +63,7 @@ class TimeTable extends StatelessWidget {
               ),
             ],
           ),
-          for (Timetable d in meals!.timetable!)
+          for (Timetable d in meals)
             _tableRow(context,
                 day: d.day,
                 b: d.meals![0].meal,

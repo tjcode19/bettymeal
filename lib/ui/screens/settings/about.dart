@@ -34,7 +34,8 @@ class _AboutScreenState extends State<AboutScreen> {
       appBar: PreferredSize(
         preferredSize: const Size(10, 56),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: CommonUtils.spadding, vertical: 0.0),
+          padding: EdgeInsets.symmetric(
+              horizontal: CommonUtils.spadding, vertical: 0.0),
           child: AppBar(
             leadingWidth: 24,
             title: Text(
@@ -47,15 +48,39 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
         ),
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(CommonUtils.padding),
           child: Column(
             children: <Widget>[
               Text(
-                'Edit Profile ' * 245,
+                'Welcome to Mealble, your ultimate meal planning companion! Say goodbye to the hassle of deciding what to eat every day. With Mealble, you can effortlessly plan your meal timetable for a week or even a whole month, ensuring you never have to stress about your daily nutrition needs again.',
                 textAlign: TextAlign.justify,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                    ),
+              ),
+              CustomLayout.sPad.sizedBoxH,
+              Text(
+                'Our app is designed to simplify your meal planning process, allowing you to focus on enjoying delicious and balanced meals. Whether you\'re a busy professional, a health-conscious individual, or someone who simply wants to optimize their eating habits, Mealble has got you covered.',
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                    ),
+              ),
+              CustomLayout.sPad.sizedBoxH,
+              Text(
+                'One of the key features of Mealble is its ability to create a comprehensive meal timetable that covers three square meals a day, along with daily fruit suggestions and snack options. We understand the importance of a balanced diet, and our app provides you with carefully curated meal plans that incorporate a variety of nutrients, flavors, and culinary inspirations.',
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.black.withOpacity(0.7),
+                    ),
+              ),
+              CustomLayout.sPad.sizedBoxH,
+              Text(
+                'Not sure what to cook or feeling adventurous? Mealble\'s shuffle and regenerate feature is here to help. With just a tap, you can shuffle your meal plan to discover exciting new recipes or regenerate your entire timetable for a fresh and diverse culinary experience. No more boring meals or repetitive menus!',
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Colors.black.withOpacity(0.7),
                     ),
               ),
@@ -67,7 +92,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       color: Colors.black.withOpacity(0.3),
                     ),
               )
-      
+
               // Expanded(
               //   child: ListView(
               //     controller: _controller,

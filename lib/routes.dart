@@ -92,10 +92,13 @@ class Routes {
           ),
         );
       case stepbystepScreen:
-        final String t = settings.arguments as String;
+        final t = settings.arguments as List;
+        final List<String> steps = t[0] as List<String>;
+        final String name = t[1] as String;
         return MaterialPageRoute(
           builder: (_) => StepByStepScreen(
-            planId: t,
+            steps: steps,
+            mealName: name,
           ),
         );
       case setPassword:

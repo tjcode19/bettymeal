@@ -30,6 +30,7 @@ class GetAllMeal {
 class MealData {
   String? sId;
   String? name;
+  String? imageUrl;
   List<String>? category;
   String? country;
   String? createdAt;
@@ -37,11 +38,14 @@ class MealData {
   int? iV;
   List<String>? extra;
   List<String>? nutrients;
+  List<String>? ingredients;
+  List<String>? guides;
   String? description;
 
   MealData(
       {this.sId,
       this.name,
+      this.imageUrl,
       this.category,
       this.country,
       this.createdAt,
@@ -49,11 +53,14 @@ class MealData {
       this.iV,
       this.extra,
       this.nutrients,
+      this.ingredients,
+      this.guides,
       this.description});
 
   MealData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
+    imageUrl = json['imageUrl'];
     category = json['category'].cast<String>();
     country = json['country'];
     createdAt = json['createdAt'];
@@ -61,6 +68,8 @@ class MealData {
     iV = json['__v'];
     extra = json['extra'].cast<String>();
     nutrients = json['nutrients'].cast<String>();
+    ingredients = json['ingredients']?.cast<String>();
+    guides = json['guides']?.cast<String>();
     description = json['description'];
   }
 
@@ -68,6 +77,7 @@ class MealData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
+    data['imageUrl'] = this.imageUrl;
     data['category'] = this.category;
     data['country'] = this.country;
     data['createdAt'] = this.createdAt;
@@ -75,6 +85,8 @@ class MealData {
     data['__v'] = this.iV;
     data['extra'] = this.extra;
     data['nutrients'] = this.nutrients;
+    data['ingredients'] = this.ingredients;
+    data['guides'] = this.guides;
     data['description'] = this.description;
     return data;
   }

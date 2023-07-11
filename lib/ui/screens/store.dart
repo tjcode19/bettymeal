@@ -9,6 +9,7 @@ import '../../../cubit/user_cubit.dart';
 import '../../../routes.dart';
 import '../../cubit/store_cubit.dart';
 import '../../utils/device_utils.dart';
+import '../../utils/enums.dart';
 import '../widgets/shimmer_widget.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _StoreScreenState extends State<StoreScreen> {
         backgroundColor: AppColour(context).background,
         titleSpacing: 0.0,
         title: Text(
-          'Store',
+          'Groceries',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
               color: AppColour(context).primaryColour.withOpacity(0.7),
               fontWeight: FontWeight.bold),
@@ -64,16 +65,13 @@ class _StoreScreenState extends State<StoreScreen> {
                   vertical: CommonUtils.xspadding),
               child: RichText(
                 text: TextSpan(
-                  text: 'You should have all these in your ',
+                  text: 'All you will need for the ',
                   children: [
                     TextSpan(
-                      text: 'Pantry ',
+                      text: 'week/month',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: AppColour(context).primaryColour,
                           fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: 'days',
                     )
                   ],
                   style: Theme.of(context)
@@ -106,11 +104,13 @@ class _StoreScreenState extends State<StoreScreen> {
                                     horizontal: CommonUtils.padding,
                                     vertical: 8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(state
                                         .data[index].mealItem!.meal!.name!),
-                                    Text('X ${state.data[index].count.toString()}'),
+                                    Text(
+                                        'X ${state.data[index].count.toString()}'),
                                   ],
                                 ),
                               );
@@ -134,6 +134,68 @@ class _StoreScreenState extends State<StoreScreen> {
                     },
                   ),
                 ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(CommonUtils.padding),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                        side:
+                            BorderSide(color: AppColour(context).primaryColour),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Share list'),
+                          Container(
+                            margin: EdgeInsets.all(6),
+                            padding: EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColour(context).primaryColour,
+                            ),
+                            child: Icon(Icons.share,
+                                color: AppColour(context).onPrimaryColour),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  CustomLayout.lPad.sizedBoxW,
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                              color: AppColour(context).primaryColour),
+                          disabledBackgroundColor: AppColour(context)
+                              .primaryColour
+                              .withOpacity(0.5)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Download list'),
+                          Container(
+                            margin: EdgeInsets.all(6),
+                            padding: EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColour(context).onPrimaryColour,
+                            ),
+                            child: Icon(
+                              Icons.download,
+                              color: AppColour(context).primaryColour,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

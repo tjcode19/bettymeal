@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:bettymeals/utils/enums.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
@@ -48,8 +50,8 @@ class _MealDetailsState extends State<MealDetails> {
             decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                  image: NetworkImage(
-                      'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200'),
+                  image: NetworkImage(widget.meal.imageUrl ??
+                      'https://mealbleapi-58d2.onrender.com/uploads/m_647ef648596fb86c11e06814.png'),
                   fit: BoxFit.cover,
                   opacity: 0.5),
               borderRadius: BorderRadius.vertical(
@@ -214,12 +216,15 @@ class _MealDetailsState extends State<MealDetails> {
                                     .bodyLarge!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                children: [
-                                  for (String a in widget.meal.nutrients!)
-                                    Chip(label: Text(a))
-                                ],
-                              )
+                              if (widget.meal.ingredients != null)
+                                Wrap(
+                                  children: [
+                                    for (String a in widget.meal.ingredients!)
+                                      Chip(label: Text(a))
+                                  ],
+                                )
+                              else
+                                Chip(label: Text('Not Provided'))
                             ],
                           ),
                         ),
@@ -229,8 +234,15 @@ class _MealDetailsState extends State<MealDetails> {
                     Center(
                       child: OutlinedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.stepbystepScreen,
-                              arguments: "");
+                          if (widget.meal.guides != null)
+                            Navigator.pushNamed(
+                                context, Routes.stepbystepScreen, arguments: [
+                              widget.meal.guides,
+                              widget.meal.name
+                            ]);
+                          else
+                            Notificatn.showErrorToast(context,
+                                errorMsg: 'Not Provided', toastPosition: EasyLoadingToastPosition.bottom);
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(

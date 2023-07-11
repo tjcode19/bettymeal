@@ -9,9 +9,11 @@ import '../../../utils/device_utils.dart';
 import '../../widgets/shimmer_widget.dart';
 
 class StepByStepScreen extends StatefulWidget {
-  const StepByStepScreen({this.planId, super.key});
+  const StepByStepScreen(
+      {required this.steps, required this.mealName, super.key});
 
-  final String? planId;
+  final List<String> steps;
+  final String mealName;
 
   @override
   State<StepByStepScreen> createState() => _StepByStepScreenState();
@@ -63,16 +65,13 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
                   vertical: CommonUtils.xspadding),
               child: RichText(
                 text: TextSpan(
-                  text: 'You should have all these in your ',
+                  text: 'Step by step guide to preparing  ',
                   children: [
                     TextSpan(
-                      text: 'Pantry ',
+                      text: '${widget.mealName} ',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: AppColour(context).primaryColour,
                           fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                      text: 'days',
                     )
                   ],
                   style: Theme.of(context)
@@ -90,25 +89,35 @@ class _StepByStepScreenState extends State<StepByStepScreen> {
                 onStepCancel: () => makeMove(
                     _currentStep > 0 ? _currentStep - 1 : _currentStep),
                 steps: [
-                  Step(
-                    title: Text('Put 50ml of water in the pot'),
-                    content: Text(
-                      'Put 50ml of water in the pot ' * 10,
-                      textAlign: TextAlign.justify,
-                    ),
-                    state: _currentStep <= 0 ? StepState.editing : StepState.complete,
-                    isActive: _currentStep >= 0
-                  ),
-                  const Step(
-                      title: Text('Address'),
-                      content: Center(
-                        child: Text('Address'),
-                      )),
-                  const Step(
-                      title: Text('Confirm'),
-                      content: Center(
-                        child: Text('Confirm'),
-                      ))
+                  ...widget.steps.map((e) {
+                    int pos = widget.steps.indexOf(e);
+                    return Step(
+                        title: Text(
+                          'Step ${pos + 1}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.bold),
+                        ),
+                        content: Text(
+                          e,
+                          textAlign: TextAlign.justify,
+                        ),
+                        state: _currentStep <= pos
+                            ? StepState.editing
+                            : StepState.complete,
+                        isActive: _currentStep >= pos);
+                  }),
+                  // const Step(
+                  //     title: Text('Address'),
+                  //     content: Center(
+                  //       child: Text('Address'),
+                  //     )),
+                  // const Step(
+                  //     title: Text('Confirm'),
+                  //     content: Center(
+                  //       child: Text('Confirm'),
+                  //     ))
                 ],
               ),
             ),

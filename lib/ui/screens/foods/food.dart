@@ -1,15 +1,11 @@
 import 'package:bettymeals/cubit/meal_cubit.dart';
-import 'package:bettymeals/data/local/models/food.dart';
-import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cubit/food_cubit.dart';
-import '../../../cubit/timetable_cubit.dart';
 import '../../../utils/colours.dart';
-import '../../widgets/timetable.dart';
 
 class FoodScreen extends StatefulWidget {
   const FoodScreen({super.key});
@@ -20,7 +16,6 @@ class FoodScreen extends StatefulWidget {
 
 class _FoodScreenState extends State<FoodScreen>
     with SingleTickerProviderStateMixin {
-  late FoodCubit _foodCubit;
 
   late TabController _tabController;
 

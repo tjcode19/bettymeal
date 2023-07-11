@@ -3,7 +3,6 @@ import 'package:bettymeals/ui/screens/daily_menu/widgets/update_profile.dart';
 import 'package:flutter/material.dart';
 import '../../../../data/api/models/GetTimetable.dart';
 import '../../../../data/api/models/GetUserDetails.dart';
-import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
@@ -13,8 +12,8 @@ import '../../../widgets/food_card.dart';
 import 'active_plan_card.dart';
 
 class ExistingUserWidget extends StatefulWidget {
-  const ExistingUserWidget(
-      this.name, this.isActiveSub, this.activeSub, this.shuffle, this.regenerate,
+  const ExistingUserWidget(this.name, this.isActiveSub, this.activeSub,
+      this.shuffle, this.regenerate,
       {super.key});
 
   final String name;
@@ -29,15 +28,27 @@ class ExistingUserWidget extends StatefulWidget {
 
 class _ExistingUserWidgetState extends State<ExistingUserWidget> {
   ScrollController _scrollController = ScrollController();
+  ScrollController _upScrollController = ScrollController();
   int _selected = 0;
   bool justLaunch = true;
   final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
   late List<Timetable> tVal;
 
+  void _scrollToCurrentDate(pos) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _upScrollController.animateTo(
+        double.parse(pos.toString()), // Adjust the scroll position based on item width
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
   @override
   void initState() {
     tVal = widget.isActiveSub ? widget.activeSub![0].timetable! : [];
     super.initState();
+    _upScrollController.addListener(()=>_scrollToCurrentDate);
   }
 
   @override
@@ -52,7 +63,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                 ? Column(
                     children: [
                       CustomLayout.mPad.sizedBoxH,
-                      ActivePlanCard(widget.activeSub![0], widget.shuffle, widget.regenerate),
+                      ActivePlanCard(widget.activeSub![0], widget.shuffle,
+                          widget.regenerate),
                       CustomLayout.lPad.sizedBoxH,
                       Container(
                         constraints: const BoxConstraints(
@@ -65,6 +77,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: tVal.length,
+                          controller: _upScrollController,
                           itemBuilder: (context, index) {
                             final d = tVal.firstWhere((element) =>
                                 HelperMethod.formatDate(
@@ -72,14 +85,26 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                                 HelperMethod.formatDate(
                                     DateTime.now().toIso8601String()));
 
+                            // WidgetsBinding.instance.addPostFrameCallback((_) {
+                            // _upScrollController.animateTo(
+                            //   index *
+                            //       50.0, // Adjust the scroll position based on item width
+                            //   duration: const Duration(milliseconds: 500),
+                            //   curve: Curves.easeInOut,
+                            // );
+                            // });
+
+                            
+
                             var pos = tVal.indexOf(d);
+                            _scrollToCurrentDate(pos * 40);
                             if (justLaunch) {
                               _selected = pos;
                               justLaunch = false;
                             }
                             return GestureDetector(
                               onTap: () {
-                                _scrollController.animateTo(0.8 * index,
+                                _scrollController.animateTo(0.0,
                                     duration: const Duration(milliseconds: 800),
                                     curve: Curves.bounceOut);
                                 setState(() {
@@ -192,54 +217,52 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomLayout.mPad.sizedBoxH,
-                GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, Routes.profileScreen),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: CommonUtils.padding),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: CommonUtils.padding, vertical: 6),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColour(context)
-                                .primaryColour
-                                .withOpacity(0.5)),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Row(children: [
-                        Icon(Icons.tips_and_updates_outlined),
-                        CustomLayout.lPad.sizedBoxW,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Quick Suggestion',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text(
-                              'Tap to see meal suggestions for lunch',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
-                            ),
-                          ],
-                        )
-                      ]),
-                    ),
-                  ),
-                ),
-                CustomLayout.mPad.sizedBoxH,
+                // GestureDetector(
+                //   onTap: () =>
+                //       Navigator.pushNamed(context, Routes.profileScreen),
+                //   child: Padding(
+                //     padding:
+                //         EdgeInsets.symmetric(horizontal: CommonUtils.padding),
+                //     child: Container(
+                //       padding: EdgeInsets.symmetric(
+                //           horizontal: CommonUtils.padding, vertical: 6),
+                //       decoration: BoxDecoration(
+                //         border: Border.all(
+                //             color: AppColour(context)
+                //                 .primaryColour
+                //                 .withOpacity(0.5)),
+                //         borderRadius: BorderRadius.all(
+                //           Radius.circular(10),
+                //         ),
+                //       ),
+                //       child: Row(children: [
+                //         Icon(Icons.tips_and_updates_outlined),
+                //         CustomLayout.lPad.sizedBoxW,
+                //         Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'Quick Suggestion',
+                //               style: Theme.of(context).textTheme.titleMedium,
+                //             ),
+                //             Text(
+                //               'Tap to see meal suggestions for lunch',
+                //               style: Theme.of(context)
+                //                   .textTheme
+                //                   .bodyMedium!
+                //                   .copyWith(
+                //                     color: Colors.black.withOpacity(0.6),
+                //                   ),
+                //             ),
+                //           ],
+                //         )
+                //       ]),
+                //     ),
+                //   ),
+                // ),
+                // CustomLayout.mPad.sizedBoxH,
                 Container(
-                  // height: CommonUtils.sh(context, s: 0.3),
                   width: CommonUtils.sw(context),
-                  padding: EdgeInsets.all(CommonUtils.padding),
                   margin: EdgeInsets.symmetric(horizontal: CommonUtils.padding),
                   decoration: BoxDecoration(
                     color: AppColour(context).onPrimaryColour,
@@ -247,19 +270,71 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                       Radius.circular(15),
                     ),
                   ),
-
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.all(0.0),
-                    title: Row(children: [
-                      Icon(Icons.tips_and_updates),
-                      CustomLayout.mPad.sizedBoxW,
-                      const Text('Tips')
-                    ]),
-                    subtitle: Text(
-                        'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).'),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        right: -50,
+                        child: Transform.rotate(
+                          angle: -30 * 0.0174533,
+                          child: Icon(
+                            Icons.tips_and_updates_outlined,
+                            color: AppColour(context)
+                                .secondaryColour
+                                .withOpacity(0.1),
+                            size: 150,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(CommonUtils.padding),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(0.0),
+                          dense: false,
+                          title: Row(children: [
+                            // Icon(Icons.tips_and_updates,
+                            //     color: AppColour(context).secondaryColour),
+                            SizedBox(
+                                height: 20,
+                                width: 4,
+                                child: VerticalDivider(
+                                  color: AppColour(context).secondaryColour,
+                                  thickness: 4,
+                                )),
+                            CustomLayout.mPad.sizedBoxW,
+                            Text(
+                              'Today\'s tip',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                    color: AppColour(context)
+                                        .secondaryColour
+                                        .withOpacity(0.7),
+                                  ),
+                            )
+                          ]),
+                          subtitle: Column(
+                            children: [
+                              CustomLayout.mPad.sizedBoxH,
+                              Text(
+                                'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).',
+                                textAlign: TextAlign.justify,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                      color: AppColour(context).secondaryColour,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                CustomLayout.mPad.sizedBoxH,
+                CustomLayout.xxlPad.sizedBoxH,
                 // const SectionTitle(text: 'Popular meals'),
               ],
             ),
