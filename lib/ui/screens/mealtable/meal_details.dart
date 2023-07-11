@@ -234,7 +234,8 @@ class _MealDetailsState extends State<MealDetails> {
                     Center(
                       child: OutlinedButton(
                         onPressed: () {
-                          if (widget.meal.guides != null)
+                          if (widget.meal.guides != null &&
+                              widget.meal.guides!.isNotEmpty)
                             Navigator.pushNamed(
                                 context, Routes.stepbystepScreen, arguments: [
                               widget.meal.guides,
@@ -242,7 +243,8 @@ class _MealDetailsState extends State<MealDetails> {
                             ]);
                           else
                             Notificatn.showErrorToast(context,
-                                errorMsg: 'Not Provided', toastPosition: EasyLoadingToastPosition.bottom);
+                                errorMsg: 'Not Provided',
+                                toastPosition: EasyLoadingToastPosition.bottom);
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(

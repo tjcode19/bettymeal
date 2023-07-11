@@ -40,6 +40,7 @@ class MealData {
   List<String>? nutrients;
   List<String>? ingredients;
   List<String>? guides;
+  List<String>? tribe;
   String? description;
 
   MealData(
@@ -55,6 +56,7 @@ class MealData {
       this.nutrients,
       this.ingredients,
       this.guides,
+      this.tribe,
       this.description});
 
   MealData.fromJson(Map<String, dynamic> json) {
@@ -66,10 +68,11 @@ class MealData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    extra = json['extra'].cast<String>();
-    nutrients = json['nutrients'].cast<String>();
+    extra = json['extra']?.cast<String>();
+    nutrients = json['nutrients']?.cast<String>();
     ingredients = json['ingredients']?.cast<String>();
     guides = json['guides']?.cast<String>();
+    tribe = json['tribe']?.cast<String>();
     description = json['description'];
   }
 
@@ -87,6 +90,7 @@ class MealData {
     data['nutrients'] = this.nutrients;
     data['ingredients'] = this.ingredients;
     data['guides'] = this.guides;
+    data['tribe'] = this.tribe;
     data['description'] = this.description;
     return data;
   }
