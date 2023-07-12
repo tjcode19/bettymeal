@@ -1,12 +1,9 @@
-import 'package:bettymeals/cubit/sub_cubit.dart';
-import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cubit/user_cubit.dart';
-import '../../../routes.dart';
 import '../../cubit/store_cubit.dart';
 import '../../utils/device_utils.dart';
 import '../../utils/enums.dart';
@@ -25,10 +22,7 @@ class _StoreScreenState extends State<StoreScreen> {
   // late final TimetableCubit _timetableCubit;
 
   DateTime currentDate = DateTime.now();
-  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
-  final today = HelperMethod.formatDate(DateTime.now().toIso8601String(),
-      pattern: 'yyyy-MM-dd');
-
+ 
   final List<String> daysOfWeek = HelperMethod.dayOfWeek();
 
   int foodSize = 0;

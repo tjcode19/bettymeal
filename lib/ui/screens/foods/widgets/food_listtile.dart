@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../../data/api/models/MealResponse.dart';
+import '../../../../data/api/network_request.dart';
 import '../../../../routes.dart';
 
 class FoodListTile extends StatelessWidget {
@@ -28,8 +29,8 @@ class FoodListTile extends StatelessWidget {
             color: Colors.black38,
             shape: BoxShape.circle,
             image: DecorationImage(
-                image: NetworkImage(
-                    '${meal.imageUrl}'),
+                image:
+                    NetworkImage('${NetworkRequest.baseUrl}${meal.imageUrl}.png'),
                 fit: BoxFit.cover),
           ),
           child: const SizedBox(

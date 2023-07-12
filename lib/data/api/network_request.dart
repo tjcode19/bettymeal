@@ -14,7 +14,7 @@ import '../shared_preference.dart';
 // import 'CustomException.dart';
 
 class NetworkRequest {
-  final String _baseUrl = "https://mealbleapi-58d2.onrender.com/";
+  static final String baseUrl = "https://mealbleapi-58d2.onrender.com/";
 
   final SharedPreferenceApp? _sharedPreferenceQS = SharedPreferenceApp();
 
@@ -46,7 +46,7 @@ class NetworkRequest {
   Future<dynamic> get(String url) async {
     var responseJson;
     await getTokenPref();
-    final uri = Uri.parse(_baseUrl + url);
+    final uri = Uri.parse(baseUrl + url);
 
     print('the uri GET: $uri');
     try {
@@ -64,7 +64,7 @@ class NetworkRequest {
     var responseJson;
     await getTokenPref();
 
-    final uri = Uri.parse(_baseUrl + url);
+    final uri = Uri.parse(baseUrl + url);
 
     print('the uri: $uri');
 
@@ -84,7 +84,7 @@ class NetworkRequest {
     var responseJson;
     // await getTokenPref();
     var auth = 'Basic ${base64Encode(utf8.encode(authN))}';
-    final uri = Uri.parse(_baseUrl + url);
+    final uri = Uri.parse(baseUrl + url);
     try {
       final response = await http.get(
         uri,
@@ -106,14 +106,14 @@ class NetworkRequest {
     var responseJson;
     await getTokenPref();
     try {
-      final uri = Uri.parse(_baseUrl + url);
+      final uri = Uri.parse(baseUrl + url);
 
       print('the uri: $uri');
       print(jsonEncode(body));
 
       final response = await http
           .post(
-        Uri.parse(_baseUrl + url),
+        Uri.parse(baseUrl + url),
         headers: headers,
         body: jsonEncode(body),
       )
@@ -137,7 +137,7 @@ class NetworkRequest {
     await getTokenPref();
     try {
       final response = await http
-          .post(Uri.parse(_baseUrl + url),
+          .post(Uri.parse(baseUrl + url),
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 "Accept": "application/json",
@@ -165,7 +165,7 @@ class NetworkRequest {
     try {
       final response = await http
           .post(
-        Uri.parse(_baseUrl + url),
+        Uri.parse(baseUrl + url),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           "Accept": "application/json",
@@ -192,7 +192,7 @@ class NetworkRequest {
     try {
       final response = await http
           .put(
-        Uri.parse(_baseUrl + url),
+        Uri.parse(baseUrl + url),
         headers: headers,
         body: jsonEncode(body),
       )
@@ -218,7 +218,7 @@ class NetworkRequest {
        print(jsonEncode(body));
       final response = await http
           .patch(
-        Uri.parse(_baseUrl + url),
+        Uri.parse(baseUrl + url),
         headers: headers,
         body: jsonEncode(body),
       )
@@ -247,7 +247,7 @@ class NetworkRequest {
         lookupMimeType(image.path, headerBytes: [0xFF, 0xD8])!.split('/');
     // Intilize the multipart request
     final imageUploadRequest =
-        http.MultipartRequest(actionType, Uri.parse(_baseUrl + url));
+        http.MultipartRequest(actionType, Uri.parse(baseUrl + url));
     // Attach the file in the request
     final file = await http.MultipartFile.fromPath(docName, image.path,
         contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));

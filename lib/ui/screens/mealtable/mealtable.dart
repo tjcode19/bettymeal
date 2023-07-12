@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/store_cubit.dart';
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/routes.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/api/models/GetTimetable.dart';
@@ -32,57 +36,88 @@ class _MealTableScreenState extends State<MealTableScreen> {
   int regenerate = 0;
   int weeks = 0;
   bool firstTime = true;
-  bool isEnd = false;
+  bool fLoad = true;
+  // bool isEnd = false;
   bool isShuffleBtnClicked = false;
   bool isRegenerateBtnClicked = false;
-  bool _showRightButton = true, _showLeftButton = false;
+  // bool _showRightButton = true, _showLeftButton = false;
   int selectedWeekIndex = 0;
 
   double currentPos = 0.1;
   late double maxPoint;
+  DateTime todayDate = DateTime.now();
 
-  void animateNow(pos) {
-    setState(() {
-      if (isEnd) {
-        if (pos < currentPos) {
-          isEnd = false;
-          currentPos = pos;
-        }
-      } else {
-        if (pos < 50) {
-          currentPos = 0.0;
-        } else {
-          currentPos = pos;
-        }
+  // void animateNow(pos) {
+  //   setState(() {
+  //     if (isEnd) {
+  //       if (pos < currentPos) {
+  //         isEnd = false;
+  //         currentPos = pos;
+  //       }
+  //     } else {
+  //       if (pos < 50) {
+  //         currentPos = 0.0;
+  //       } else {
+  //         currentPos = pos;
+  //       }
+  //     }
+  //   });
+
+  //   scrollControllers[selectedWeekIndex].animateTo(currentPos,
+  //       duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
+  // }
+
+  // _scrollListener() {
+  //   setState(() {
+  //     _showLeftButton = true;
+  //     _showRightButton = true;
+  //   });
+  //   if (scrollControllers[selectedWeekIndex].offset >=
+  //           scrollControllers[selectedWeekIndex].position.maxScrollExtent &&
+  //       !scrollControllers[selectedWeekIndex].position.outOfRange) {
+  //     setState(() {
+  //       isEnd = true;
+  //       _showRightButton = false;
+  //       currentPos =
+  //           scrollControllers[selectedWeekIndex].position.maxScrollExtent;
+  //     });
+  //   }
+  //   if (scrollControllers[selectedWeekIndex].offset <=
+  //           scrollControllers[selectedWeekIndex].position.minScrollExtent &&
+  //       !scrollControllers[selectedWeekIndex].position.outOfRange) {
+  //     setState(() {
+  //       _showLeftButton = false;
+  //     });
+  //   }
+  // }
+
+  currentWeek() {
+    int i = 0;
+
+    while (i < meal.length) {
+      final v = meal[i].map((element) {
+        return HelperMethod.formatDate(
+                DateTime.parse(element.meals!.first.date!).toIso8601String()) ==
+            HelperMethod.formatDate(todayDate.toIso8601String());
+      });
+
+      if (v.contains(true)) {
+        selectedWeekIndex = i;
+
+        log("here:" + selectedWeekIndex.toString());
       }
-    });
 
-    scrollControllers[selectedWeekIndex].animateTo(currentPos,
-        duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
-  }
+      i++;
+    }
 
-  _scrollListener() {
-    setState(() {
-      _showLeftButton = true;
-      _showRightButton = true;
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      pageController.animateToPage(
+        selectedWeekIndex,
+        duration: Duration(milliseconds: 900),
+        curve: Curves.easeInOut,
+      );
     });
-    if (scrollControllers[selectedWeekIndex].offset >=
-            scrollControllers[selectedWeekIndex].position.maxScrollExtent &&
-        !scrollControllers[selectedWeekIndex].position.outOfRange) {
-      setState(() {
-        isEnd = true;
-        _showRightButton = false;
-        currentPos =
-            scrollControllers[selectedWeekIndex].position.maxScrollExtent;
-      });
-    }
-    if (scrollControllers[selectedWeekIndex].offset <=
-            scrollControllers[selectedWeekIndex].position.minScrollExtent &&
-        !scrollControllers[selectedWeekIndex].position.outOfRange) {
-      setState(() {
-        _showLeftButton = false;
-      });
-    }
+    fLoad = false;
   }
 
   @override
@@ -164,11 +199,13 @@ class _MealTableScreenState extends State<MealTableScreen> {
 
                         weeks = meal.length;
 
-                        for (int i = 0; i < weeks; i++) {
-                          ScrollController scrollController =
-                              ScrollController();
-                          scrollControllers.add(scrollController);
-                        }
+                        if (fLoad) currentWeek();
+
+                        // for (int i = 0; i < weeks; i++) {
+                        //   ScrollController scrollController =
+                        //       ScrollController();
+                        //   scrollControllers.add(scrollController);
+                        // }
                       } else if (state is NoSubSuccess) {
                         return Column(
                           children: [
@@ -275,9 +312,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
                                     onTap: () {
                                       setState(() {
                                         selectedWeekIndex = index;
-                                        // pageController.jumpToPage(index);
-                                        scrollControllers[selectedWeekIndex]
-                                            .addListener(_scrollListener);
                                       });
                                       pageController.animateToPage(
                                         selectedWeekIndex,
@@ -392,8 +426,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
                                   children: [
                                     for (final element in meal)
                                       TimeTable(
-                                        scrollControllers[
-                                            meal.indexOf(element)],
                                         key: ValueKey(
                                             "time_table ${meal.indexOf(element)}"),
                                         meals: element,
@@ -407,63 +439,63 @@ class _MealTableScreenState extends State<MealTableScreen> {
                                 CustomLayout.mPad.sizedBoxH,
                                 Row(
                                   children: [
-                                    Expanded(
-                                      child: OutlinedButton(
-                                        onPressed: !isShuffleBtnClicked &&
-                                                shuffle > 0
-                                            ? () {
-                                                setState(() {
-                                                  isShuffleBtnClicked = true;
-                                                });
-                                                context
-                                                    .read<TimetableCubit>()
-                                                    .shuffleTimeableApi(
-                                                        tableId);
-                                              }
-                                            : null,
-                                        style: OutlinedButton.styleFrom(
-                                          side: BorderSide(
-                                              color: AppColour(context)
-                                                  .primaryColour),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Text('Shuffle'),
-                                            Container(
-                                              margin: EdgeInsets.all(6),
-                                              padding: EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppColour(context)
-                                                    .primaryColour,
-                                              ),
-                                              child: isShuffleBtnClicked
-                                                  ? SizedBox(
-                                                      width: 10,
-                                                      height: 10,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        strokeWidth: 2,
-                                                        color: AppColour(
-                                                                context)
-                                                            .onPrimaryColour,
-                                                      ),
-                                                    )
-                                                  : Text(
-                                                      shuffle.toString(),
-                                                      style: TextStyle(
-                                                          color: AppColour(
-                                                                  context)
-                                                              .onPrimaryColour),
-                                                    ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    CustomLayout.lPad.sizedBoxW,
+                                    // Expanded(
+                                    //   child: OutlinedButton(
+                                    //     onPressed: !isShuffleBtnClicked &&
+                                    //             shuffle > 0
+                                    //         ? () {
+                                    //             setState(() {
+                                    //               isShuffleBtnClicked = true;
+                                    //             });
+                                    //             context
+                                    //                 .read<TimetableCubit>()
+                                    //                 .shuffleTimeableApi(
+                                    //                     tableId);
+                                    //           }
+                                    //         : null,
+                                    //     style: OutlinedButton.styleFrom(
+                                    //       side: BorderSide(
+                                    //           color: AppColour(context)
+                                    //               .primaryColour),
+                                    //     ),
+                                    //     child: Row(
+                                    //       mainAxisAlignment:
+                                    //           MainAxisAlignment.center,
+                                    //       children: [
+                                    //         const Text('Shuffle'),
+                                    //         Container(
+                                    //           margin: EdgeInsets.all(6),
+                                    //           padding: EdgeInsets.all(6),
+                                    //           decoration: BoxDecoration(
+                                    //             shape: BoxShape.circle,
+                                    //             color: AppColour(context)
+                                    //                 .primaryColour,
+                                    //           ),
+                                    //           child: isShuffleBtnClicked
+                                    //               ? SizedBox(
+                                    //                   width: 10,
+                                    //                   height: 10,
+                                    //                   child:
+                                    //                       CircularProgressIndicator(
+                                    //                     strokeWidth: 2,
+                                    //                     color: AppColour(
+                                    //                             context)
+                                    //                         .onPrimaryColour,
+                                    //                   ),
+                                    //                 )
+                                    //               : Text(
+                                    //                   shuffle.toString(),
+                                    //                   style: TextStyle(
+                                    //                       color: AppColour(
+                                    //                               context)
+                                    //                           .onPrimaryColour),
+                                    //                 ),
+                                    //         )
+                                    //       ],
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // CustomLayout.lPad.sizedBoxW,
                                     Expanded(
                                       child: ElevatedButton(
                                         onPressed: !isRegenerateBtnClicked &&

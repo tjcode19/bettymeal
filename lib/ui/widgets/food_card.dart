@@ -3,6 +3,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/api/models/GetTimetable.dart';
+import '../../data/api/network_request.dart';
 import '../../utils/colours.dart';
 import 'food_card_head.dart';
 
@@ -22,7 +23,7 @@ class FoodCard extends StatelessWidget {
       // Calculate the height of the container based on the available height
       double containerHeight = availableHeight * 0.6;
       double textSize = (availableHeight * 0.4) * 0.15;
-      
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,9 +35,9 @@ class FoodCard extends StatelessWidget {
               color: Colors.black,
               image: DecorationImage(
                   image: NetworkImage(
-                      'https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1200'),
+                      '${NetworkRequest.baseUrl}${food.meal!.imageUrl}.png'),
                   fit: BoxFit.cover,
-                  opacity: 0.4),
+                  opacity: 0.6),
               borderRadius: BorderRadius.vertical(
                 top: const Radius.circular(20),
                 bottom: Radius.elliptical(CommonUtils.sw(context), 50.0),

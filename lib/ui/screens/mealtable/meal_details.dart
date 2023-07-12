@@ -10,6 +10,7 @@ import '../../../../utils/colours.dart';
 
 import 'package:badges/badges.dart' as badges;
 import '../../../data/api/models/MealResponse.dart';
+import '../../../data/api/network_request.dart';
 import '../../../utils/constants.dart';
 import '../plan_details/widgets/features.dart';
 
@@ -50,8 +51,8 @@ class _MealDetailsState extends State<MealDetails> {
             decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                  image: NetworkImage(widget.meal.imageUrl ??
-                      'https://mealbleapi-58d2.onrender.com/uploads/m_647ef648596fb86c11e06814.png'),
+                  image: NetworkImage(
+                      '${NetworkRequest.baseUrl}${widget.meal.imageUrl}.png'),
                   fit: BoxFit.cover,
                   opacity: 0.5),
               borderRadius: BorderRadius.vertical(
@@ -248,9 +249,13 @@ class _MealDetailsState extends State<MealDetails> {
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                              color: AppColour(context).primaryColour),
+                              color: AppColour(context).secondaryColour),
                         ),
-                        child: const Text('Step-By-Step Guide'),
+                        child: Text(
+                          'Step-By-Step Guide',
+                          style: TextStyle(
+                              color: AppColour(context).secondaryColour),
+                        ),
                       ),
                     ),
                     CustomLayout.mPad.sizedBoxH,
