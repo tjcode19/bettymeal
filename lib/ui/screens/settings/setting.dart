@@ -2,6 +2,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/device_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bettymeals/cubit/user_cubit.dart' as sd;
 
 import '../../../cubit/auth_cubit.dart';
 import '../../../routes.dart';
@@ -18,8 +19,9 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   bool _showFab = true;
-  bool _isElevated = true;
-  bool _isVisible = true;
+
+  String name = '';
+  String email = '';
 
   final List<String> tribe = [
     "Igbo",
@@ -53,10 +55,16 @@ class _SettingScreenState extends State<SettingScreen> {
         barrierDismissible: false);
   }
 
-  void _onElevatedChanged(bool value) {
-    setState(() {
-      _isElevated = value;
-    });
+  // void _onElevatedChanged(bool value) {
+  //   setState(() {
+  //     _isElevated = value;
+  //   });
+  // }
+
+  @override
+  void initState() {
+    context.read<sd.UserCubit>().spGetUserData();
+    super.initState();
   }
 
   @override
@@ -86,55 +94,70 @@ class _SettingScreenState extends State<SettingScreen> {
                   Radius.circular(15),
                 ),
               ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color:
-                              AppColour(context).primaryColour.withOpacity(0.7),
-                          shape: BoxShape.circle,
-                          // borderRadius: BorderRadius.all(
-                          //   Radius.circular(15),
-                          // ),
+              child: BlocListener<sd.UserCubit, sd.UserState>(
+                listener: (context, state) {
+                  if (state is sd.SpGetData) {
+                    name =
+                        '${state.uData.user!.firstName!} ${state.uData.user!.lastName!}';
+                    setState(() {
+                      email = state.email;
+                    });
+                  }
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                            // borderRadius: BorderRadius.all(
+                            //   Radius.circular(15),
+                            // ),
+                          ),
+                          child: Icon(
+                            Icons.person_outlined,
+                            size: DeviceUtils.width(context) * 0.25,
+                            color: AppColour(context).onPrimaryLightColour,
+                          ),
                         ),
-                        child: Icon(
-                          Icons.person_outlined,
-                          size: DeviceUtils.width(context) * 0.25,
-                          color: AppColour(context).onPrimaryLightColour,
+                        CustomLayout.sPad.sizedBoxH,
+                        Text(
+                          name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  color: Colors.black.withOpacity(0.7),
+                                  fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      CustomLayout.sPad.sizedBoxH,
-                      Text(
-                        'Guest User',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: AppColour(context).primaryColour,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'a@b.com',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.7),
-                            ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 10,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.edit_note_outlined,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.profileScreen);
-                      },
+                        Text(
+                          email,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.black.withOpacity(0.7),
+                                  ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
+                    Positioned(
+                      top: 0,
+                      right: 10,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit_note_outlined,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.profileScreen);
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             CustomLayout.lPad.sizedBoxH,
@@ -144,7 +167,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   color: Colors.black.withOpacity(0.8),
                   fontWeight: FontWeight.bold),
             ),
-            // CustomLayout.sPad.sizedBoxH,
+            CustomLayout.sPad.sizedBoxH,
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 10),
@@ -161,8 +184,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     title: Text(
                       'Show me meals from the following tribes:',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.black.withOpacity(0.6),
-                          ),
+                          color: Colors.black.withOpacity(0.6),
+                          fontWeight: FontWeight.bold),
                     ),
                     subtitle: Row(
                       children: [
@@ -187,93 +210,79 @@ class _SettingScreenState extends State<SettingScreen> {
                       ],
                     ),
                   ),
-                  CustomLayout.sPad.sizedBoxH,
-                  Text(
-                    'Guest User',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: AppColour(context).primaryColour,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'a@b.com',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black.withOpacity(0.7),
-                        ),
+                  SwitchListTile(
+                    title: Text(
+                      'Push Notification',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: const Text(
+                        'This will notify you when it\'s time to eat'),
+                    value: _showFab,
+                    onChanged: _onShowFabChanged,
                   ),
                 ],
               ),
             ),
-            // ListTile(
-            //   onTap: () => Navigator.pushNamed(context, Routes.profileScreen),
-            //   title: Text(
-            //     'Edit Profile',
-            //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            //         color: Colors.black.withOpacity(0.5),
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            //   subtitle: Text('Update your name, phone number, dob, etc'),
-            // ),
-            ListTile(
-              onTap: () =>
-                  Navigator.pushNamed(context, Routes.changePasswordScreen),
-              title: Text(
-                'Change Password',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text('Remember to change password to a familiar word'),
+            CustomLayout.lPad.sizedBoxH,
+            Text(
+              'Security',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.black.withOpacity(0.8),
+                  fontWeight: FontWeight.bold),
             ),
-            SwitchListTile(
-              title: Text(
-                'Push Notification',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.bold),
+            CustomLayout.sPad.sizedBoxH,
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColour(context).onPrimaryLightColour.withOpacity(0.7),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
               ),
-              subtitle:
-                  const Text('This will notify you when it\'s time to eat'),
-              value: _showFab,
-              onChanged: _onShowFabChanged,
-            ),
-
-            SwitchListTile(
-              title: Text(
-                'Notifications',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.black.withOpacity(0.5),
-                    fontWeight: FontWeight.bold),
+              child: Column(
+                children: [
+                  ListTile(
+                    onTap: () => Navigator.pushNamed(
+                        context, Routes.changePasswordScreen),
+                    title: Text(
+                      'Change Password',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle:
+                        Text('Remember to change password to a familiar word'),
+                  ),
+                ],
               ),
-              subtitle: const Text(
-                  'Send me notification 1 hour before the next meal'),
-              value: _isElevated,
-              onChanged: _onElevatedChanged,
-            ),
-
-            CustomLayout.mPad.sizedBoxH,
-
-            Divider(
-              color: AppColour(context).primaryColour,
             ),
             CustomLayout.mPad.sizedBoxH,
-
-            ListTile(
-              onTap: () => Navigator.pushNamed(context, Routes.aboutScreen),
-              title: Text('About Mealble'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, Routes.aboutScreen),
+                  child: Text(
+                    'About Mealble 1.0.0',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.black.withOpacity(0.5),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextButton(
+                    onPressed: () => logout(),
+                    child: Text(
+                      'Logout',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.red.withOpacity(0.8),
+                          fontWeight: FontWeight.bold),
+                    )),
+              ],
             ),
-            ListTile(
-              onTap: () => logout(),
-              title: Text('Logout'),
-            ),
-            ListTile(
-              title: Text('Delete Profile'),
-            ),
-            // Expanded(
-            //   child: ListView(
-            //     controller: _controller,
-            //     children: items.toList(),
-            //   ),
-            // ),
           ],
         ),
       ),
