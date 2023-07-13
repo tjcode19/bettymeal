@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (state is sd.SpGetData) {
                   _firstNameController.text = state.uData.user!.firstName!;
                   _lastNameController.text = state.uData.user!.lastName!;
-                  // _phoneNumberController.text = state.uData.user!.;
+                  _phoneNumberController.text = state.uData.user!.phoneNumber!;
                   setState(() {
                     _email = state.email;
                   });

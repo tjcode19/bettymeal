@@ -153,8 +153,6 @@ class UserCubit extends Cubit<UserState> {
 
     uData.user!.tribes = tribes.split(',');
 
-    log('Update now $uData');
-
     sharedPreference.setData(
         sharedType: SpDataType.object,
         fieldName: 'userData',
@@ -165,8 +163,6 @@ class UserCubit extends Cubit<UserState> {
     final userData = await sharedPreference.getSharedPrefs(
         sharedType: SpDataType.object, fieldName: 'userData');
     '';
-
-    log('Update now $userData');
 
     UserData uData = UserData.fromJson(userData);
 

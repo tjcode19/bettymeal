@@ -8,7 +8,6 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/api/models/GetTimetable.dart';
@@ -110,7 +109,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
       i++;
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       pageController.animateToPage(
         selectedWeekIndex,
         duration: Duration(milliseconds: 900),

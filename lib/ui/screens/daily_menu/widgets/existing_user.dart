@@ -37,8 +37,9 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
   void _scrollToCurrentDate(pos) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _upScrollController.animateTo(
-        double.parse(pos.toString()), // Adjust the scroll position based on item width
-        duration: const Duration(milliseconds: 400),
+        double.parse(
+            pos.toString()), // Adjust the scroll position based on item width
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     });
@@ -48,7 +49,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
   void initState() {
     tVal = widget.isActiveSub ? widget.activeSub![0].timetable! : [];
     super.initState();
-    _upScrollController.addListener(()=>_scrollToCurrentDate);
+    _upScrollController.addListener(() => _scrollToCurrentDate);
   }
 
   @override
@@ -94,12 +95,10 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                             // );
                             // });
 
-                            
-
                             var pos = tVal.indexOf(d);
-                            _scrollToCurrentDate(pos * 40);
                             if (justLaunch) {
                               _selected = pos;
+                              _scrollToCurrentDate(pos * 45);
                               justLaunch = false;
                             }
                             return GestureDetector(

@@ -1,7 +1,6 @@
 import 'package:bettymeals/data/api/models/GetUserDetails.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/enums.dart';
@@ -17,7 +16,7 @@ class ActivePlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {},
       child: Container(
         width: CommonUtils.sw(context, s: 1),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
@@ -72,44 +71,45 @@ class ActivePlanCard extends StatelessWidget {
                   CustomLayout.sPad.sizedBoxH,
                   Row(
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Shuffle \n',
-                          children: [
-                            TextSpan(
-                              text: '$shuffle Melz',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                    color: Colors.white,
-                                  ),
-                            )
-                          ],
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color: Colors.white.withOpacity(0.7),
-                                  fontSize: 12.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                        child: VerticalDivider(
-                          color: Colors.white,
-                          thickness: 2,
-                          indent: 5,
-                          endIndent: 0,
-                          width: 20,
-                        ),
-                      ),
+                      // RichText(
+                      //   text: TextSpan(
+                      //     text: 'Shuffle \n',
+                      //     children: [
+                      //       TextSpan(
+                      //         text: '$shuffle Melz',
+                      //         style: Theme.of(context)
+                      //             .textTheme
+                      //             .titleSmall!
+                      //             .copyWith(
+                      //               color: Colors.white,
+                      //             ),
+                      //       )
+                      //     ],
+                      //     style: Theme.of(context)
+                      //         .textTheme
+                      //         .bodyMedium!
+                      //         .copyWith(
+                      //             color: Colors.white.withOpacity(0.7),
+                      //             fontSize: 12.0),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 25,
+                      //   child: VerticalDivider(
+                      //     color: Colors.white,
+                      //     thickness: 2,
+                      //     indent: 5,
+                      //     endIndent: 0,
+                      //     width: 20,
+                      //   ),
+                      // ),
                       RichText(
                         text: TextSpan(
                           text: 'Regenerate \n',
                           children: [
                             TextSpan(
-                              text: '$regenerate Melz',
+                              text:
+                                  '$regenerate ${regenerate > 1 ? "Units" : "Unit"} ',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
