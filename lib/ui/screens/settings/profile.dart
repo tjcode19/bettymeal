@@ -60,11 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   setState(() {
                     _email = state.email;
                   });
-                }
-                else if (state is sd.UserLoading) {
+                } else if (state is sd.UserLoading) {
                   Notificatn.showLoading(context, title: 'Updating Profile');
-                }
-                else if (state is sd.UpdateUserSuccess) {
+                } else if (state is sd.UpdateUserSuccess) {
                   Notificatn.showSuccessToast(context,
                       msg: 'Profile updated successfully');
                   Navigator.pop(context);
@@ -197,13 +195,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onPressed: () async {
                           DeviceUtils.hideKeyboard(context);
                           if (_formKey.currentState!.validate()) {
-                            context.read<UserCubit>().updateUser(
-                                  _firstNameController.text,
-                                  _lastNameController.text,
-                                  _dobController.text,
-                                  _genderController.text,
-                                  _phoneNumberController.text,
-                                );
+                            context.read<UserCubit>().updateUser({
+                              "firstName": _firstNameController.text,
+                              "lastName": _lastNameController.text,
+                              "dob": _dobController.text,
+                              "gender": _genderController.text,
+                              "phoneNumber": _phoneNumberController.text
+                            });
                           }
                         },
                         child: const Text('Update Profile'),

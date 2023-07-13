@@ -22,6 +22,9 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   void onTabTapped(int index) {
+    if (_currentIndex == 4) {
+      print('hello');
+    }
     setState(() {
       _currentIndex = index;
     });

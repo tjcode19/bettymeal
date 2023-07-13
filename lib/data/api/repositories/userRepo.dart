@@ -22,17 +22,10 @@ class UserRepository {
     return UserRegistration.fromJson(response);
   }
 
-  Future<UserRegistration> updateUser(
-      {fName, lName, dob, gender, phNumber}) async {
+  Future<UserRegistration> updateUser(query) async {
     final response = await nRequest.patch(
       "user/",
-      {
-        "firstName": fName,
-        "lastName": lName,
-        "dob": dob,
-        "gender": gender,
-        "phoneNumber": phNumber
-      },
+      query,
     );
 
     return UserRegistration.fromJson(response);
