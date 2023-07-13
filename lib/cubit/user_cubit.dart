@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math';
 
 import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/data/api/models/LoginResponse.dart';
@@ -72,8 +71,7 @@ class UserCubit extends Cubit<UserState> {
     //fName, lName, dob, gender, phNumber
     emit(UserLoading());
     try {
-      final cal = await userRepository.updateUser(
-          query);
+      final cal = await userRepository.updateUser(query);
       if (cal.code != '000') {
         emit(UserError(cal.message!));
       } else {
@@ -144,5 +142,34 @@ class UserCubit extends Cubit<UserState> {
         fieldValue: d!.email);
     sharedPreference.setData(
         sharedType: SpDataType.object, fieldName: 'userData', fieldValue: d!);
+  }
+
+  setTribesPref(String tribes) async {
+    final userData = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'userData');
+    '';
+
+    UserData uData = UserData.fromJson(userData);
+
+    uData.user!.tribes = tribes.split(',');
+
+    log('Update now $uData');
+
+    sharedPreference.setData(
+        sharedType: SpDataType.object,
+        fieldName: 'userData',
+        fieldValue: uData);
+  }
+
+  updateTribes() async {
+    final userData = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'userData');
+    '';
+
+    log('Update now $userData');
+
+    UserData uData = UserData.fromJson(userData);
+
+    updateUser({'tribes': uData.user!.tribes});
   }
 }

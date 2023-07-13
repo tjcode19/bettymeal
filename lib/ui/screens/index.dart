@@ -1,9 +1,11 @@
+import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
 import 'package:bettymeals/ui/screens/records/index.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   void onTabTapped(int index) {
     if (_currentIndex == 4) {
-      print('hello');
+      context.read<UserCubit>().updateTribes();
     }
     setState(() {
       _currentIndex = index;

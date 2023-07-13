@@ -61,6 +61,7 @@ class User {
   String? lastName;
   String? otp;
   String? email;
+  List<String>? tribes;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -75,6 +76,7 @@ class User {
       this.lastName,
       this.otp,
       this.email,
+      this.tribes,
       this.createdAt,
       this.updatedAt,
       this.iV,
@@ -89,6 +91,7 @@ class User {
     lastName = json['lastName'];
     otp = json['otp'];
     email = json['email'];
+    tribes = json['tribes']?.cast<String>();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -105,6 +108,7 @@ class User {
     data['lastName'] = this.lastName;
     data['otp'] = this.otp;
     data['email'] = this.email;
+    data['tribes'] = this.tribes;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;

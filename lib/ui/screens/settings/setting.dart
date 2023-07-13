@@ -24,8 +24,8 @@ class _SettingScreenState extends State<SettingScreen> {
   String email = '';
 
   final List<String> tribe = [
-    "Igbo",
     "Hausa",
+    "Igbo",
     "Yoruba",
   ];
 
@@ -102,6 +102,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     setState(() {
                       email = state.email;
                     });
+
+                    selectedTribe.addAll(state.uData.user!.tribes!);
                   }
                 },
                 child: Stack(
@@ -199,8 +201,17 @@ class _SettingScreenState extends State<SettingScreen> {
                                     setState(() {
                                       if (v == true) {
                                         selectedTribe.add(e);
+
+                                        context
+                                            .read<sd.UserCubit>()
+                                            .setTribesPref(
+                                                selectedTribe.join(','));
                                       } else {
                                         selectedTribe.remove(e);
+                                        context
+                                            .read<sd.UserCubit>()
+                                            .setTribesPref(
+                                                selectedTribe.join(','));
                                       }
                                     });
                                   }),
