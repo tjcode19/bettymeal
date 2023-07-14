@@ -30,6 +30,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _currentIndex = index;
     });
+
+    if (_currentIndex == 4) {
+      context.read<UserCubit>().spGetUserData();
+    }
   }
 
   @override
