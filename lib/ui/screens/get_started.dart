@@ -129,6 +129,13 @@ class _GetStartedState extends State<GetStarted> {
                     ),
 
                     CustomLayout.lPad.sizedBoxH,
+                    Row(
+                      children: [
+                        Checkbox(value: true, onChanged: (v) {}),
+                        Text(
+                            'By pressing continue, you agree to our Terms and Conditions, and also our privacy policy')
+                      ],
+                    ),
 
                     CustomLayout.xlPad.sizedBoxH,
                     ElevatedButton(
