@@ -18,7 +18,6 @@ class StoreCubit extends Cubit<StoreState> {
   final SharedPreferenceApp sharedPreference;
   final StoreRepository storeRepository;
 
-
   getStoreItems() async {
     emit(StoreLoading());
     try {

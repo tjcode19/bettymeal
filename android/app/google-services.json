@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "869150730891",
+    "project_id": "mealble",
+    "storage_bucket": "mealble.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869150730891:android:f2d08ef69366a81d33028e",
+        "android_client_info": {
+          "package_name": "com.bolxtine.mealble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869150730891-d8fajctp439u0r3da52giokdnij4h10u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0wVG5ij0AfBJ1dEUILl5AEWBswpsI_8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869150730891-d8fajctp439u0r3da52giokdnij4h10u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "869150730891-a713ap3q1b517osgcjes9sn9b7j2mi20.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bolxtine.mealble"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

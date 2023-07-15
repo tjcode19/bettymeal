@@ -230,7 +230,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: const Text(
-                        'This will notify you when it\'s time to eat'),
+                        'You will get updates from us via Push Notification'),
                     value: _showFab,
                     onChanged: _onShowFabChanged,
                   ),
