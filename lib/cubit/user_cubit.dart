@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:bettymeals/cubit/auth_cubit.dart';
-import 'package:bettymeals/data/api/models/LoginResponse.dart';
 import 'package:bettymeals/data/api/repositories/authRepo.dart';
 import 'package:bettymeals/data/api/repositories/userRepo.dart';
 import 'package:bettymeals/data/shared_preference.dart';
@@ -26,12 +23,12 @@ class UserCubit extends Cubit<UserState> {
   final AuthRepository authRepository;
   final AuthCubit authCubit;
 
-  setUserDetails(name, gender) {
-    sharedPreference.setData(
-        sharedType: SpDataType.String, fieldName: 'name', fieldValue: name);
-    sharedPreference.setData(
-        sharedType: SpDataType.String, fieldName: 'gender', fieldValue: gender);
-  }
+  // setUserDetails(name, gender) {
+  //   sharedPreference.setData(
+  //       sharedType: SpDataType.String, fieldName: 'name', fieldValue: name);
+  //   sharedPreference.setData(
+  //       sharedType: SpDataType.String, fieldName: 'gender', fieldValue: gender);
+  // }
 
   setFirstTimer(v) {
     sharedPreference.setData(

@@ -3,6 +3,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../cubit/dashboard_cubit.dart';
 import '../../../cubit/user_cubit.dart';
 import '../../../utils/colours.dart';
 import '../../../utils/device_utils.dart';
@@ -63,6 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else if (state is sd.UserLoading) {
                   Notificatn.showLoading(context, title: 'Updating Profile');
                 } else if (state is sd.UpdateUserSuccess) {
+                  context.read<DashboardCubit>().prepareDashboard();
                   Notificatn.showSuccessToast(context,
                       msg: 'Profile updated successfully');
                   Navigator.pop(context);

@@ -64,6 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     context.read<sd.UserCubit>().spGetUserData();
+
     super.initState();
   }
 
