@@ -31,7 +31,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
   ScrollController _upScrollController = ScrollController();
   int _selected = 0;
   bool justLaunch = true;
-  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Fruit'];
   late List<Timetable> tVal;
 
   void _scrollToCurrentDate(pos) {

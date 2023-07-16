@@ -132,8 +132,40 @@ class _GetStartedState extends State<GetStarted> {
                     Row(
                       children: [
                         Checkbox(value: true, onChanged: (v) {}),
-                        Text(
-                            'By pressing continue, you agree to our Terms and Conditions, and also our privacy policy')
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'By checking this box, you agree to our',
+                              children: [
+                                TextSpan(
+                                  text: ' Terms and Conditions',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: AppColour(context).primaryColour,
+                                      ),
+                                ),
+                                TextSpan(text: ', and also our'),
+                                TextSpan(
+                                  text: ' Privacy Policy',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: AppColour(context).primaryColour,
+                                      ),
+                                )
+                              ],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: AppColour(context).onSecondaryColour,
+                                  ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
 

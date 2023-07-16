@@ -1,4 +1,4 @@
-package com.bolxtine.meable
+package com.bolxtine.mealble
 
 import io.flutter.embedding.android.FlutterActivity
 

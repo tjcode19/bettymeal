@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/meal_cubit.dart';
@@ -24,6 +24,11 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final double sizeW = 140;
   int counter = 5;
+
+  String messageTitle = "Empty";
+  String notificationAlert = "alert";
+
+  late FirebaseMessaging _firebaseMessaging;
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -79,6 +84,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    
 
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 4));
