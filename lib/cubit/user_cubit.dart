@@ -64,9 +64,9 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {}
   }
 
-  updateUser(query) async {
+  updateUser(query, {main = false}) async {
     //fName, lName, dob, gender, phNumber
-    emit(UserLoading());
+    if (main) emit(UserLoading());
     try {
       final cal = await userRepository.updateUser(query);
       if (cal.code != '000') {

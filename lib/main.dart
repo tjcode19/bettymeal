@@ -1,9 +1,12 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/data/api/network_check.dart';
 import 'package:bettymeals/utils/colours.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
@@ -22,6 +25,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   await AppDatabase().init();
+  // if (defaultTargetPlatform == TargetPlatform.android) {
+  //   InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
+  // }
   runApp(const MyApp());
 
   configLoading();

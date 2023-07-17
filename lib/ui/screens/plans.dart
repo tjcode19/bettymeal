@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/cubit/user_cubit.dart' as cs;
 import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
@@ -6,6 +9,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../cubit/user_cubit.dart';
 import '../../../routes.dart';
 
@@ -32,8 +36,90 @@ class _PlansScreenState extends State<PlansScreen> {
 
   bool isActiveSub = false;
 
+  final InAppPurchase _inAppPurchase = InAppPurchase.instance;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
+  static const Set<String> _kIds = <String>{'product1', 'product2'};
+  List<ProductDetails> products = [];
+  List<PurchaseDetails> _purchases = [];
+  late ProductDetailsResponse response;
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsL) {
+    _purchases.addAll(purchaseDetailsL);
+
+    inspect(_purchases);
+    _purchases.forEach((PurchaseDetails purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        // _showPendingUI();
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          // _handleError(purchaseDetails.error!);
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
+          bool valid = await _verifyPurchase(purchaseDetails);
+          if (valid) {
+            // _deliverProduct(purchaseDetails);
+          } else {
+            // _handleInvalidPurchase(purchaseDetails);
+          }
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+  }
+
+  Future<bool> _verifyPurchase(purchaseDetails) {
+    //TDO
+    //check the server for purchase status
+    return Future.value(true);
+  }
+
+  makePurchase(ProductDetails prod) {
+    // final ProductDetails productDetails = ... // Saved earlier from queryProductDetails().
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
+
+    InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+
+// From here the purchase flow will be handled by the underlying store.
+// Updates will be delivered to the `InAppPurchase.instance.purchaseStream`.
+  }
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _inAppPurchase.isAvailable();
+
+    if (isAvailable) {
+      final ProductDetailsResponse response =
+          await _inAppPurchase.queryProductDetails(_kIds);
+
+      if (response.notFoundIDs.isNotEmpty) {
+        // Handle the error.
+      }
+      products = response.productDetails;
+
+      for (final ProductDetails product in products) {
+        print(product.id);
+        print(product.price);
+        print(product.description);
+      }
+    } else {
+      print('Sorry, store is unavailable');
+    }
+  }
+
   @override
   void initState() {
+    _subscription = _inAppPurchase.purchaseStream.listen((purchaseDetailsList) {
+      print('listen');
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      print('listen');
+      _subscription.cancel();
+    }, onError: (error) {
+      // handle error here.
+      print('errror INAPP');
+    });
+    initStoreInfo();
     super.initState();
 
     isActiveSub = context.read<UserCubit>().isActiveSub();
@@ -162,9 +248,10 @@ class _PlansScreenState extends State<PlansScreen> {
                                         ? Colors.blue.withOpacity(0.1)
                                         : null,
                                 onPress: () {
-                                  Navigator.pushNamed(
-                                      context, Routes.planDetails,
-                                      arguments: e);
+                                  // Navigator.pushNamed(
+                                  //     context, Routes.planDetails,
+                                  //     arguments: e);
+                                  makePurchase(products[0]);
                                 },
                               );
                             },
