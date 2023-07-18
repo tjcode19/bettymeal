@@ -26,6 +26,8 @@ class MealDetails extends StatefulWidget {
 class _MealDetailsState extends State<MealDetails> {
   @override
   void initState() {
+
+    print(widget.meal.imageUrl);
     super.initState();
   }
 
@@ -52,7 +54,7 @@ class _MealDetailsState extends State<MealDetails> {
               color: Colors.black,
               image: DecorationImage(
                   image: NetworkImage(
-                      '${NetworkRequest.baseUrl}${widget.meal.imageUrl}.png'),
+                      '${widget.meal.imageUrl}'),
                   fit: BoxFit.cover,
                   opacity: 0.5),
               borderRadius: BorderRadius.vertical(

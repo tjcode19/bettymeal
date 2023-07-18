@@ -35,7 +35,7 @@ class FoodCard extends StatelessWidget {
               color: Colors.black,
               image: DecorationImage(
                   image: NetworkImage(
-                      '${NetworkRequest.baseUrl}${food.meal!.imageUrl}.png'),
+                      '${food.meal!.imageUrl}'),
                   fit: BoxFit.cover,
                   opacity: 0.6),
               borderRadius: BorderRadius.vertical(

@@ -30,7 +30,7 @@ class FoodListTile extends StatelessWidget {
             shape: BoxShape.circle,
             image: DecorationImage(
                 image:
-                    NetworkImage('${NetworkRequest.baseUrl}${meal.imageUrl}.png'),
+                    NetworkImage('${meal.imageUrl}'),
                 fit: BoxFit.cover),
           ),
           child: const SizedBox(
