@@ -121,8 +121,8 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 child: SingleChildScrollView(
                     child: Column(
                   children: [
-                    CustomLayout.lPad.sizedBoxH,
-                    UpdateProfile(),
+                    CustomLayout.mPad.sizedBoxH,
+                    if (name == 'Guest') UpdateProfile(),
                     CustomLayout.mPad.sizedBoxH,
                     if (state is DashboardLoading)
                       Padding(

@@ -64,7 +64,7 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {}
   }
 
-  updateUser(query, {main = false}) async {
+  updateUser(query, {main = true}) async {
     //fName, lName, dob, gender, phNumber
     if (main) emit(UserLoading());
     try {
@@ -163,6 +163,6 @@ class UserCubit extends Cubit<UserState> {
 
     UserData uData = UserData.fromJson(userData);
 
-    updateUser({'tribes': uData.user!.tribes});
+    updateUser({'tribes': uData.user!.tribes}, main: false);
   }
 }
