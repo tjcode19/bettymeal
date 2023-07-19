@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../cubit/auth_cubit.dart';
-import '../../../routes.dart';
 import '../../../utils/colours.dart';
 import '../../../utils/device_utils.dart';
 import '../../../utils/enums.dart';

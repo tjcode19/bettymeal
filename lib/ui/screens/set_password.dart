@@ -1,4 +1,3 @@
-import 'package:bettymeals/cubit/auth_cubit.dart';
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';

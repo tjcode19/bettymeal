@@ -10,7 +10,6 @@ import '../../../../utils/colours.dart';
 
 import 'package:badges/badges.dart' as badges;
 import '../../../data/api/models/MealResponse.dart';
-import '../../../data/api/network_request.dart';
 import '../../../utils/constants.dart';
 import '../plan_details/widgets/features.dart';
 
@@ -26,8 +25,6 @@ class MealDetails extends StatefulWidget {
 class _MealDetailsState extends State<MealDetails> {
   @override
   void initState() {
-
-    print(widget.meal.imageUrl);
     super.initState();
   }
 
@@ -45,7 +42,7 @@ class _MealDetailsState extends State<MealDetails> {
         children: [
           Container(
             width: double.infinity,
-            height: CommonUtils.sh(context, s: 0.3),
+            height: CommonUtils.sh(context, s: 0.35),
             padding: EdgeInsets.only(
                 top: CommonUtils.xlpadding,
                 left: CommonUtils.padding,
@@ -55,8 +52,8 @@ class _MealDetailsState extends State<MealDetails> {
               image: DecorationImage(
                   image: NetworkImage(
                       '${widget.meal.imageUrl}'),
-                  fit: BoxFit.cover,
-                  opacity: 0.5),
+                  fit: BoxFit.fill,
+                  opacity: 0.7),
               borderRadius: BorderRadius.vertical(
                 top: const Radius.circular(20),
                 bottom: Radius.elliptical(CommonUtils.sw(context), 50.0),

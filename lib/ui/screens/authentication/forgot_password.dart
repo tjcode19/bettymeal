@@ -1,20 +1,12 @@
-import 'package:bettymeals/data/api/models/SendOtp.dart';
 import 'package:bettymeals/ui/screens/authentication/widgets/sent_otp.dart';
 import 'package:bettymeals/ui/screens/authentication/widgets/set_password.dart';
-import 'package:bettymeals/ui/screens/set_password.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cubit/auth_cubit.dart';
-import '../../../cubit/meal_cubit.dart';
-import '../../../cubit/sub_cubit.dart';
-import '../../../cubit/timetable_cubit.dart';
 import '../../../data/shared_preference.dart';
 import '../../../routes.dart';
 import '../../../utils/constants.dart';
-import '../../../utils/device_utils.dart';
-import '../../../utils/enums.dart';
 import '../../../utils/noti.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {

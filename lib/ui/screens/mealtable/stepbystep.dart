@@ -2,11 +2,6 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../cubit/store_cubit.dart';
-import '../../../cubit/user_cubit.dart';
-import '../../../utils/device_utils.dart';
-import '../../widgets/shimmer_widget.dart';
 
 class StepByStepScreen extends StatefulWidget {
   const StepByStepScreen(

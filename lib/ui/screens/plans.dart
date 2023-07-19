@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bettymeals/cubit/sub_cubit.dart';
-import 'package:bettymeals/cubit/user_cubit.dart' as cs;
 import 'package:bettymeals/ui/screens/daily_menu/widgets/plan_card.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../cubit/user_cubit.dart';
-import '../../../routes.dart';
 
 class PlansScreen extends StatefulWidget {
   const PlansScreen({this.planId, super.key});

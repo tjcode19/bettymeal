@@ -12,22 +12,6 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  bool _showFab = true;
-  bool _isElevated = true;
-  bool _isVisible = true;
-
-  void _onShowFabChanged(bool value) {
-    setState(() {
-      _showFab = value;
-    });
-  }
-
-  void _onElevatedChanged(bool value) {
-    setState(() {
-      _isElevated = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
