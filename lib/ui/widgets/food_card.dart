@@ -1,5 +1,6 @@
 import 'package:bettymeals/ui/widgets/food_card_footer.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/api/models/GetTimetable.dart';
@@ -33,8 +34,9 @@ class FoodCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                  image: NetworkImage(
-                      '${food.meal!.imageUrl}'),
+                  image: CachedNetworkImageProvider(
+                    '${food.meal!.imageUrl}',
+                  ),
                   fit: BoxFit.cover,
                   opacity: 0.6),
               borderRadius: BorderRadius.vertical(

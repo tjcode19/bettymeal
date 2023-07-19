@@ -27,3 +27,13 @@ class SubSuccess extends SubState {
   @override
   List<Object> get props => [data];
 }
+
+class ActiveSuccessLoaded extends SubState {
+  const ActiveSuccessLoaded(this.data, this.regenerate);
+
+  final ActiveSub data;
+  final int regenerate;
+
+  @override
+  List<Object> get props => [data, regenerate];
+}

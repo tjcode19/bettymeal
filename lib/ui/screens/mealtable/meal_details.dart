@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bettymeals/utils/enums.dart';
 import 'package:bettymeals/utils/noti.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -50,8 +51,9 @@ class _MealDetailsState extends State<MealDetails> {
             decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                  image: NetworkImage(
-                      '${widget.meal.imageUrl}'),
+                  image: CachedNetworkImageProvider(
+                    '${widget.meal.imageUrl}',
+                  ),
                   fit: BoxFit.fill,
                   opacity: 0.7),
               borderRadius: BorderRadius.vertical(

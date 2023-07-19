@@ -174,7 +174,7 @@ class SlideLeftRoute extends PageRouteBuilder {
             ).animate(animation),
             child: child,
           ),
-          transitionDuration: Duration(milliseconds: 700),
+          transitionDuration: Duration(milliseconds: 400),
         );
 }
 

@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../data/api/models/GetSubscription.dart';
+import '../data/api/models/GetUserDetails.dart';
 import '../data/api/repositories/subRepo.dart';
 import '../data/shared_preference.dart';
+import '../utils/enums.dart';
 
 part 'sub_state.dart';
 
@@ -32,5 +34,21 @@ class SubCubit extends Cubit<SubState> {
     } catch (e) {
       emit(SubError("Error Occured"));
     }
+  }
+
+  getActiveSub() async {
+    final userData = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'userData');
+         UserData uData = UserData.fromJson(userData);
+
+    int? regenerate;
+    int l = uData.activeSub!.length;
+    if (l > 0) {
+      regenerate = uData.activeSub!.first.subData!.regenerate;
+    }
+
+   
+
+    emit(ActiveSuccessLoaded(uData.activeSub!.first, regenerate!));
   }
 }

@@ -94,6 +94,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(15),
                 ),
+                border: Border.all(
+                  color: AppColour(context).secondaryColour.withOpacity(0.3),
+                ),
               ),
               child: BlocListener<sd.UserCubit, sd.UserState>(
                 listener: (context, state) {
@@ -179,6 +182,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(15),
                 ),
+                border: Border.all(
+                  color: AppColour(context).secondaryColour.withOpacity(0.3),
+                ),
               ),
               child: Column(
                 children: [
@@ -234,6 +240,19 @@ class _SettingScreenState extends State<SettingScreen> {
                     value: _showFab,
                     onChanged: _onShowFabChanged,
                   ),
+                  ListTile(
+                    onTap: () => Navigator.pushNamed(
+                        context, Routes.changePasswordScreen),
+                    title: Text(
+                      'Manage Subscription',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: Colors.black.withOpacity(0.6),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle:
+                        Text('Upgrade plan or cancel subscription'),
+                    trailing: Icon(Icons.arrow_forward),
+                  ),
                 ],
               ),
             ),
@@ -253,6 +272,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(15),
                 ),
+                border: Border.all(
+                  color: AppColour(context).secondaryColour.withOpacity(0.3),
+                ),
               ),
               child: Column(
                 children: [
@@ -267,6 +289,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     subtitle:
                         Text('Remember to change password to a familiar word'),
+                    trailing: Icon(Icons.arrow_forward),
                   ),
                 ],
               ),

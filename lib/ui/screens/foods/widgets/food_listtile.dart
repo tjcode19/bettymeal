@@ -1,5 +1,6 @@
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/noti.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -28,8 +29,7 @@ class FoodListTile extends StatelessWidget {
             color: Colors.black38,
             shape: BoxShape.circle,
             image: DecorationImage(
-                image:
-                    NetworkImage('${meal.imageUrl}'),
+                image: CachedNetworkImageProvider('${meal.imageUrl}'),
                 fit: BoxFit.cover),
           ),
           child: const SizedBox(

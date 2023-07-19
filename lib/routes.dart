@@ -6,6 +6,7 @@ import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/screens/settings/change_password.dart';
 import 'package:bettymeals/ui/screens/settings/profile.dart';
+import 'package:bettymeals/ui/screens/subscription/index.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:bettymeals/utils/animations.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class Routes {
   static const String changePasswordScreen = '/change-password-screen';
   static const String storeScreen = '/store-screen';
   static const String stepbystepScreen = '/step-by-step-screen';
+  static const String manageSubScreen = '/manage-sub-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -111,6 +113,8 @@ class Routes {
         );
       case loginScreen:
         return SlideLeftRoute(page: LoginScreen());
+      case manageSubScreen:
+        return SlideLeftRoute(page: SubscriptionScreen());
       case forgotPasswordScreen:
         return SlideLeftRoute(page: ForgotPasswordScreen());
       case aboutScreen:
