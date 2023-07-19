@@ -23,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final double sizeW = 140;
-  int counter = 5;
+  int counter = 2;
 
   String messageTitle = "Empty";
   String notificationAlert = "alert";
@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen>
     
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 4));
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
 
     // Create the animation
     _animation = CurvedAnimation(

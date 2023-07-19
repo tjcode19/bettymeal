@@ -4,7 +4,6 @@ import 'package:bettymeals/ui/screens/daily_menu/widgets/update_profile.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/enums.dart';
 import 'widgets/active_plan_card.dart';
@@ -19,7 +18,6 @@ class DailyMenuScreen extends StatefulWidget {
 class _DailyMenuScreenState extends State<DailyMenuScreen> {
   @override
   void initState() {
-    context.read<SubCubit>().getActiveSub();
     super.initState();
   }
 
@@ -95,12 +93,20 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
               ],
             ),
           ),
-          CustomLayout.lPad.sizedBoxH,
-          UpdateProfile(),
-          CustomLayout.sPad.sizedBoxH,
-          ActivePlanCard(),
-          CustomLayout.sPad.sizedBoxH,
-          InfoCard()
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomLayout.lPad.sizedBoxH,
+                  UpdateProfile(),
+                  CustomLayout.sPad.sizedBoxH,
+                  ActivePlanCard(),
+                  CustomLayout.sPad.sizedBoxH,
+                  InfoCard(),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

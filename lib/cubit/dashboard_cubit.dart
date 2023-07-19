@@ -43,6 +43,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       }
     } catch (e) {
       print(e);
+      emit(DashboardError('Error Loading Dashboard'));
     }
   }
 }
