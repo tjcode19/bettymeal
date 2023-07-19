@@ -22,22 +22,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _dobController = TextEditingController();
-  final _genderController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _email = '';
-   DateTime currentDate = DateTime.now();
 
+  String _gender = 'A';
+  DateTime currentDate = DateTime.now().subtract(Duration(days: 365 * 12));
+  DateTime firstDate = DateTime.now().subtract(Duration(days: 365 * 100));
+
+  DateTime lastDate = DateTime.now().subtract(Duration(days: 365 * 10));
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
         initialDate: currentDate,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2050));
+        firstDate: firstDate,
+        lastDate: lastDate);
     if (pickedDate != null && pickedDate != currentDate)
       setState(() {
-        final currentD = HelperMethod.formatDate(pickedDate.toIso8601String());
+        final currentD = HelperMethod.formatDate(pickedDate.toIso8601String(),
+            pattern: 'yyyy-MM-dd');
         _dobController.text = currentD;
       });
+  }
+
+  _selectGender(v) {
+    setState(() {
+      _gender = v;
+    });
   }
 
   @override
@@ -66,6 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _firstNameController.text = state.uData.user!.firstName!;
                   _lastNameController.text = state.uData.user!.lastName!;
                   _phoneNumberController.text = state.uData.user!.phoneNumber!;
+                  _gender = state.uData.user!.gender!;
+                  _dobController.text = state.uData.user!.dob!;
                   setState(() {
                     _email = state.email;
                   });
@@ -162,28 +174,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextFormField(
                         controller: _dobController,
-                        onTap: () =>  _selectDate(context),
+                        onTap: () => _selectDate(context),
                         readOnly: true,
                         // enabled: false,
                         // validator: (value) {
                         //   if (value == null || value.isEmpty) {
                         //     return 'Please Enter DOB';
-                        //   }
-                        //   return null;
-                        // },
-                      ),
-                      CustomLayout.mPad.sizedBoxH,
-                      Text(
-                        'Gender',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black.withOpacity(0.7),
-                            ),
-                      ),
-                      TextFormField(
-                        controller: _genderController,
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please Select Gender';
                         //   }
                         //   return null;
                         // },
@@ -206,6 +202,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       CustomLayout.xlPad.sizedBoxH,
+                      Text(
+                        'Gender',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Colors.black.withOpacity(0.7),
+                            ),
+                      ),
+                      Row(
+                        children: [
+                          Text('Male'),
+                          Radio(
+                              value: 'M',
+                              groupValue: _gender,
+                              onChanged: (v) => _selectGender(v)),
+                          Text('Female'),
+                          Radio(
+                              value: 'F',
+                              groupValue: _gender,
+                              onChanged: (v) => _selectGender(v)),
+                          Text('Others'),
+                          Radio(
+                              value: 'O',
+                              groupValue: _gender,
+                              onChanged: (v) => _selectGender(v)),
+                        ],
+                      ),
+                      CustomLayout.mPad.sizedBoxH,
                       ElevatedButton(
                         onPressed: () async {
                           DeviceUtils.hideKeyboard(context);
@@ -214,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "firstName": _firstNameController.text,
                               "lastName": _lastNameController.text,
                               "dob": _dobController.text,
-                              "gender": _genderController.text,
+                              "gender": _gender,
                               "phoneNumber": _phoneNumberController.text
                             });
                           }
