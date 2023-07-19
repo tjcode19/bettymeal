@@ -1,5 +1,6 @@
 import 'package:bettymeals/cubit/user_cubit.dart' as sd;
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _genderController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _email = '';
+   DateTime currentDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: DateTime(2015),
+        lastDate: DateTime(2050));
+    if (pickedDate != null && pickedDate != currentDate)
+      setState(() {
+        final currentD = HelperMethod.formatDate(pickedDate.toIso8601String());
+        _dobController.text = currentD;
+      });
+  }
 
   @override
   void initState() {
@@ -34,22 +49,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size(10, 56),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: CommonUtils.spadding, vertical: 0.0),
-            child: AppBar(
-              leadingWidth: 24,
-              title: Text(
-                'Profile',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: AppColour(context).primaryColour.withOpacity(0.7),
-                    fontWeight: FontWeight.bold),
-              ),
-              backgroundColor: AppColour(context).background,
-            ),
+        appBar: AppBar(
+          leadingWidth: 24,
+          title: Text(
+            'Profile',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColour(context).primaryColour.withOpacity(0.7),
+                fontWeight: FontWeight.bold),
           ),
+          backgroundColor: AppColour(context).background,
         ),
         body: SingleChildScrollView(
           child: BlocListener<sd.UserCubit, sd.UserState>(
@@ -64,7 +72,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else if (state is sd.UserLoading) {
                   Notificatn.showLoading(context, title: 'Updating Profile');
                 } else if (state is sd.UpdateUserSuccess) {
-                  context.read<DashboardCubit>().prepareDashboard('Profile Screen');
+                  context
+                      .read<DashboardCubit>()
+                      .prepareDashboard('Profile Screen');
                   Notificatn.showSuccessToast(context,
                       msg: 'Profile updated successfully');
                   Navigator.pop(context);
@@ -152,6 +162,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       TextFormField(
                         controller: _dobController,
+                        onTap: () =>  _selectDate(context),
+                        readOnly: true,
+                        // enabled: false,
                         // validator: (value) {
                         //   if (value == null || value.isEmpty) {
                         //     return 'Please Enter DOB';
