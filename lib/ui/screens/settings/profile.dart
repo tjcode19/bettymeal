@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else if (state is sd.UserLoading) {
                   Notificatn.showLoading(context, title: 'Updating Profile');
                 } else if (state is sd.UpdateUserSuccess) {
-                  context.read<DashboardCubit>().prepareDashboard();
+                  context.read<DashboardCubit>().prepareDashboard('Profile Screen');
                   Notificatn.showSuccessToast(context,
                       msg: 'Profile updated successfully');
                   Navigator.pop(context);

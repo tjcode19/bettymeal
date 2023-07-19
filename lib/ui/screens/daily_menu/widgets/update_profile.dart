@@ -23,23 +23,40 @@ class UpdateProfile extends StatelessWidget {
           ),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.notification_important, color: Colors.red,),
-            CustomLayout.lPad.sizedBoxW,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Text(
-                  'Your profile is 30% completed',
-                  style: Theme.of(context).textTheme.titleMedium,
+                Icon(
+                  Icons.notification_important,
+                  color: Colors.red,
                 ),
-                Text(
-                  'Update your profile',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
+                CustomLayout.lPad.sizedBoxW,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Your profile is 30% completed',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      'Update your profile',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                    ),
+                  ],
                 ),
               ],
+            ),
+            GestureDetector(
+              onTap: () {
+                
+              },
+              child: CircleAvatar(
+                child: Icon(Icons.close),
+                backgroundColor: Colors.red,
+              ),
             )
           ],
         ),

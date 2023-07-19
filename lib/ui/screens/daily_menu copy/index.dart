@@ -144,7 +144,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                 if (!isFreshUser)
                   ExistingUserWidget(name, isActiveSub, subInfo, shuffle, regenerate)
                 else
-                  NewUserWidget(name)
+                  NewUserWidget()
             ],
           );
         },

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:badges/badges.dart' as badges;
 
-import '../../../../data/api/models/GetSubscription.dart';
-import '../../../../utils/colours.dart';
-import '../../../../utils/constants.dart';
-import '../../../../utils/enums.dart';
+import '../../data/api/models/GetSubscription.dart';
+import '../../utils/colours.dart';
+import '../../utils/constants.dart';
+import '../../utils/enums.dart';
 
 class PlanCard extends StatelessWidget {
   const PlanCard(

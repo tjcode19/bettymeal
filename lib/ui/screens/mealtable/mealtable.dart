@@ -102,8 +102,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
 
       if (v.contains(true)) {
         selectedWeekIndex = i;
-
-        log("here:" + selectedWeekIndex.toString());
       }
 
       i++;
@@ -180,7 +178,7 @@ class _MealTableScreenState extends State<MealTableScreen> {
                       if (state is GetTableSuccess) {
                         isRegenerateBtnClicked = false;
                         isShuffleBtnClicked = false;
-                        context.read<DashboardCubit>().prepareDashboard();
+                        // context.read<DashboardCubit>().prepareDashboard('Mealtable screen Listener');
                       }
                       if (state is TimetableError) {
                         isRegenerateBtnClicked = false;

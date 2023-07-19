@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bettymeals/data/api/repositories/userRepo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -17,7 +19,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   final UserRepository userRepository;
   final SharedPreferenceApp sharedPreference;
 
-  prepareDashboard() async {
+  prepareDashboard(String caller) async {
+
+    log('The caller is :' +caller);
     emit(DashboardLoading());
     try {
       final cal = await userRepository.getUserDetails();

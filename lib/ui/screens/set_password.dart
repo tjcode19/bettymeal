@@ -71,7 +71,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 if (state is cs.VerifyEmailSuccess) {
                   Notificatn.hideLoading();
                   SchedulerBinding.instance.addPostFrameCallback((_) {
-                    context.read<DashboardCubit>().prepareDashboard();
+                    context.read<DashboardCubit>().prepareDashboard('Set Password Screen');
                     context.read<TimetableCubit>().getTimeableApi();
                     context.read<SubCubit>().getSubscription();
                     context.read<MealCubit>().getAllMeal();

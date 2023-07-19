@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (now.isAfter(expD)) {
         goLogin();
       } else {
-        context.read<DashboardCubit>().prepareDashboard();
+        context.read<DashboardCubit>().prepareDashboard('Splash screen');
         goHome();
       }
     } else {

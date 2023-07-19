@@ -257,7 +257,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                                       context
                                           .read<DashboardCubit>()
-                                          .prepareDashboard();
+                                          .prepareDashboard('Payment screen');
 
                                       Navigator.popAndPushNamed(
                                           context, Routes.home);

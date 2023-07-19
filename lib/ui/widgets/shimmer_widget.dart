@@ -5,7 +5,7 @@ Widget shimmerWidget({row = 1, height = 200}) {
   return SizedBox(
     height: height,
     child: Shimmer.fromColors(
-      baseColor: Colors.teal[200]!,
+      baseColor: Colors.black12,
       highlightColor: Colors.grey[100]!,
       enabled: true,
       child: ListView.builder(

@@ -5,13 +5,11 @@ import '../../../../cubit/sub_cubit.dart';
 import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
-import 'plan_card.dart';
+import '../../../widgets/plan_card.dart';
 import 'update_profile.dart';
 
 class NewUserWidget extends StatefulWidget {
-  const NewUserWidget(this.name, {super.key});
-
-  final String name;
+  const NewUserWidget({super.key});
 
   @override
   State<NewUserWidget> createState() => _NewUserWidgetState();
@@ -25,7 +23,6 @@ class _NewUserWidgetState extends State<NewUserWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.name == "Guest") UpdateProfile(),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: CommonUtils.padding,

@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (state is LoginSuccess) {
                     Notificatn.hideLoading();
                     SchedulerBinding.instance.addPostFrameCallback((_) {
-                      context.read<DashboardCubit>().prepareDashboard();
+                      context.read<DashboardCubit>().prepareDashboard('Login Screen');
                       context.read<TimetableCubit>().getTimeableApi();
                       context.read<SubCubit>().getSubscription();
                       context.read<MealCubit>().getAllMeal();
