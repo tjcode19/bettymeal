@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/enums.dart';
-import 'widgets/active_plan_card.dart';
-import 'widgets/inactive_plan_card.dart';
 
 class DailyMenuScreen extends StatefulWidget {
   const DailyMenuScreen({super.key});
@@ -37,20 +35,15 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
     return Scaffold(
       body: BlocBuilder<DashboardCubit, DashboardState>(
         builder: (context, state) {
-          bool isActiveSub = false;
           bool isFreshUser = false;
-          bool isError = false;
 
           if (state is LoadDashboard) {
-            isActiveSub = state.isActiveSub;
             isFreshUser = state.data.isFreshUser!;
             name = state.data.user!.firstName!;
             plan = state.isActiveSub
                 ? state.data.activeSub![0].sub!.name!
                 : 'Select Plan';
             subId = state.isActiveSub ? state.data.activeSub![0].sub!.sId! : '';
-          } else if (state is DashboardError) {
-            isError = true;
           }
           return Column(
             children: [
@@ -134,7 +127,9 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     if (state is DashboardLoading)
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 12.0, right: 8.0,),
+                          left: 12.0,
+                          right: 8.0,
+                        ),
                         child: shimmerWidget(
                             row: 4,
                             height:
@@ -143,6 +138,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     if (isFreshUser) NewUserWidget() else ExistingUserWidget(),
                     CustomLayout.mPad.sizedBoxH,
                     InfoCard(),
+                    CustomLayout.mPad.sizedBoxH,
                   ],
                 )),
               )

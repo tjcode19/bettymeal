@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
-import '../daily_menu/widgets/plan_card.dart';
+import '../../widgets/plan_card.dart';
 
 class RecordsScreen extends StatelessWidget {
   const RecordsScreen({super.key});
