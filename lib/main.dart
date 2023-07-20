@@ -1,12 +1,13 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/data/api/network_check.dart';
 import 'package:bettymeals/utils/colours.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bettymeals/utils/noti.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
@@ -21,13 +22,19 @@ import 'routes.dart';
 import 'services/observer.dart';
 import 'utils/custom_anim.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.data} hanba');
+  // Handle the background message here
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   await AppDatabase().init();
-  // if (defaultTargetPlatform == TargetPlatform.android) {
-  //   InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
-  // }
+  await Firebase.initializeApp();
   runApp(const MyApp());
 
   configLoading();
@@ -40,8 +47,67 @@ void main() async {
   ;
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? _token;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+  }
+
+  void _requestNotificationPermissions() async {
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  Future<void> _initializeFirebase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    _requestNotificationPermissions();
+    _firebaseMessaging.getToken().then((token) {
+      setState(() {
+        _token = token;
+      });
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Foreground notification received ${message.data} hererr');
+      // Handle the received message here
+
+      Notificatn.showSuccessToast(context, msg: 'OnForeground ${message.data['name']} ');
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Background/terminated notification opened ${message.data} ha');
+      // Handle the notification when the user taps on it
+    });
+
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  }
+
+  // Future<void> _firebaseMessagingBackgroundHandler(
+  //     RemoteMessage message) async {
+  //   print('Handling a background message');
+  //   // Handle the background message here
+  // }
 
   @override
   Widget build(BuildContext context) {

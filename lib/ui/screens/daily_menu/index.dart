@@ -122,7 +122,8 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                     child: Column(
                   children: [
                     CustomLayout.mPad.sizedBoxH,
-                    if (name == 'Guest') UpdateProfile(),
+                    if (state is LoadDashboard && name == 'Guest')
+                      UpdateProfile(),
                     CustomLayout.mPad.sizedBoxH,
                     if (state is DashboardLoading)
                       Padding(
