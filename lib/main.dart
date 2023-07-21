@@ -13,6 +13,7 @@ import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
 import 'cubit/food_cubit.dart';
 import 'cubit/meal_cubit.dart';
+import 'cubit/notification_cubit.dart';
 import 'cubit/store_cubit.dart';
 import 'cubit/sub_cubit.dart';
 import 'cubit/timetable_cubit.dart';
@@ -22,19 +23,14 @@ import 'routes.dart';
 import 'services/observer.dart';
 import 'utils/custom_anim.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.data} hanba');
-  // Handle the background message here
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   await AppDatabase().init();
-  await Firebase.initializeApp();
+
   runApp(const MyApp());
 
   configLoading();
@@ -86,21 +82,25 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _token = token;
       });
+
+      print('device id: $_token');
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Foreground notification received ${message.data} hererr');
       // Handle the received message here
 
-      Notificatn.showSuccessToast(context, msg: 'OnForeground ${message.data['name']} ');
+      Notificatn.showSuccessToast(context,
+          msg: 'OnForeground ${message.data['name']} ');
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Background/terminated notification opened ${message.data} ha');
       // Handle the notification when the user taps on it
+      Navigator.pushNamed(context, Routes.notificationScreen);
     });
 
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   // Future<void> _firebaseMessagingBackgroundHandler(
@@ -108,6 +108,14 @@ class _MyAppState extends State<MyApp> {
   //   print('Handling a background message');
   //   // Handle the background message here
   // }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    await Firebase.initializeApp();
+    print('Handling a background message ${message.data} hanba');
+    // Handle the background message here
+    Navigator.pushNamed(context, Routes.notificationScreen);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +142,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => StoreCubit(),
+        ),
+        BlocProvider(
+          create: (context) => NotificationCubit(),
         ),
         BlocProvider(
           create: (context) => AuthCubit(),

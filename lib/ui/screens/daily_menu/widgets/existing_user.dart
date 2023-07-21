@@ -24,7 +24,7 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
   ScrollController _scrollController = ScrollController();
   int _selected = 0;
   bool justLaunch = true;
-   final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Fruit'];
+  final List<String> period = ['Breakfast', 'Lunch', 'Dinner', 'Fruit'];
 
   void _scrollToCurrentDate(pos) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -44,7 +44,8 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
         bool isActiveSub = false;
         if (state is LoadDashboard) {
           isActiveSub = state.isActiveSub;
-          final tVal = state.data.activeSub![0].timetable!;
+
+          final tVal = isActiveSub ? state.data.activeSub![0].timetable! : [];
           return Column(
             children: [
               if (isActiveSub) ActivePlanCard() else InactivePlanCard(),

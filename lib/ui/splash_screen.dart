@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/cubit/notification_cubit.dart';
 import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/meal_cubit.dart';
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  gotoOnboarding() {
+  gotoOnboarding() async {
     Timer(Duration(seconds: counter), () {
       Navigator.popAndPushNamed(context, Routes.onboarding);
     });
@@ -65,6 +65,7 @@ class _SplashScreenState extends State<SplashScreen>
     context.read<TimetableCubit>().getTimeableApi();
     context.read<SubCubit>().getSubscription();
     context.read<MealCubit>().getAllMeal();
+    context.read<NotificationCubit>().subscribeToTopic(topic: 'all');
 
     Timer(Duration(seconds: counter), () async {
       Navigator.popAndPushNamed(context, Routes.home);
@@ -76,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.popAndPushNamed(context, Routes.loginScreen);
     });
   }
-  
+
   @override
   void initState() {
     super.initState();

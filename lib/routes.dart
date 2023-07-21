@@ -3,6 +3,7 @@ import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
+import 'package:bettymeals/ui/screens/notifications.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/screens/settings/change_password.dart';
 import 'package:bettymeals/ui/screens/settings/profile.dart';
@@ -45,6 +46,7 @@ class Routes {
   static const String storeScreen = '/store-screen';
   static const String stepbystepScreen = '/step-by-step-screen';
   static const String manageSubScreen = '/manage-sub-screen';
+  static const String notificationScreen = '/notification-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -77,6 +79,14 @@ class Routes {
         return MaterialPageRoute(
           builder: (_) => AddMealScreen(
             typeId: t,
+          ),
+        );
+      case notificationScreen:
+        final List<String> t = settings.arguments as List<String>;
+        return MaterialPageRoute(
+          builder: (_) => NotificationScreen(
+            title: t[0],
+            body: t[1],
           ),
         );
       case plans:
