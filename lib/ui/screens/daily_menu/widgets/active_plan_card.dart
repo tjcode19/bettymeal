@@ -1,15 +1,12 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
-import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/data/api/models/GetUserDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
-import '../../../../utils/device_utils.dart';
 import '../../../../utils/enums.dart';
 import '../../../../utils/helper.dart';
-import '../../../widgets/shimmer_widget.dart';
 
 class ActivePlanCard extends StatefulWidget {
   const ActivePlanCard({super.key});

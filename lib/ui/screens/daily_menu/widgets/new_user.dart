@@ -6,8 +6,6 @@ import '../../../../routes.dart';
 import '../../../../utils/colours.dart';
 import '../../../../utils/constants.dart';
 import '../../../widgets/plan_card.dart';
-import 'update_profile.dart';
-
 class NewUserWidget extends StatefulWidget {
   const NewUserWidget({super.key});
 

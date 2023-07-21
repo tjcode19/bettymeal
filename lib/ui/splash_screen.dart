@@ -11,7 +11,6 @@ import '../cubit/meal_cubit.dart';
 import '../cubit/sub_cubit.dart';
 import '../cubit/timetable_cubit.dart';
 import '../routes.dart';
-import '../services/observer.dart';
 import '../utils/enums.dart';
 
 class SplashScreen extends StatefulWidget {

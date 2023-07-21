@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/timetable.dart';
@@ -25,7 +23,7 @@ class TimetableDao {
 
   Future<int> update(TimeTable timetable) async {
     Map<String, dynamic> json = {'food': timetable.food};
-    return await _database.update(tableName,json,
+    return await _database.update(tableName, json,
         where: 'date = ?', whereArgs: [timetable.date]);
   }
 

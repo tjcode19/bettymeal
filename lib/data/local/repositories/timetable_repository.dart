@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../database/app_database.dart';
 import '../models/timetable.dart';
 

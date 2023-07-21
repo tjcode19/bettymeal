@@ -1,14 +1,7 @@
-import 'package:bettymeals/cubit/dashboard_cubit.dart';
-import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubit/timetable_cubit.dart';
-import '../../data/api/models/GetSubscription.dart';
-import '../../routes.dart';
 import '../../utils/enums.dart';
-import '../../utils/noti.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen(
@@ -104,7 +97,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 CustomLayout.xxlPad.sizedBoxH,
 
                 Row(
-                  
                   children: [
                     Expanded(
                       child: ElevatedButton(
