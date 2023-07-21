@@ -43,14 +43,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: 'Notifications ',
+                    text: '${widget.title}',
                     children: [
                       TextSpan(
-                        text: 'Payment ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: Colors.black.withOpacity(0.8)),
+                        text: ' New',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColour(context)
+                                .primaryColour
+                                .withOpacity(0.8)),
                       ),
                     ],
                     style: Theme.of(context)
@@ -61,8 +61,61 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 CustomLayout.xxlPad.sizedBoxH,
 
-                Text(widget.title),
-                Text(widget.body),
+                Container(
+                  width: CommonUtils.sw(context),
+                  decoration: BoxDecoration(
+                    color: AppColour(context).onPrimaryColour,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        right: -50,
+                        child: Transform.rotate(
+                          angle: -30 * 0.0174533,
+                          child: Icon(
+                            Icons.tips_and_updates_outlined,
+                            color: Colors.grey[200],
+                            size: 150,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(CommonUtils.padding),
+                        child: Text(
+                          '${widget.body}',
+                          textAlign: TextAlign.justify,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: AppColour(context)
+                                      .onSecondaryColour
+                                      .withOpacity(0.8),
+                                  fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                CustomLayout.xxlPad.sizedBoxH,
+
+                Row(
+                  
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Close'),
+                      ),
+                    ),
+                  ],
+                ),
 
                 // BlocBuilder<SubCubit, SubState>(
                 //   builder: (context, state) {

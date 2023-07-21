@@ -20,18 +20,18 @@ import 'cubit/timetable_cubit.dart';
 import 'cubit/user_cubit.dart';
 import 'data/local/database/app_database.dart';
 import 'routes.dart';
-import 'services/observer.dart';
 import 'utils/custom_anim.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  WidgetsBinding.instance.addObserver(AppLifecycleObserver());
   await AppDatabase().init();
 
-  runApp(const MyApp());
+  runApp(BlocProvider(
+    create: (context) => NotificationCubit(),
+    child: MyApp(),
+  ));
 
   configLoading();
 
@@ -95,26 +95,23 @@ class _MyAppState extends State<MyApp> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Background/terminated notification opened ${message.data} ha');
+      print('Background/terminated notification opened ${message.data}');
+
       // Handle the notification when the user taps on it
-      Navigator.pushNamed(context, Routes.notificationScreen);
+      // Navigator.pushNamed(context, Routes.notificationScreen);
+      context.read<NotificationCubit>().storeNoti(context, msg: message);
     });
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  // Future<void> _firebaseMessagingBackgroundHandler(
-  //     RemoteMessage message) async {
-  //   print('Handling a background message');
-  //   // Handle the background message here
-  // }
-
   Future<void> _firebaseMessagingBackgroundHandler(
       RemoteMessage message) async {
+    WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     print('Handling a background message ${message.data} hanba');
     // Handle the background message here
-    Navigator.pushNamed(context, Routes.notificationScreen);
+    // Navigator.pushNamed(context, Routes.notificationScreen);
   }
 
   @override

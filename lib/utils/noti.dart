@@ -33,7 +33,8 @@ class Notificatn {
 
   static showInfoModal(context,
       {msg = 'An info', toastPosition = EasyLoadingToastPosition.top}) {
-    EasyLoading.instance..backgroundColor = AppColour(context).onPrimaryColour.withOpacity(0.5);
+    EasyLoading.instance
+      ..backgroundColor = AppColour(context).onPrimaryColour.withOpacity(0.5);
     EasyLoading.instance..maskColor = Colors.black.withOpacity(0.2);
 
     EasyLoading.showInfo(
@@ -45,8 +46,7 @@ class Notificatn {
   static showErrorToast(context,
       {errorMsg = 'Error occured',
       toastPosition = EasyLoadingToastPosition.top}) {
-    EasyLoading.instance
-      ..backgroundColor = AppColour(context).errorColor;
+    EasyLoading.instance..backgroundColor = AppColour(context).errorColor;
     EasyLoading.instance
       ..maskColor = AppColour(context).primaryColour.withOpacity(0.3);
 

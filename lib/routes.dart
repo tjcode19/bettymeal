@@ -1,3 +1,4 @@
+import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bettymeals/ui/screens/addmeal.dart';
 import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
@@ -82,11 +83,11 @@ class Routes {
           ),
         );
       case notificationScreen:
-        final List<String> t = settings.arguments as List<String>;
+        final t = settings.arguments as NotiResponse;
         return MaterialPageRoute(
           builder: (_) => NotificationScreen(
-            title: t[0],
-            body: t[1],
+            title: t.title!,
+            body: t.body!,
           ),
         );
       case plans:

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../cubit/user_cubit.dart';
+import '../../routes.dart';
 import '../widgets/plan_card.dart';
 
 class PlansScreen extends StatefulWidget {
@@ -246,10 +247,10 @@ class _PlansScreenState extends State<PlansScreen> {
                                         ? Colors.blue.withOpacity(0.1)
                                         : null,
                                 onPress: () {
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.planDetails,
-                                  //     arguments: e);
-                                  makePurchase(products[0]);
+                                  Navigator.pushNamed(
+                                      context, Routes.planDetails,
+                                      arguments: e);
+                                  // makePurchase(products[0]);
                                 },
                               );
                             },

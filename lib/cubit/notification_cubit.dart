@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -21,9 +24,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     await _firebaseMessaging.subscribeToTopic(topic);
     sharedPreference.setData(
-        sharedType: SpDataType.bool,
-        fieldName: topic,
-        fieldValue: true);
+        sharedType: SpDataType.bool, fieldName: topic, fieldValue: true);
     print('Subscribed to topic: $topic');
   }
 
@@ -31,11 +32,44 @@ class NotificationCubit extends Cubit<NotificationState> {
     // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     await _firebaseMessaging.unsubscribeFromTopic(topic);
     sharedPreference.setData(
-        sharedType: SpDataType.bool,
-        fieldName: topic,
-        fieldValue: false);
+        sharedType: SpDataType.bool, fieldName: topic, fieldValue: false);
     print('Subscribed to topic: news');
   }
 
- 
+  storeNoti(context, {msg}) {
+    // print('We got here : $msg');
+
+    final notiData = {
+      "title": msg.notification.title,
+      "body": msg.notification.body
+    };
+
+    inspect(notiData);
+    sharedPreference.setData(
+        sharedType: SpDataType.object, fieldName: 'noti', fieldValue: notiData);
+  }
+
+  gotoNoti(context, {msg}) async {
+    // print('We got here : $msg');
+    // showDialog(
+    //     context: context,
+    //     builder: (v) {
+    //       return Text('Memo');
+    //     });
+    bool hasResumed = false;
+
+    final uData = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'noti');
+    '';
+    inspect(uData);
+
+    NotiResponse data = NotiResponse.fromJson(uData);
+    if (!hasResumed) {
+      hasResumed = true;
+
+      Navigator.pushNamed(context, Routes.notificationScreen, arguments: data);
+    }
+    sharedPreference.setData(
+        sharedType: SpDataType.object, fieldName: 'noti', fieldValue: null);
+  }
 }

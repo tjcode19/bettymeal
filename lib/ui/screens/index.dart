@@ -9,6 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
+import '../../cubit/notification_cubit.dart';
+import '../../data/shared_preference.dart';
+import '../../services/observer.dart';
+import '../../utils/enums.dart';
 import 'foods/food.dart';
 import 'mealtable/mealtable.dart';
 import 'settings/setting.dart';
@@ -22,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  final SharedPreferenceApp sharedPreference = SharedPreferenceApp();
 
   void onTabTapped(int index) {
     if (_currentIndex == 4) {
@@ -49,9 +54,23 @@ class _HomePageState extends State<HomePage> {
       onTabTapped(0);
   }
 
+  checkNoti() async {
+    final noti = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'noti');
+
+    if (noti != null) {
+      context.read<NotificationCubit>().gotoNoti(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    checkNoti();
+    final AppLifecycleObserver lifecycleObserver =
+        AppLifecycleObserver(context);
+    WidgetsBinding.instance.addObserver(lifecycleObserver);
   }
 
   @override

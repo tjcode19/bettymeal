@@ -11,6 +11,7 @@ import '../cubit/meal_cubit.dart';
 import '../cubit/sub_cubit.dart';
 import '../cubit/timetable_cubit.dart';
 import '../routes.dart';
+import '../services/observer.dart';
 import '../utils/enums.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   final double sizeW = 140;
   int counter = 2;
-  // late FirebaseMessaging _firebaseMessaging;
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -37,8 +37,12 @@ class _SplashScreenState extends State<SplashScreen>
         sharedType: SpDataType.String, fieldName: 'token');
     final expDate = await sharedPreference.getSharedPrefs(
         sharedType: SpDataType.String, fieldName: 'tokenExp');
+    final noti = await sharedPreference.getSharedPrefs(
+        sharedType: SpDataType.object, fieldName: 'noti');
 
     final now = DateTime.now();
+
+    print('did you come here at all? ${noti == null}');
 
     if (ft) {
       gotoOnboarding();
@@ -81,7 +85,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    // messagingService.init();
 
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
