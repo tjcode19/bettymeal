@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../../../routes.dart';
@@ -16,8 +18,8 @@ class UpdateProfile extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: CommonUtils.padding, vertical: 6),
         margin: EdgeInsets.symmetric(horizontal: CommonUtils.mpadding),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.red),
-          color: Colors.red.withOpacity(0.1),
+          border: Border.all(color: Colors.black.withOpacity(0.5)),
+          color: Colors.black.withOpacity(0.1),
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
@@ -29,7 +31,7 @@ class UpdateProfile extends StatelessWidget {
               children: [
                 Icon(
                   Icons.notification_important,
-                  color: Colors.red,
+                  color: Colors.black.withOpacity(0.6),
                 ),
                 CustomLayout.lPad.sizedBoxW,
                 Column(
@@ -51,11 +53,13 @@ class UpdateProfile extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                
+                Navigator.pushNamed(context, Routes.profileScreen);
               },
               child: CircleAvatar(
-                child: Icon(Icons.close),
-                backgroundColor: Colors.red,
+                child: Icon(Platform.isAndroid
+                    ? Icons.arrow_forward
+                    : Icons.arrow_forward_ios),
+                backgroundColor: Colors.black38,
               ),
             )
           ],

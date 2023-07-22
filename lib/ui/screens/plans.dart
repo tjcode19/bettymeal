@@ -196,8 +196,6 @@ class _PlansScreenState extends State<PlansScreen> {
     inspect(products);
   }
 
-  
-
   @override
   void dispose() {
     _subscription.cancel();
@@ -320,11 +318,9 @@ class _PlansScreenState extends State<PlansScreen> {
                                 plan: e,
                                 showBadge: widget.planId == e.sId,
                                 background: pos == 1
-                                    ? AppColour(context)
-                                        .secondaryColour
-                                        .withOpacity(0.1)
+                                    ? AppColour(context).secondaryColour
                                     : pos == 2
-                                        ? Colors.blue.withOpacity(0.1)
+                                        ? Colors.blue
                                         : null,
                                 onPress: () {
                                   Navigator.pushNamed(

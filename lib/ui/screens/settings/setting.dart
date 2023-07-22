@@ -243,7 +243,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   ListTile(
                     onTap: () => Navigator.pushNamed(
-                        context, Routes.changePasswordScreen),
+                        context, Routes.manageSubScreen),
                     title: Text(
                       'Manage Subscription',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(

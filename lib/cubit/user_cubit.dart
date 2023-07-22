@@ -165,4 +165,5 @@ class UserCubit extends Cubit<UserState> {
 
     updateUser({'tribes': uData.user!.tribes}, main: false);
   }
+
 }

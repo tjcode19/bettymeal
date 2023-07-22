@@ -9,8 +9,7 @@ import '../../utils/enums.dart';
 
 class PlanCard extends StatelessWidget {
   const PlanCard(
-      {
-      required this.plan,
+      {required this.plan,
       this.background,
       this.plainId,
       this.showBadge = false,
@@ -50,11 +49,11 @@ class PlanCard extends StatelessWidget {
         ),
         child: Container(
           width: CommonUtils.sw(context, s: 1),
-          height: CommonUtils.sh(context, s: .2),
+          // height: CommonUtils.sh(context, s: .2),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
           decoration: BoxDecoration(
-            color: background ??
+            color: background?.withOpacity(0.1) ??
                 AppColour(context).primaryLightColour.withOpacity(0.2),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
@@ -85,23 +84,23 @@ class PlanCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CustomLayout.xlPad.sizedBoxH,
+                  CustomLayout.lPad.sizedBoxH,
                   RichText(
                     text: TextSpan(
                       text: 'Plan for the next \n',
                       children: [
                         TextSpan(
-                          text: plan.period?.week?.duration.toString(),
+                          text: plan.period?.month?.duration.toString(),
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     color: AppColour(context).primaryColour,
                                   ),
                         ),
                         TextSpan(
-                          text: "Days @",
+                          text: " days @",
                         ),
                         TextSpan(
-                          text: " \$${plan.period?.week?.price}",
+                          text: " \$${plan.period?.month?.price}",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.black,
@@ -123,8 +122,10 @@ class PlanCard extends StatelessWidget {
                   )
                 ],
               ),
-              SvgPicture.asset('assets/icons/think.svg',
-                  width: CommonUtils.sw(context, s: .4),
+              SvgPicture.asset('assets/icons/m-free.svg',
+                  width: CommonUtils.sw(context, s: .2),
+                  color: background?.withOpacity(0.3) ??
+                      AppColour(context).primaryLightColour.withOpacity(0.5),
                   semanticsLabel: 'A red up arrow')
             ],
           ),

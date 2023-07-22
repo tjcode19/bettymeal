@@ -60,9 +60,8 @@ class _NewUserWidgetState extends State<NewUserWidget> {
                     background: pos == 1
                         ? AppColour(context)
                             .secondaryColour
-                            .withOpacity(0.1)
                         : pos == 2
-                            ? Colors.blue.withOpacity(0.1)
+                            ? Colors.blue
                             : null,
                     onPress: () {
                       Navigator.pushNamed(context, Routes.planDetails,
