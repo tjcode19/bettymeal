@@ -184,8 +184,10 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                 )
             ],
           );
-        } else
+        } else if (state is DashboardError)
           return Text('Error occured, try again');
+        else
+          return SizedBox();
       },
     );
   }

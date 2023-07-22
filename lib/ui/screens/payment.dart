@@ -1,20 +1,28 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
+import 'package:bettymeals/ui/screens/plans.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../data/api/models/GetSubscription.dart';
+import '../../main.dart';
 import '../../routes.dart';
 import '../../utils/enums.dart';
 import '../../utils/noti.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({required this.plan, required this.type, super.key});
+  const PaymentScreen(
+      {required this.plan,
+      required this.type,
+      required this.product,
+      super.key});
 
   final SubscriptionData plan;
   final bool type;
+  final product;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -22,6 +30,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   // late final TimetableCubit _timetableCubit;
+  final iapConnection = IAPConnection.instance;
 
   DateTime currentDate = DateTime.now();
 
@@ -53,6 +62,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.initState();
 
     _onSwitch(widget.type);
+  }
+
+  Future<void> buy(PurchasableProduct product) async {
+    final purchaseParam = PurchaseParam(productDetails: product.productDetails);
+    switch (product.id) {
+      case "m_regenerate_100":
+        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
+        break;
+      case "m_standard_week":
+      case "m_standard":
+        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
+        break;
+      default:
+        throw ArgumentError.value(
+            product.productDetails, '${product.id} is not a known product');
+    }
   }
 
   @override
@@ -175,35 +200,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             .generateTimeableApi(
                                                 widget.plan.sId, planPeriodId);
                                       } else {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('PayStack'),
-                                              content: Text(
-                                                  'You will be redirected to paystack to make payment'),
-                                              actions: [
-                                                TextButton(
-                                                  child: Text('Cancel'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Pay Now'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                    context
-                                                        .read<TimetableCubit>()
-                                                        .generateTimeableApi(
-                                                            widget.plan.sId,
-                                                            planPeriodId);
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
+                                        buy(widget.product);
+                                        // showDialog(
+                                        //   context: context,
+                                        //   builder: (BuildContext context) {
+                                        //     return AlertDialog(
+                                        //       title: Text('Process Payment'),
+                                        //       content: Text(
+                                        //           'Your plan will be activated after succesful payment'),
+                                        //       actions: [
+                                        //         TextButton(
+                                        //           child: Text('Cancel'),
+                                        //           onPressed: () {
+                                        //             Navigator.of(context).pop();
+                                        //           },
+                                        //         ),
+                                        //         TextButton(
+                                        //           child: Text('Pay Now'),
+                                        //           onPressed: () {
+                                        //             Navigator.of(context).pop();
+                                        //             buy(widget.product);
+                                        //             // context
+                                        //             //     .read<TimetableCubit>()
+                                        //             //     .generateTimeableApi(
+                                        //             //         widget.plan.sId,
+                                        //             //         planPeriodId);
+                                        //           },
+                                        //         ),
+                                        //       ],
+                                        //     );
+                                        //   },
+                                        // );
                                       }
                                     },
                                     child: const Text('Continue'),

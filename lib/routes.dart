@@ -60,10 +60,13 @@ class Routes {
       case getStarted:
         return MaterialPageRoute(builder: (_) => const GetStarted());
       case planDetails:
-        final SubscriptionData plan = settings.arguments as SubscriptionData;
+        final List p = settings.arguments as List;
+        final SubscriptionData plan = p[0] as SubscriptionData;
+        final PurchasableProduct product = p[1] as PurchasableProduct;
         return MaterialPageRoute(
           builder: (_) => PlanDetails(
             plan: plan,
+            product: product,
           ),
         );
       case mealDetails:
@@ -86,8 +89,8 @@ class Routes {
         final t = settings.arguments as NotiResponse;
         return MaterialPageRoute(
           builder: (_) => NotificationScreen(
-            title: t.title!,
-            body: t.body!,
+            title: t.title ?? '',
+            body: t.body ?? '',
           ),
         );
       case plans:
@@ -140,10 +143,12 @@ class Routes {
         final List<dynamic> t = settings.arguments as List;
         final plan = t[0];
         final m = t[1];
+        final product = t[2] as PurchasableProduct;
         return MaterialPageRoute(
           builder: (_) => PaymentScreen(
             plan: plan,
             type: m,
+            product: product,
           ),
         );
       case changePasswordScreen:

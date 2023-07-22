@@ -196,21 +196,7 @@ class _PlansScreenState extends State<PlansScreen> {
     inspect(products);
   }
 
-  Future<void> buy(PurchasableProduct product) async {
-    final purchaseParam = PurchaseParam(productDetails: product.productDetails);
-    switch (product.id) {
-      case "m_regenerate_100":
-        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
-        break;
-      case "m_standard_week":
-      case "m_standard":
-        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
-        break;
-      default:
-        throw ArgumentError.value(
-            product.productDetails, '${product.id} is not a known product');
-    }
-  }
+  
 
   @override
   void dispose() {
@@ -341,10 +327,10 @@ class _PlansScreenState extends State<PlansScreen> {
                                         ? Colors.blue.withOpacity(0.1)
                                         : null,
                                 onPress: () {
-                                  // Navigator.pushNamed(
-                                  //     context, Routes.planDetails,
-                                  //     arguments: e);
-                                  buy(products[1]);
+                                  Navigator.pushNamed(
+                                      context, Routes.planDetails,
+                                      arguments: [e, products[0]]);
+                                  // buy(products[1]);
                                 },
                               );
                             },

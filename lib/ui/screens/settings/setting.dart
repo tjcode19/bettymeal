@@ -102,7 +102,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 listener: (context, state) {
                   if (state is sd.SpGetData) {
                     name =
-                        '${state.uData.user!.firstName!} ${state.uData.user!.lastName!}';
+                        '${state.uData.user?.firstName!} ${state.uData.user?.lastName!}';
                     setState(() {
                       email = state.email;
                     });

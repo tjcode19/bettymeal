@@ -63,9 +63,8 @@ class NotificationCubit extends Cubit<NotificationState> {
     '';
     inspect(uData);
 
-    if(uData == null) return;
-
     NotiResponse data = NotiResponse.fromJson(uData);
+    if (data.title == null || data.title == '') return;
     if (!hasResumed) {
       hasResumed = true;
 
