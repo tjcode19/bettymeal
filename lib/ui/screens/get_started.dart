@@ -19,6 +19,8 @@ class _GetStartedState extends State<GetStarted> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  bool policyAccepted = false;
+
   String gender = 'None';
   @override
   void initState() {
@@ -131,7 +133,13 @@ class _GetStartedState extends State<GetStarted> {
                     CustomLayout.lPad.sizedBoxH,
                     Row(
                       children: [
-                        Checkbox(value: true, onChanged: (v) {}),
+                        Checkbox(
+                            value: policyAccepted,
+                            onChanged: (v) {
+                              setState(() {
+                                policyAccepted = v!;
+                              });
+                            }),
                         Expanded(
                           child: RichText(
                             text: TextSpan(
@@ -170,15 +178,18 @@ class _GetStartedState extends State<GetStarted> {
                     ),
 
                     CustomLayout.xlPad.sizedBoxH,
+
                     ElevatedButton(
-                      onPressed: () {
-                        DeviceUtils.hideKeyboard(context);
-                        if (_formKey.currentState!.validate()) {
-                          context
-                              .read<cs.UserCubit>()
-                              .userRegistration(_emailController.text);
-                        }
-                      },
+                      onPressed: policyAccepted
+                          ? () {
+                              DeviceUtils.hideKeyboard(context);
+                              if (_formKey.currentState!.validate()) {
+                                context
+                                    .read<cs.UserCubit>()
+                                    .userRegistration(_emailController.text);
+                              }
+                            }
+                          : null,
                       child: Center(child: const Text('Continue')),
                     ),
                   ],
@@ -196,7 +207,7 @@ class _GetStartedState extends State<GetStarted> {
                         text: 'Already have a profile?',
                         children: [
                           TextSpan(
-                            text: ' Login Now',
+                            text: ' Login',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: AppColour(context).primaryColour,
