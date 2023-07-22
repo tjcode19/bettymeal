@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/device_utils.dart';
 import 'package:flutter/material.dart';
@@ -242,8 +244,8 @@ class _SettingScreenState extends State<SettingScreen> {
                     onChanged: _onShowFabChanged,
                   ),
                   ListTile(
-                    onTap: () => Navigator.pushNamed(
-                        context, Routes.manageSubScreen),
+                    onTap: () =>
+                        Navigator.pushNamed(context, Routes.manageSubScreen),
                     title: Text(
                       'Manage Subscription',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -251,7 +253,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text('Upgrade plan or cancel subscription'),
-                    trailing: Icon(Icons.arrow_forward),
+                    trailing: Icon(Platform.isAndroid
+                        ? Icons.arrow_forward
+                        : Icons.arrow_forward_ios),
                   ),
                 ],
               ),
@@ -289,7 +293,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     subtitle:
                         Text('Remember to change password to a familiar word'),
-                    trailing: Icon(Icons.arrow_forward),
+                    trailing: Icon(Platform.isAndroid
+                        ? Icons.arrow_forward
+                        : Icons.arrow_forward_ios),
                   ),
                 ],
               ),
