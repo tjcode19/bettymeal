@@ -36,12 +36,8 @@ class _SplashScreenState extends State<SplashScreen>
         sharedType: SpDataType.String, fieldName: 'token');
     final expDate = await sharedPreference.getSharedPrefs(
         sharedType: SpDataType.String, fieldName: 'tokenExp');
-    final noti = await sharedPreference.getSharedPrefs(
-        sharedType: SpDataType.object, fieldName: 'noti');
 
     final now = DateTime.now();
-
-    print('did you come here at all? ${noti == null}');
 
     if (ft) {
       gotoOnboarding();
