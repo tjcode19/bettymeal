@@ -107,7 +107,8 @@ class _SettingScreenState extends State<SettingScreen> {
                       email = state.email;
                     });
 
-                    selectedTribe.addAll(state.uData.user!.tribes!);
+                    if (state.uData.user != null)
+                      selectedTribe.addAll(state.uData.user!.tribes!);
                   }
                 },
                 child: Stack(
@@ -249,8 +250,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           color: Colors.black.withOpacity(0.6),
                           fontWeight: FontWeight.bold),
                     ),
-                    subtitle:
-                        Text('Upgrade plan or cancel subscription'),
+                    subtitle: Text('Upgrade plan or cancel subscription'),
                     trailing: Icon(Icons.arrow_forward),
                   ),
                 ],

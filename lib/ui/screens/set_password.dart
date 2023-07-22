@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/meal_cubit.dart';
+import '../../cubit/notification_cubit.dart';
 import '../../cubit/sub_cubit.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../data/shared_preference.dart';
@@ -71,24 +72,20 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 if (state is cs.VerifyEmailSuccess) {
                   Notificatn.hideLoading();
                   SchedulerBinding.instance.addPostFrameCallback((_) {
-                    context.read<DashboardCubit>().prepareDashboard('Set Password Screen');
+                    context
+                        .read<DashboardCubit>()
+                        .prepareDashboard('Set Password Screen');
                     context.read<TimetableCubit>().getTimeableApi();
                     context.read<SubCubit>().getSubscription();
                     context.read<MealCubit>().getAllMeal();
+                    context
+                        .read<NotificationCubit>()
+                        .subscribeToTopic(topic: 'all');
                   });
 
                   Navigator.pushNamed(context, Routes.home);
                 }
-                // if (state is cs.GetUser) {
-                //   Notificatn.hideLoading();
-                //   SchedulerBinding.instance.addPostFrameCallback((_) {
-                //     context.read<TimetableCubit>().getTimeableApi();
-                //     context.read<SubCubit>().getSubscription();
-                //     context.read<MealCubit>().getAllMeal();
-                //   });
 
-                //   Navigator.pushNamed(context, Routes.home);
-                // }
                 if (state is cs.SendOtpSuccess) {
                   Notificatn.showSuccessToast(context,
                       msg: 'OTP Sent Successfully');

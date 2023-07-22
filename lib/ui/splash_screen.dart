@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
-import 'package:bettymeals/cubit/notification_cubit.dart';
 import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -64,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
     context.read<TimetableCubit>().getTimeableApi();
     context.read<SubCubit>().getSubscription();
     context.read<MealCubit>().getAllMeal();
-    context.read<NotificationCubit>().subscribeToTopic(topic: 'all');
+   
 
     Timer(Duration(seconds: counter), () async {
       Navigator.popAndPushNamed(context, Routes.home);
