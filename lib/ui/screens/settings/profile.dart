@@ -176,13 +176,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         controller: _dobController,
                         onTap: () => _selectDate(context),
                         readOnly: true,
-                        // enabled: false,
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please Enter DOB';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                       CustomLayout.mPad.sizedBoxH,
                       Text(

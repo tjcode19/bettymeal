@@ -23,7 +23,6 @@ import 'utils/custom_anim.dart';
 
 // Gives the option to override in tests.
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -191,6 +190,11 @@ class _MyAppState extends State<MyApp> {
                 borderSide: BorderSide(width: 1),
               ),
               focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   width: 2,
                 ),
