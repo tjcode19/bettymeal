@@ -1,8 +1,11 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/ui/widgets/otp_widget.dart';
 import 'package:bettymeals/utils/colours.dart';
+import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../cubit/meal_cubit.dart';
 import '../../cubit/notification_cubit.dart';
 import '../../cubit/sub_cubit.dart';
@@ -31,6 +34,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final SharedPreferenceApp sharedPreference = SharedPreferenceApp();
+  bool otpSet = false;
 
   @override
   void initState() {
@@ -53,7 +57,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
         automaticallyImplyLeading: false,
         foregroundColor: Colors.white,
         title: Text(
-          'Set Password',
+          otpSet ? 'Set Password' : 'Verify Email',
           style: TextStyle(color: AppColour(context).onPrimaryColour),
         ),
         backgroundColor: AppColour(context).primaryColour,
@@ -67,7 +71,14 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   Notificatn.showLoading(context, title: 'Loading');
                 }
                 if (state is cs.UserError) {
-                  Notificatn.showErrorModal(context, errorMsg: state.msg);
+                  Notificatn.showErrorToast(context,
+                      errorMsg: state.msg,
+                      toastPosition: EasyLoadingToastPosition.bottom);
+                  setState(() {
+                    otpSet = false;
+                    _passwordController.clear();
+                    _confirmPasswordController.clear();
+                  });
                 }
                 if (state is cs.VerifyEmailSuccess) {
                   Notificatn.hideLoading();
@@ -94,7 +105,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 }
               },
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(CommonUtils.padding),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -112,7 +123,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                                     fontStyle: FontStyle.italic,
                                     color: Colors.black87),
                                 text:
-                                    'An OTP was sent to your email for email verification. Kindly enter the OTP below and set',
+                                    'A verification code was sent to your email for email verification. Kindly enter the CODE below and set',
                                 children: [
                                   TextSpan(
                                     text: ' your password ',
@@ -146,73 +157,116 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                         ],
                       ),
                       CustomLayout.xlPad.sizedBoxH,
-                      TextFormField(
-                        controller: _otpController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                            labelText: 'Enter OTP', hintText: '093743'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter OTP';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomLayout.mPad.sizedBoxH,
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Enter Password',
+                      if (!otpSet)
+                        Column(
+                          children: [
+                            CustomLayout.xlPad.sizedBoxH,
+                            CustomOtpField(
+                              completeAction: (c) {
+                                setState(() {
+                                  otpSet = true;
+                                  _otpController.text = c;
+                                });
+                              },
+                              validator: (v) {
+                                if (v.length < 6) {
+                                  return "Invalid OTP";
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomLayout.lPad.sizedBoxH,
+                            TextButton(
+                              // style: TextButton.styleFrom(
+                              //     side: BorderSide(
+                              //         color: AppColour(context).primaryColour)),
+                              onPressed: () {
+                                context
+                                    .read<cs.UserCubit>()
+                                    .sendOtp(widget.email);
+                              },
+                              child: Text(
+                                'Resend OTP',
+                                style: TextStyle(
+                                    color: AppColour(context).primaryColour),
+                              ),
+                            ),
+                          ],
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Password';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomLayout.mPad.sizedBoxH,
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Enter Password Again',
+                      if (otpSet)
+                        Column(
+                          children: [
+                            CustomLayout.mPad.sizedBoxH,
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                labelText: 'Enter Password',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please Enter Password';
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomLayout.mPad.sizedBoxH,
+                            TextFormField(
+                              controller: _confirmPasswordController,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                labelText: 'Enter Password Again',
+                              ),
+                              validator: (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Enter Same Password As Above';
+                                }
+
+                                return null;
+                              },
+                            ),
+                            CustomLayout.xlPad.sizedBoxH,
+                            CustomLayout.lPad.sizedBoxH,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    // style: TextButton.styleFrom(
+                                    //     side: BorderSide(
+                                    //         color: AppColour(context).primaryColour)),
+                                    onPressed: () {
+                                      setState(() {
+                                        otpSet = false;
+                                      });
+                                    },
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                          color:
+                                              AppColour(context).primaryColour),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      DeviceUtils.hideKeyboard(context);
+                                      if (_formKey.currentState!.validate()) {
+                                        context
+                                            .read<cs.UserCubit>()
+                                            .verifyEmail(
+                                                _otpController.text,
+                                                _passwordController.text,
+                                                widget.userId);
+                                      }
+                                    },
+                                    child: const Text('Continue'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter Same Password As Above';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomLayout.xlPad.sizedBoxH,
-                      TextButton(
-                        // style: TextButton.styleFrom(
-                        //     side: BorderSide(
-                        //         color: AppColour(context).primaryColour)),
-                        onPressed: () {
-                          context.read<cs.UserCubit>().sendOtp(widget.email);
-                        },
-                        child: Text(
-                          'Resend OTP',
-                          style: TextStyle(
-                              color: AppColour(context).primaryColour),
-                        ),
-                      ),
-                      CustomLayout.lPad.sizedBoxH,
-                      ElevatedButton(
-                        onPressed: () async {
-                          DeviceUtils.hideKeyboard(context);
-                          if (_formKey.currentState!.validate()) {
-                            context.read<cs.UserCubit>().verifyEmail(
-                                _otpController.text,
-                                _passwordController.text,
-                                widget.userId);
-                          }
-                        },
-                        child: const Text('Continue'),
-                      ),
                     ],
                   ),
                 ),
