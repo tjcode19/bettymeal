@@ -24,7 +24,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final cal = await authRepository.login(email, password);
-      if (cal.code != '000') {
+      if (cal.code == '003') {
+        emit(LoginSuccessToken(cal.data!.userId!, cal.data!.email!));
+      }
+      else if (cal.code != '000' && cal.code != '003') {
         emit(AuthError(cal.message!));
       } else {
         await setPrefValues(cal.data);

@@ -87,14 +87,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 listener: (context, state) {
                   if (state is AuthLoading) {
                     Notificatn.showLoading(context, title: 'Loading');
-                  }
-                  if (state is AuthError) {
+                  } else if (state is AuthError) {
                     Notificatn.showErrorModal(context, errorMsg: state.msg);
-                  }
-                  if (state is LoginSuccess) {
+                  } else if (state is LoginSuccessToken) {
+                    Notificatn.hideLoading();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Verify Email'),
+                          content: Text(
+                              'You are yet to verify email, an otp has been sent to your email, ' +
+                                  'kindly continue to verify your email'),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Continue'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.pushNamed(context, Routes.setPassword,
+                                    arguments: [state.userId, state.email]);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else if (state is LoginSuccess) {
                     Notificatn.hideLoading();
                     SchedulerBinding.instance.addPostFrameCallback((_) {
-                      context.read<DashboardCubit>().prepareDashboard('Login Screen');
+                      context
+                          .read<DashboardCubit>()
+                          .prepareDashboard('Login Screen');
                       context.read<TimetableCubit>().getTimeableApi();
                       context.read<SubCubit>().getSubscription();
                       context.read<MealCubit>().getAllMeal();

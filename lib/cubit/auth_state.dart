@@ -21,6 +21,14 @@ class AuthError extends AuthState {
 }
 
 class LoginSuccess extends AuthState {}
+class LoginSuccessToken extends AuthState {
+  const LoginSuccessToken(this.userId, this.email);
+  final String userId;
+  final String email;
+
+  @override
+  List<Object> get props => [userId, email];
+}
 
 class SetPasswordSuccess extends AuthState {}
 

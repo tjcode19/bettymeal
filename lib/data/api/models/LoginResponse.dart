@@ -28,8 +28,15 @@ class LoginData {
   bool? activeSub;
   String? email;
   String? userId;
+  String? otp;
 
-  LoginData({this.token, this.tokenExp, this.activeSub, this.email, this.userId});
+  LoginData(
+      {this.token,
+      this.tokenExp,
+      this.activeSub,
+      this.email,
+      this.userId,
+      this.otp});
 
   LoginData.fromJson(Map<String, dynamic> json) {
     token = json['token'];
@@ -37,6 +44,7 @@ class LoginData {
     activeSub = json['activeSub'];
     email = json['email'];
     userId = json['userId'];
+    otp = json['otp'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +54,7 @@ class LoginData {
     data['activeSub'] = this.activeSub;
     data['email'] = this.email;
     data['userId'] = this.userId;
+    data['otp'] = this.otp;
     return data;
   }
 }
