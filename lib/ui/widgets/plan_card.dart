@@ -54,7 +54,7 @@ class PlanCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
           decoration: BoxDecoration(
             color: background?.withOpacity(0.1) ??
-                AppColour(context).primaryLightColour.withOpacity(0.2),
+                AppColour(context).primaryColour.withOpacity(0.2),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
@@ -87,20 +87,22 @@ class PlanCard extends StatelessWidget {
                   CustomLayout.lPad.sizedBoxH,
                   RichText(
                     text: TextSpan(
-                      text: 'Plan for the next \n',
+                      text: 'Enjoy this plan ',
                       children: [
                         TextSpan(
-                          text: plan.period?.month?.duration.toString(),
+                          text: 'plan',
                           style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: AppColour(context).primaryColour,
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: background ??
+                                        AppColour(context)
+                                            .primaryColour,
                                   ),
                         ),
                         TextSpan(
-                          text: " days @",
+                          text: " for \nas low as",
                         ),
                         TextSpan(
-                          text: " \$${plan.period?.month?.price}",
+                          text: " \$${plan.period?.week?.price}",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.black,
@@ -125,7 +127,7 @@ class PlanCard extends StatelessWidget {
               SvgPicture.asset('assets/icons/m-free.svg',
                   width: CommonUtils.sw(context, s: .2),
                   color: background?.withOpacity(0.3) ??
-                      AppColour(context).primaryLightColour.withOpacity(0.5),
+                      AppColour(context).primaryColour.withOpacity(0.3),
                   semanticsLabel: 'A red up arrow')
             ],
           ),

@@ -13,6 +13,7 @@ import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:bettymeals/utils/animations.dart';
 import 'package:flutter/material.dart';
 
+import 'cubit/sub_cubit.dart';
 import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
@@ -60,13 +61,10 @@ class Routes {
       case getStarted:
         return MaterialPageRoute(builder: (_) => const GetStarted());
       case planDetails:
-        final List p = settings.arguments as List;
-        final SubscriptionData plan = p[0] as SubscriptionData;
-        final PurchasableProduct product = p[1] as PurchasableProduct;
+        final SubscriptionData p = settings.arguments as SubscriptionData;
         return MaterialPageRoute(
           builder: (_) => PlanDetails(
-            plan: plan,
-            product: product,
+            plan: p,
           ),
         );
       case mealDetails:
@@ -143,12 +141,10 @@ class Routes {
         final List<dynamic> t = settings.arguments as List;
         final plan = t[0];
         final m = t[1];
-        final product = t[2] as PurchasableProduct;
         return MaterialPageRoute(
           builder: (_) => PaymentScreen(
             plan: plan,
             type: m,
-            product: product,
           ),
         );
       case changePasswordScreen:

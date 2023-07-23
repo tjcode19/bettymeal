@@ -65,7 +65,7 @@ class _NewUserWidgetState extends State<NewUserWidget> {
                             : null,
                     onPress: () {
                       Navigator.pushNamed(context, Routes.planDetails,
-                          arguments: [e]);
+                          arguments: e);
                     },
                   );
                 },

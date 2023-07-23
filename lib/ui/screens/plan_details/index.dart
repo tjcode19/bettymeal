@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bettymeals/data/api/models/GetSubscription.dart';
-import 'package:bettymeals/ui/screens/plans.dart';
 import 'package:bettymeals/utils/enums.dart';
 import 'package:flutter/material.dart';
 import '../../../../routes.dart';
@@ -11,10 +10,9 @@ import '../../../utils/constants.dart';
 import 'widgets/features.dart';
 
 class PlanDetails extends StatefulWidget {
-  const PlanDetails({required this.plan, required this.product, super.key});
+  const PlanDetails({required this.plan, super.key});
 
   final SubscriptionData plan;
-  final PurchasableProduct product;
 
   @override
   State<PlanDetails> createState() => _PlanDetailsState();
@@ -360,7 +358,7 @@ class _PlanDetailsState extends State<PlanDetails> {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.paymentScreen,
-                            arguments: [widget.plan, _isMonth, widget.product]);
+                            arguments: [widget.plan, _isMonth]);
 
                         // Navigator.pushNamed(context, Routes.home);
                       },

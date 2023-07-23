@@ -7,8 +7,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-// import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'cubit/auth_cubit.dart';
 import 'cubit/category_cubit.dart';
@@ -24,17 +22,7 @@ import 'routes.dart';
 import 'utils/custom_anim.dart';
 
 // Gives the option to override in tests.
-class IAPConnection {
-  static InAppPurchase? _instance;
-  static set instance(InAppPurchase value) {
-    _instance = value;
-  }
 
-  static InAppPurchase get instance {
-    _instance ??= InAppPurchase.instance;
-    return _instance!;
-  }
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

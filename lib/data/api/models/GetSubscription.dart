@@ -103,8 +103,10 @@ class Week {
   int? price;
   int? shuffle;
   int? regenerate;
+  String? playId;
+  String? appleId;
 
-  Week({this.id, this.duration, this.price, this.shuffle, this.regenerate});
+  Week({this.id, this.duration, this.price, this.shuffle, this.regenerate, this.playId, this.appleId});
 
   Week.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -112,6 +114,8 @@ class Week {
     price = json['price'];
     shuffle = json['shuffle'];
     regenerate = json['regenerate'];
+    playId = json['playId'];
+    appleId = json['appleId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -121,6 +125,8 @@ class Week {
     data['price'] = this.price;
     data['shuffle'] = this.shuffle;
     data['regenerate'] = this.regenerate;
+    data['playId'] = this.playId;
+    data['appleId'] = this.appleId;
     return data;
   }
 }

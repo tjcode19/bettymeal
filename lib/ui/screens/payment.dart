@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
-import 'package:bettymeals/ui/screens/plans.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -8,21 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../cubit/timetable_cubit.dart';
 import '../../data/api/models/GetSubscription.dart';
-import '../../main.dart';
 import '../../routes.dart';
 import '../../utils/enums.dart';
 import '../../utils/noti.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen(
-      {required this.plan,
-      required this.type,
-      required this.product,
-      super.key});
+  const PaymentScreen({required this.plan, required this.type, super.key});
 
   final SubscriptionData plan;
   final bool type;
-  final product;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -30,7 +25,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   // late final TimetableCubit _timetableCubit;
-  final iapConnection = IAPConnection.instance;
+  List<PurchasableProduct> products = [];
 
   DateTime currentDate = DateTime.now();
 
@@ -62,17 +57,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.initState();
 
     _onSwitch(widget.type);
+    products = context.read<SubCubit>().products;
   }
 
   Future<void> buy(PurchasableProduct product) async {
+    final a = context.read<SubCubit>().iapConnection;
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
     switch (product.id) {
       case "m_regenerate_100":
-        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
+        await a.buyConsumable(purchaseParam: purchaseParam);
         break;
       case "m_standard_week":
       case "m_standard":
-        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
+        await a.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
         throw ArgumentError.value(
@@ -200,7 +197,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             .generateTimeableApi(
                                                 widget.plan.sId, planPeriodId);
                                       } else {
-                                        buy(widget.product);
+                                        final checker = planPeriodId == 'WK'
+                                            ? widget.plan.period!.week!.playId
+                                            : widget.plan.period!.month!.playId;
+                                        final p = products.firstWhere((e) {
+                                          return e.id == checker;
+                                        });
+                                        inspect(p);
+                                        buy(p);
                                         // showDialog(
                                         //   context: context,
                                         //   builder: (BuildContext context) {
