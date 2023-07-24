@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return AlertDialog(
                           title: Text('Verify Email'),
                           content: Text(
-                              'You are yet to verify email, an otp has been sent to your email, ' +
+                              'You are yet to verify email, new verification code has been sent to your email, ' +
                                   'kindly continue to verify your email'),
                           actions: [
                             TextButton(

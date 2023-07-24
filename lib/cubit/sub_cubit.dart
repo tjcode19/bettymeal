@@ -106,6 +106,7 @@ class SubCubit extends Cubit<SubState> {
       List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
+      inspect(purchaseDetails);
     }
     print('Purchase Update');
   }
