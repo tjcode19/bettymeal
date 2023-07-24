@@ -51,6 +51,7 @@ class SetPasswordWidget extends StatelessWidget {
             TextFormField(
               controller: otpController,
               keyboardType: TextInputType.emailAddress,
+              maxLength: 6,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please Enter Verification Code';
@@ -58,7 +59,7 @@ class SetPasswordWidget extends StatelessWidget {
                 return null;
               },
             ),
-            CustomLayout.mPad.sizedBoxH,
+            CustomLayout.sPad.sizedBoxH,
             Text('Enter New Password',
                 style: Theme.of(context).textTheme.titleMedium),
             TextFormField(
