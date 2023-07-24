@@ -69,6 +69,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         break;
       case "m_standard_week":
       case "m_standard":
+      case "m_pro_month":
+      case "m_pro_week":
         await a.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
