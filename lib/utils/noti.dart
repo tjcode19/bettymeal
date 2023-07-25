@@ -11,6 +11,7 @@ class Notificatn {
     await EasyLoading.show(
       status: title,
       maskType: EasyLoadingMaskType.black,
+      dismissOnTap: false
     );
   }
 

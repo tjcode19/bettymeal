@@ -1,16 +1,11 @@
-import 'dart:async';
-import 'dart:developer';
-
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../cubit/user_cubit.dart';
 import '../../routes.dart';
-import '../../services/inapp.dart';
 import '../widgets/plan_card.dart';
 
 class PlansScreen extends StatefulWidget {
@@ -37,8 +32,8 @@ class _PlansScreenState extends State<PlansScreen> {
   bool isActiveSub = false;
 
   //******** New Implementation */
-  late StreamSubscription<List<PurchaseDetails>> _subscription;
-  final iapConnection = IAPConnection.instance;
+  // late StreamSubscription<List<PurchaseDetails>> _subscription;
+  // final iapConnection = IAPConnection.instance;
   // List<PurchasableProduct> products = [];
   //****** End here */
 
@@ -47,11 +42,6 @@ class _PlansScreenState extends State<PlansScreen> {
     super.initState();
 
     isActiveSub = context.read<UserCubit>().isActiveSub();
-
-    context.read<SubCubit>().startListening();
-    context.read<SubCubit>().loadPurchases();
-
-   
   }
 
   @override
@@ -59,7 +49,6 @@ class _PlansScreenState extends State<PlansScreen> {
     // context.read<SubCubit>().disposeSub();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

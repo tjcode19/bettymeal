@@ -202,11 +202,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         final checker = planPeriodId == 'WK'
                                             ? widget.plan.period!.week!.playId
                                             : widget.plan.period!.month!.playId;
-                                        final p = products.firstWhere((e) {
-                                          return e.id == checker;
-                                        });
-                                        inspect(p);
-                                        buy(p);
+
+                                        if (products.length > 0) {
+                                          final p = products.firstWhere((e) {
+                                            return e.id == checker;
+                                          });
+                                          inspect(p);
+                                          buy(p);
+                                        } else {
+                                          Notificatn.showErrorModal(context,
+                                              errorMsg:
+                                                  'Feature not available on this device');
+                                        }
+
                                         // showDialog(
                                         //   context: context,
                                         //   builder: (BuildContext context) {

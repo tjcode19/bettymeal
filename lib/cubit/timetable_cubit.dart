@@ -1,8 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'package:bettymeals/data/local/models/food.dart';
-import 'package:bettymeals/data/local/repositories/food_repository.dart';
-import 'package:bettymeals/utils/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,17 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/api/models/GetTimetable.dart';
 import '../data/api/repositories/timetableRepo.dart';
 import '../data/local/models/timetable.dart';
-import '../data/local/repositories/timetable_repository.dart';
 
 part 'timetable_state.dart';
 
 class TimetableCubit extends Cubit<TimetableState> {
-  final TimetableRepository _repository;
   final TimetableRepo apiRepo;
 
   TimetableCubit()
-      : _repository = TimetableRepository(),
-        apiRepo = TimetableRepo(),
+      : apiRepo = TimetableRepo(),
         super(TimetableInitial());
 
   generateTimeableApi(subId, duration) async {
