@@ -21,7 +21,6 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   prepareDashboard(String caller) async {
 
-    log('The caller is :' +caller);
     emit(DashboardLoading());
     try {
       final cal = await userRepository.getUserDetails();

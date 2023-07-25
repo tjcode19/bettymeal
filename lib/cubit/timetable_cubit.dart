@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 import 'package:bettymeals/data/local/models/food.dart';
 import 'package:bettymeals/data/local/repositories/food_repository.dart';
 import 'package:bettymeals/utils/helper.dart';
@@ -22,151 +22,6 @@ class TimetableCubit extends Cubit<TimetableState> {
       : _repository = TimetableRepository(),
         apiRepo = TimetableRepo(),
         super(TimetableInitial());
-
-  Future<void> generateMealTable() async {
-    try {
-      FoodRepository foodRepository = FoodRepository();
-      final foods = await foodRepository.getAllMeals();
-
-      final bf =
-          foods.where((food) => (jsonDecode(food.type).contains(0))).toList();
-      final ln =
-          foods.where((food) => (jsonDecode(food.type).contains(1))).toList();
-      final dn =
-          foods.where((food) => (jsonDecode(food.type).contains(2))).toList();
-
-      final mls = [];
-
-      mls.add(bf);
-      mls.add(ln);
-      mls.add(dn);
-
-      var random = Random();
-      var min = 0;
-
-      // int d = 0;
-      final dates = HelperMethod.dayOfWeek();
-
-      for (String d in dates) {
-        var today = DateTime.parse(d);
-        final List<int> f = [];
-        int? b;
-        for (List<FoodModel> m in mls) {
-          var randomInt = min + random.nextInt(m.length - min);
-
-          int att = 0;
-          while (f.contains(m[randomInt].id) && att < 3) {
-            randomInt = min + random.nextInt(m.length - min);
-
-            att++;
-          }
-          b = m[randomInt].id!;
-          f.add(b);
-        }
-
-        addMeal(
-            TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
-      }
-    } catch (_) {
-      emit(const TimetableError(errorMessage: ""));
-    }
-  }
-
-  Future<void> rescheduleMealTable() async {
-    try {
-      FoodRepository foodRepository = FoodRepository();
-      final foods = await foodRepository.getAllMeals();
-
-      final bf =
-          foods.where((food) => (jsonDecode(food.type).contains(0))).toList();
-      final ln =
-          foods.where((food) => (jsonDecode(food.type).contains(1))).toList();
-      final dn =
-          foods.where((food) => (jsonDecode(food.type).contains(2))).toList();
-
-      final mls = [];
-
-      mls.add(bf);
-      mls.add(ln);
-      mls.add(dn);
-
-      var random = Random();
-      var min = 0;
-
-      // int d = 0;
-      final dates = HelperMethod.dayOfWeek();
-
-      for (String d in dates) {
-        var today = DateTime.parse(d);
-        final List<int> f = [];
-        int? b;
-        for (List<FoodModel> m in mls) {
-          var randomInt = min + random.nextInt(m.length - min);
-
-          int att = 0;
-          while (f.contains(m[randomInt].id) && att < 3) {
-            randomInt = min + random.nextInt(m.length - min);
-
-            att++;
-          }
-          b = m[randomInt].id!;
-          f.add(b);
-        }
-
-        await updateMeal(
-            TimeTable(date: today.microsecondsSinceEpoch, food: jsonEncode(f)));
-      }
-    } catch (_) {
-      emit(const TimetableError(errorMessage: ""));
-    }
-  }
-
-  Future<void> updateMeal(TimeTable meal) async {
-    try {
-      await _repository.updateMeal(meal);
-      getTimetable();
-    } catch (e) {
-      emit(const TimetableError(errorMessage: ''));
-    }
-  }
-
-  Future<void> addMeal(TimeTable meal) async {
-    try {
-      await _repository.addMeal(meal);
-      getTimetable();
-    } catch (e) {
-      emit(const TimetableError(errorMessage: ''));
-    }
-  }
-
-  Future<void> getTimetable() async {
-    FoodRepository foodRepository = FoodRepository();
-    final dates = HelperMethod.dayOfWeek();
-    try {
-      final meals = await _repository.getWeekTimetable(
-          DateTime.parse(dates[0]).microsecondsSinceEpoch,
-          DateTime.parse(dates[dates.length - 1]).microsecondsSinceEpoch);
-
-      final m = List.generate(meals.length, (i) async {
-        List<dynamic> f = jsonDecode(meals[i].food!);
-        final List<FoodModel> fItem = [];
-
-        for (int i in f) {
-          var kk = await foodRepository.getById(i);
-          fItem.add(kk[0]);
-        }
-        return TimetableModel(
-            date: DateTime.fromMicrosecondsSinceEpoch(meals[i].date!),
-            foods: fItem);
-      });
-
-      List<TimetableModel> mealList = await Future.wait(m);
-
-      emit(TimetableLoaded(timetable: mealList));
-    } catch (e) {
-      emit(const TimetableError(errorMessage: ''));
-    }
-  }
 
   generateTimeableApi(subId, duration) async {
     emit(TimetableLoading());
@@ -239,6 +94,12 @@ class TimetableCubit extends Cubit<TimetableState> {
 
       List<Timetable> weekly = [];
 
+      if (timetable.length <= 8) {
+        weekly.addAll(timetable);
+        weeklyTable.add(weekly);
+        return weeklyTable;
+      }
+
       while (i <= timetable.length) {
         if (daysUntilSaturday >= 0 && i < timetable.length) {
           weekly.add(timetable[i]);
@@ -273,6 +134,7 @@ class TimetableCubit extends Cubit<TimetableState> {
     // emit(TimetableLoading());
     try {
       final cal = await apiRepo.getTimetable();
+
       if (cal.code != '000') {
         emit(TimetableError(errorMessage: cal.message!));
       } else {
@@ -287,7 +149,6 @@ class TimetableCubit extends Cubit<TimetableState> {
         ).toList();
 
         if (d.length > 0) {
-          // UserCubit().isActiveSub(v: true);
           final dataWeekly = sortTable(cal.data!);
           emit(GetTableSuccess(d, cal.data!, dataWeekly));
         } else {
@@ -295,7 +156,6 @@ class TimetableCubit extends Cubit<TimetableState> {
         }
       }
     } catch (e) {
-      print(e);
       emit(TimetableError(errorMessage: "Error Occured"));
     }
   }
