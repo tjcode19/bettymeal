@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
   goHome() {
     context.read<TimetableCubit>().getTimeableApi();
     context.read<SubCubit>().getSubscription();
-    context.read<MealCubit>().getAllMeal();
+    context.read<MealCubit>().getAllMeal(page: 1, limit: 10);
    
 
     Timer(Duration(seconds: counter), () async {
@@ -91,6 +91,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start the animation when the widget is mounted
     _controller.forward();
+     context.read<SubCubit>().startListening();
+      context.read<SubCubit>().loadPurchases();
 
     finishSplashScreen();
   }

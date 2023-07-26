@@ -61,7 +61,6 @@ class SubCubit extends Cubit<SubState> {
     print('store available');
 
     productList = convertToPurchasableProducts(response.productDetails);
-    inspect(productList);
   }
 
   void _updateStreamOnDone() {

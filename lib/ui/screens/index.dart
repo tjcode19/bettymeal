@@ -73,8 +73,8 @@ class _HomePageState extends State<HomePage> {
         AppLifecycleObserver(context);
     WidgetsBinding.instance.addObserver(lifecycleObserver);
 
-    context.read<SubCubit>().startListening();
-    context.read<SubCubit>().loadPurchases();
+   
+   
   }
 
   @override
