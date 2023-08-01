@@ -72,7 +72,6 @@ class _ExistingUserWidgetState extends State<ExistingUserWidget> {
                                   DateTime.now().toIso8601String()));
 
                           var pos = tVal.indexOf(d);
-                          print('position: $pos');
                           if (justLaunch) {
                             _selected = pos;
                             _scrollToCurrentDate(pos * 45);

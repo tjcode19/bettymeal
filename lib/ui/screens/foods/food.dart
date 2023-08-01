@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:bettymeals/cubit/meal_cubit.dart';
 import 'package:bettymeals/data/api/models/MealResponse.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/device_utils.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubit/food_cubit.dart';
 import '../../../utils/colours.dart';
 
 class FoodScreen extends StatefulWidget {
@@ -19,10 +22,14 @@ class _FoodScreenState extends State<FoodScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   ScrollController _scrollController = ScrollController();
+  TextEditingController _searchController = TextEditingController();
   int page = 1;
   List<MealData> showMeal = [];
-  bool pageOver = false;
+  bool pageOver =
+      false; //this will be set to true so that it won't call loadNextpage method
   bool showBackTop = false;
+  bool enableSearch = true;
+  List<MealData> filteredList = [];
 
   @override
   void dispose() {
@@ -30,197 +37,188 @@ class _FoodScreenState extends State<FoodScreen>
     super.dispose();
   }
 
+  loadNextPage() {
+    if (!pageOver) {
+      print('Next page: $page');
+      context.read<MealCubit>().getAllMeal('more', page: page + 1);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    // _foodCubit = BlocProvider.of<FoodCubit>(context);
-
-    // _foodCubit.getAllMeals();
-
     _tabController = TabController(length: 3, vsync: this);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // Load next page or perform any other action when the user reaches the end of the list.
+        loadNextPage();
+      }
+
+      if (_scrollController.position.pixels > 0) {
+        setState(() {
+          showBackTop = true;
+        });
+      } else {
+        setState(() {
+          showBackTop = false;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Our Recipes',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: AppColour(context).primaryColour.withOpacity(0.7),
-              fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: AppColour(context).background,
-        //   bottom: TabBar(
-        //     controller: _tabController,
-        //     dividerColor: AppColour(context).primaryColour.withOpacity(0.4),
-        //     indicatorColor: AppColour(context).primaryColour,
-        //     labelColor: AppColour(context).primaryColour,
-        //     unselectedLabelColor:
-        //         AppColour(context).primaryColour.withOpacity(0.6),
-        //     tabs: const [
-        //       Tab(
-        //         // icon: Icon(Icons.favorite),
-        //         text: 'Breakfast',
-        //       ),
-        //       Tab(
-        //         // icon: Icon(Icons.star),
-        //         text: 'Lunch',
-        //       ),
-        //       Tab(
-        //         // icon: Icon(Icons.star),
-        //         text: 'Dinner',
-        //       ),
-        //     ],
-        //   ),
-        // ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => context.read<MealCubit>().getAllMeal(),
+    return RefreshIndicator(
+      onRefresh: () {
+        setState(() {
+          showMeal = [];
+        });
 
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.only(top: CommonUtils.padding),
-            width: CommonUtils.sw(context),
-            height: CommonUtils.sh(context),
-            child: BlocBuilder<MealCubit, MealState>(
-              builder: (context, state) {
-                if (state is MealSuccess) {
-                  if (state.meals.isEmpty) {
-                    pageOver = true;
-                  } else
-                    showMeal.addAll(state.meals);
-                }
-                // else {
-                //   return const Center(
-                //     child: Text('Failed to load meals.'),
-                //   );
-                // }
-                return NotificationListener<ScrollNotification>(
-                  onNotification: (scrollNotification) {
-                    if (scrollNotification is ScrollEndNotification) {
-                      // Check if the user has reached the end of the list
-                      if (_scrollController.position.extentAfter == 0) {
-                        // Call the function to load the next page here
-                        // loadNextPage();
-                        if (!pageOver) {
-                          setState(() {
-                            page++;
-                          });
-                          context
-                              .read<MealCubit>()
-                              .getAllMeal(page: page, limit: 10);
+        return context.read<MealCubit>().getAllMeal('reload');
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Our Recipes',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: AppColour(context).primaryColour.withOpacity(0.7),
+                fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: AppColour(context).background,
+        ),
+        body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          // Get the available height
+          double availableHeight = constraints.maxHeight;
+          double availableW = constraints.maxWidth;
+
+          // Calculate the height of the container based on the available height
+          double listHeight = availableHeight * 0.6;
+          return Container(
+            color: Colors.transparent,
+            height: availableHeight,
+            child: Column(
+              children: [
+                Wrap(
+                  children: [
+                    Chip(label: Text('All')),
+                    Chip(label: Text('Breakfast')),
+                    Chip(label: Text('Lunch')),
+                    Chip(label: Text('Dinner')),
+                    Chip(label: Text('Snacks')),
+                    Chip(label: Text('Fruits'))
+                  ],
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: CommonUtils.padding),
+                  child: TextFormField(
+                    controller: _searchController,
+                    maxLength: 3,
+                    onChanged: (value) {
+                      if (value.length >= 3) {
+                        DeviceUtils.hideKeyboard(context);
+                        context.read<MealCubit>().filterMeal(value, showMeal);
+                        setState(() {
+                          enableSearch = false;
+                        });
+                      } else {
+                        setState(() {
+                          enableSearch = true;
+                        });
+                      }
+                    },
+                    // enabled: enableSearch,
+                    decoration: InputDecoration(
+                        suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _searchController.clear();
+                                context
+                                    .read<MealCubit>()
+                                    .filterMeal('', showMeal);
+                              });
+                            },
+                            child: Icon(Icons.close))),
+                  ),
+                ),
+                SizedBox(
+                  height: listHeight,
+                  width: CommonUtils.sw(context),
+                  child: BlocConsumer<MealCubit, MealState>(
+                    listener: (context, state) {
+                      if (state is MealMoreSuccess) {
+                        print('load more');
+                        if (state.meals.isEmpty) {
+                          pageOver = true;
                         } else {
-                          setState(() {
-                            showBackTop = true;
-                          });
+                          // page += 1;
+                          filteredList.clear();
+                          // filteredList.addAll(showMeal);
+                          // showMeal.addAll(state.meals);
+                          inspect(showMeal);
+                          filteredList = showMeal;
                         }
                       }
-                    }
-                    return true;
-                  },
-                  child: Column(
-                    children: [
-                      if (state is MealLoading)
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      Expanded(
-                        child: ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          controller: _scrollController,
-                          itemCount: showMeal.length,
-                          itemBuilder: (context, index) {
-                            final meala = showMeal[index];
-                            return FoodListTile(meal: meala);
-                          },
-                        ),
-                      ),
-                    ],
+                    },
+                    builder: (context, state) {
+                      Notificatn.hideLoading();
+                      if (state is MealSuccess) {
+                        showMeal = state.meals;
+                        filteredList = state.meals;
+                      } else if (state is MealReloadSuccess) {
+                        showMeal = state.meals;
+                        filteredList = state.meals;
+                      } else if (state is MealSuccessFilter) {
+                        filteredList = state.meals;
+                        enableSearch = true;
+                      } else if (state is MealError) {
+                        return const Center(
+                          child: Text('Failed to load meals.'),
+                        );
+                      }
+                      if (state is MealLoading) {
+                        Notificatn.showLoading(context);
+                      }
+                      return ListView.builder(
+                        // physics: const AlwaysScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          final meala = filteredList[index];
+                          return FoodListTile(
+                            meal: meala,
+                            w: availableW * 0.6,
+                          );
+                        },
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-        ),
-        // Center(
-        //   child: Container(
-        //     padding: EdgeInsets.only(top: CommonUtils.padding),
-        //     width: CommonUtils.sw(context),
-        //     child: BlocBuilder<MealCubit, MealState>(
-        //       builder: (context, state) {
-        //         if (state is MealLoading) {
-        //           return const Center(
-        //             child: CircularProgressIndicator(),
-        //           );
-        //         } else if (state is MealSuccess) {
-        //           return ListView.builder(
-        //             itemCount: state.ln.length,
-        //             itemBuilder: (context, index) {
-        //               final meal = state.ln[index];
-        //               return FoodListTile(meal: meal);
-        //             },
-        //           );
-        //         } else {
-        //           return const Center(
-        //             child: Text('Failed to load meals.'),
-        //           );
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ),
-        // Center(
-        //   child: Container(
-        //     padding: EdgeInsets.only(top: CommonUtils.padding),
-        //     width: CommonUtils.sw(context),
-        //     child: BlocBuilder<MealCubit, MealState>(
-        //       builder: (context, state) {
-        //         if (state is FoodLoading) {
-        //           return const Center(
-        //             child: CircularProgressIndicator(),
-        //           );
-        //         } else if (state is MealSuccess) {
-        //           return ListView.builder(
-        //             itemCount: state.dn.length,
-        //             itemBuilder: (context, index) {
-        //               final meal = state.dn[index];
-        //               return FoodListTile(meal: meal);
-        //             },
-        //           );
-        //         } else {
-        //           return const Center(
-        //             child: Text('Failed to load meals.'),
-        //           );
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.pushNamed(context, Routes.addFood, arguments: 3);
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
-      floatingActionButton: showBackTop
-          ? FloatingActionButton(
-              onPressed: () {
-                // When the FAB is pressed, scroll to the top of the ListView
-                _scrollController.animateTo(0,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOut);
+          );
+        }),
+        floatingActionButton: showBackTop
+            ? FloatingActionButton(
+                onPressed: () {
+                  // When the FAB is pressed, scroll to the top of the ListView
+                  _scrollController.animateTo(0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut);
 
-                setState(() {
-                  showBackTop = false;
-                });
-              },
-              child: Icon(Icons.arrow_upward),
-            )
-          : null,
+                  setState(() {
+                    showBackTop = false;
+                  });
+                },
+                child: Icon(Icons.arrow_upward),
+              )
+            : null,
+      ),
     );
   }
 }

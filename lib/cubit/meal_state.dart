@@ -28,3 +28,30 @@ class MealSuccess extends MealState {
   @override
   List<Object> get props => [meals];
 }
+
+class MealSuccessFilter extends MealState {
+  const MealSuccessFilter(this.meals);
+
+  final List<MealData> meals;
+
+  @override
+  List<Object> get props => [meals];
+}
+
+class MealMoreSuccess extends MealState {
+  const MealMoreSuccess(this.meals);
+
+  final List<MealData> meals;
+
+  @override
+  List<Object> get props => [meals];
+}
+
+class MealReloadSuccess extends MealState {
+  const MealReloadSuccess(this.meals);
+
+  final List<MealData> meals;
+
+  @override
+  List<Object> get props => [meals];
+}

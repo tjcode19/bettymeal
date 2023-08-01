@@ -202,6 +202,8 @@ class _MyAppState extends State<MyApp> {
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.red),
               ),
+              filled: true,
+              fillColor: Color.fromARGB(255, 236, 244, 243),
             ),
             listTileTheme: const ListTileThemeData(
                 textColor: Color(0xff576F72), style: ListTileStyle.drawer),

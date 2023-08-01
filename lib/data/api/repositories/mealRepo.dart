@@ -9,4 +9,10 @@ class MealRepository {
 
     return GetAllMeal.fromJson(response);
   }
+
+  Future<GetAllMeal> searchMeals({name}) async {
+    final response = await nRequest.get("meal/search/$name"); //meal?page=1&limit=40
+
+    return GetAllMeal.fromJson(response);
+  }
 }

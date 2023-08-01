@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           .prepareDashboard('Login Screen');
                       context.read<TimetableCubit>().getTimeableApi();
                       context.read<SubCubit>().getSubscription();
-                      context.read<MealCubit>().getAllMeal();
+                      context.read<MealCubit>().getAllMeal('fresh');
                     });
 
                     Navigator.popAndPushNamed(context, Routes.home);

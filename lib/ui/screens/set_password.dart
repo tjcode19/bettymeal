@@ -88,7 +88,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                         .prepareDashboard('Set Password Screen');
                     context.read<TimetableCubit>().getTimeableApi();
                     context.read<SubCubit>().getSubscription();
-                    context.read<MealCubit>().getAllMeal();
+                    context.read<MealCubit>().getAllMeal('fresh');
                     context
                         .read<NotificationCubit>()
                         .subscribeToTopic(topic: 'all');
