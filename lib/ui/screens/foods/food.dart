@@ -71,154 +71,144 @@ class _FoodScreenState extends State<FoodScreen>
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () {
-        setState(() {
-          showMeal = [];
-        });
-
-        return context.read<MealCubit>().getAllMeal('reload');
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Our Recipes',
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: AppColour(context).primaryColour.withOpacity(0.7),
-                fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: AppColour(context).background,
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Our Recipes',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: AppColour(context).primaryColour.withOpacity(0.7),
+              fontWeight: FontWeight.bold),
         ),
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          // Get the available height
-          double availableHeight = constraints.maxHeight;
-          double availableW = constraints.maxWidth;
-
-          // Calculate the height of the container based on the available height
-          double listHeight = availableHeight * 0.6;
-          return Container(
-            color: Colors.transparent,
-            height: availableHeight,
-            child: Column(
-              children: [
-                Wrap(
-                  children: [
-                    Chip(label: Text('All')),
-                    Chip(label: Text('Breakfast')),
-                    Chip(label: Text('Lunch')),
-                    Chip(label: Text('Dinner')),
-                    Chip(label: Text('Snacks')),
-                    Chip(label: Text('Fruits'))
-                  ],
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: CommonUtils.padding),
-                  child: TextFormField(
-                    controller: _searchController,
-                    maxLength: 3,
-                    onChanged: (value) {
-                      if (value.length >= 3) {
-                        DeviceUtils.hideKeyboard(context);
-                        context.read<MealCubit>().filterMeal(value, showMeal);
-                        setState(() {
-                          enableSearch = false;
-                        });
-                      } else {
-                        setState(() {
-                          enableSearch = true;
-                        });
-                      }
-                    },
-                    // enabled: enableSearch,
-                    decoration: InputDecoration(
-                        suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _searchController.clear();
-                                context
-                                    .read<MealCubit>()
-                                    .filterMeal('', showMeal);
-                              });
-                            },
-                            child: Icon(Icons.close))),
-                  ),
-                ),
-                SizedBox(
-                  height: listHeight,
-                  width: CommonUtils.sw(context),
-                  child: BlocConsumer<MealCubit, MealState>(
-                    listener: (context, state) {
-                      if (state is MealMoreSuccess) {
-                        print('load more');
-                        if (state.meals.isEmpty) {
-                          pageOver = true;
-                        } else {
-                          // page += 1;
-                          filteredList.clear();
-                          // filteredList.addAll(showMeal);
-                          // showMeal.addAll(state.meals);
-                          inspect(showMeal);
-                          filteredList = showMeal;
-                        }
-                      }
-                    },
-                    builder: (context, state) {
-                      Notificatn.hideLoading();
-                      if (state is MealSuccess) {
-                        showMeal = state.meals;
-                        filteredList = state.meals;
-                      } else if (state is MealReloadSuccess) {
-                        showMeal = state.meals;
-                        filteredList = state.meals;
-                      } else if (state is MealSuccessFilter) {
-                        filteredList = state.meals;
-                        enableSearch = true;
-                      } else if (state is MealError) {
-                        return const Center(
-                          child: Text('Failed to load meals.'),
-                        );
-                      }
-                      if (state is MealLoading) {
-                        Notificatn.showLoading(context);
-                      }
-                      return ListView.builder(
-                        // physics: const AlwaysScrollableScrollPhysics(),
-                        controller: _scrollController,
-                        itemCount: filteredList.length,
-                        itemBuilder: (context, index) {
-                          final meala = filteredList[index];
-                          return FoodListTile(
-                            meal: meala,
-                            w: availableW * 0.6,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-        floatingActionButton: showBackTop
-            ? FloatingActionButton(
-                onPressed: () {
-                  // When the FAB is pressed, scroll to the top of the ListView
-                  _scrollController.animateTo(0,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-
-                  setState(() {
-                    showBackTop = false;
-                  });
-                },
-                child: Icon(Icons.arrow_upward),
-              )
-            : null,
+        backgroundColor: AppColour(context).background,
       ),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        // Get the available height
+        double availableHeight = constraints.maxHeight;
+        double availableW = constraints.maxWidth;
+
+        // Calculate the height of the container based on the available height
+        double listHeight = availableHeight * 0.6;
+        return Container(
+          color: Colors.transparent,
+          height: availableHeight,
+          child: Column(
+            children: [
+              Wrap(
+                children: [
+                  Chip(label: Text('All')),
+                  Chip(label: Text('Breakfast')),
+                  Chip(label: Text('Lunch')),
+                  Chip(label: Text('Dinner')),
+                  Chip(label: Text('Snacks')),
+                  Chip(label: Text('Fruits'))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: CommonUtils.padding),
+                child: TextFormField(
+                  controller: _searchController,
+                  maxLength: 3,
+                  onChanged: (value) {
+                    if (value.length >= 3) {
+                      DeviceUtils.hideKeyboard(context);
+                      context.read<MealCubit>().filterMeal(value, showMeal);
+                      setState(() {
+                        enableSearch = false;
+                      });
+                    } else {
+                      setState(() {
+                        enableSearch = true;
+                      });
+                    }
+                  },
+                  // enabled: enableSearch,
+                  decoration: InputDecoration(
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _searchController.clear();
+                              context
+                                  .read<MealCubit>()
+                                  .filterMeal('', showMeal);
+                            });
+                          },
+                          child: Icon(Icons.close))),
+                ),
+              ),
+              SizedBox(
+                height: listHeight,
+                width: CommonUtils.sw(context),
+                child: BlocConsumer<MealCubit, MealState>(
+                  listener: (context, state) {
+                    if (state is MealMoreSuccess) {
+                      print('load more');
+                      if (state.meals.isEmpty) {
+                        pageOver = true;
+                      } else {
+                        // page += 1;
+                        filteredList.clear();
+                        // filteredList.addAll(showMeal);
+                        // showMeal.addAll(state.meals);
+                        inspect(showMeal);
+                        filteredList = showMeal;
+                      }
+                    }
+                  },
+                  builder: (context, state) {
+                    Notificatn.hideLoading();
+                    if (state is MealSuccess) {
+                      showMeal = state.meals;
+                      filteredList = state.meals;
+                    } else if (state is MealReloadSuccess) {
+                      showMeal = state.meals;
+                      filteredList = state.meals;
+                    } else if (state is MealSuccessFilter) {
+                      filteredList = state.meals;
+                      enableSearch = true;
+                    } else if (state is MealError) {
+                      return const Center(
+                        child: Text('Failed to load meals.'),
+                      );
+                    }
+                    if (state is MealLoading) {
+                      Notificatn.showLoading(context);
+                    }
+                    return ListView.builder(
+                      // physics: const AlwaysScrollableScrollPhysics(),
+                      controller: _scrollController,
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        final meala = filteredList[index];
+                        return FoodListTile(
+                          meal: meala,
+                          w: availableW * 0.6,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+      floatingActionButton: showBackTop
+          ? FloatingActionButton(
+              onPressed: () {
+                // When the FAB is pressed, scroll to the top of the ListView
+                _scrollController.animateTo(0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut);
+
+                setState(() {
+                  showBackTop = false;
+                });
+              },
+              child: Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 }
