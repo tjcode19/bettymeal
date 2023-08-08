@@ -4,7 +4,6 @@ import 'package:bettymeals/cubit/meal_cubit.dart';
 import 'package:bettymeals/data/api/models/MealResponse.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';
 import 'package:bettymeals/utils/constants.dart';
-import 'package:bettymeals/utils/device_utils.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +39,7 @@ class _FoodScreenState extends State<FoodScreen>
   loadNextPage() {
     if (!pageOver) {
       print('Next page: $page');
-      context.read<MealCubit>().getAllMeal('more', page: page + 1);
+      context.read<MealCubit>().getAllMeal('more', page: page + 1, data: showMeal);
     }
   }
 
@@ -110,19 +109,8 @@ class _FoodScreenState extends State<FoodScreen>
                 padding: EdgeInsets.symmetric(horizontal: CommonUtils.padding),
                 child: TextFormField(
                   controller: _searchController,
-                  maxLength: 3,
                   onChanged: (value) {
-                    if (value.length >= 3) {
-                      DeviceUtils.hideKeyboard(context);
-                      context.read<MealCubit>().filterMeal(value, showMeal);
-                      setState(() {
-                        enableSearch = false;
-                      });
-                    } else {
-                      setState(() {
-                        enableSearch = true;
-                      });
-                    }
+                    context.read<MealCubit>().filterMeal(value, showMeal);
                   },
                   // enabled: enableSearch,
                   decoration: InputDecoration(
@@ -150,33 +138,37 @@ class _FoodScreenState extends State<FoodScreen>
                           pageOver = true;
                         } else {
                           // page += 1;
-                          filteredList.clear();
+                          // filteredList.clear();
                           // filteredList.addAll(showMeal);
                           // showMeal.addAll(state.meals);
-                          inspect(showMeal);
-                          filteredList = showMeal;
+                          // inspect(showMeal);
+                          // filteredList = showMeal;
                         }
                       }
                     },
                     builder: (context, state) {
                       Notificatn.hideLoading();
-                      if (state is MealSuccess) {
-                        showMeal = state.meals;
-                        filteredList = state.meals;
-                      } else if (state is MealReloadSuccess) {
+                      if (state is MealLoading) {
+                        Notificatn.showLoading(context);
+                      } else if (state is MealSuccess) {
                         showMeal = state.meals;
                         filteredList = state.meals;
                       } else if (state is MealSuccessFilter) {
                         filteredList = state.meals;
                         enableSearch = true;
-                      } else if (state is MealError) {
+                      }
+                      // if (state is MealMoreSuccess) {
+                      //   showMeal.addAll(state.meals);
+                      //   filteredList = showMeal;
+
+                      //   print('Add now');
+                      // } 
+                      else if (state is MealError) {
                         return const Center(
                           child: Text('Failed to load meals.'),
                         );
                       }
-                      if (state is MealLoading) {
-                        Notificatn.showLoading(context);
-                      }
+
                       return ListView.builder(
                         // physics: const AlwaysScrollableScrollPhysics(),
                         controller: _scrollController,

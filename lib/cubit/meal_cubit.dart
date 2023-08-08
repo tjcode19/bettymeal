@@ -17,7 +17,7 @@ class MealCubit extends Cubit<MealState> {
   final SharedPreferenceApp sharedPreference;
   final MealRepository mealRepository;
 
-  getAllMeal(action, {page = 1, limit = 20}) async {
+  getAllMeal(action, {page = 1, limit = 20, List<MealData>? data}) async {
     emit(MealLoading());
     try {
       final cal = await mealRepository.getAllMeals(page: page, limit: limit);
@@ -26,10 +26,9 @@ class MealCubit extends Cubit<MealState> {
       } else {
         if (action == 'fresh') {
           emit(MealSuccess(cal.data!));
-        } else if (action == 'reload') {
-          emit(MealReloadSuccess(cal.data!));
         } else if (action == 'more') {
-          emit(MealMoreSuccess(cal.data!));
+          data!.addAll(cal.data!);
+          emit(MealSuccess(data));
         } else {
           emit(MealSuccess(cal.data!));
         }
