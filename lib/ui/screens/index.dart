@@ -10,7 +10,6 @@ import 'package:flutter_svg/svg.dart';
 // import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 import '../../cubit/notification_cubit.dart';
-import '../../cubit/sub_cubit.dart';
 import '../../data/shared_preference.dart';
 import '../../services/observer.dart';
 import '../../utils/enums.dart';

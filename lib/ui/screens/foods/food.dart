@@ -72,6 +72,7 @@ class _FoodScreenState extends State<FoodScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
@@ -89,7 +90,7 @@ class _FoodScreenState extends State<FoodScreen>
         double availableW = constraints.maxWidth;
 
         // Calculate the height of the container based on the available height
-        double listHeight = availableHeight * 0.6;
+        double listHeight = availableHeight * 0.7;
         return Container(
           color: Colors.transparent,
           height: availableHeight,
@@ -137,57 +138,59 @@ class _FoodScreenState extends State<FoodScreen>
                           child: Icon(Icons.close))),
                 ),
               ),
-              SizedBox(
-                height: listHeight,
-                width: CommonUtils.sw(context),
-                child: BlocConsumer<MealCubit, MealState>(
-                  listener: (context, state) {
-                    if (state is MealMoreSuccess) {
-                      print('load more');
-                      if (state.meals.isEmpty) {
-                        pageOver = true;
-                      } else {
-                        // page += 1;
-                        filteredList.clear();
-                        // filteredList.addAll(showMeal);
-                        // showMeal.addAll(state.meals);
-                        inspect(showMeal);
-                        filteredList = showMeal;
+              Expanded(
+                child: SizedBox(
+                  height: listHeight,
+                  width: CommonUtils.sw(context),
+                  child: BlocConsumer<MealCubit, MealState>(
+                    listener: (context, state) {
+                      if (state is MealMoreSuccess) {
+                        print('load more');
+                        if (state.meals.isEmpty) {
+                          pageOver = true;
+                        } else {
+                          // page += 1;
+                          filteredList.clear();
+                          // filteredList.addAll(showMeal);
+                          // showMeal.addAll(state.meals);
+                          inspect(showMeal);
+                          filteredList = showMeal;
+                        }
                       }
-                    }
-                  },
-                  builder: (context, state) {
-                    Notificatn.hideLoading();
-                    if (state is MealSuccess) {
-                      showMeal = state.meals;
-                      filteredList = state.meals;
-                    } else if (state is MealReloadSuccess) {
-                      showMeal = state.meals;
-                      filteredList = state.meals;
-                    } else if (state is MealSuccessFilter) {
-                      filteredList = state.meals;
-                      enableSearch = true;
-                    } else if (state is MealError) {
-                      return const Center(
-                        child: Text('Failed to load meals.'),
-                      );
-                    }
-                    if (state is MealLoading) {
-                      Notificatn.showLoading(context);
-                    }
-                    return ListView.builder(
-                      // physics: const AlwaysScrollableScrollPhysics(),
-                      controller: _scrollController,
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        final meala = filteredList[index];
-                        return FoodListTile(
-                          meal: meala,
-                          w: availableW * 0.6,
+                    },
+                    builder: (context, state) {
+                      Notificatn.hideLoading();
+                      if (state is MealSuccess) {
+                        showMeal = state.meals;
+                        filteredList = state.meals;
+                      } else if (state is MealReloadSuccess) {
+                        showMeal = state.meals;
+                        filteredList = state.meals;
+                      } else if (state is MealSuccessFilter) {
+                        filteredList = state.meals;
+                        enableSearch = true;
+                      } else if (state is MealError) {
+                        return const Center(
+                          child: Text('Failed to load meals.'),
                         );
-                      },
-                    );
-                  },
+                      }
+                      if (state is MealLoading) {
+                        Notificatn.showLoading(context);
+                      }
+                      return ListView.builder(
+                        // physics: const AlwaysScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          final meala = filteredList[index];
+                          return FoodListTile(
+                            meal: meala,
+                            w: availableW * 0.6,
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
