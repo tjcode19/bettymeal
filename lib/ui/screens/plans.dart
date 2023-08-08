@@ -56,6 +56,18 @@ class _PlansScreenState extends State<PlansScreen> {
       appBar: AppBar(
         // iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: AppColour(context).background,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.history,
+              color: AppColour(context).primaryColour.withOpacity(0.8),
+            ),
+            tooltip: 'History',
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.recordsScreen, arguments: "");
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(

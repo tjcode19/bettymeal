@@ -6,14 +6,13 @@ import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
 import 'package:bettymeals/ui/screens/notifications.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
+import 'package:bettymeals/ui/screens/records/index.dart';
 import 'package:bettymeals/ui/screens/settings/change_password.dart';
 import 'package:bettymeals/ui/screens/settings/profile.dart';
 import 'package:bettymeals/ui/screens/subscription/index.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:bettymeals/utils/animations.dart';
 import 'package:flutter/material.dart';
-
-import 'cubit/sub_cubit.dart';
 import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
@@ -49,6 +48,7 @@ class Routes {
   static const String stepbystepScreen = '/step-by-step-screen';
   static const String manageSubScreen = '/manage-sub-screen';
   static const String notificationScreen = '/notification-screen';
+  static const String recordsScreen = '/records-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -136,6 +136,10 @@ class Routes {
       case profileScreen:
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(),
+        );
+      case recordsScreen:
+        return MaterialPageRoute(
+          builder: (_) => RecordsScreen(),
         );
       case paymentScreen:
         final List<dynamic> t = settings.arguments as List;
