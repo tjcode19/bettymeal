@@ -68,22 +68,6 @@ class TimetableCubit extends Cubit<TimetableState> {
     }
   }
 
-  getRecords() async {
-    try {
-      final cal = await apiRepo.getTimetable();
-
-      if (cal.code != '000') {
-        emit(TimetableError(errorMessage: cal.message!));
-      } else {
-        // getRecords(cal.data);
-
-        emit(GetRecordSuccess(cal.data!));
-      }
-    } catch (e) {
-      emit(TimetableError(errorMessage: "Error Occured"));
-    }
-  }
-
   sortTable(List<GetTimetableData> data) {
     List<List<Timetable>> weeklyTable = [];
 

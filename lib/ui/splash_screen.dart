@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/cubit/records_cubit.dart';
 import 'package:bettymeals/data/shared_preference.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -63,8 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
     context.read<TimetableCubit>().getTimeableApi();
     context.read<SubCubit>().getSubscription();
     context.read<MealCubit>().getAllMeal('fresh');
-      context.read<TimetableCubit>().getRecords();
-   
+    context.read<RecordsCubit>().getRecords();
 
     Timer(Duration(seconds: counter), () async {
       Navigator.popAndPushNamed(context, Routes.home);
@@ -92,8 +92,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start the animation when the widget is mounted
     _controller.forward();
-     context.read<SubCubit>().startListening();
-      context.read<SubCubit>().loadPurchases();
+    context.read<SubCubit>().startListening();
+    context.read<SubCubit>().loadPurchases();
 
     finishSplashScreen();
   }

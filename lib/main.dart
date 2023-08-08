@@ -1,4 +1,5 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/cubit/records_cubit.dart';
 import 'package:bettymeals/data/api/network_check.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/noti.dart';
@@ -144,9 +145,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => NotificationCubit(),
         ),
+         BlocProvider(
+          create: (context) => RecordsCubit(),
+        ),
         BlocProvider(
           create: (context) => AuthCubit(),
-          lazy: false,
         ),
         BlocProvider(
           create: (context) => DashboardCubit(),
