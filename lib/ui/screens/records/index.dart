@@ -1,3 +1,4 @@
+import 'package:bettymeals/cubit/records_cubit.dart';
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class RecordsScreen extends StatelessWidget {
         backgroundColor: AppColour(context).background,
       ),
       body: SingleChildScrollView(
-        child: BlocBuilder<TimetableCubit, TimetableState>(
+        child: BlocBuilder<RecordsCubit, RecordsState>(
           builder: (context, state) {
             if (state is TimetableLoading) {
               return const Center(

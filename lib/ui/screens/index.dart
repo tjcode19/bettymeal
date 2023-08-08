@@ -1,5 +1,6 @@
 import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
+import 'package:bettymeals/ui/screens/plans.dart';
 import 'package:bettymeals/ui/screens/records/index.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
@@ -83,8 +84,8 @@ class _HomePageState extends State<HomePage> {
           children: const [
             DailyMenuScreen(),
             MealTableScreen(),
+            PlansScreen(),
             FoodScreen(),
-            RecordsScreen(),
             SettingScreen()
           ],
         ),
@@ -124,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         button(
                           onPressed: () => onTabTapped(2),
-                          label: 'Food',
+                          label: 'Plans',
                           icon: Icons.dinner_dining_outlined,
                           index: 2,
                         ),
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         button(
                           onPressed: () => onTabTapped(3),
-                          label: 'Records',
+                          label: 'Foods',
                           icon: Icons.list_alt_outlined,
                           index: 3,
                         ),

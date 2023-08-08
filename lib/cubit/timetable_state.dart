@@ -63,12 +63,3 @@ class GetTableSuccess extends TimetableState {
   @override
   List<Object> get props => [data, allData];
 }
-
-class GetRecordSuccess extends TimetableState {
-  const GetRecordSuccess(this.data);
-
-  final List<GetTimetableData> data;
-
-  @override
-  List<Object> get props => [data];
-}
