@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bettymeals/cubit/meal_cubit.dart';
 import 'package:bettymeals/data/api/models/MealResponse.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';

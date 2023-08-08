@@ -6,12 +6,12 @@ import '../data/api/models/GetTimetable.dart';
 import '../data/api/repositories/timetableRepo.dart';
 import '../data/local/models/timetable.dart';
 
-part 'timetable_state.dart';
+part 'records_state.dart';
 
-class TimetableCubit extends Cubit<TimetableState> {
+class RecordsCubit extends Cubit<RecordsState> {
   final TimetableRepo apiRepo;
 
-  TimetableCubit()
+  RecordsCubit()
       : apiRepo = TimetableRepo(),
         super(TimetableInitial());
 

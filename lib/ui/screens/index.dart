@@ -71,9 +71,6 @@ class _HomePageState extends State<HomePage> {
     final AppLifecycleObserver lifecycleObserver =
         AppLifecycleObserver(context);
     WidgetsBinding.instance.addObserver(lifecycleObserver);
-
-   
-   
   }
 
   @override
