@@ -4,6 +4,7 @@ import 'package:bettymeals/cubit/meal_cubit.dart';
 import 'package:bettymeals/data/api/models/MealResponse.dart';
 import 'package:bettymeals/ui/screens/foods/widgets/food_listtile.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/device_utils.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,8 +39,10 @@ class _FoodScreenState extends State<FoodScreen>
 
   loadNextPage() {
     if (!pageOver) {
-      print('Next page: $page');
-      context.read<MealCubit>().getAllMeal('more', page: page + 1, data: showMeal);
+      setState(() {
+        page += 1;
+      });
+      context.read<MealCubit>().getAllMeal('more', page: page, data: showMeal);
     }
   }
 
@@ -116,6 +119,7 @@ class _FoodScreenState extends State<FoodScreen>
                   decoration: InputDecoration(
                       suffixIcon: GestureDetector(
                           onTap: () {
+                            DeviceUtils.hideKeyboard(context);
                             setState(() {
                               _searchController.clear();
                               context
@@ -162,7 +166,7 @@ class _FoodScreenState extends State<FoodScreen>
                       //   filteredList = showMeal;
 
                       //   print('Add now');
-                      // } 
+                      // }
                       else if (state is MealError) {
                         return const Center(
                           child: Text('Failed to load meals.'),
