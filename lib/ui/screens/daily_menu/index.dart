@@ -10,6 +10,7 @@ import '../../../utils/colours.dart';
 import '../../../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../../utils/enums.dart';
 
@@ -92,25 +93,39 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                                context, Routes.plans,
-                                arguments: subId),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: CommonUtils.padding, vertical: 6),
-                              decoration: BoxDecoration(
-                                // color: AppColour(context).onPrimaryColour,
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                plan,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          )
+                              onTap: () => Navigator.pushNamed(
+                                  context, Routes.plans, arguments: subId),
+                              child: badges.Badge(
+                                  position: badges.BadgePosition.topEnd(
+                                      top: -20, end: -10),
+                                  badgeContent: Text(
+                                    '1',
+                                    style: TextStyle(color: AppColour(context).primaryColour),
+                                  ),
+                                  badgeAnimation:
+                                      badges.BadgeAnimation.rotation(
+                                    animationDuration: Duration(seconds: 1),
+                                    colorChangeAnimationDuration:
+                                        Duration(seconds: 1),
+                                    loopAnimation: false,
+                                    curve: Curves.fastOutSlowIn,
+                                    colorChangeAnimationCurve:
+                                        Curves.easeInCubic,
+                                  ),
+                                  badgeStyle: badges.BadgeStyle(
+                                    badgeColor:
+                                        AppColour(context).onPrimaryColour,
+                                    padding: const EdgeInsets.all(8),
+                                    borderSide: BorderSide(
+                                        color:
+                                            AppColour(context).primaryColour,
+                                        width: 1),
+                                  ),
+                                  child: Icon(
+                                    Icons.notifications_none_outlined,
+                                    color: Colors.white,
+                                    size: 35,
+                                  )))
                         ],
                       ),
                     )

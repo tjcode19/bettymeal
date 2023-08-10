@@ -1,7 +1,6 @@
 import 'package:bettymeals/cubit/user_cubit.dart';
 import 'package:bettymeals/ui/screens/daily_menu/index.dart';
 import 'package:bettymeals/ui/screens/plans.dart';
-import 'package:bettymeals/ui/screens/records/index.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';

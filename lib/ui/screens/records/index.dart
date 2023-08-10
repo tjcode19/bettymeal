@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
-import '../../widgets/plan_card.dart';
+import '../../widgets/records_card.dart';
 
 class RecordsScreen extends StatelessWidget {
   const RecordsScreen({super.key});
@@ -38,8 +38,8 @@ class RecordsScreen extends StatelessWidget {
                       children: [
                         CustomLayout.lPad.sizedBoxH,
                         for (int i = 0; i < l.length; i++)
-                          PlanCard(
-                            plan: l[i].sub!,
+                          RecordsCard(
+                            plan: l[i],
                             showBadge: DateTime.parse(l[i].endDate!)
                                 .isAfter(DateTime.now()),
                             background: DateTime.parse(l[i].endDate!)
