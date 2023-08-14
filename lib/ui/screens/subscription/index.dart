@@ -1,11 +1,12 @@
 import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
+import 'package:bettymeals/ui/widgets/records_card.dart';
+import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
-import '../../widgets/plan_card.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
@@ -14,7 +15,6 @@ class SubscriptionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
           'Manage Subscription',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -37,8 +37,8 @@ class SubscriptionScreen extends StatelessWidget {
                       children: [
                         CustomLayout.lPad.sizedBoxH,
                         for (int i = 0; i < l.length; i++)
-                          PlanCard(
-                            plan: l[i].sub!,
+                          RecordsCard(
+                            plan: l[i],
                             showBadge: DateTime.parse(l[i].endDate!)
                                 .isAfter(DateTime.now()),
                             background: DateTime.parse(l[i].endDate!)
@@ -49,6 +49,21 @@ class SubscriptionScreen extends StatelessWidget {
                                 : Colors.blue.withOpacity(0.1),
                             onPress: () {},
                           ),
+                        Padding(
+                          padding: EdgeInsets.all(CommonUtils.padding),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancel Subcription'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     )
                   : Column(

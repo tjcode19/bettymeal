@@ -56,7 +56,9 @@ class RecordsCard extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
           decoration: BoxDecoration(
-            color: AppColour(context).primaryColour.withOpacity(0.1),
+            color: plan.active!
+                ? AppColour(context).primaryColour.withOpacity(0.1)
+                : AppColour(context).secondaryColour.withOpacity(0.1),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
