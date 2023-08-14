@@ -1,11 +1,8 @@
 import 'package:bettymeals/data/api/models/GetTimetable.dart';
-import 'package:bettymeals/data/local/models/timetable.dart';
 import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:badges/badges.dart' as badges;
 
-import '../../data/api/models/GetSubscription.dart';
 import '../../utils/colours.dart';
 import '../../utils/constants.dart';
 import '../../utils/enums.dart';
