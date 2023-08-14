@@ -1,16 +1,20 @@
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
-import '../../utils/enums.dart';
+import '../../../utils/enums.dart';
 
-class NotificationList extends StatefulWidget {
-  const NotificationList({super.key});
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen(
+      {required this.title, required this.body, super.key});
+
+  final String title;
+  final String body;
 
   @override
-  State<NotificationList> createState() => _NotificationListState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificationListState extends State<NotificationList> {
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
@@ -32,7 +36,7 @@ class _NotificationListState extends State<NotificationList> {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: '',
+                    text: '${widget.title}',
                     children: [
                       TextSpan(
                         text: ' New',
@@ -75,7 +79,7 @@ class _NotificationListState extends State<NotificationList> {
                       Padding(
                         padding: EdgeInsets.all(CommonUtils.padding),
                         child: Text(
-                          '',
+                          '${widget.body}',
                           textAlign: TextAlign.justify,
                           style: Theme.of(context)
                               .textTheme
