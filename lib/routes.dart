@@ -4,6 +4,7 @@ import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
+import 'package:bettymeals/ui/screens/noti_list.dart';
 import 'package:bettymeals/ui/screens/notifications.dart';
 import 'package:bettymeals/ui/screens/onboarding/index.dart';
 import 'package:bettymeals/ui/screens/records/index.dart';
@@ -47,6 +48,7 @@ class Routes {
   static const String storeScreen = '/store-screen';
   static const String stepbystepScreen = '/step-by-step-screen';
   static const String manageSubScreen = '/manage-sub-screen';
+  static const String notificationList = '/notification-list';
   static const String notificationScreen = '/notification-screen';
   static const String recordsScreen = '/records-screen';
 
@@ -89,6 +91,11 @@ class Routes {
           builder: (_) => NotificationScreen(
             title: t.title ?? '',
             body: t.body ?? '',
+          ),
+        );
+        case notificationList:
+        return MaterialPageRoute(
+          builder: (_) => NotificationList(
           ),
         );
       case plans:

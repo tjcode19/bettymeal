@@ -94,7 +94,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                           ),
                           GestureDetector(
                               onTap: () => Navigator.pushNamed(
-                                  context, Routes.plans, arguments: subId),
+                                  context, Routes.notificationScreen, arguments: subId),
                               child: badges.Badge(
                                   position: badges.BadgePosition.topEnd(
                                       top: -20, end: -10),
