@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
@@ -207,7 +205,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           final p = products.firstWhere((e) {
                                             return e.id == checker;
                                           });
-                                          inspect(p);
                                           buy(p);
                                         } else {
                                           Notificatn.showErrorModal(context,

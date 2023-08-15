@@ -22,7 +22,6 @@ import 'data/local/database/app_database.dart';
 import 'routes.dart';
 import 'utils/custom_anim.dart';
 
-// Gives the option to override in tests.
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

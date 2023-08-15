@@ -242,6 +242,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         'You will get updates from us via Push Notification'),
                     value: _showFab,
                     onChanged: _onShowFabChanged,
+                    activeColor: AppColour(context).primaryColour,
+                    inactiveTrackColor:
+                        AppColour(context).primaryColour.withOpacity(0.4),
+                    inactiveThumbColor: AppColour(context).primaryColour,
                   ),
                   ListTile(
                     onTap: () =>

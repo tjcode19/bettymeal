@@ -31,7 +31,9 @@ class SubscriptionScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else if (state is GetTableSuccess) {
-              List<GetTimetableData> l = state.allData;
+              List<GetTimetableData> l = state.allData
+                  .where((element) => element.active == true)
+                  .toList();
               return l.length > 0
                   ? Column(
                       children: [
@@ -69,7 +71,7 @@ class SubscriptionScreen extends StatelessWidget {
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Text('No Plan Records Found'),
+                        Text('No Active Subscription'),
                       ],
                     );
             } else {
