@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bettymeals/utils/constants.dart';
@@ -57,6 +58,18 @@ class _SettingScreenState extends State<SettingScreen> {
         barrierDismissible: false);
   }
 
+  setTribe(action, tr) {
+    inspect(selectedTribe);
+    setState(() {
+      if (action == true) {
+        selectedTribe.add(tr);
+      } else {
+        selectedTribe.remove(tr);
+      }
+    });
+    context.read<sd.UserCubit>().setTribesPref(selectedTribe.join(','));
+  }
+
   // void _onElevatedChanged(bool value) {
   //   setState(() {
   //     _isElevated = value;
@@ -66,6 +79,8 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     context.read<sd.UserCubit>().spGetUserData();
+
+    inspect(selectedTribe);
 
     super.initState();
   }
@@ -109,8 +124,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       email = state.email;
                     });
 
-                    if (state.uData.user != null)
-                      selectedTribe.addAll(state.uData.user!.tribes!);
+                    if (state.uData.user != null) {
+                      state.uData.user!.tribes!
+                          .map((e) => selectedTribe.add(e));
+                    }
                   }
                 },
                 child: Stack(
@@ -205,26 +222,14 @@ class _SettingScreenState extends State<SettingScreen> {
                           Row(
                             children: [
                               Text(e),
-                              Checkbox(
-                                  value: selectedTribe.contains(e),
-                                  onChanged: (v) {
-                                    setState(() {
-                                      if (v == true) {
-                                        selectedTribe.add(e);
-
-                                        context
-                                            .read<sd.UserCubit>()
-                                            .setTribesPref(
-                                                selectedTribe.join(','));
-                                      } else {
-                                        selectedTribe.remove(e);
-                                        context
-                                            .read<sd.UserCubit>()
-                                            .setTribesPref(
-                                                selectedTribe.join(','));
-                                      }
-                                    });
-                                  }),
+                              Transform.scale(
+                                scale: 1.5,
+                                child: Checkbox(
+                                    value: selectedTribe.contains(e),
+                                    onChanged: (v) {
+                                      setTribe(v, e);
+                                    }),
+                              ),
                               CustomLayout.sPad.sizedBoxW,
                             ],
                           ),
