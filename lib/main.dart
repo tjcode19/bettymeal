@@ -22,7 +22,6 @@ import 'data/local/database/app_database.dart';
 import 'routes.dart';
 import 'utils/custom_anim.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,13 +34,6 @@ void main() async {
   ));
 
   configLoading();
-
-  if (await NetworkCheck().isConnected()) {
-    print("haaaaa");
-  } else {
-    print("haaaaa noooo");
-  }
-  ;
 }
 
 class MyApp extends StatefulWidget {
@@ -144,7 +136,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => NotificationCubit(),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => RecordsCubit(),
         ),
         BlocProvider(

@@ -10,6 +10,7 @@ import 'package:http_parser/http_parser.dart';
 import '../../utils/enums.dart';
 import '../CustomException.dart';
 import '../shared_preference.dart';
+import 'network_check.dart';
 
 // import 'CustomException.dart';
 
@@ -105,15 +106,15 @@ class NetworkRequest {
   Future<Map<String, dynamic>> post(String url, Map body) async {
     var responseJson;
     await getTokenPref();
+    if (!await NetworkCheck().isConnected()) {
+      print("Check network");
+      return {"responseCode": "008"};
+    }
     try {
       final uri = Uri.parse(baseUrl + url);
-
-      print('the uri: $uri');
-      print(jsonEncode(body));
-
       final response = await http
           .post(
-        Uri.parse(baseUrl + url),
+        uri,
         headers: headers,
         body: jsonEncode(body),
       )
