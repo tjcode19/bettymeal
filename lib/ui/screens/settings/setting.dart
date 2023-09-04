@@ -82,7 +82,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 Text(
                   'Please note that this action is irreversible.',
-                  style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: AppColour(context).secondaryColour),
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontStyle: FontStyle.italic,
+                      color: AppColour(context).secondaryColour),
                   textAlign: TextAlign.justify,
                 ),
                 Divider(
@@ -96,8 +99,7 @@ class _SettingScreenState extends State<SettingScreen> {
             posColor: AppColour(context).errorColor,
             textNeg: "No",
             posAction: () {
-              Navigator.pushNamed(
-                  context, Routes.deleteAccountScreen);
+              Navigator.pushNamed(context, Routes.deleteAccountScreen);
             },
           );
         },
@@ -105,7 +107,6 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   setTribe(action, tr) {
-    inspect(selectedTribe);
     setState(() {
       if (action == true) {
         selectedTribe.add(tr);
@@ -115,12 +116,6 @@ class _SettingScreenState extends State<SettingScreen> {
     });
     context.read<sd.UserCubit>().setTribesPref(selectedTribe.join(','));
   }
-
-  // void _onElevatedChanged(bool value) {
-  //   setState(() {
-  //     _isElevated = value;
-  //   });
-  // }
 
   @override
   void initState() {

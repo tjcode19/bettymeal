@@ -32,8 +32,6 @@ class NetworkRequest {
     try {
       token = await _sharedPreferenceQS!
           .getSharedPrefs(sharedType: SpDataType.String, fieldName: 'token');
-
-      print('token $token  HAA');
     } catch (e) {
       print(e);
       print("Token Error: $e");
