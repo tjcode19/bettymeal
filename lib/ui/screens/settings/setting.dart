@@ -81,8 +81,8 @@ class _SettingScreenState extends State<SettingScreen> {
                   thickness: 3,
                 ),
                 Text(
-                  'Please note that this action is not reversible.',
-                  style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+                  'Please note that this action is irreversible.',
+                  style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: AppColour(context).secondaryColour),
                   textAlign: TextAlign.justify,
                 ),
                 Divider(
@@ -90,19 +90,14 @@ class _SettingScreenState extends State<SettingScreen> {
                   height: 20,
                   thickness: 3,
                 ),
-                Text(
-                  'Please note that this action is not reversible. All your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
-                  style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
-                  textAlign: TextAlign.justify,
-                ),
               ],
             ),
             textPos: "Yes",
             posColor: AppColour(context).errorColor,
             textNeg: "No",
             posAction: () {
-              context.read<AuthCubit>().logout();
-              Navigator.pushReplacementNamed(context, Routes.loginScreen);
+              Navigator.pushNamed(
+                  context, Routes.deleteAccountScreen);
             },
           );
         },
@@ -375,7 +370,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => logout(),
+                  onPressed: () => logout,
                   child: Text(
                     'Logout',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -388,8 +383,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   height: 20,
                 ),
                 TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, Routes.deleteAccountScreen),
+                  onPressed: () => deleteAccount(),
                   child: Text(
                     'Delete My Account',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

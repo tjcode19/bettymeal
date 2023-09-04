@@ -1,10 +1,10 @@
+import 'package:bettymeals/cubit/user_cubit.dart' as us;
 import 'package:bettymeals/utils/constants.dart';
 import 'package:bettymeals/utils/device_utils.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubit/auth_cubit.dart';
 import '../../../routes.dart';
 import '../../../utils/colours.dart';
 import '../../../utils/enums.dart';
@@ -65,82 +65,87 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
         backgroundColor: AppColour(context).background,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: CommonUtils.lpadding),
-          child: Column(
-            children: [
-              Text(
-                'We are sorry to see you go!!!',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              CustomLayout.xlPad.sizedBoxH,
-              AnimatedBuilder(
-                animation: _scaleAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _scaleAnimation.value,
-                    child: child,
-                  );
-                },
-                child: Icon(
-                  Icons.heart_broken,
-                  size: 120,
-                  color: Colors.red, // Change the color as needed
+        child: BlocListener<us.UserCubit, us.UserState>(
+          listener: (context, state) {
+            if (state is us.UserLoading) {
+              Notificatn.loading();
+            }
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: CommonUtils.lpadding),
+            child: Column(
+              children: [
+                Text(
+                  'We are sorry to see you go!!!',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              CustomLayout.mPad.sizedBoxH,
-              Text(
-                'Please note that this action is not reversible and all your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
-                style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
-                textAlign: TextAlign.justify,
-              ),
-              CustomLayout.xlPad.sizedBoxH,
-              RichText(
-                text: TextSpan(
-                  text: 'Type ',
-                  children: [
-                    TextSpan(
-                      text: 'DELETE ACCOUNT',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(text: ' in the field below')
-                  ],
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.black.withOpacity(0.8),
+                CustomLayout.xlPad.sizedBoxH,
+                AnimatedBuilder(
+                  animation: _scaleAnimation,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _scaleAnimation.value,
+                      child: child,
+                    );
+                  },
+                  child: Icon(
+                    Icons.heart_broken,
+                    size: 120,
+                    color: Colors.red, // Change the color as needed
+                  ),
+                ),
+                CustomLayout.mPad.sizedBoxH,
+                Text(
+                  'Please note that this action is irreversible and all your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
+                  style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.justify,
+                ),
+                CustomLayout.xlPad.sizedBoxH,
+                RichText(
+                  text: TextSpan(
+                    text: 'Type ',
+                    children: [
+                      TextSpan(
+                        text: 'DELETE ACCOUNT',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
+                      TextSpan(text: ' in the field below')
+                    ],
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.black.withOpacity(0.8),
+                        ),
+                  ),
                 ),
-              ),
-              CustomLayout.mPad.sizedBoxH,
-              TextFormField(
-                controller: _deleteMe,
-              ),
-              CustomLayout.mPad.sizedBoxH,
-              ElevatedButton(
-                onPressed: () async {
-                  DeviceUtils.hideKeyboard(context);
-                  if (_deleteMe.text == "DELETE ACCOUNT") {
-                    // context.read<UserCubit>().updateUser({
-                    //   "firstName": _firstNameController.text,
-                    //   "lastName": _lastNameController.text,
-                    //   "dob": _dobController.text,
-                    //   "gender": _gender,
-                    //   "phoneNumber": _phoneNumberController.text
-                    // });
-                    context.read<AuthCubit>().logout();
-                    Navigator.pushReplacementNamed(context, Routes.loginScreen);
-                  } else {
-                    Notificatn.showErrorToast(context,
-                        errorMsg: 'You must enter DELETE ACCOUNT');
-                  }
-                },
-                child: const Text('Delete Account'),
-              ),
-            ],
+                CustomLayout.mPad.sizedBoxH,
+                TextFormField(
+                  controller: _deleteMe,
+                ),
+                CustomLayout.mPad.sizedBoxH,
+                Text(
+                  'You will be logged out automatically',
+                  style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.justify,
+                ),
+                CustomLayout.xlPad.sizedBoxH,
+                ElevatedButton(
+                  onPressed: () async {
+                    DeviceUtils.hideKeyboard(context);
+                    if (_deleteMe.text == "DELETE ACCOUNT") {
+                      await context.read<us.UserCubit>().deleteUser();
+                      Navigator.pushReplacementNamed(
+                          context, Routes.loginScreen);
+                    } else {
+                      Notificatn.showErrorToast(context,
+                          errorMsg: 'You must enter DELETE ACCOUNT');
+                    }
+                  },
+                  child: const Text('Delete Account'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

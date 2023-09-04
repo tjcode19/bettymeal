@@ -78,6 +78,18 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {}
   }
 
+  deleteUser() async {
+    emit(UserLoading());
+    try {
+      final cal = await userRepository.deleteUser();
+      if (cal.code != '000') {
+        emit(UserError(cal.message!));
+      } else {
+        emit(DeleteUserSuccess());
+      }
+    } catch (e) {}
+  }
+
   verifyEmail(otp, password, userId) async {
     emit(UserLoading());
     try {
@@ -165,5 +177,4 @@ class UserCubit extends Cubit<UserState> {
 
     updateUser({'tribes': uData.user!.tribes}, main: false);
   }
-
 }

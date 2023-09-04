@@ -31,6 +31,14 @@ class UserRepository {
     return UserRegistration.fromJson(response);
   }
 
+  Future<UserRegistration> deleteUser() async {
+    final response = await nRequest.delete(
+      "user/",
+    );
+
+    return UserRegistration.fromJson(response);
+  }
+
   Future<VerifyEmail> verifyEmail(otp, password, userId) async {
     final response = await nRequest.post(
       "user/verify/",

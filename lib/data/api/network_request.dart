@@ -32,6 +32,8 @@ class NetworkRequest {
     try {
       token = await _sharedPreferenceQS!
           .getSharedPrefs(sharedType: SpDataType.String, fieldName: 'token');
+
+      print('token $token  HAA');
     } catch (e) {
       print(e);
       print("Token Error: $e");
@@ -71,7 +73,6 @@ class NetworkRequest {
 
     try {
       final response = await http.delete(uri, headers: headers);
-      inspect(response);
       responseJson = _response(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

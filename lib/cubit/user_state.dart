@@ -27,6 +27,8 @@ class UserSuccess extends UserState {
 
 class UpdateUserSuccess extends UserState {}
 
+class DeleteUserSuccess extends UserState {}
+
 class GetUser extends UserState {
   const GetUser(this.uData);
 
