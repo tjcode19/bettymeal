@@ -62,17 +62,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Delete Account',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              color: AppColour(context).secondaryColour.withOpacity(0.7),
-              fontWeight: FontWeight.bold),
-        ),
         backgroundColor: AppColour(context).background,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(CommonUtils.lpadding),
+          padding: EdgeInsets.symmetric(horizontal: CommonUtils.lpadding),
           child: Column(
             children: [
               Text(
@@ -94,10 +88,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
                 },
                 child: Icon(
                   Icons.heart_broken,
-                  size: 100,
+                  size: 120,
                   color: Colors.red, // Change the color as needed
                 ),
               ),
+              CustomLayout.mPad.sizedBoxH,
               Text(
                 'Please note that this action is not reversible and all your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
                 style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
@@ -111,7 +106,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen>
                     TextSpan(
                       text: 'DELETE ACCOUNT',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.red, fontWeight: FontWeight.bold),
+                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                     TextSpan(text: ' in the field below')
                   ],

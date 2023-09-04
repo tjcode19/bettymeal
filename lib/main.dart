@@ -1,6 +1,5 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/records_cubit.dart';
-import 'package:bettymeals/data/api/network_check.dart';
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/noti.dart';
 import 'package:firebase_core/firebase_core.dart';
