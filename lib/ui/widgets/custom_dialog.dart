@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String? title,  textNeg, textPos;
+  final String? title, textNeg, textPos;
   final Widget descriptions;
   final Image? img;
   final posAction;
+  final Color? posColor;
 
   const CustomDialogBox(
       {Key? key,
@@ -15,7 +16,9 @@ class CustomDialogBox extends StatefulWidget {
       required this.descriptions,
       this.textPos,
       this.textNeg,
-      this.img, this.posAction})
+      this.posColor,
+      this.img,
+      this.posAction})
       : super(key: key);
 
   @override
@@ -64,7 +67,6 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 height: 15,
               ),
               widget.descriptions,
-              
               SizedBox(
                 height: 22,
               ),
@@ -81,10 +83,14 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       )),
                   ElevatedButton(
                       onPressed: widget.posAction,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: widget.posColor ??
+                              AppColour(context).primaryColour),
                       child: Text(
                         widget.textPos!,
                         style: TextStyle(
-                            fontSize: 18, color: AppColour(context).onPrimaryColour),
+                            fontSize: 18,
+                            color: AppColour(context).onPrimaryColour),
                       )),
                 ],
               ),

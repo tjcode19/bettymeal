@@ -1,6 +1,7 @@
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bettymeals/ui/screens/addmeal.dart';
 import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
+import 'package:bettymeals/ui/screens/delete_account/index.dart';
 import 'package:bettymeals/ui/screens/get_started.dart';
 import 'package:bettymeals/ui/screens/index.dart';
 import 'package:bettymeals/ui/screens/mealtable/stepbystep.dart';
@@ -51,6 +52,7 @@ class Routes {
   static const String notificationList = '/notification-list';
   static const String notificationScreen = '/notification-screen';
   static const String recordsScreen = '/records-screen';
+  static const String deleteAccountScreen = '/delete-account-screen';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -93,10 +95,9 @@ class Routes {
             body: t.body ?? '',
           ),
         );
-        case notificationList:
+      case notificationList:
         return MaterialPageRoute(
-          builder: (_) => NotificationList(
-          ),
+          builder: (_) => NotificationList(),
         );
       case plans:
         final String t = settings.arguments as String;
@@ -134,6 +135,8 @@ class Routes {
         return SlideLeftRoute(page: LoginScreen());
       case manageSubScreen:
         return SlideLeftRoute(page: SubscriptionScreen());
+      case deleteAccountScreen:
+        return SlideLeftRoute(page: DeleteAccountScreen());
       case forgotPasswordScreen:
         return SlideLeftRoute(page: ForgotPasswordScreen());
       case aboutScreen:
