@@ -4,14 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String? title, descriptions, textNeg, textPos;
+  final String? title,  textNeg, textPos;
+  final Widget descriptions;
   final Image? img;
   final posAction;
 
   const CustomDialogBox(
       {Key? key,
       this.title,
-      this.descriptions,
+      required this.descriptions,
       this.textPos,
       this.textNeg,
       this.img, this.posAction})
@@ -62,11 +63,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               SizedBox(
                 height: 15,
               ),
-              Text(
-                widget.descriptions!,
-                style: TextStyle(fontSize: 14),
-                textAlign: TextAlign.center,
-              ),
+              widget.descriptions,
+              
               SizedBox(
                 height: 22,
               ),

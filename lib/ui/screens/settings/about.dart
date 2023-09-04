@@ -15,22 +15,15 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size(10, 56),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: CommonUtils.spadding, vertical: 0.0),
-          child: AppBar(
-            leadingWidth: 24,
-            title: Text(
-              'About',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: AppColour(context).primaryColour.withOpacity(0.7),
-                  fontWeight: FontWeight.bold),
-            ),
-            backgroundColor: AppColour(context).background,
-          ),
+      appBar: AppBar(
+        leadingWidth: 24,
+        title: Text(
+          'About',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: AppColour(context).primaryColour.withOpacity(0.7),
+              fontWeight: FontWeight.bold),
         ),
+        backgroundColor: AppColour(context).background,
       ),
       body: SingleChildScrollView(
         child: Padding(

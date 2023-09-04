@@ -46,7 +46,42 @@ class _SettingScreenState extends State<SettingScreen> {
         builder: (BuildContext context) {
           return CustomDialogBox(
             title: "Warning",
-            descriptions: "Are you sure you want to log out?",
+            descriptions: Text(
+              "Are you sure you want to log out?",
+              style: TextStyle(fontSize: 14),
+              textAlign: TextAlign.center,
+            ),
+            textPos: "Yes",
+            textNeg: "No",
+            posAction: () {
+              context.read<AuthCubit>().logout();
+              Navigator.pushReplacementNamed(context, Routes.loginScreen);
+            },
+          );
+        },
+        barrierDismissible: false);
+  }
+
+  deleteAccount() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+            title: "Warning",
+            descriptions: Column(
+              children: [
+                Text(
+                  'Are you sure you want to permanently delete your account? \n Please note that this action is not reversible. All your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Are you sure you want to permanently delete your account? \n Please note that this action is not reversible. All your information will be deleted from out database and your current subscription, if any, will be cancelled automatically',
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
             textPos: "Yes",
             textNeg: "No",
             posAction: () {
@@ -324,13 +359,27 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 TextButton(
-                    onPressed: () => logout(),
-                    child: Text(
-                      'Logout',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Colors.red.withOpacity(0.8),
-                          fontWeight: FontWeight.bold),
-                    )),
+                  onPressed: () => logout(),
+                  child: Text(
+                    'Logout',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: AppColour(context).secondaryColour,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Divider(
+                  color: AppColour(context).secondaryColour,
+                  height: 20,
+                ),
+                TextButton(
+                  onPressed: () => deleteAccount(),
+                  child: Text(
+                    'Delete My Account',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.red.withOpacity(0.8),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
           ],
