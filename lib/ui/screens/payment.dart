@@ -191,12 +191,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () async {
-                                      if (price == 0) {
-                                        context
-                                            .read<TimetableCubit>()
-                                            .generateTimeableApi(
-                                                widget.plan.sId, planPeriodId);
-                                      } else {
+                                      // if (price == 0) {
+                                      //   context
+                                      //       .read<TimetableCubit>()
+                                      //       .generateTimeableApi(
+                                      //           widget.plan.sId, planPeriodId);
+                                                
+                                      // } else {
                                         final checker = planPeriodId == 'WK'
                                             ? widget.plan.period!.week!.playId
                                             : widget.plan.period!.month!.playId;
@@ -242,7 +243,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         //     );
                                         //   },
                                         // );
-                                      }
+                                      // }
                                     },
                                     child: const Text('Continue'),
                                   ),
