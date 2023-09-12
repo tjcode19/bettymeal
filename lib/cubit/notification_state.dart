@@ -12,7 +12,7 @@ class NotificationInitial extends NotificationState {}
 class NotificationLoad extends NotificationState {
    const NotificationLoad(this.data);
 
-  final String data;
+  final Data data;
 
   @override
   List<Object> get props => [data];

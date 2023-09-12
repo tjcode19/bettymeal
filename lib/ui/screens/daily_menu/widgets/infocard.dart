@@ -34,67 +34,76 @@ class InfoCard extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(CommonUtils.padding),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(0.0),
-              dense: false,
-              title: Row(children: [
-                // Icon(Icons.tips_and_updates,
-                //     color: AppColour(context).secondaryColour),
-                SizedBox(
-                    height: 20,
-                    width: 4,
-                    child: VerticalDivider(
-                      color: AppColour(context).secondaryColour,
-                      thickness: 4,
-                    )),
-                CustomLayout.mPad.sizedBoxW,
-                Text(
-                  'Today\'s tip',
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color:
-                            AppColour(context).secondaryColour.withOpacity(0.7),
-                      ),
-                )
-              ]),
-              subtitle: BlocBuilder<NotificationCubit, NotificationState>(
-                  builder: (context, state) {
-                if (state is NotificationLoad) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomLayout.mPad.sizedBoxH,
+          BlocBuilder<NotificationCubit, NotificationState>(
+              builder: (context, state) {
+            if (state is NotificationLoad) {
+              return Padding(
+                  padding: EdgeInsets.all(CommonUtils.padding),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(0.0),
+                    dense: false,
+                    title: Row(children: [
+                      // Icon(Icons.tips_and_updates,
+                      //     color: AppColour(context).secondaryColour),
+                      SizedBox(
+                          height: 20,
+                          width: 4,
+                          child: VerticalDivider(
+                            color: AppColour(context).secondaryColour,
+                            thickness: 4,
+                          )),
+                      CustomLayout.mPad.sizedBoxW,
                       Text(
-                        '${state.data}',
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: AppColour(context)
-                                .onSecondaryColour
-                                .withOpacity(0.8),
-                            fontSize: 15),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      CustomLayout.mPad.sizedBoxH,
-                      Text(
-                        'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).',
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: AppColour(context)
-                                .onSecondaryColour
-                                .withOpacity(0.8),
-                            fontSize: 15),
-                      ),
-                    ],
-                  );
-                }
-              }),
-            ),
-          ),
+                        '${state.data.title}',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: AppColour(context)
+                                      .secondaryColour
+                                      .withOpacity(0.7),
+                                ),
+                      )
+                    ]),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomLayout.mPad.sizedBoxH,
+                        Text(
+                          '${state.data.message}',
+                          textAlign: TextAlign.justify,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: AppColour(context)
+                                      .onSecondaryColour
+                                      .withOpacity(0.8),
+                                  fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    //   }
+                    //   else {
+                    //     return Column(
+                    //       children: [
+                    //         CustomLayout.mPad.sizedBoxH,
+                    //         Text(
+                    //           'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).',
+                    //           textAlign: TextAlign.justify,
+                    //           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    //               color: AppColour(context)
+                    //                   .onSecondaryColour
+                    //                   .withOpacity(0.8),
+                    //               fontSize: 15),
+                    //         ),
+                    //       ],
+                    //     );
+                    //   }
+                    // }),
+                  ));
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );

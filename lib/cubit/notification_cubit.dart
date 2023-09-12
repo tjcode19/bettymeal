@@ -96,9 +96,9 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   _updateRandomString(List<Data> data) {
-    String currentString;
+    Data currentString;
     Random random = Random();
-    currentString = data[random.nextInt(data.length)].message!;
+    currentString = data[random.nextInt(data.length)];
 
     emit(NotificationLoad(currentString));
   }
