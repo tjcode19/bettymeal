@@ -35,9 +35,9 @@ class InfoCard extends StatelessWidget {
             ),
           ),
           BlocBuilder<NotificationCubit, NotificationState>(
-              builder: (context, state) {
-            if (state is NotificationLoad) {
-              return Padding(
+            builder: (context, state) {
+              if (state is NotificationLoad) {
+                return Padding(
                   padding: EdgeInsets.all(CommonUtils.padding),
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(0.0),
@@ -81,29 +81,13 @@ class InfoCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    //   }
-                    //   else {
-                    //     return Column(
-                    //       children: [
-                    //         CustomLayout.mPad.sizedBoxH,
-                    //         Text(
-                    //           'Experts recommend that males consume 15.5 cups (3.7 liters) of water daily and females 11.5 cups (2.7 liters).',
-                    //           textAlign: TextAlign.justify,
-                    //           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    //               color: AppColour(context)
-                    //                   .onSecondaryColour
-                    //                   .withOpacity(0.8),
-                    //               fontSize: 15),
-                    //         ),
-                    //       ],
-                    //     );
-                    //   }
-                    // }),
-                  ));
-            } else {
-              return Container();
-            }
-          }),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
         ],
       ),
     );

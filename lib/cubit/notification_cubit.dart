@@ -88,6 +88,20 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
+  getNotis() async {
+    try {
+      final cal = await notiRepo.getAllNotifications();
+      if (cal.code != '000') {
+        emit(NotificationError(cal.message!));
+      } else {
+        startRandomizing(cal.data!);
+      }
+    } catch (e) {
+      emit(NotificationError("Error Occured"));
+      print(e);
+    }
+  }
+
   void startRandomizing(List<Data> data) {
     _updateRandomString(data); // Initial call to set a random string
     Timer.periodic(Duration(hours: 6), (timer) {

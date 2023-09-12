@@ -5,7 +5,7 @@ class NotiRepository {
   final NetworkRequest nRequest = NetworkRequest();
 
   Future<GetNotifications> getAllNotifications() async {
-    final response = await nRequest.get("notification");
+    final response = await nRequest.get("notification/messages");
 
     return GetNotifications.fromJson(response);
   }
