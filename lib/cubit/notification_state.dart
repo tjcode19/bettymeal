@@ -9,15 +9,6 @@ abstract class NotificationState extends Equatable {
 
 class NotificationInitial extends NotificationState {}
 
-class NotificationLoad extends NotificationState {
-  const NotificationLoad(this.data);
-
-  final Data data;
-
-  @override
-  List<Object> get props => [data];
-}
-
 class MessageLoaded extends NotificationState {
   const MessageLoaded(this.msgs);
 

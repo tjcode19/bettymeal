@@ -72,6 +72,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   
 
   getNotis() async {
+    emit(NotificationInitial());
     try {
       final cal = await notiRepo.getAllNotifications();
       if (cal.code != '000') {

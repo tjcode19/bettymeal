@@ -99,50 +99,52 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                           AppColour(context).onPrimaryColour),
                             ),
                           ),
-                          BlocListener<NotificationCubit, NotificationState>(
-                            listener: (context, state) {
+                          BlocBuilder<NotificationCubit, NotificationState>(
+                            builder: (context, state) {
                               if (state is MessageLoaded) {
                                 msgCounter = state.msgs.length;
                                 msgs = state.msgs;
                               }
-                            },
-                            child: GestureDetector(
+
+                              return GestureDetector(
                                 onTap: () => Navigator.pushNamed(
                                     context, Routes.notificationList,
                                     arguments: msgs),
                                 child: badges.Badge(
-                                    position: badges.BadgePosition.topEnd(
-                                        top: -20, end: -10),
-                                    badgeContent: Text(
-                                      msgCounter.toString(),
-                                      style: TextStyle(
-                                          color:
-                                              AppColour(context).primaryColour),
-                                    ),
-                                    badgeAnimation:
-                                        badges.BadgeAnimation.rotation(
-                                      animationDuration: Duration(seconds: 1),
-                                      colorChangeAnimationDuration:
-                                          Duration(seconds: 1),
-                                      loopAnimation: false,
-                                      curve: Curves.fastOutSlowIn,
-                                      colorChangeAnimationCurve:
-                                          Curves.easeInCubic,
-                                    ),
-                                    badgeStyle: badges.BadgeStyle(
-                                      badgeColor:
-                                          AppColour(context).onPrimaryColour,
-                                      padding: const EdgeInsets.all(8),
-                                      borderSide: BorderSide(
-                                          color:
-                                              AppColour(context).primaryColour,
-                                          width: 1),
-                                    ),
-                                    child: Icon(
-                                      Icons.notifications_none_outlined,
-                                      color: Colors.white,
-                                      size: 35,
-                                    ))),
+                                  position: badges.BadgePosition.topEnd(
+                                      top: -20, end: -10),
+                                  badgeContent: Text(
+                                    msgCounter.toString(),
+                                    style: TextStyle(
+                                        color:
+                                            AppColour(context).primaryColour),
+                                  ),
+                                  badgeAnimation:
+                                      badges.BadgeAnimation.rotation(
+                                    animationDuration: Duration(seconds: 1),
+                                    colorChangeAnimationDuration:
+                                        Duration(seconds: 1),
+                                    loopAnimation: false,
+                                    curve: Curves.fastOutSlowIn,
+                                    colorChangeAnimationCurve:
+                                        Curves.easeInCubic,
+                                  ),
+                                  badgeStyle: badges.BadgeStyle(
+                                    badgeColor:
+                                        AppColour(context).onPrimaryColour,
+                                    padding: const EdgeInsets.all(8),
+                                    borderSide: BorderSide(
+                                        color: AppColour(context).primaryColour,
+                                        width: 1),
+                                  ),
+                                  child: Icon(
+                                    Icons.notifications_none_outlined,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                              );
+                            },
                           )
                         ],
                       ),
