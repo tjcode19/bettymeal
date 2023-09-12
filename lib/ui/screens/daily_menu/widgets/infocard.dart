@@ -11,60 +11,72 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationCubit, NotificationState>(
-      builder: (context, state) {
-        if(state is NotificationLoad){
-
-        }
-        return Container(
-          width: CommonUtils.sw(context),
-          margin: EdgeInsets.symmetric(horizontal: CommonUtils.mpadding),
-          decoration: BoxDecoration(
-            color: AppColour(context).onPrimaryColour,
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
+    return Container(
+      width: CommonUtils.sw(context),
+      margin: EdgeInsets.symmetric(horizontal: CommonUtils.mpadding),
+      decoration: BoxDecoration(
+        color: AppColour(context).onPrimaryColour,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            right: -50,
+            child: Transform.rotate(
+              angle: -30 * 0.0174533,
+              child: Icon(
+                Icons.tips_and_updates_outlined,
+                color: Colors.grey[200],
+                size: 150,
+              ),
             ),
           ),
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                right: -50,
-                child: Transform.rotate(
-                  angle: -30 * 0.0174533,
-                  child: Icon(
-                    Icons.tips_and_updates_outlined,
-                    color: Colors.grey[200],
-                    size: 150,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(CommonUtils.padding),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(0.0),
-                  dense: false,
-                  title: Row(children: [
-                    // Icon(Icons.tips_and_updates,
-                    //     color: AppColour(context).secondaryColour),
-                    SizedBox(
-                        height: 20,
-                        width: 4,
-                        child: VerticalDivider(
-                          color: AppColour(context).secondaryColour,
-                          thickness: 4,
-                        )),
-                    CustomLayout.mPad.sizedBoxW,
-                    Text(
-                      'Today\'s tip',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          Padding(
+            padding: EdgeInsets.all(CommonUtils.padding),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(0.0),
+              dense: false,
+              title: Row(children: [
+                // Icon(Icons.tips_and_updates,
+                //     color: AppColour(context).secondaryColour),
+                SizedBox(
+                    height: 20,
+                    width: 4,
+                    child: VerticalDivider(
+                      color: AppColour(context).secondaryColour,
+                      thickness: 4,
+                    )),
+                CustomLayout.mPad.sizedBoxW,
+                Text(
+                  'Today\'s tip',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color:
+                            AppColour(context).secondaryColour.withOpacity(0.7),
+                      ),
+                )
+              ]),
+              subtitle: BlocBuilder<NotificationCubit, NotificationState>(
+                  builder: (context, state) {
+                if (state is NotificationLoad) {
+                  return Column(
+                    children: [
+                      CustomLayout.mPad.sizedBoxH,
+                      Text(
+                        '${state.data[0].message}',
+                        textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: AppColour(context)
-                                .secondaryColour
-                                .withOpacity(0.7),
-                          ),
-                    )
-                  ]),
-                  subtitle: Column(
+                                .onSecondaryColour
+                                .withOpacity(0.8),
+                            fontSize: 15),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Column(
                     children: [
                       CustomLayout.mPad.sizedBoxH,
                       Text(
@@ -77,13 +89,13 @@ class InfoCard extends StatelessWidget {
                             fontSize: 15),
                       ),
                     ],
-                  ),
-                ),
-              ),
-            ],
+                  );
+                }
+              }),
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

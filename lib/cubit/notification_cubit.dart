@@ -78,6 +78,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       if (cal.code != '000') {
         emit(NotificationError(cal.message!));
       } else {
+        
         emit(NotificationLoad(cal.data!));
       }
     } catch (e) {

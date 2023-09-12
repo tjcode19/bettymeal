@@ -1,4 +1,5 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
+import 'package:bettymeals/cubit/notification_cubit.dart';
 import '../../../routes.dart';
 import '../../../utils/device_utils.dart';
 import '../../widgets/shimmer_widget.dart';
@@ -28,6 +29,7 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
 
   @override
   void initState() {
+    context.read<NotificationCubit>().getTips();
     super.initState();
   }
 
