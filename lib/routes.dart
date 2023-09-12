@@ -93,6 +93,7 @@ class Routes {
           builder: (_) => NotificationScreen(
             title: t.title ?? '',
             body: t.message ?? '',
+            date: t.date ?? ''
           ),
         );
       case notificationList:

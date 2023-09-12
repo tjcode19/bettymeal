@@ -1,15 +1,14 @@
-
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
+import 'package:bettymeals/utils/helper.dart';
 import 'package:flutter/material.dart';
 import '../../../data/api/models/GetNotifications.dart';
 import '../../../routes.dart';
 import '../../../utils/enums.dart';
 
 class NotificationList extends StatefulWidget {
-
   final List<Data> msgList;
-  const NotificationList( this.msgList, {super.key});
+  const NotificationList(this.msgList, {super.key});
 
   @override
   State<NotificationList> createState() => _NotificationListState();
@@ -55,7 +54,6 @@ class _NotificationListState extends State<NotificationList> {
   @override
   void initState() {
     super.initState();
-
 
     notii = widget.msgList;
   }
@@ -157,7 +155,7 @@ class _NotificationListState extends State<NotificationList> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '2023-08-14 13:45',
+                                    HelperMethod.formatDate(n.date),
                                     textAlign: TextAlign.justify,
                                     style: Theme.of(context)
                                         .textTheme

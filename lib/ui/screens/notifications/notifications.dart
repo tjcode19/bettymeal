@@ -2,13 +2,15 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/enums.dart';
+import '../../../utils/helper.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen(
-      {required this.title, required this.body, super.key});
+      {required this.title, required this.body, required this.date, super.key});
 
   final String title;
   final String body;
+  final String date;
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -78,17 +80,35 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.all(CommonUtils.padding),
-                        child: Text(
-                          '${widget.body}',
-                          textAlign: TextAlign.justify,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  color: AppColour(context)
-                                      .onSecondaryColour
-                                      .withOpacity(0.8),
-                                  fontSize: 18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${widget.body}',
+                              textAlign: TextAlign.justify,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: AppColour(context)
+                                          .onSecondaryColour
+                                          .withOpacity(0.8),
+                                      fontSize: 18),
+                            ),
+                            CustomLayout.xxlPad.sizedBoxH,
+                            Text(
+                              HelperMethod.formatDate(widget.date),
+                              textAlign: TextAlign.justify,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: AppColour(context)
+                                          .onSecondaryColour
+                                          .withOpacity(0.8),
+                                      fontSize: 12),
+                            ),
+                          ],
                         ),
                       ),
                     ],
