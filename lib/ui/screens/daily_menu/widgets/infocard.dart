@@ -1,4 +1,4 @@
-import 'package:bettymeals/cubit/notification_cubit.dart';
+import 'package:bettymeals/cubit/tips_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,9 +34,9 @@ class InfoCard extends StatelessWidget {
               ),
             ),
           ),
-          BlocBuilder<NotificationCubit, NotificationState>(
+          BlocBuilder<TipsCubit, TipsState>(
             builder: (context, state) {
-              if (state is NotificationLoad) {
+              if (state is TipsLoad) {
                 return Padding(
                   padding: EdgeInsets.all(CommonUtils.padding),
                   child: ListTile(

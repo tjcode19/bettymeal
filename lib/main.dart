@@ -16,6 +16,7 @@ import 'cubit/notification_cubit.dart';
 import 'cubit/store_cubit.dart';
 import 'cubit/sub_cubit.dart';
 import 'cubit/timetable_cubit.dart';
+import 'cubit/tips_cubit.dart';
 import 'cubit/user_cubit.dart';
 import 'data/local/database/app_database.dart';
 import 'routes.dart';
@@ -134,6 +135,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => NotificationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => TipsCubit(),
         ),
         BlocProvider(
           create: (context) => RecordsCubit(),
