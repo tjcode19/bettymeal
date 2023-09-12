@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
+import 'package:bettymeals/data/api/repositories/notiRepo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,10 +16,12 @@ part 'notification_state.dart';
 class NotificationCubit extends Cubit<NotificationState> {
   NotificationCubit()
       : sharedPreference = SharedPreferenceApp(),
+        notiRepo = NotiRepository(),
         super(NotificationInitial());
 
   final SharedPreferenceApp sharedPreference;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final NotiRepository notiRepo;
 
   void subscribeToTopic({required String topic}) async {
     // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -50,12 +53,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   gotoNoti(context, {msg}) async {
-    // print('We got here : $msg');
-    // showDialog(
-    //     context: context,
-    //     builder: (v) {
-    //       return Text('Memo');
-    //     });
     bool hasResumed = false;
 
     final uData = await sharedPreference.getSharedPrefs(
@@ -72,5 +69,17 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
     sharedPreference.setData(
         sharedType: SpDataType.object, fieldName: 'noti', fieldValue: null);
+  }
+
+  getTips() async {
+    try {
+      final cal = await notiRepo.getTips();
+      if (cal.code != '000') {
+        emit(NotificationError(cal.message!));
+      } else {}
+    } catch (e) {
+      emit(NotificationError("Error Occured"));
+      print(e);
+    }
   }
 }
