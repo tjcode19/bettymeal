@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:bettymeals/data/api/models/GetNotifications.dart';
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
@@ -78,12 +80,26 @@ class NotificationCubit extends Cubit<NotificationState> {
       if (cal.code != '000') {
         emit(NotificationError(cal.message!));
       } else {
-        
-        emit(NotificationLoad(cal.data!));
+        startRandomizing(cal.data!);
       }
     } catch (e) {
       emit(NotificationError("Error Occured"));
       print(e);
     }
+  }
+
+  void startRandomizing(List<Data> data) {
+    _updateRandomString(data); // Initial call to set a random string
+    Timer.periodic(Duration(hours: 6), (timer) {
+      _updateRandomString(data); // Update random string every 6 hours
+    });
+  }
+
+  _updateRandomString(List<Data> data) {
+    String currentString;
+    Random random = Random();
+    currentString = data[random.nextInt(data.length)].message!;
+
+    emit(NotificationLoad(currentString));
   }
 }

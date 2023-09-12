@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen>
   goHome() {
     context.read<TimetableCubit>().getTimeableApi();
     context.read<SubCubit>().getSubscription();
-    context.read<MealCubit>().getAllMeal('fresh');
+    context.read<MealCubit>().getAllMeal('');
     context.read<RecordsCubit>().getRecords();
 
     Timer(Duration(seconds: counter), () async {

@@ -62,10 +62,11 @@ class InfoCard extends StatelessWidget {
                   builder: (context, state) {
                 if (state is NotificationLoad) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomLayout.mPad.sizedBoxH,
                       Text(
-                        '${state.data[0].message}',
+                        '${state.data}',
                         textAlign: TextAlign.justify,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: AppColour(context)
