@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bettymeals/data/api/models/GetNotifications.dart';
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bettymeals/data/api/repositories/notiRepo.dart';
 import 'package:bloc/bloc.dart';
@@ -76,7 +77,9 @@ class NotificationCubit extends Cubit<NotificationState> {
       final cal = await notiRepo.getTips();
       if (cal.code != '000') {
         emit(NotificationError(cal.message!));
-      } else {}
+      } else {
+        emit(NotificationLoad(cal.data!));
+      }
     } catch (e) {
       emit(NotificationError("Error Occured"));
       print(e);
