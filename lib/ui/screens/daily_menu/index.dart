@@ -1,5 +1,6 @@
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/notification_cubit.dart';
+import '../../../data/api/models/GetNotifications.dart';
 import '../../../routes.dart';
 import '../../../utils/device_utils.dart';
 import '../../widgets/shimmer_widget.dart';
@@ -26,10 +27,13 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
   String subId = '';
   String name = 'Guest';
   String plan = "...";
+  int msgCounter = 0;
+  List<Data> msgs = [];
 
   @override
   void initState() {
     context.read<NotificationCubit>().getTips();
+    context.read<NotificationCubit>().getNotis();
     super.initState();
   }
 
@@ -94,40 +98,51 @@ class _DailyMenuScreenState extends State<DailyMenuScreen> {
                                           AppColour(context).onPrimaryColour),
                             ),
                           ),
-                          GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, Routes.notificationList, arguments: subId),
-                              child: badges.Badge(
-                                  position: badges.BadgePosition.topEnd(
-                                      top: -20, end: -10),
-                                  badgeContent: Text(
-                                    '1',
-                                    style: TextStyle(color: AppColour(context).primaryColour),
-                                  ),
-                                  badgeAnimation:
-                                      badges.BadgeAnimation.rotation(
-                                    animationDuration: Duration(seconds: 1),
-                                    colorChangeAnimationDuration:
-                                        Duration(seconds: 1),
-                                    loopAnimation: false,
-                                    curve: Curves.fastOutSlowIn,
-                                    colorChangeAnimationCurve:
-                                        Curves.easeInCubic,
-                                  ),
-                                  badgeStyle: badges.BadgeStyle(
-                                    badgeColor:
-                                        AppColour(context).onPrimaryColour,
-                                    padding: const EdgeInsets.all(8),
-                                    borderSide: BorderSide(
-                                        color:
-                                            AppColour(context).primaryColour,
-                                        width: 1),
-                                  ),
-                                  child: Icon(
-                                    Icons.notifications_none_outlined,
-                                    color: Colors.white,
-                                    size: 35,
-                                  )))
+                          BlocListener<NotificationCubit, NotificationState>(
+                            listener: (context, state) {
+                              if (state is MessageLoaded) {
+                                msgCounter = state.msgs.length;
+                                msgs = state.msgs;
+                              }
+                            },
+                            child: GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.notificationList,
+                                    arguments: msgs),
+                                child: badges.Badge(
+                                    position: badges.BadgePosition.topEnd(
+                                        top: -20, end: -10),
+                                    badgeContent: Text(
+                                      msgCounter.toString(),
+                                      style: TextStyle(
+                                          color:
+                                              AppColour(context).primaryColour),
+                                    ),
+                                    badgeAnimation:
+                                        badges.BadgeAnimation.rotation(
+                                      animationDuration: Duration(seconds: 1),
+                                      colorChangeAnimationDuration:
+                                          Duration(seconds: 1),
+                                      loopAnimation: false,
+                                      curve: Curves.fastOutSlowIn,
+                                      colorChangeAnimationCurve:
+                                          Curves.easeInCubic,
+                                    ),
+                                    badgeStyle: badges.BadgeStyle(
+                                      badgeColor:
+                                          AppColour(context).onPrimaryColour,
+                                      padding: const EdgeInsets.all(8),
+                                      borderSide: BorderSide(
+                                          color:
+                                              AppColour(context).primaryColour,
+                                          width: 1),
+                                    ),
+                                    child: Icon(
+                                      Icons.notifications_none_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ))),
+                          )
                         ],
                       ),
                     )

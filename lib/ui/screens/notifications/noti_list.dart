@@ -1,19 +1,22 @@
-import 'package:bettymeals/data/api/models/NotiResponse.dart';
+
 import 'package:bettymeals/utils/colours.dart';
 import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
+import '../../../data/api/models/GetNotifications.dart';
 import '../../../routes.dart';
 import '../../../utils/enums.dart';
 
 class NotificationList extends StatefulWidget {
-  const NotificationList({super.key});
+
+  final List<Data> msgList;
+  const NotificationList( this.msgList, {super.key});
 
   @override
   State<NotificationList> createState() => _NotificationListState();
 }
 
 class _NotificationListState extends State<NotificationList> {
-  List<NotiResponse> notii = [];
+  List<Data> notii = [];
   final noti = [
     {
       "title": "Timetable created",
@@ -53,7 +56,8 @@ class _NotificationListState extends State<NotificationList> {
   void initState() {
     super.initState();
 
-    notii = noti.map((e) => NotiResponse.fromJson(e)).toList();
+
+    notii = widget.msgList;
   }
 
   @override
@@ -139,7 +143,7 @@ class _NotificationListState extends State<NotificationList> {
                                           fontSize: 20),
                                 ),
                                 Text(
-                                  n.body!,
+                                  n.message!,
                                   textAlign: TextAlign.justify,
                                   style: Theme.of(context)
                                       .textTheme

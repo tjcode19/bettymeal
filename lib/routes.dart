@@ -1,4 +1,3 @@
-import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bettymeals/ui/screens/addmeal.dart';
 import 'package:bettymeals/ui/screens/authentication/forgot_password.dart';
 import 'package:bettymeals/ui/screens/delete_account/index.dart';
@@ -13,6 +12,7 @@ import 'package:bettymeals/ui/screens/subscription/index.dart';
 import 'package:bettymeals/ui/splash_screen.dart';
 import 'package:bettymeals/utils/animations.dart';
 import 'package:flutter/material.dart';
+import 'data/api/models/GetNotifications.dart';
 import 'data/api/models/GetSubscription.dart';
 import 'data/api/models/MealResponse.dart';
 import 'ui/screens/addcategory.dart';
@@ -88,16 +88,17 @@ class Routes {
           ),
         );
       case notificationScreen:
-        final t = settings.arguments as NotiResponse;
+        final t = settings.arguments as Data;
         return MaterialPageRoute(
           builder: (_) => NotificationScreen(
             title: t.title ?? '',
-            body: t.body ?? '',
+            body: t.message ?? '',
           ),
         );
       case notificationList:
+        final List<Data> msgList = settings.arguments as List<Data>;
         return MaterialPageRoute(
-          builder: (_) => NotificationList(),
+          builder: (_) => NotificationList(msgList),
         );
       case plans:
         final String t = settings.arguments as String;
