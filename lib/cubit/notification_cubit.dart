@@ -1,6 +1,4 @@
-import 'dart:async';
-import 'dart:developer';
-import 'dart:math';
+
 
 import 'package:bettymeals/data/api/models/GetNotifications.dart';
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
@@ -50,7 +48,6 @@ class NotificationCubit extends Cubit<NotificationState> {
       "body": msg.notification.body
     };
 
-    inspect(notiData);
     sharedPreference.setData(
         sharedType: SpDataType.object, fieldName: 'noti', fieldValue: notiData);
   }
@@ -61,8 +58,6 @@ class NotificationCubit extends Cubit<NotificationState> {
     final uData = await sharedPreference.getSharedPrefs(
         sharedType: SpDataType.object, fieldName: 'noti');
     '';
-    inspect(uData);
-
     NotiResponse data = NotiResponse.fromJson(uData);
     if (data.title == null || data.title == '') return;
     if (!hasResumed) {
@@ -74,19 +69,7 @@ class NotificationCubit extends Cubit<NotificationState> {
         sharedType: SpDataType.object, fieldName: 'noti', fieldValue: null);
   }
 
-  getTips() async {
-    try {
-      final cal = await notiRepo.getTips();
-      if (cal.code != '000') {
-        emit(NotificationError(cal.message!));
-      } else {
-        startRandomizing(cal.data!);
-      }
-    } catch (e) {
-      emit(NotificationError("Error Occured"));
-      print(e);
-    }
-  }
+  
 
   getNotis() async {
     try {
@@ -102,18 +85,5 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  void startRandomizing(List<Data> data) {
-    _updateRandomString(data); // Initial call to set a random string
-    Timer.periodic(Duration(hours: 6), (timer) {
-      _updateRandomString(data); // Update random string every 6 hours
-    });
-  }
-
-  _updateRandomString(List<Data> data) {
-    Data currentString;
-    Random random = Random();
-    currentString = data[random.nextInt(data.length)];
-
-    emit(NotificationLoad(currentString));
-  }
+  
 }
