@@ -72,7 +72,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         child: Transform.rotate(
                           angle: -30 * 0.0174533,
                           child: Icon(
-                            Icons.tips_and_updates_outlined,
+                            Icons.messenger_outline,
                             color: Colors.grey[200],
                             size: 150,
                           ),

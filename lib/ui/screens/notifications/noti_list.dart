@@ -16,40 +16,7 @@ class NotificationList extends StatefulWidget {
 
 class _NotificationListState extends State<NotificationList> {
   List<Data> notii = [];
-  final noti = [
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    },
-    {
-      "title": "Timetable created",
-      "body": "you just created a new timetable for the next 7 days"
-    }
-  ];
+
 
   @override
   void initState() {
@@ -118,7 +85,7 @@ class _NotificationListState extends State<NotificationList> {
                             child: Transform.rotate(
                               angle: -30 * 0.0174533,
                               child: Icon(
-                                Icons.tips_and_updates_outlined,
+                                Icons.message,
                                 color: Colors.grey[200],
                                 size: 150,
                               ),
