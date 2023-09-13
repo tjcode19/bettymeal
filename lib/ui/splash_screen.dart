@@ -8,6 +8,7 @@ import 'package:bettymeals/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/meal_cubit.dart';
+import '../cubit/notification_cubit.dart';
 import '../cubit/sub_cubit.dart';
 import '../cubit/timetable_cubit.dart';
 import '../routes.dart';
@@ -65,6 +66,8 @@ class _SplashScreenState extends State<SplashScreen>
     context.read<SubCubit>().getSubscription();
     context.read<MealCubit>().getAllMeal('');
     context.read<RecordsCubit>().getRecords();
+
+    context.read<NotificationCubit>().subscribeToTopic(topic: 'all');
 
     Timer(Duration(seconds: counter), () async {
       Navigator.popAndPushNamed(context, Routes.home);

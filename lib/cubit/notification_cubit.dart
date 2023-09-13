@@ -1,5 +1,3 @@
-
-
 import 'package:bettymeals/data/api/models/GetNotifications.dart';
 import 'package:bettymeals/data/api/models/NotiResponse.dart';
 import 'package:bettymeals/data/api/repositories/notiRepo.dart';
@@ -41,11 +39,10 @@ class NotificationCubit extends Cubit<NotificationState> {
   }
 
   storeNoti(context, {msg}) {
-    // print('We got here : $msg');
-
     final notiData = {
       "title": msg.notification.title,
-      "body": msg.notification.body
+      "body": msg.notification.body,
+      "date": msg.sentTime.toString()
     };
 
     sharedPreference.setData(
@@ -63,13 +60,16 @@ class NotificationCubit extends Cubit<NotificationState> {
     if (!hasResumed) {
       hasResumed = true;
 
-      Navigator.pushNamed(context, Routes.notificationScreen, arguments: data);
+      Data message = Data();
+      message.title = data.title;
+      message.message = data.body;
+      message.date = data.date;
+
+      Navigator.pushNamed(context, Routes.notificationScreen, arguments: message);
     }
     sharedPreference.setData(
         sharedType: SpDataType.object, fieldName: 'noti', fieldValue: null);
   }
-
-  
 
   getNotis() async {
     emit(NotificationInitial());
@@ -85,6 +85,4 @@ class NotificationCubit extends Cubit<NotificationState> {
       print(e);
     }
   }
-
-  
 }

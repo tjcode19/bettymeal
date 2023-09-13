@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       // Handle the received message here
 
       Notificatn.showSuccessToast(context,
-          msg: 'OnForeground ${message.data['name']} ');
+          msg: '${message.data['title']} \n ${message.data['body']} ');
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
