@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>869150730891-a713ap3q1b517osgcjes9sn9b7j2mi20.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.869150730891-a713ap3q1b517osgcjes9sn9b7j2mi20</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDgn00YODl2fIt1s1DSi_nyCw-xiHw056s</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.bolxtine.mealble</string>
+	<string>com.bolxtine.mealbleapp</string>
 	<key>PROJECT_ID</key>
 	<string>mealble</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:869150730891:ios:55ce2e6cef662a3233028e</string>
+	<string>1:869150730891:ios:10f9bdd1df1973af33028e</string>
 </dict>
 </plist>
