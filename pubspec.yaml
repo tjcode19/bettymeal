@@ -47,8 +47,8 @@ dependencies:
   http: ^0.13.6
   mime: ^1.0.4
   shimmer: ^3.0.0
-  firebase_messaging: ^14.6.5
-  firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.8
+  firebase_core: ^2.16.0
   in_app_purchase: ^3.1.8
   cached_network_image: ^3.2.3
   pin_code_fields: ^8.0.1

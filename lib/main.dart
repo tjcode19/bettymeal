@@ -79,6 +79,20 @@ class _MyAppState extends State<MyApp> {
       print('device id: $_token');
     });
 
+    _firebaseMessaging.onTokenRefresh
+    .listen((fcmToken) {
+      // TODO: If necessary send token to application server.
+
+      // Note: This callback is fired at each app startup and whenever a new
+      // token is generated.
+
+      print('device id refreshed: $_token');
+    })
+    .onError((err) {
+      // Error getting token.
+    });
+
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Foreground notification received ${message.data} hererr');
       // Handle the received message here
