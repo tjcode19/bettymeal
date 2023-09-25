@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bettymeals/cubit/dashboard_cubit.dart';
 import 'package:bettymeals/cubit/sub_cubit.dart';
 import 'package:bettymeals/utils/colours.dart';
@@ -62,13 +64,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final a = context.read<SubCubit>().iapConnection;
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
     switch (product.id) {
-      case "m_regenerate_100":
+      case mGenerate100:
         await a.buyConsumable(purchaseParam: purchaseParam);
         break;
-      case "m_standard_week":
-      case "m_standard":
-      case "m_pro_month":
-      case "m_pro_week":
+      case mStardandW:
+      case mStardandM:
+      case mProM:
+      case mProW:
         await a.buyNonConsumable(purchaseParam: purchaseParam);
         break;
       default:
@@ -196,13 +198,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             .read<TimetableCubit>()
                                             .generateTimeableApi(
                                                 widget.plan.sId, planPeriodId);
-                                                
                                       } else {
                                         final checker = planPeriodId == 'WK'
                                             ? widget.plan.period!.week!.playId
                                             : widget.plan.period!.month!.playId;
 
                                         if (products.length > 0) {
+                                          inspect(products);
+
+                                          print('Checker: $checker');
                                           final p = products.firstWhere((e) {
                                             return e.id == checker;
                                           });

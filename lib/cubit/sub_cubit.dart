@@ -53,12 +53,16 @@ class SubCubit extends Cubit<SubState> {
       mStardandW,
       mProM,
       mProW,
+      mTest
     };
     final response = await iapConnection.queryProductDetails(ids);
+
     for (var element in response.notFoundIDs) {
       debugPrint('Purchase $element not found');
     }
     print('store available');
+
+    inspect(response.productDetails);
 
     productList = convertToPurchasableProducts(response.productDetails);
   }
@@ -160,11 +164,12 @@ enum ProductStatus {
   pending,
 }
 
-const mStardandM = 'm_standard';
+const mStardandM = 'm_standard_month';
 const mGenerate100 = 'm_regenerate_100';
 const mStardandW = 'm_standard_week';
 const mProM = 'm_pro_month';
 const mProW = 'm_pro_week';
+const mTest = 'test_service';
 
 // class PurchasableProduct {
 //   String get id => productDetails.id;
