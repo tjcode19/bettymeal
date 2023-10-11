@@ -8,7 +8,7 @@ import '../../../../utils/constants.dart';
 import '../../../../utils/device_utils.dart';
 import '../../../../utils/enums.dart';
 
-class SetPasswordWidget extends StatelessWidget {
+class SetPasswordWidget extends StatefulWidget {
   const SetPasswordWidget(
       this.otpController, this.passwordController, this.userId, this.formKey,
       {super.key});
@@ -19,11 +19,18 @@ class SetPasswordWidget extends StatelessWidget {
   final formKey;
 
   @override
+  State<SetPasswordWidget> createState() => _SetPasswordWidgetState();
+}
+
+class _SetPasswordWidgetState extends State<SetPasswordWidget> {
+  bool hidePass = true;
+  bool hidePassC = true;
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
-        key: formKey,
+        key: widget.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -49,7 +56,7 @@ class SetPasswordWidget extends StatelessWidget {
             CustomLayout.xlPad.sizedBoxH,
             Text('Enter Code', style: Theme.of(context).textTheme.titleMedium),
             TextFormField(
-              controller: otpController,
+              controller: widget.otpController,
               keyboardType: TextInputType.emailAddress,
               maxLength: 6,
               validator: (value) {
@@ -63,8 +70,20 @@ class SetPasswordWidget extends StatelessWidget {
             Text('Enter New Password',
                 style: Theme.of(context).textTheme.titleMedium),
             TextFormField(
-              controller: passwordController,
-              obscureText: true,
+              controller: widget.passwordController,
+              decoration: InputDecoration(
+                isDense: true,
+                suffixIcon: IconButton(
+                  icon:
+                      Icon(hidePass ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      hidePass = !hidePass;
+                    });
+                  },
+                ),
+              ),
+              obscureText: hidePass,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please Enter New Password';
@@ -76,11 +95,23 @@ class SetPasswordWidget extends StatelessWidget {
             Text('Confirm New Password',
                 style: Theme.of(context).textTheme.titleMedium),
             TextFormField(
-              obscureText: true,
+              obscureText: hidePassC,
+              decoration: InputDecoration(
+                isDense: true,
+                suffixIcon: IconButton(
+                  icon:
+                      Icon(hidePassC ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      hidePassC = !hidePassC;
+                    });
+                  },
+                ),
+              ),
               validator: (value) {
                 if (value == null ||
                     value.isEmpty ||
-                    passwordController.text != value) {
+                    widget.passwordController.text != value) {
                   return 'Password does not match';
                 }
                 return null;
@@ -90,9 +121,11 @@ class SetPasswordWidget extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 DeviceUtils.hideKeyboard(context);
-                if (formKey.currentState!.validate()) {
+                if (widget.formKey.currentState!.validate()) {
                   context.read<AuthCubit>().setPassword(
-                      passwordController.text, userId, otpController.text);
+                      widget.passwordController.text,
+                      widget.userId,
+                      widget.otpController.text);
                 }
               },
               child: const Text('Continue'),

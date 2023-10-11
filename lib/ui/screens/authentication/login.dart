@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final SharedPreferenceApp sharedPreference = SharedPreferenceApp();
+  bool hidePass = true;
 
   @override
   void initState() {
@@ -180,12 +181,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: Theme.of(context).textTheme.titleMedium),
                         TextFormField(
                           controller: _passwordController,
-                          obscureText: true,
+                          obscureText: hidePass,
                           decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.visibility),
-                              isDense: true,
-                              suffixIcon: IconButton(
-                                  icon: Icon(Icons.clear), onPressed: () {})),
+                            isDense: true,
+                            suffixIcon: IconButton(
+                              icon: Icon(hidePass
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  hidePass = !hidePass;
+                                });
+                              },
+                            ),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Password';
