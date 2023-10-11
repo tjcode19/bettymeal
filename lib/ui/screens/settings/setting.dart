@@ -365,7 +365,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => logout,
+                  onPressed: () => logout(),
                   child: Text(
                     'Logout',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(

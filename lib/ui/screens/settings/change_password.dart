@@ -23,6 +23,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool hidePass = true;
+  bool hidePassOld = true;
+  bool hidePassC = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +59,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             if (state is ChangePasswordSuccess) {
               Notificatn.hideLoading();
 
-              Notificatn.showSuccessToast(context, toastPosition: EasyLoadingToastPosition.top);
+              Notificatn.showSuccessToast(context,
+                  toastPosition: EasyLoadingToastPosition.top);
 
               Navigator.pop(context);
             }
@@ -96,7 +101,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       style: Theme.of(context).textTheme.titleMedium),
                   TextFormField(
                     controller: _oldController,
-                    obscureText: true,
+                    obscureText: hidePassOld,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(hidePassOld
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            hidePassOld = !hidePassOld;
+                          });
+                        },
+                      ),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter Current Password';
@@ -109,7 +127,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       style: Theme.of(context).textTheme.titleMedium),
                   TextFormField(
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: hidePass,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                            hidePass ? Icons.visibility : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            hidePass = !hidePass;
+                          });
+                        },
+                      ),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please Enter New Password';
@@ -123,7 +153,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       style: Theme.of(context).textTheme.titleMedium),
                   TextFormField(
                     controller: _confirmPasswordController,
-                    obscureText: true,
+                    obscureText: hidePassC,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(hidePassC
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            hidePassC = !hidePassC;
+                          });
+                        },
+                      ),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Confirm Password';
