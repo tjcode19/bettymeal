@@ -181,6 +181,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           controller: _passwordController,
                           obscureText: true,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.visibility),
+                              isDense: true,
+                              suffixIcon: IconButton(
+                                  icon: Icon(Icons.clear), onPressed: () {})),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Password';

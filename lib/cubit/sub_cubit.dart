@@ -132,7 +132,6 @@ class SubCubit extends Cubit<SubState> {
     try {
       final cal = await subRepository.getSubscription();
 
-      inspect(cal);
       if (cal.code != '000') {
         emit(SubError(cal.message!));
       } else {
