@@ -138,7 +138,7 @@ class TimeTable extends StatelessWidget {
                   child: Text(
                 b.name,
                 textAlign: TextAlign.center,
-                style: current == 0 ? currentStyle : style,
+                style: current == 0 && HelperMethod.formatDate(day, pattern: 'dd-MM') == HelperMethod.formatDate(period.toIso8601String(), pattern: 'dd-MM') ? currentStyle : style,
               )),
             ),
           )
@@ -153,7 +153,7 @@ class TimeTable extends StatelessWidget {
                 child: Text(
               l.name,
               textAlign: TextAlign.center,
-              style: current == 1 ? currentStyle : style,
+              style: current == 1 && HelperMethod.formatDate(day, pattern: 'dd-MM') == HelperMethod.formatDate(period.toIso8601String(), pattern: 'dd-MM') ? currentStyle : style,
             )),
           ),
         ),
@@ -166,7 +166,7 @@ class TimeTable extends StatelessWidget {
                 child: Text(
               d.name,
               textAlign: TextAlign.center,
-              style: current == 2 ? currentStyle : style,
+              style: current == 2 && HelperMethod.formatDate(day, pattern: 'dd-MM') == HelperMethod.formatDate(period.toIso8601String(), pattern: 'dd-MM') ? currentStyle : style,
             )),
           ),
         ),

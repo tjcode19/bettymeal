@@ -43,50 +43,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
   late double maxPoint;
   DateTime todayDate = DateTime.now();
 
-  // void animateNow(pos) {
-  //   setState(() {
-  //     if (isEnd) {
-  //       if (pos < currentPos) {
-  //         isEnd = false;
-  //         currentPos = pos;
-  //       }
-  //     } else {
-  //       if (pos < 50) {
-  //         currentPos = 0.0;
-  //       } else {
-  //         currentPos = pos;
-  //       }
-  //     }
-  //   });
-
-  //   scrollControllers[selectedWeekIndex].animateTo(currentPos,
-  //       duration: const Duration(milliseconds: 800), curve: Curves.easeInOut);
-  // }
-
-  // _scrollListener() {
-  //   setState(() {
-  //     _showLeftButton = true;
-  //     _showRightButton = true;
-  //   });
-  //   if (scrollControllers[selectedWeekIndex].offset >=
-  //           scrollControllers[selectedWeekIndex].position.maxScrollExtent &&
-  //       !scrollControllers[selectedWeekIndex].position.outOfRange) {
-  //     setState(() {
-  //       isEnd = true;
-  //       _showRightButton = false;
-  //       currentPos =
-  //           scrollControllers[selectedWeekIndex].position.maxScrollExtent;
-  //     });
-  //   }
-  //   if (scrollControllers[selectedWeekIndex].offset <=
-  //           scrollControllers[selectedWeekIndex].position.minScrollExtent &&
-  //       !scrollControllers[selectedWeekIndex].position.outOfRange) {
-  //     setState(() {
-  //       _showLeftButton = false;
-  //     });
-  //   }
-  // }
-
   currentWeek() {
     int i = 0;
 
@@ -195,11 +151,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
 
                         if (fLoad) currentWeek();
 
-                        // for (int i = 0; i < weeks; i++) {
-                        //   ScrollController scrollController =
-                        //       ScrollController();
-                        //   scrollControllers.add(scrollController);
-                        // }
                       } else if (state is NoSubSuccess) {
                         return Column(
                           children: [
@@ -214,18 +165,6 @@ class _MealTableScreenState extends State<MealTableScreen> {
                           ],
                         );
                       }
-
-                      // else {
-                      //   return Column(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       Icon(Icons.notification_important),
-                      //       const Center(
-                      //         child: Text('Failed to load meals.'),
-                      //       ),
-                      //     ],
-                      //   );
-                      // }
 
                       return Column(
                         children: [
@@ -371,41 +310,8 @@ class _MealTableScreenState extends State<MealTableScreen> {
                               ),
                             ),
                           ),
-                          // CustomLayout.lPad.sizedBoxH,
-                          // Row(
-                          //   mainAxisAlignment:
-                          //       MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Visibility(
-                          //       visible: _showLeftButton,
-                          //       child: InkWell(
-                          //         onTap: () {
-                          //           var pos = currentPos - 70;
-                          //           animateNow(pos);
-                          //         },
-                          //         child: Icon(
-                          //           Icons.arrow_circle_left_outlined,
-                          //           size: 30,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Text('Scroll right or left'),
-                          //     Visibility(
-                          //       visible: _showRightButton,
-                          //       child: InkWell(
-                          //         onTap: () {
-                          //           var pos = currentPos + 70;
-                          //           animateNow(pos);
-                          //         },
-                          //         child: Icon(
-                          //           Icons.arrow_circle_right_outlined,
-                          //           size: 30,
-                          //         ),
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
-
+                         
+                         
                           CustomLayout.mPad.sizedBoxH,
                           if (meal.length > 0)
                             SizedBox(
