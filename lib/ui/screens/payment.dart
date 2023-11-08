@@ -60,7 +60,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     products = context.read<SubCubit>().products;
   }
 
-  Future<void> buy(PurchasableProduct product) async {
+  Future<void> buy(PurchasableProduct product, subId, duration) async {
     final a = context.read<SubCubit>().iapConnection;
     final purchaseParam = PurchaseParam(productDetails: product.productDetails);
     switch (product.id) {
@@ -210,7 +210,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           final p = products.firstWhere((e) {
                                             return e.id == checker;
                                           });
-                                          buy(p);
+                                          buy(p, widget.plan.sId,
+                                                      planPeriodId);
                                         } else {
                                           Notificatn.showErrorModal(context,
                                               errorMsg:

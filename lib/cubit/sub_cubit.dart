@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:bettymeals/data/api/repositories/timetableRepo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,12 @@ class SubCubit extends Cubit<SubState> {
   SubCubit()
       : sharedPreference = SharedPreferenceApp(),
         subRepository = SubRepository(),
+        timetableRepo = TimetableRepo(),
         super(SubInitial());
 
   final SharedPreferenceApp sharedPreference;
   final SubRepository subRepository;
+  final TimetableRepo timetableRepo;
   // final iapConnection;
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
@@ -62,8 +65,6 @@ class SubCubit extends Cubit<SubState> {
     }
     print('store available');
 
-    inspect(response.productDetails);
-
     productList = convertToPurchasableProducts(response.productDetails);
   }
 
@@ -90,6 +91,7 @@ class SubCubit extends Cubit<SubState> {
           break;
         case mStardandW:
           print('standard Week');
+          inspect(purchaseDetails);
           break;
         case mProW:
           print('Pro Week');
@@ -109,9 +111,8 @@ class SubCubit extends Cubit<SubState> {
       List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
-      inspect(purchaseDetails);
+      print('call handlePurchase');
     }
-    print('Purchase Update');
   }
 
   List<PurchasableProduct> convertToPurchasableProducts(
@@ -170,16 +171,6 @@ const mProM = 'm_pro_month';
 const mProW = 'm_pro_week';
 const mTest = 'test_service';
 
-// class PurchasableProduct {
-//   String get id => productDetails.id;
-//   String get title => productDetails.title;
-//   String get description => productDetails.description;
-//   String get price => productDetails.price;
-//   ProductStatus status;
-//   ProductDetails productDetails;
-
-//   PurchasableProduct(this.productDetails) : status = ProductStatus.purchasable;
-// }
 
 class PurchasableProduct {
   final String id;
