@@ -74,6 +74,8 @@ class SubCubit extends Cubit<SubState> {
 
   void _updateStreamOnError(dynamic error) {
     //Handle error here
+
+    debugPrint('error $error');
   }
 
   void disposeSub() {
@@ -81,7 +83,9 @@ class SubCubit extends Cubit<SubState> {
   }
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
+    print('call handlePurchase before IF ${purchaseDetails.status}');
     if (purchaseDetails.status == PurchaseStatus.purchased) {
+      print('call handlePurchase after IF');
       switch (purchaseDetails.productID) {
         case mGenerate100:
           print('get credit');
@@ -103,6 +107,7 @@ class SubCubit extends Cubit<SubState> {
     }
 
     if (purchaseDetails.pendingCompletePurchase) {
+        print('call handlePurchase after IF');
       await iapConnection.completePurchase(purchaseDetails);
     }
   }
@@ -111,7 +116,6 @@ class SubCubit extends Cubit<SubState> {
       List<PurchaseDetails> purchaseDetailsList) async {
     for (var purchaseDetails in purchaseDetailsList) {
       await _handlePurchase(purchaseDetails);
-      print('call handlePurchase');
     }
   }
 
@@ -170,7 +174,6 @@ const mStardandW = 'm_standard_week';
 const mProM = 'm_pro_month';
 const mProW = 'm_pro_week';
 const mTest = 'test_service';
-
 
 class PurchasableProduct {
   final String id;

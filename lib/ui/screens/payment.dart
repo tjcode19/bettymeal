@@ -78,6 +78,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             product.productDetails, '${product.id} is not a known product');
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
