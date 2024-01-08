@@ -49,7 +49,7 @@ dependencies:
   shimmer: ^3.0.0
   firebase_messaging: ^14.6.8
   firebase_core: ^2.16.0
-  in_app_purchase: ^3.1.8
+  in_app_purchase: ^3.1.12
   cached_network_image: ^3.2.3
   pin_code_fields: ^8.0.1
 

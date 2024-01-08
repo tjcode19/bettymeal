@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:bettymeals/cubit/timetable_cubit.dart';
 import 'package:bettymeals/data/api/repositories/timetableRepo.dart';
+import 'package:bettymeals/utils/noti.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../data/api/models/GetSubscription.dart';
@@ -28,19 +31,23 @@ class SubCubit extends Cubit<SubState> {
   final TimetableRepo timetableRepo;
   // final iapConnection;
 
+  dynamic get iapConnection => IAPConnection.instance; //step 1
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<PurchasableProduct> productList = [];
 
   List<PurchasableProduct> get products => productList;
-  dynamic get iapConnection => IAPConnection.instance;
 
-  startListening() {
+  var mSubId, mDuration;
+
+  startListening() async {
     final purchaseUpdated = iapConnection.purchaseStream;
     _subscription = purchaseUpdated.listen(
-      _onPurchaseUpdate,
-      onDone: _updateStreamOnDone,
-      onError: _updateStreamOnError,
+      await _onPurchaseUpdate,
+      onDone: await _updateStreamOnDone,
+      onError: await _updateStreamOnError,
     );
+
+    loadPurchases();
   }
 
   Future<void> loadPurchases() async {
@@ -69,6 +76,7 @@ class SubCubit extends Cubit<SubState> {
   }
 
   void _updateStreamOnDone() {
+    print('Update stream on DOne');
     _subscription.cancel();
   }
 
@@ -79,36 +87,81 @@ class SubCubit extends Cubit<SubState> {
   }
 
   void disposeSub() {
+    debugPrint('dispose Sub');
     _subscription.cancel();
   }
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
-    print('call handlePurchase before IF ${purchaseDetails.status}');
-    if (purchaseDetails.status == PurchaseStatus.purchased) {
-      print('call handlePurchase after IF');
-      switch (purchaseDetails.productID) {
-        case mGenerate100:
-          print('get credit');
-          break;
-        case mStardandM:
-          print('standard Month');
-          break;
-        case mStardandW:
+    TimetableCubit tmCubit = TimetableCubit();
+    // if (purchaseDetails.status == PurchaseStatus.purchased) {
+    //   print('call handlePurchase after IF');
+    //   switch (purchaseDetails.productID) {
+    //     case mGenerate100:
+    //       print('get credit');
+    //       break;
+    //     case mStardandM:
+    //       print('standard Month');
+    //       break;
+    //     case mStardandW:
+    //       print('standard Week');
+    //       tmCubit.generateTimeableApi(mSubId, mDuration);
+    //       break;
+    //     case mProW:
+    //       print('Pro Week');
+    //       break;
+    //     case mProM:
+    //       print('Pro month');
+    //       break;
+    //   }
+    // } else {
+    //   print('call handlePurchase inside else ${purchaseDetails.status}');
+    // }
+
+    // if (purchaseDetails.pendingCompletePurchase) {
+    //   await iapConnection.completePurchase(purchaseDetails);
+    // }
+
+    //######
+
+    if (purchaseDetails.status == PurchaseStatus.pending) {
+      emit(SubLoading());
+    } else {
+      print('call handlePurchase inside ELSE ${purchaseDetails.status}');
+      if (purchaseDetails.status == PurchaseStatus.error) {
+        // _handleError(purchaseDetails.error!);
+        print("error");
+      } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+          purchaseDetails.status == PurchaseStatus.restored) {
+        bool valid = true;
+        if (valid) {
+          // _deliverProduct(purchaseDetails);
           print('standard Week');
-          inspect(purchaseDetails);
-          break;
-        case mProW:
-          print('Pro Week');
-          break;
-        case mProM:
-          print('Pro month');
-          break;
+          tmCubit.generateTimeableApi(mSubId, mDuration);
+        }
+      }
+      if (purchaseDetails.pendingCompletePurchase) {
+        await InAppPurchase.instance.completePurchase(purchaseDetails);
       }
     }
+  }
 
-    if (purchaseDetails.pendingCompletePurchase) {
-        print('call handlePurchase after IF');
-      await iapConnection.completePurchase(purchaseDetails);
+  Future<void> buy(PurchasableProduct product, subId, duration) async {
+    mSubId = subId;
+    mDuration = duration;
+    final purchaseParam = PurchaseParam(productDetails: product.productDetails);
+    switch (product.id) {
+      case mGenerate100:
+        await iapConnection.buyConsumable(purchaseParam: purchaseParam);
+        break;
+      case mStardandW:
+      case mStardandM:
+      case mProM:
+      case mProW:
+        await iapConnection.buyNonConsumable(purchaseParam: purchaseParam);
+        break;
+      default:
+        throw ArgumentError.value(
+            product.productDetails, '${product.id} is not a known product');
     }
   }
 

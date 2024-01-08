@@ -2,7 +2,7 @@ import 'package:bettymeals/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class Notificatn {
+abstract class Notificatn {
   static loading() {}
 
   static showLoading(context, {String? title}) async {

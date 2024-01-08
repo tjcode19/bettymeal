@@ -4,10 +4,16 @@
 			"path": "../../trainingprojects/anniegirl"
 		},
 		{
-			"path": "../../FMX/pos_api-dev"
+			"path": "."
 		},
 		{
-			"path": "."
+			"path": "../../FMX/pos_api"
+		},
+		{
+			"path": "../spicer"
+		},
+		{
+			"path": "../Shop_app"
 		}
 	],
 	"settings": {}

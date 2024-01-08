@@ -143,10 +143,10 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => SubCubit(),
-          lazy: false,
         ),
         BlocProvider(
           create: (context) => StoreCubit(),
+          
         ),
         BlocProvider(
           create: (context) => NotificationCubit(),

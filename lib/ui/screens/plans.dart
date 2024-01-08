@@ -46,7 +46,7 @@ class _PlansScreenState extends State<PlansScreen> {
 
   @override
   void dispose() {
-    // context.read<SubCubit>().disposeSub();
+    context.read<SubCubit>().disposeSub();
     super.dispose();
   }
 
