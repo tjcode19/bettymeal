@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start the animation when the widget is mounted
     _controller.forward();
-    context.read<SubCubit>().startListening();
+ 
     // context.read<SubCubit>().loadPurchases();
 
     finishSplashScreen();

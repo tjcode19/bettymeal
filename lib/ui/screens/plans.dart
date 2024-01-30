@@ -42,11 +42,11 @@ class _PlansScreenState extends State<PlansScreen> {
     super.initState();
 
     isActiveSub = context.read<UserCubit>().isActiveSub();
+    
   }
 
   @override
   void dispose() {
-    context.read<SubCubit>().disposeSub();
     super.dispose();
   }
 
